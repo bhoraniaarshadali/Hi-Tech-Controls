@@ -3,5 +3,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="blue">#181C5C</color>
+    <color name="light_font">#7C7C7C</color>
+
 
 </resources>

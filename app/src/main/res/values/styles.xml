@@ -6,6 +6,7 @@
         <item name="android:windowContentOverlay">@null</item>
     </style>
 
+
     <style name="TextInputLayout_Hint_Small" parent="TextAppearance.MaterialComponents.Caption">
         <item name="android:textSize">5sp</item> <!-- Adjust the text size as needed -->
         <!-- Other style attributes for the hint text appearance -->
