@@ -1,5 +1,6 @@
 package com.example.hi_tech_controls;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -9,9 +10,10 @@ import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+@SuppressLint("CustomSplashScreen")
 public class SplashActivity extends AppCompatActivity {
 
-    private static final int SPLASH_DURATION = 3000; // Milliseconds
+    // Milliseconds
     private ImageView imageView;
 
     @Override
@@ -47,12 +49,7 @@ public class SplashActivity extends AppCompatActivity {
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        imageView.startAnimation(slideCenterToTopAnimation);
-                    }
-                }, 500); // Delay duration for the pause in milliseconds (e.g., 2000ms = 2 seconds)
+                new Handler().postDelayed(() -> imageView.startAnimation(slideCenterToTopAnimation), 500); // Delay duration for the pause in milliseconds (e.g., 2000ms = 2 seconds)
             }
 
             @Override

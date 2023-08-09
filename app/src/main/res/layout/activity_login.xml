@@ -39,7 +39,7 @@
         android:layout_marginTop="3dp"
         android:fontFamily="@font/poppins_regular"
         android:text="@string/your_service_in_your_hand"
-        android:textColor="#7C7C7C"
+        android:textColor="#757575"
         android:textSize="16sp" />
 
     <TextView
@@ -61,17 +61,17 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/usernameTitleTextView"
         android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
         android:layout_marginTop="4dp"
+        android:layout_marginRight="20dp"
         android:background="@drawable/round_textfield"
         android:fontFamily="@font/poppins_regular"
         android:hint="@string/username"
         android:importantForAutofill="no"
         android:inputType="text"
         android:padding="10dp"
-        android:textSize="18dp"
-        android:textColorHint="#7C7C7C"
-        tools:ignore="TextFields" />
+        android:textColorHint="#546E7A"
+        android:textSize="18sp"
+        tools:ignore="TextFields,TextSizeCheck,VisualLintTextFieldSize" />
 
     <TextView
         android:id="@+id/passwordTitleTextView"
@@ -92,16 +92,17 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/passwordTitleTextView"
         android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
         android:layout_marginTop="4dp"
+        android:layout_marginRight="20dp"
         android:background="@drawable/round_textfield"
         android:fontFamily="@font/poppins_regular"
         android:hint="@string/password"
         android:importantForAutofill="no"
         android:inputType="textPassword"
         android:padding="10dp"
-        android:textSize="18dp"
-        android:textColorHint="#888888" />
+        android:textColorHint="#546E7A"
+        android:textSize="18sp"
+        tools:ignore="TextSizeCheck,TextSizeCheck,VisualLintTextFieldSize" />
 
     <Button
         android:id="@+id/LoginButton"
