@@ -4,9 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
-
     tools:ignore="ExtraText">
 
+    <!-- ImageView for the logo -->
     <ImageView
         android:id="@+id/logoImageView"
         android:layout_width="125dp"
@@ -16,6 +16,7 @@
         android:src="@drawable/logo"
         tools:ignore="HardcodedText" />
 
+    <!-- TextView for the welcome message -->
     <TextView
         android:id="@+id/welcomeTextView"
         android:layout_width="wrap_content"
@@ -30,6 +31,7 @@
         android:textStyle="bold"
         tools:ignore="HardcodedText" />
 
+    <!-- TextView for the subheading -->
     <TextView
         android:id="@+id/subHeadingTextView"
         android:layout_width="wrap_content"
@@ -43,6 +45,7 @@
         android:textSize="16sp"
         tools:ignore="TextContrastCheck" />
 
+    <!-- TextView for the username title -->
     <TextView
         android:id="@+id/usernameTitleTextView"
         android:layout_width="wrap_content"
@@ -56,6 +59,7 @@
         android:textSize="16sp"
         tools:ignore="HardcodedText" />
 
+    <!-- EditText for entering the username -->
     <EditText
         android:id="@+id/emailEditText"
         android:layout_width="match_parent"
@@ -79,6 +83,7 @@
         android:textSize="18sp"
         tools:ignore="TextFields,TextSizeCheck,VisualLintTextFieldSize" />
 
+    <!-- TextView for the password title -->
     <TextView
         android:id="@+id/passwordTitleTextView"
         android:layout_width="wrap_content"
@@ -92,6 +97,7 @@
         android:textSize="16sp"
         tools:ignore="HardcodedText" />
 
+    <!-- EditText for entering the password -->
     <EditText
         android:id="@+id/passwordEditText"
         android:layout_width="match_parent"
@@ -115,6 +121,7 @@
         android:textSize="18sp"
         tools:ignore="TextSizeCheck,TextSizeCheck,VisualLintTextFieldSize" />
 
+    <!-- Button for the login action -->
     <Button
         android:id="@+id/LoginButton"
         android:layout_width="170sp"
@@ -128,7 +135,7 @@
         android:textAllCaps="false"
         android:textColor="@color/white" />
 
-
+    <!-- FrameLayout for the bottom shape -->
     <FrameLayout
         android:id="@+id/bottomShape"
         android:layout_width="match_parent"
@@ -138,7 +145,7 @@
         android:background="@drawable/bottom_shape"
         tools:ignore="VisualLintBounds">
 
-
+        <!-- TextView for the version information -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -149,6 +156,5 @@
             android:textSize="15sp"
             tools:ignore="HardcodedText" />
     </FrameLayout>
-
 
 </RelativeLayout>
