@@ -13,7 +13,6 @@ import androidx.appcompat.app.AppCompatActivity;
 @SuppressLint("CustomSplashScreen")
 public class SplashActivity extends AppCompatActivity {
 
-    // Milliseconds
     private ImageView imageView;
 
     @Override
@@ -49,7 +48,7 @@ public class SplashActivity extends AppCompatActivity {
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                new Handler().postDelayed(() -> imageView.startAnimation(slideCenterToTopAnimation), 500); // Delay duration for the pause in milliseconds (e.g., 2000ms = 2 seconds)
+                new Handler().postDelayed(() -> imageView.startAnimation(slideCenterToTopAnimation), 500);
             }
 
             @Override
@@ -64,7 +63,6 @@ public class SplashActivity extends AppCompatActivity {
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                // Launch the main activity after the animation sequence ends
                 Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
                 startActivity(intent);
                 finish();
@@ -75,7 +73,6 @@ public class SplashActivity extends AppCompatActivity {
             }
         });
 
-        // Start the animation sequence by launching the slideBottomToCenterAnimation
         imageView.startAnimation(slideBottomToCenterAnimation);
     }
 }

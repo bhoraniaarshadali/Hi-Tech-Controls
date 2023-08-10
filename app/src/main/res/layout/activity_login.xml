@@ -12,9 +12,9 @@
         android:layout_width="125dp"
         android:layout_height="120dp"
         android:layout_centerHorizontal="true"
-        android:contentDescription="Image"
-        android:layout_marginTop="25sp"
+        android:layout_marginTop="25dp"
         android:src="@drawable/logo"
+        android:importantForAccessibility="no"
         tools:ignore="HardcodedText" />
 
     <!-- TextView for the welcome message -->
@@ -80,6 +80,7 @@
         android:paddingTop="12sp"
         android:paddingBottom="12sp"
         android:textColorHint="#546E7A"
+        android:textColor="@color/black"
         android:textSize="16sp"
         tools:ignore="RtlSymmetry,TextFields,TextSizeCheck,VisualLintTextFieldSize" />
 
@@ -118,6 +119,7 @@
         android:paddingBottom="12sp"
         android:textColorHint="#546E7A"
         android:textSize="16sp"
+        android:textColor="@color/black"
         tools:ignore="RtlSymmetry,TextSizeCheck,TextSizeCheck,VisualLintTextFieldSize" />
 
     <!-- Button for the login action -->
@@ -134,7 +136,6 @@
         android:textAllCaps="false"
         android:textSize="18sp"
         android:textColor="@color/white" />
-
 
     <!-- FrameLayout for the bottom shape -->
     <FrameLayout
@@ -157,5 +158,4 @@
             android:textSize="15sp"
             tools:ignore="HardcodedText" />
     </FrameLayout>
-
 </RelativeLayout>
