@@ -1,11 +1,24 @@
 <resources>
-    <!-- ...your other styles... -->
 
+    <!-- Splash-Screen -->
     <style name="Theme.SplashNoTitleBar" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:windowFullscreen">true</item>
-        <item name="android:windowContentOverlay">@null</item>
+        <!-- Make the splash screen full screen -->
+        <item name="android:windowFullscreen">false</item>
+        <!-- Set the status bar background color -->
+        <item name="android:statusBarColor">@android:color/white</item>
     </style>
 
+
+    <!-- Main-Screen -->
+    <style name="Theme.MainActivityBar" parent="Theme.AppCompat.Light.NoActionBar">
+
+
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <!-- Defining that new color in ColorPrimaryDark -->
+        <item name="colorPrimaryDark">@color/blue</item>
+        <item name="colorAccent">@color/colourAccent</item>
+
+    </style>
 
     <style name="TextInputLayout_Hint_Small" parent="TextAppearance.MaterialComponents.Caption">
         <item name="android:textSize">5sp</item> <!-- Adjust the text size as needed -->
