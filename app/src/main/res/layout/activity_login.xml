@@ -124,7 +124,7 @@
 
     <!-- Button for the login action -->
     <Button
-        android:id="@+id/LoginButton"
+        android:id="@+id/loginButton"
         android:layout_width="170sp"
         android:layout_height="58dp"
         android:layout_below="@id/passwordEditText"
@@ -136,6 +136,21 @@
         android:textAllCaps="false"
         android:textSize="18sp"
         android:textColor="@color/white" />
+
+    <!--    <ImageButton-->
+    <!--        android:id="@+id/loginButton"-->
+    <!--        android:layout_width="170sp"-->
+    <!--        android:layout_height="58dp"-->
+    <!--        android:layout_below="@id/passwordEditText"-->
+    <!--        android:layout_centerHorizontal="true"-->
+    <!--        android:layout_marginTop="52dp"-->
+    <!--        android:background="@drawable/button_radius"-->
+    <!--        android:contentDescription="@string/login"-->
+    <!--        android:scaleType="fitCenter"-->
+    <!--        android:padding="8dp"-->
+    <!--        android:layout_gravity="center"-->
+    <!--        android:textColor="@color/white" />-->
+
 
     <!-- FrameLayout for the bottom shape -->
     <FrameLayout

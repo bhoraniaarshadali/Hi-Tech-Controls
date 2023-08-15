@@ -1,21 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:layout_width="match_parent"
+    android:background="@android:color/white">
+
+    <!-- SHAPE CURVE -->
+    <!-- HEADING -->
+    <View
+        android:id="@+id/dash_vi"
+        android:layout_width="match_parent"
+        android:layout_height="193dp"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/flip_top"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="-20dp"
+        tools:layout_editor_absoluteY="0dp" />
+
+    <!-- Dashboard text -->
+    <ImageView
+        android:id="@+id/backButton"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginBottom="25dp"
+        android:background="@drawable/round"
+        android:importantForAccessibility="no"
+        android:src="@drawable/back_btn"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="23dp"
+        tools:layout_editor_absoluteY="37dp" />
 
     <TextView
+        android:id="@+id/dash_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/hi_tech_controls"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="25dp"
+        android:layout_marginBottom="25dp"
+        android:fontFamily="@font/poppins_regular"
         android:textSize="30sp"
-        android:fontFamily="sans-serif-smallcaps"
+        android:text="Dashboard"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:textColor="@color/white"
+        tools:ignore="HardcodedText,SpUsage" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <!-- Card view for proper layout -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cv_1"
+        android:layout_width="390dp"
+        android:layout_height="115dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="80dp"
+        android:layout_marginEnd="15dp"
+        android:backgroundTint="@color/white"
+        app:cardCornerRadius="25dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_margin="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="5dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <!-- Add client detail button -->
+            <ImageButton
+                android:id="@+id/addclient_btn"
+                android:layout_width="150dp"
+                android:layout_height="100dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@android:color/transparent"
+                android:importantForAccessibility="no"
+                android:scaleType="fitCenter"
+                android:src="@drawable/add_client_btn"
+                tools:ignore="RtlHardcoded" />
+
+            <!-- Vertical line -->
+            <View
+                android:id="@+id/vi_2"
+                android:layout_width="2dp"
+                android:layout_height="80dp"
+                android:layout_margin="10dp"
+                android:background="@android:color/darker_gray" />
+
+            <!-- View client detail button -->
+            <ImageButton
+                android:id="@+id/viewclient_btn"
+                android:layout_width="150dp"
+                android:layout_height="100dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginBottom="10dp"
+                android:background="@android:color/transparent"
+                android:contentDescription="@string/view_client_details"
+                android:scaleType="fitCenter"
+                android:src="@drawable/view_detail_btn"
+                tools:ignore="RtlHardcoded" />
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <!-- Other views -->
+
+</RelativeLayout>
