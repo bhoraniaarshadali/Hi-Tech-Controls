@@ -16,4 +16,5 @@
     <string name="username">username</string>
     <string name="your_service_in_your_hand">Your Service in Your Hand</string>
     <string name="view_client_details">View Client Details</string>
+    <string name="recent_discoveries">Recent Discoveries</string>
 </resources>

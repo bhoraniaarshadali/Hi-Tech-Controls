@@ -8,23 +8,23 @@
 
     <!-- SHAPE CURVE -->
     <!-- HEADING -->
+
+    <!-- Dashboard text -->
     <View
         android:id="@+id/dash_vi"
         android:layout_width="match_parent"
         android:layout_height="193dp"
-        android:layout_centerHorizontal="true"
         android:background="@drawable/flip_top"
         tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="-20dp"
         tools:layout_editor_absoluteY="0dp" />
 
-    <!-- Dashboard text -->
     <ImageView
         android:id="@+id/backButton"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="28dp"
         android:layout_marginBottom="25dp"
         android:background="@drawable/round"
         android:importantForAccessibility="no"
@@ -56,6 +56,7 @@
         android:layout_marginTop="80dp"
         android:layout_marginEnd="15dp"
         android:backgroundTint="@color/white"
+        app:cardElevation="5dp"
         app:cardCornerRadius="25dp">
 
         <LinearLayout
@@ -110,15 +111,22 @@
 
     </androidx.cardview.widget.CardView>
 
-    <TextView
-        android:id="@+id/customTextView"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/poppins_regular"
-        android:text="Hello, Custom Font!"
-        android:textColor="@color/white"
-        tools:ignore="HardcodedText" />
+        android:layout_below="@id/cv_1"
+        android:layout_marginTop="22sp"
+        android:orientation="vertical">
 
-    <!-- Other views -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20sp"
+            android:fontFamily="@font/poppins_bold"
+            android:text="@string/recent_discoveries"
+            android:textColor="#4D4D4D"
+            android:textSize="15sp" />
+
+    </LinearLayout>
 
 </RelativeLayout>
