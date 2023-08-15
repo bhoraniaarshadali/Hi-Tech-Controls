@@ -40,10 +40,9 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="25dp"
         android:layout_marginBottom="25dp"
-        android:fontFamily="@font/poppins_regular"
+        android:fontFamily="@font/poppins_medium"
         android:textSize="30sp"
         android:text="Dashboard"
-        android:textStyle="bold"
         android:textColor="@color/white"
         tools:ignore="HardcodedText,SpUsage" />
 
@@ -110,6 +109,15 @@
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/customTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/poppins_regular"
+        android:text="Hello, Custom Font!"
+        android:textColor="@color/white"
+        tools:ignore="HardcodedText" />
 
     <!-- Other views -->
 

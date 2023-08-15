@@ -25,11 +25,10 @@
         android:layout_below="@id/logoImageView"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="25dp"
-        android:fontFamily="@font/poppins_regular"
+        android:fontFamily="@font/poppins_bold"
         android:text="Welcome"
         android:textColor="@color/blue"
         android:textSize="24sp"
-        android:textStyle="bold"
         tools:ignore="HardcodedText" />
 
     <!-- TextView for the subheading -->
