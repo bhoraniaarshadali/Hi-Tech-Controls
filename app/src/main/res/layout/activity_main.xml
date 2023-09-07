@@ -18,8 +18,10 @@
         tools:layout_editor_absoluteX="-20dp"
         tools:layout_editor_absoluteY="0dp" />
 
+    <!--    after your work is done REMOVE-->
+
     <ImageView
-        android:id="@+id/backButton"
+        android:id="@+id/mainactivity_Back"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginStart="20dp"
@@ -55,8 +57,9 @@
         android:layout_marginTop="90dp"
         android:layout_marginEnd="15dp"
         android:backgroundTint="@color/white"
+        app:cardCornerRadius="25dp"
         app:cardElevation="5dp"
-        app:cardCornerRadius="25dp">
+        tools:ignore="TextSizeCheck">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -70,18 +73,24 @@
             android:gravity="center"
             android:orientation="horizontal">
 
-            <TextView
+            <Button
+                android:id="@+id/addClientBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="1sp"
-                android:layout_marginTop="5sp"
-                android:layout_marginBottom="5sp"
-                android:drawablePadding="10sp"
+                android:layout_marginTop="3sp"
+                android:layout_marginBottom="3sp"
+                android:background="@null"
+                android:drawableStart="@drawable/add"
+                android:drawablePadding="8sp"
                 android:fontFamily="@font/poppins_medium"
-                android:text="Add Client\nDetail"
+                android:gravity="start|center_vertical"
+                android:padding="15sp"
+                android:text="@string/add_client_details"
+                android:textAllCaps="false"
                 android:textColor="@color/blue"
-                android:textSize="17sp"
-                app:drawableStartCompat="@drawable/add" />
+                android:textSize="16sp" />
+
 
             <!-- Vertical line -->
             <View
@@ -91,18 +100,24 @@
                 android:layout_margin="10dp"
                 android:background="@android:color/darker_gray" />
 
-            <TextView
+            <Button
+                android:id="@+id/viewClientBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="1sp"
-                android:layout_marginTop="5sp"
-                android:layout_marginBottom="5sp"
-                android:drawablePadding="10sp"
+                android:layout_marginTop="3sp"
+                android:layout_marginBottom="3sp"
+                android:background="@null"
+                android:drawableStart="@drawable/view"
+                android:drawablePadding="8sp"
                 android:fontFamily="@font/poppins_medium"
-                android:text="View Clients\nDetail"
+                android:gravity="start|center_vertical"
+                android:padding="15sp"
+                android:text="@string/view_clients_details"
+                android:textAllCaps="false"
                 android:textColor="@color/blue"
-                android:textSize="17sp"
-                app:drawableStartCompat="@drawable/view" />
+                android:textSize="15sp" />
+
 
         </LinearLayout>
 

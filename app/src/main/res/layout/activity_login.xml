@@ -69,7 +69,7 @@
         android:layout_marginTop="3dp"
         android:layout_marginRight="20dp"
         android:background="@drawable/round_textfield"
-        android:drawableStart="@drawable/user"
+        android:drawableStart="@drawable/user_icon"
         android:drawablePadding="10dp"
         android:fontFamily="@font/poppins_regular"
         android:hint="@string/username"
@@ -107,7 +107,7 @@
         android:layout_marginTop="4dp"
         android:layout_marginRight="20dp"
         android:background="@drawable/round_textfield"
-        android:drawableStart="@drawable/password"
+        android:drawableStart="@drawable/password_icon"
         android:drawablePadding="10dp"
         android:fontFamily="@font/poppins_regular"
         android:hint="@string/password"
@@ -124,32 +124,17 @@
     <!-- Button for the login action -->
     <Button
         android:id="@+id/loginButton"
-        android:layout_width="170sp"
-        android:layout_height="58dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_below="@id/passwordEditText"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="52dp"
-        android:background="@drawable/button_radius"
+        android:layout_marginTop="60sp"
+        android:background="@drawable/login_button"
         android:fontFamily="@font/poppins_medium"
         android:text="@string/login"
         android:textAllCaps="false"
         android:textSize="18sp"
         android:textColor="@color/white" />
-
-    <!--    <ImageButton-->
-    <!--        android:id="@+id/loginButton"-->
-    <!--        android:layout_width="170sp"-->
-    <!--        android:layout_height="58dp"-->
-    <!--        android:layout_below="@id/passwordEditText"-->
-    <!--        android:layout_centerHorizontal="true"-->
-    <!--        android:layout_marginTop="52dp"-->
-    <!--        android:background="@drawable/button_radius"-->
-    <!--        android:contentDescription="@string/login"-->
-    <!--        android:scaleType="fitCenter"-->
-    <!--        android:padding="8dp"-->
-    <!--        android:layout_gravity="center"-->
-    <!--        android:textColor="@color/white" />-->
-
 
     <!-- FrameLayout for the bottom shape -->
     <FrameLayout

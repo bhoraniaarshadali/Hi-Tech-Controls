@@ -5,6 +5,11 @@
     <color name="blue">#181C5C</color>
     <color name="light_font">#7C7C7C</color>
 
+
+    <color name="radium">#25B800</color>
+    <color name="lightradium">#B3B3B3</color>
+
+
     <color name="colorPrimary">#6200EE</color>
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colourAccent">#03DAC5</color>

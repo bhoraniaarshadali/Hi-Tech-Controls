@@ -17,4 +17,7 @@
     <string name="your_service_in_your_hand">Your Service in Your Hand</string>
     <string name="view_client_details">View Client Details</string>
     <string name="recent_discoveries">Recent Discoveries</string>
+    <string name="view_clients_details">View Clients\nDetail</string>
+    <string name="add_client_details">Add Clients\nDetail</string>
+    <string name="find_a_client_details">Find a Client Details</string>
 </resources>
