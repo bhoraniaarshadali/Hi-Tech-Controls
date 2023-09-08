@@ -5,14 +5,14 @@ import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class ViewClntsDetails extends AppCompatActivity {
+public class ViewDetailsActivity extends AppCompatActivity {
 
     ImageView viewClientDtls_Back1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_clnts_details);
+        setContentView(R.layout.activity_view_details);
 
         viewClientDtls_Back1 = findViewById(R.id.viewClientDtls_Back);
 

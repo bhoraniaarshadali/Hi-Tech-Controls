@@ -14,14 +14,13 @@
         android:theme="@style/Theme.HiTechControls"
         tools:targetApi="31">
         <activity
-            android:name=".ViewClntsDetails"
-            android:exported="false" />
+            android:name=".AddDetailsActivity"
+            android:exported="false"
+            android:theme="@style/Theme.ViewClntsDetails" />
         <activity
-            android:name=".Fill_two"
-            android:exported="false" />
-        <activity
-            android:name=".Fill_one"
-            android:exported="false" /> <!-- Splash Activity -->
+            android:name=".ViewDetailsActivity"
+            android:exported="false"
+            android:theme="@style/Theme.ViewClntsDetails" />
         <activity
             android:name=".SplashActivity"
             android:exported="true"

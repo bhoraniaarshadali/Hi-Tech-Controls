@@ -20,4 +20,16 @@
     <string name="view_clients_details">View Clients\nDetail</string>
     <string name="add_client_details">Add Clients\nDetail</string>
     <string name="find_a_client_details">Find a Client Details</string>
+    <string name="in_progress">In Progress</string>
+    <string name="search">Search</string>
+    <string name="_2001">2001</string>
+    <string name="usernameview">username</string>
+
+
+    <!--    all hints-->
+    <string name="hintNumber"><font size="14">enter number</font></string>
+    <string name="hintName"><font size="14">enter name</font></string>
+    <string name="hintDate"><font size="14">enter date</font></string>
+
+
 </resources>

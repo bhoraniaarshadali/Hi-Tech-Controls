@@ -1,0 +1,444 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
+    <!-- SHAPE CURVE -->
+    <!-- HEADING -->
+
+    <!-- Dashboard text -->
+    <View
+        android:id="@+id/dash_vi"
+        android:layout_width="match_parent"
+        android:layout_height="193dp"
+        android:background="@drawable/flip_top"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="-20dp"
+        tools:layout_editor_absoluteY="0dp" />
+
+    <!--    after your work is done REMOVE-->
+
+    <ImageView
+        android:id="@+id/addClientDtls_Back"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="33dp"
+        android:background="@drawable/round"
+        android:importantForAccessibility="no"
+        android:src="@drawable/back_btn"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="23dp"
+        tools:layout_editor_absoluteY="37dp" />
+
+    <TextView
+        android:id="@+id/dash_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="25dp"
+        android:fontFamily="@font/poppins_medium"
+        android:text="Add Clients details"
+        android:textColor="@color/white"
+        android:textSize="22sp"
+        tools:ignore="HardcodedText,SpUsage" />
+
+    <ImageView
+        android:id="@+id/addClientDtls_Next"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="33dp"
+        android:layout_marginEnd="20sp"
+        android:background="@drawable/round"
+        android:importantForAccessibility="no"
+        android:src="@drawable/next_btn"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="23dp"
+        tools:layout_editor_absoluteY="37dp" />
+
+    <!-- Card view for proper layout -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cv_1"
+        android:layout_width="390dp"
+        android:layout_height="100dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="95dp"
+        android:layout_marginEnd="15dp"
+        android:backgroundTint="@color/white"
+        app:cardCornerRadius="25dp"
+        app:cardElevation="5dp"
+        tools:ignore="TextSizeCheck">
+
+    </androidx.cardview.widget.CardView>
+
+    <LinearLayout
+        android:id="@+id/linear"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/cv_1"
+        android:layout_marginTop="1sp"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:id="@+id/frameLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="5sp"
+            android:layout_marginStart="10sp"
+            android:layout_marginTop="10sp"
+            android:layout_marginEnd="10sp"
+            android:layout_marginBottom="10sp"
+            android:padding="20sp"
+            tools:ignore="UselessParent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                tools:ignore="UselessParent">
+
+
+                <RelativeLayout
+                    android:id="@+id/firstLine"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5sp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_bold"
+                        android:text="Client Id"
+                        android:textColor="@color/blue"
+                        android:textSize="25sp"
+                        tools:ignore="HardcodedText" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:fontFamily="@font/poppins_regular"
+                        android:text="2001"
+                        android:textColor="@color/blue"
+                        android:textSize="25sp"
+                        tools:ignore="HardcodedText" />
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5sp"
+                        android:fontFamily="@font/poppins_sembold"
+                        android:text="Inward client details "
+                        android:textColor="@color/blue"
+                        android:textSize="22sp"
+                        tools:ignore="HardcodedText" />
+                    <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+
+                    <ScrollView
+                        android:id="@+id/scrollView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="2sp"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/poppins_medium"
+                                    android:text="Client Name: "
+                                    android:textColor="@color/black"
+                                    android:textSize="19sp"
+                                    tools:ignore="HardcodedText" />
+
+                                <EditText
+                                    android:id="@+id/enterName"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:backgroundTint="@color/grey"
+                                    android:ellipsize="start"
+                                    android:ems="10"
+                                    android:fontFamily="@font/poppins_regular"
+                                    android:gravity="center"
+                                    android:hint="@string/hintName"
+                                    android:importantForAutofill="no"
+                                    android:inputType="date"
+                                    android:textColor="@color/black"
+                                    android:textColorHint="@color/grey"
+                                    tools:ignore="DuplicateSpeakableTextCheck,TextContrastCheck" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="2sp"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/poppins_medium"
+                                    android:text="Client Number: "
+                                    android:textColor="@color/black"
+                                    android:textSize="19sp"
+                                    tools:ignore="HardcodedText" />
+
+                                <EditText
+                                    android:id="@+id/enterNumber"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:backgroundTint="@color/grey"
+                                    android:ellipsize="start"
+                                    android:ems="10"
+                                    android:fontFamily="@font/poppins_regular"
+                                    android:gravity="center"
+                                    android:hint="@string/hintNumber"
+                                    android:importantForAutofill="no"
+                                    android:inputType="date"
+                                    android:textColor="@color/black"
+                                    android:textColorHint="@color/grey"
+                                    tools:ignore="DuplicateSpeakableTextCheck,TextContrastCheck,TextFields" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="2sp"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/poppins_medium"
+                                    android:text="GP Number: "
+                                    android:textColor="@color/black"
+                                    android:textSize="19sp"
+                                    tools:ignore="HardcodedText" />
+
+                                <EditText
+                                    android:id="@+id/enterGPNumber"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:backgroundTint="@color/grey"
+                                    android:ellipsize="start"
+                                    android:ems="10"
+                                    android:fontFamily="@font/poppins_regular"
+                                    android:gravity="center"
+                                    android:hint="@string/hintNumber"
+                                    android:importantForAutofill="no"
+                                    android:inputType="date"
+                                    android:textColor="@color/black"
+                                    android:textColorHint="#757575"
+                                    tools:ignore="TextFields,TextContrastCheck" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="2sp"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/poppins_medium"
+                                    android:text="GP Date: "
+                                    android:textColor="@color/black"
+                                    android:textSize="19sp"
+                                    tools:ignore="HardcodedText" />
+
+                                <EditText
+                                    android:id="@+id/enterGPdate"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:backgroundTint="@color/grey"
+                                    android:ellipsize="start"
+                                    android:ems="10"
+                                    android:fontFamily="@font/poppins_regular"
+                                    android:gravity="center"
+                                    android:hint="@string/hintDate"
+                                    android:importantForAutofill="no"
+                                    android:inputType="date"
+                                    android:textColor="@color/black"
+                                    android:textColorHint="@color/grey"
+                                    tools:ignore="TextContrastCheck" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="2sp"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/poppins_medium"
+                                    android:text="Make Name: "
+                                    android:textColor="@color/black"
+                                    android:textSize="19sp"
+                                    tools:ignore="HardcodedText" />
+
+                                <EditText
+                                    android:id="@+id/enterMakeName"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:backgroundTint="@color/grey"
+                                    android:ellipsize="start"
+                                    android:ems="10"
+                                    android:fontFamily="@font/poppins_regular"
+                                    android:gravity="center"
+                                    android:hint="@string/hintName"
+                                    android:importantForAutofill="no"
+                                    android:inputType="number"
+                                    android:textColor="@color/black"
+                                    android:textColorHint="@color/grey"
+                                    tools:ignore="TextContrastCheck" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="2sp"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/poppins_medium"
+                                    android:text="Model Name: "
+                                    android:textColor="@color/black"
+                                    android:textSize="19sp"
+                                    tools:ignore="HardcodedText" />
+
+                                <EditText
+                                    android:id="@+id/enterModelName"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:backgroundTint="@color/grey"
+                                    android:ellipsize="start"
+                                    android:ems="10"
+                                    android:fontFamily="@font/poppins_regular"
+                                    android:gravity="center"
+                                    android:hint="@string/hintName"
+                                    android:importantForAutofill="no"
+                                    android:inputType="number"
+                                    android:textColor="@color/black"
+                                    android:textColorHint="@color/grey"
+                                    tools:ignore="TextContrastCheck" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="2sp"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/poppins_medium"
+                                    android:text="Rating: "
+                                    android:textColor="@color/black"
+                                    android:textSize="19sp"
+                                    tools:ignore="HardcodedText" />
+
+                                <EditText
+                                    android:id="@+id/enterHPrate"
+                                    android:layout_width="170sp"
+                                    android:layout_height="wrap_content"
+                                    android:backgroundTint="@color/grey"
+                                    android:ellipsize="start"
+                                    android:ems="10"
+                                    android:fontFamily="@font/poppins_regular"
+                                    android:gravity="center"
+                                    android:hint="@string/hintNumber"
+                                    android:importantForAutofill="no"
+                                    android:inputType="number"
+                                    android:textColor="@color/black"
+                                    android:textColorHint="@color/grey"
+                                    tools:ignore="TextContrastCheck" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/poppins_thin"
+                                    android:text="HP"
+                                    android:textColor="@color/black"
+                                    android:textSize="19sp"
+                                    tools:ignore="HardcodedText,TextContrastCheck" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="2sp"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/poppins_medium"
+                                    android:text="Client Name: "
+                                    android:textColor="@color/black"
+                                    android:textSize="19sp"
+                                    tools:ignore="HardcodedText" />
+
+                                <EditText
+                                    android:id="@+id/enterSerialNumber"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:backgroundTint="@color/grey"
+                                    android:ellipsize="start"
+                                    android:ems="10"
+                                    android:fontFamily="@font/poppins_regular"
+                                    android:gravity="center"
+                                    android:hint="@string/hintName"
+                                    android:importantForAutofill="no"
+                                    android:inputType="number"
+                                    android:textColor="@color/black"
+                                    android:textColorHint="@color/grey"
+                                    tools:ignore="TouchTargetSizeCheck" />
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                    </ScrollView>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

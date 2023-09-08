@@ -12,22 +12,27 @@ MainActivity extends AppCompatActivity {
 
     Button addClientBtn1;
     Button viewClientBtn1;
-    private ImageView mainactivity_Back1;
+    private ImageView logout_btn_layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mainactivity_Back1 = findViewById(R.id.mainactivity_Back);
+        logout_btn_layout = findViewById(R.id.logout_btn);
         addClientBtn1 = findViewById(R.id.addClientBtn);
         viewClientBtn1 = findViewById(R.id.viewClientBtn);
 
+        logout_btn_layout.setOnClickListener(v -> onBackPressed());
 
-        mainactivity_Back1.setOnClickListener(v -> onBackPressed());
+
+        addClientBtn1.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, AddDetailsActivity.class);
+            startActivity(intent);
+        });
 
         viewClientBtn1.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, ViewClntsDetails.class);
+            Intent intent = new Intent(MainActivity.this, ViewDetailsActivity.class);
             startActivity(intent);
         });
     }
