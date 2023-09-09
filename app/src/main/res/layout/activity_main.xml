@@ -1,22 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_height="match_parent"
     android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
     android:background="@android:color/white">
-    <!-- SHAPE CURVE -->
-    <!-- HEADING -->
 
-    <!-- Dashboard text -->
-    <View
-        android:id="@+id/dash_vi"
+    <!-- Main layout container -->
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="193dp"
-        android:background="@drawable/flip_top"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="-20dp"
-        tools:layout_editor_absoluteY="0dp" />
+        android:layout_height="wrap_content">
+
+        <!-- Dashboard text -->
+        <View
+            android:id="@+id/dash_vi"
+            android:layout_width="match_parent"
+            android:layout_height="193dp"
+            android:background="@drawable/flip_top"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteX="-20dp"
+            tools:layout_editor_absoluteY="0dp" />
 
     <!--    after your work is done REMOVE-->
 
@@ -68,7 +72,7 @@
     <!-- Card view for proper layout -->
     <androidx.cardview.widget.CardView
         android:id="@+id/cv_1"
-        android:layout_width="390dp"
+        android:layout_width="match_parent"
         android:layout_height="120dp"
         android:layout_centerHorizontal="true"
         android:layout_marginStart="15dp"
@@ -79,7 +83,7 @@
         app:cardElevation="5dp"
         tools:ignore="TextSizeCheck">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
@@ -91,53 +95,76 @@
             android:gravity="center"
             android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/addClientBtn"
+
+            <!--            button left-->
+            <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="1sp"
-                android:layout_marginTop="3sp"
-                android:layout_marginBottom="3sp"
-                android:background="@null"
-                android:drawableStart="@drawable/add"
-                android:drawablePadding="8sp"
-                android:fontFamily="@font/poppins_medium"
-                android:gravity="start|center_vertical"
-                android:padding="15sp"
-                android:text="@string/add_client_details"
-                android:textAllCaps="false"
-                android:textColor="@color/blue"
-                android:textSize="16sp" />
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="5sp"
+                android:layout_marginTop="5sp"
+                android:layout_marginBottom="5sp"
+                android:layout_toStartOf="@+id/vi_2"
+                android:gravity="center">
 
+                <Button
+                    android:id="@+id/addClientBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="100sp"
+                    android:background="@null"
+                    android:drawableStart="@drawable/add"
+                    android:drawablePadding="8sp"
+                    android:fontFamily="@font/poppins_medium"
+                    android:gravity="start|center_vertical"
+                    android:padding="15sp"
+                    android:text="@string/add_client_details"
+                    android:textAllCaps="false"
+                    android:textColor="@color/blue"
+                    android:textSize="15sp" />
+            </RelativeLayout>
 
-            <!-- Vertical line -->
             <View
                 android:id="@+id/vi_2"
-                android:layout_width="2dp"
-                android:layout_height="80dp"
-                android:layout_margin="10dp"
+                android:layout_width="2sp"
+                android:layout_height="100sp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10sp"
+                android:layout_marginBottom="10sp"
                 android:background="@android:color/darker_gray" />
 
-            <Button
-                android:id="@+id/viewClientBtn"
+            <!--            button right-->
+
+            <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="1sp"
-                android:layout_marginTop="3sp"
-                android:layout_marginBottom="3sp"
-                android:background="@null"
-                android:drawableStart="@drawable/view"
-                android:drawablePadding="8sp"
-                android:fontFamily="@font/poppins_medium"
-                android:gravity="start|center_vertical"
-                android:padding="15sp"
-                android:text="@string/view_clients_details"
-                android:textAllCaps="false"
-                android:textColor="@color/blue"
-                android:textSize="15sp" />
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="5sp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginBottom="5sp"
+                android:layout_toEndOf="@+id/vi_2"
+                android:gravity="center">
+
+                <Button
+                    android:id="@+id/viewClientBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="100sp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="10dp"
+                    android:background="@null"
+                    android:drawableStart="@drawable/view"
+                    android:drawablePadding="8sp"
+                    android:fontFamily="@font/poppins_medium"
+                    android:gravity="start|center_vertical"
+                    android:padding="15sp"
+                    android:text="@string/view_clients_details"
+                    android:textAllCaps="false"
+                    android:textColor="@color/blue"
+                    android:textSize="14sp" />
+
+            </RelativeLayout>
 
 
-        </LinearLayout>
+        </RelativeLayout>
 
     </androidx.cardview.widget.CardView>
 
@@ -252,4 +279,6 @@
 
     </LinearLayout>
 
-</RelativeLayout>
+    </RelativeLayout>
+
+</ScrollView>

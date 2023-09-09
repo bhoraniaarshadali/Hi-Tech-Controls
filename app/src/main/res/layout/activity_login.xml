@@ -1,20 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
-    tools:ignore="ExtraText">
+    android:fillViewport="true">
 
-    <!-- ImageView for the logo -->
-    <ImageView
-        android:id="@+id/logoImageView"
-        android:layout_width="125dp"
-        android:layout_height="120dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="25dp"
-        android:src="@drawable/logo"
-        android:importantForAccessibility="no"
+    <!-- Main layout container -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!-- ImageView for the logo -->
+        <ImageView
+            android:id="@+id/logoImageView"
+            android:layout_width="125dp"
+            android:layout_height="120dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="25dp"
+            android:importantForAccessibility="no"
+            android:src="@drawable/logo"
         tools:ignore="HardcodedText" />
 
     <!-- TextView for the welcome message -->
@@ -70,6 +75,7 @@
         android:layout_marginRight="20dp"
         android:background="@drawable/round_textfield"
         android:drawableStart="@drawable/user_icon"
+        android:textCursorDrawable="@null"
         android:drawablePadding="10dp"
         android:fontFamily="@font/poppins_regular"
         android:hint="@string/username"
@@ -108,6 +114,7 @@
         android:layout_marginRight="20dp"
         android:background="@drawable/round_textfield"
         android:drawableStart="@drawable/password_icon"
+        android:textCursorDrawable="@null"
         android:drawablePadding="10dp"
         android:fontFamily="@font/poppins_regular"
         android:hint="@string/password"
@@ -136,25 +143,30 @@
         android:textSize="18sp"
         android:textColor="@color/white" />
 
-    <!-- FrameLayout for the bottom shape -->
-    <FrameLayout
-        android:id="@+id/bottomShape"
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="-36dp"
-        android:background="@drawable/bottom_shape"
-        tools:ignore="VisualLintBounds">
+        <!-- FrameLayout for the bottom shape -->
+        <FrameLayout
+            android:id="@+id/bottomShape"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_below="@+id/loginButton"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="100dp"
+            android:layout_marginBottom="-36dp"
+            android:background="@drawable/bottom_shape"
+            tools:ignore="VisualLintBounds">
 
-        <!-- TextView for the version information -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal|bottom"
-            android:layout_marginBottom="80dp"
-            android:text="Version 1.0"
-            android:textColor="#BABABA"
-            android:textSize="15sp"
-            tools:ignore="HardcodedText" />
-    </FrameLayout>
-</RelativeLayout>
+            <!-- TextView for the version information -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|bottom"
+                android:layout_marginBottom="80dp"
+                android:text="Version 1.0"
+                android:textColor="#BABABA"
+                android:textSize="15sp"
+                tools:ignore="HardcodedText" />
+        </FrameLayout>
+
+    </RelativeLayout>
+
+</ScrollView>

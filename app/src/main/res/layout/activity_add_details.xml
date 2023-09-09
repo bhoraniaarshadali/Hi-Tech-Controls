@@ -160,6 +160,8 @@
                             <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:gravity="center"
                                 android:orientation="vertical">
 
 
@@ -180,7 +182,7 @@
 
                                     <EditText
                                         android:id="@+id/enterName"
-                                        android:layout_width="wrap_content"
+                                        android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:backgroundTint="@color/grey"
                                         android:ellipsize="start"
@@ -213,7 +215,7 @@
 
                                     <EditText
                                         android:id="@+id/enterNumber"
-                                        android:layout_width="wrap_content"
+                                        android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:backgroundTint="@color/grey"
                                         android:ellipsize="start"
@@ -246,7 +248,7 @@
 
                                     <EditText
                                         android:id="@+id/enterGPNumber"
-                                        android:layout_width="wrap_content"
+                                        android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:backgroundTint="@color/grey"
                                         android:ellipsize="start"
@@ -279,7 +281,7 @@
 
                                     <EditText
                                         android:id="@+id/dateTextField"
-                                        android:layout_width="170dp"
+                                        android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:backgroundTint="@color/grey"
                                         android:drawableStart="@drawable/date_icon"
@@ -331,7 +333,7 @@
 
                                     <EditText
                                         android:id="@+id/enterMakeName"
-                                        android:layout_width="wrap_content"
+                                        android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:backgroundTint="@color/grey"
                                         android:ellipsize="start"
@@ -364,7 +366,7 @@
 
                                     <EditText
                                         android:id="@+id/enterModelName"
-                                        android:layout_width="wrap_content"
+                                        android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:backgroundTint="@color/grey"
                                         android:ellipsize="start"
@@ -390,14 +392,23 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:fontFamily="@font/poppins_medium"
-                                        android:text="Rating: "
+                                        android:text="Rating:  "
                                         android:textColor="@color/black"
                                         android:textSize="19sp"
                                         tools:ignore="HardcodedText" />
 
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/poppins_thin"
+                                        android:text="HP"
+                                        android:textColor="@color/black"
+                                        android:textSize="19sp"
+                                        tools:ignore="HardcodedText,TextContrastCheck" />
+
                                     <EditText
                                         android:id="@+id/enterHPrate"
-                                        android:layout_width="170sp"
+                                        android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:backgroundTint="@color/grey"
                                         android:ellipsize="start"
@@ -411,14 +422,7 @@
                                         android:textColorHint="@color/grey"
                                         tools:ignore="TextContrastCheck" />
 
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:fontFamily="@font/poppins_thin"
-                                        android:text="HP"
-                                        android:textColor="@color/black"
-                                        android:textSize="19sp"
-                                        tools:ignore="HardcodedText,TextContrastCheck" />
+
 
                                 </LinearLayout>
 
@@ -439,7 +443,7 @@
 
                                     <EditText
                                         android:id="@+id/enterSerialNumber"
-                                        android:layout_width="wrap_content"
+                                        android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:backgroundTint="@color/grey"
                                         android:ellipsize="start"
