@@ -39,19 +39,35 @@
             tools:layout_editor_absoluteX="23dp"
             tools:layout_editor_absoluteY="37dp" />
 
-        <TextView
-            android:id="@+id/dash_tv"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="32dp"
             android:layout_marginBottom="25dp"
-            android:fontFamily="@font/poppins_medium"
-            android:text="Add Clients details"
-            android:textColor="@color/white"
-            android:textSize="22sp"
-            tools:ignore="HardcodedText,SpUsage" />
+            android:orientation="vertical"
+            tools:ignore="RelativeOverlap">
+
+            <TextView
+                android:id="@+id/dash_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_medium"
+                android:text="Add Clients details"
+                android:textColor="@color/white"
+                android:textSize="22sp"
+                tools:ignore="HardcodedText,SpUsage" />
+
+            <TextSwitcher
+                android:id="@+id/textSwitcher"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:inAnimation="@android:anim/slide_in_left"
+                android:outAnimation="@android:anim/slide_out_right"
+                android:textSize="20sp" />
+        </LinearLayout>
 
         <ImageView
             android:id="@+id/addClientDtls_Next"
@@ -90,13 +106,12 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/cv_1"
-            android:layout_margin="5sp"
-            android:layout_marginStart="10sp"
-            android:layout_marginTop="10sp"
-            android:layout_marginEnd="10sp"
-            android:layout_marginBottom="10sp"
+            android:layout_marginStart="5sp"
+            android:layout_marginTop="5sp"
+            android:layout_marginEnd="5sp"
+            android:layout_marginBottom="5sp"
             android:padding="20sp"
-            tools:ignore="UselessParent"></FrameLayout>
+            tools:ignore="UselessParent" />
 
 
     </RelativeLayout>
