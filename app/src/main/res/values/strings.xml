@@ -29,7 +29,7 @@
     <!--    all hints-->
     <string name="hintNumber"><font size="14">enter number</font></string>
     <string name="hintName"><font size="14">enter name</font></string>
-    <string name="hintDate"><font size="14">enter date</font></string>
+    <string name="hintDate"><font size="14">select date</font></string>
 
 
 </resources>

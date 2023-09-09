@@ -183,7 +183,7 @@
                                     android:gravity="center"
                                     android:hint="@string/hintName"
                                     android:importantForAutofill="no"
-                                    android:inputType="date"
+                                    android:inputType="textPersonName"
                                     android:textColor="@color/black"
                                     android:textColorHint="@color/grey"
                                     tools:ignore="DuplicateSpeakableTextCheck,TextContrastCheck" />
@@ -249,7 +249,7 @@
                                     android:gravity="center"
                                     android:hint="@string/hintNumber"
                                     android:importantForAutofill="no"
-                                    android:inputType="date"
+                                    android:inputType="number"
                                     android:textColor="@color/black"
                                     android:textColorHint="#757575"
                                     tools:ignore="TextFields,TextContrastCheck" />
@@ -272,20 +272,39 @@
                                     tools:ignore="HardcodedText" />
 
                                 <EditText
-                                    android:id="@+id/enterGPdate"
-                                    android:layout_width="wrap_content"
+                                    android:id="@+id/dateTextField"
+                                    android:layout_width="170dp"
                                     android:layout_height="wrap_content"
                                     android:backgroundTint="@color/grey"
+                                    android:drawableStart="@drawable/date_icon"
+                                    android:drawablePadding="20dp"
                                     android:ellipsize="start"
                                     android:ems="10"
+                                    android:focusable="false"
                                     android:fontFamily="@font/poppins_regular"
                                     android:gravity="center"
                                     android:hint="@string/hintDate"
                                     android:importantForAutofill="no"
-                                    android:inputType="date"
                                     android:textColor="@color/black"
                                     android:textColorHint="@color/grey"
-                                    tools:ignore="TextContrastCheck" />
+                                    tools:ignore="TextContrastCheck,TextFields" />
+
+
+                                <!--                                <EditText-->
+                                <!--                                    android:id="@+id/enterGPdate"-->
+                                <!--                                    android:layout_width="wrap_content"-->
+                                <!--                                    android:layout_height="wrap_content"-->
+                                <!--                                    android:backgroundTint="@color/grey"-->
+                                <!--                                    android:ellipsize="start"-->
+                                <!--                                    android:ems="10"-->
+                                <!--                                    android:fontFamily="@font/poppins_regular"-->
+                                <!--                                    android:gravity="center"-->
+                                <!--                                    android:hint="@string/hintDate"-->
+                                <!--                                    android:importantForAutofill="no"-->
+                                <!--                                    android:inputType="date"-->
+                                <!--                                    android:textColor="@color/black"-->
+                                <!--                                    android:textColorHint="@color/grey"-->
+                                <!--                                    tools:ignore="TextContrastCheck" />-->
 
                             </LinearLayout>
 
@@ -315,7 +334,7 @@
                                     android:gravity="center"
                                     android:hint="@string/hintName"
                                     android:importantForAutofill="no"
-                                    android:inputType="number"
+                                    android:inputType="textPersonName"
                                     android:textColor="@color/black"
                                     android:textColorHint="@color/grey"
                                     tools:ignore="TextContrastCheck" />
@@ -348,7 +367,7 @@
                                     android:gravity="center"
                                     android:hint="@string/hintName"
                                     android:importantForAutofill="no"
-                                    android:inputType="number"
+                                    android:inputType="textPersonName"
                                     android:textColor="@color/black"
                                     android:textColorHint="@color/grey"
                                     tools:ignore="TextContrastCheck" />
@@ -423,10 +442,10 @@
                                     android:gravity="center"
                                     android:hint="@string/hintName"
                                     android:importantForAutofill="no"
-                                    android:inputType="number"
+                                    android:inputType="textPersonName"
                                     android:textColor="@color/black"
-                                    android:textColorHint="@color/grey"
-                                    tools:ignore="TouchTargetSizeCheck" />
+                                    android:textColorHint="#757575"
+                                    tools:ignore="TextFields,TouchTargetSizeCheck" />
                             </LinearLayout>
 
                         </LinearLayout>
