@@ -8,18 +8,142 @@
     <!-- Main layout container -->
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center">
+        android:layout_height="wrap_content">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:id="@+id/firstLine"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/poppins_bold"
-            android:text="Second Fragment"
-            android:textColor="@color/blue"
-            android:textSize="25sp"
-            tools:ignore="HardcodedText" />
+            android:layout_marginBottom="5sp"
+            tools:ignore="UselessParent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_regular"
+                android:text="Checked by: "
+                android:textColor="@color/blue"
+                android:textSize="25sp"
+                tools:ignore="HardcodedText" />
+
+            <Spinner
+                android:id="@+id/spinner"
+                android:layout_width="150sp"
+                android:layout_height="35sp"
+                android:layout_alignParentEnd="true"
+                android:background="@drawable/spinner_bg"
+                android:fontFamily="@font/poppins_regular"
+                android:textColor="@color/black"
+                android:textSize="12sp"
+                tools:ignore="HardcodedText" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/firstLine"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5sp"
+                android:fontFamily="@font/poppins_sembold"
+                android:text="Initial Observations"
+                android:textColor="@color/blue"
+                android:textSize="22sp"
+                tools:ignore="HardcodedText" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="2sp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_regular"
+                    android:text="Freq. Ref."
+                    android:textColor="@color/black"
+                    android:textSize="19sp"
+                    tools:ignore="HardcodedText,TooDeepLayout" />
+
+                <EditText
+                    android:id="@+id/enterName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/grey"
+                    android:ellipsize="start"
+                    android:ems="10"
+                    android:fontFamily="@font/poppins_regular"
+                    android:gravity="center"
+                    android:hint="@string/hintRate"
+                    android:importantForAutofill="no"
+                    android:inputType="textPersonName"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/grey"
+                    tools:ignore="DuplicateSpeakableTextCheck,TextContrastCheck" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="2sp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_regular"
+                    android:text="Start CMD: "
+                    android:textColor="@color/black"
+                    android:textSize="19sp"
+                    tools:ignore="HardcodedText,TooDeepLayout" />
+
+                <RadioGroup
+                    android:id="@+id/radioGroup"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:buttonTint="@color/blue"
+                        android:padding="10sp"
+                        android:text="Local"
+                        android:textColor="@color/grey" />
+
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:buttonTint="@color/blue"
+                        android:padding="10sp"
+                        android:text="Remote"
+                        android:textColor="@color/grey" />
+
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:buttonTint="@color/blue"
+                        android:padding="10sp"
+                        android:text="Communication"
+                        android:textColor="@color/grey" />
+                </RadioGroup>
+
+                <EditText
+                    android:id="@+id/localEditText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="Local Details"
+                    android:visibility="gone" />
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
 
     </RelativeLayout>
 </ScrollView>
