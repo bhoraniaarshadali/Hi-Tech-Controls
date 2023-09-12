@@ -31,7 +31,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/poppins_bold"
                     android:text="Client Id"
-                    android:textColor="@color/blue"
+                    android:textColor="@color/black"
                     android:textSize="25sp"
                     tools:ignore="HardcodedText" />
 
@@ -41,14 +41,14 @@
                     android:layout_alignParentEnd="true"
                     android:fontFamily="@font/poppins_regular"
                     android:text="2001"
-                    android:textColor="@color/blue"
+                    android:textColor="@color/black"
                     android:textSize="25sp"
                     tools:ignore="HardcodedText" />
             </RelativeLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical">
 
                 <TextView
@@ -57,19 +57,19 @@
                     android:layout_marginBottom="5sp"
                     android:fontFamily="@font/poppins_sembold"
                     android:text="Inward client details "
-                    android:textColor="@color/blue"
+                    android:textColor="@color/black"
                     android:textSize="22sp"
                     tools:ignore="HardcodedText" />
                 <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
 
                 <ScrollView
                     android:id="@+id/scrollView"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     tools:ignore="NestedScrolling">
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:gravity="center"
@@ -87,7 +87,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/poppins_medium"
                                 android:text="Client Name: "
-                                android:textColor="@color/black"
+                                android:textColor="@color/lightblack"
                                 android:textSize="19sp"
                                 tools:ignore="HardcodedText,TooDeepLayout" />
 
@@ -120,7 +120,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/poppins_medium"
                                 android:text="Client Number: "
-                                android:textColor="@color/black"
+                                android:textColor="@color/lightblack"
                                 android:textSize="19sp"
                                 tools:ignore="HardcodedText" />
 
@@ -153,7 +153,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/poppins_medium"
                                 android:text="GP Number: "
-                                android:textColor="@color/black"
+                                android:textColor="@color/lightblack"
                                 android:textSize="19sp"
                                 tools:ignore="HardcodedText" />
 
@@ -186,7 +186,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/poppins_medium"
                                 android:text="GP Date: "
-                                android:textColor="@color/black"
+                                android:textColor="@color/lightblack"
                                 android:textSize="19sp"
                                 tools:ignore="HardcodedText" />
 
@@ -238,7 +238,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/poppins_medium"
                                 android:text="Make Name: "
-                                android:textColor="@color/black"
+                                android:textColor="@color/lightblack"
                                 android:textSize="19sp"
                                 tools:ignore="HardcodedText" />
 
@@ -271,7 +271,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/poppins_medium"
                                 android:text="Model Name: "
-                                android:textColor="@color/black"
+                                android:textColor="@color/lightblack"
                                 android:textSize="19sp"
                                 tools:ignore="HardcodedText" />
 
@@ -304,7 +304,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/poppins_medium"
                                 android:text="Rating:  "
-                                android:textColor="@color/black"
+                                android:textColor="@color/lightblack"
                                 android:textSize="19sp"
                                 tools:ignore="HardcodedText" />
 
@@ -347,7 +347,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/poppins_medium"
                                 android:text="Serial Number:"
-                                android:textColor="@color/black"
+                                android:textColor="@color/lightblack"
                                 android:textSize="19sp"
                                 tools:ignore="HardcodedText" />
 
@@ -360,9 +360,9 @@
                                 android:ems="10"
                                 android:fontFamily="@font/poppins_regular"
                                 android:gravity="center"
-                                android:hint="@string/hintName"
+                                android:hint="@string/hintNumber"
                                 android:importantForAutofill="no"
-                                android:inputType="textPersonName"
+                                android:inputType="number"
                                 android:textColor="@color/black"
                                 android:textColorHint="@color/grey"
                                 tools:ignore="TextFields,TouchTargetSizeCheck,TextContrastCheck" />

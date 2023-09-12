@@ -4,8 +4,8 @@
     android:layout_height="match_parent"
     android:background="@android:color/white"
     android:fillViewport="true"
-    android:scrollbars="none"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:scrollbars="none">
 
     <!-- Main layout container -->
     <RelativeLayout
@@ -22,9 +22,10 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
                 android:fontFamily="@font/poppins_regular"
                 android:text="Checked by: "
-                android:textColor="@color/blue"
+                android:textColor="@color/lightblack"
                 android:textSize="25sp"
                 tools:ignore="HardcodedText" />
 
@@ -33,6 +34,7 @@
                 android:layout_width="150sp"
                 android:layout_height="35sp"
                 android:layout_alignParentEnd="true"
+                android:layout_marginEnd="-1dp"
                 android:background="@drawable/spinner_bg"
                 android:fontFamily="@font/poppins_regular"
                 android:textColor="@color/black"
@@ -52,7 +54,7 @@
                 android:layout_marginBottom="5sp"
                 android:fontFamily="@font/poppins_sembold"
                 android:text="Initial Observations"
-                android:textColor="@color/blue"
+                android:textColor="@color/black"
                 android:textSize="22sp"
                 tools:ignore="HardcodedText" />
 
@@ -67,7 +69,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/poppins_regular"
                     android:text="Freq. Ref."
-                    android:textColor="@color/black"
+                    android:textColor="@color/lightblack"
                     android:textSize="19sp"
                     tools:ignore="HardcodedText,TooDeepLayout" />
 
@@ -101,7 +103,7 @@
                     android:fontFamily="@font/poppins_regular"
                     android:paddingTop="10sp"
                     android:text="Start CMD: "
-                    android:textColor="@color/black"
+                    android:textColor="@color/lightblack"
                     android:textSize="19sp"
                     tools:ignore="HardcodedText,TooDeepLayout" />
 
@@ -199,7 +201,7 @@
                         android:fontFamily="@font/poppins_regular"
                         android:paddingTop="10sp"
                         android:text="Input Supply: "
-                        android:textColor="@color/black"
+                        android:textColor="@color/lightblack"
                         android:textSize="19sp"
                         tools:ignore="HardcodedText,TooDeepLayout" />
 
@@ -275,7 +277,7 @@
                                 android:fontFamily="@font/poppins_regular"
                                 android:padding="10sp"
                                 android:text="POS: "
-                                android:textColor="@color/black"
+                                android:textColor="@color/lightblack"
                                 android:textSize="15sp"
                                 tools:ignore="HardcodedText,TooDeepLayout" />
 
@@ -293,7 +295,7 @@
                                     android:fontFamily="@font/poppins_regular"
                                     android:padding="12sp"
                                     android:text="U"
-                                    android:textColor="@color/blue"
+                                    android:textColor="@color/lightblack"
                                     tools:ignore="DuplicateSpeakableTextCheck,HardcodedText,TouchTargetSizeCheck" />
 
                                 <CheckBox
@@ -305,7 +307,7 @@
                                     android:fontFamily="@font/poppins_regular"
                                     android:padding="10sp"
                                     android:text="V"
-                                    android:textColor="@color/blue"
+                                    android:textColor="@color/lightblack"
                                     tools:ignore="DuplicateSpeakableTextCheck,HardcodedText,TouchTargetSizeCheck" />
 
                                 <CheckBox
@@ -317,7 +319,7 @@
                                     android:fontFamily="@font/poppins_regular"
                                     android:padding="10sp"
                                     android:text="W"
-                                    android:textColor="@color/blue"
+                                    android:textColor="@color/lightblack"
                                     tools:ignore="DuplicateSpeakableTextCheck,HardcodedText,TouchTargetSizeCheck" />
 
                             </RelativeLayout>
@@ -344,7 +346,7 @@
                                 android:fontFamily="@font/poppins_regular"
                                 android:padding="10sp"
                                 android:text="NEG: "
-                                android:textColor="@color/black"
+                                android:textColor="@color/lightblack"
                                 android:textSize="15sp"
                                 tools:ignore="HardcodedText,TooDeepLayout" />
 
@@ -362,7 +364,7 @@
                                     android:fontFamily="@font/poppins_regular"
                                     android:padding="10sp"
                                     android:text="U"
-                                    android:textColor="@color/blue"
+                                    android:textColor="@color/lightblack"
                                     tools:ignore="HardcodedText,TouchTargetSizeCheck" />
 
                                 <CheckBox
@@ -374,7 +376,7 @@
                                     android:fontFamily="@font/poppins_regular"
                                     android:padding="10sp"
                                     android:text="V"
-                                    android:textColor="@color/blue"
+                                    android:textColor="@color/lightblack"
                                     tools:ignore="HardcodedText,TouchTargetSizeCheck" />
 
                                 <CheckBox
@@ -386,7 +388,7 @@
                                     android:fontFamily="@font/poppins_regular"
                                     android:padding="10sp"
                                     android:text="W"
-                                    android:textColor="@color/blue"
+                                    android:textColor="@color/lightblack"
                                     tools:ignore="HardcodedText,TouchTargetSizeCheck" />
 
                             </RelativeLayout>
@@ -424,7 +426,7 @@
                         android:fontFamily="@font/poppins_regular"
                         android:paddingTop="10sp"
                         android:text="Output Supply: "
-                        android:textColor="@color/black"
+                        android:textColor="@color/lightblack"
                         android:textSize="19sp"
                         tools:ignore="HardcodedText,TooDeepLayout" />
 
@@ -490,7 +492,7 @@
                                 android:fontFamily="@font/poppins_regular"
                                 android:padding="10sp"
                                 android:text="POS: "
-                                android:textColor="@color/black"
+                                android:textColor="@color/lightblack"
                                 android:textSize="15sp"
                                 tools:ignore="HardcodedText,TooDeepLayout" />
 
@@ -504,7 +506,7 @@
                                     android:layout_width="70sp"
                                     android:layout_height="40sp"
                                     android:layout_alignParentStart="true"
-                                    android:buttonTint="@color/blue"
+                                    android:buttonTint="@color/lightblack"
                                     android:fontFamily="@font/poppins_regular"
                                     android:padding="10sp"
                                     android:text="U"
@@ -516,7 +518,7 @@
                                     android:layout_width="70sp"
                                     android:layout_height="40sp"
                                     android:layout_centerHorizontal="true"
-                                    android:buttonTint="@color/blue"
+                                    android:buttonTint="@color/lightblack"
                                     android:fontFamily="@font/poppins_regular"
                                     android:padding="10sp"
                                     android:text="V"
@@ -528,7 +530,7 @@
                                     android:layout_width="70sp"
                                     android:layout_height="40sp"
                                     android:layout_alignParentEnd="true"
-                                    android:buttonTint="@color/blue"
+                                    android:buttonTint="@color/lightblack"
                                     android:fontFamily="@font/poppins_regular"
                                     android:padding="10sp"
                                     android:text="W"
@@ -559,7 +561,7 @@
                                 android:fontFamily="@font/poppins_regular"
                                 android:padding="10sp"
                                 android:text="NEG: "
-                                android:textColor="@color/black"
+                                android:textColor="@color/lightblack"
                                 android:textSize="15sp"
                                 tools:ignore="HardcodedText,TooDeepLayout" />
 
@@ -577,7 +579,7 @@
                                     android:fontFamily="@font/poppins_regular"
                                     android:padding="10sp"
                                     android:text="U"
-                                    android:textColor="@color/blue"
+                                    android:textColor="@color/lightblack"
                                     tools:ignore="HardcodedText,TouchTargetSizeCheck" />
 
                                 <CheckBox
@@ -589,7 +591,7 @@
                                     android:fontFamily="@font/poppins_regular"
                                     android:padding="10sp"
                                     android:text="V"
-                                    android:textColor="@color/blue"
+                                    android:textColor="@color/lightblack"
                                     tools:ignore="HardcodedText,TouchTargetSizeCheck" />
 
                                 <CheckBox
@@ -601,7 +603,7 @@
                                     android:fontFamily="@font/poppins_regular"
                                     android:padding="10sp"
                                     android:text="W"
-                                    android:textColor="@color/blue"
+                                    android:textColor="@color/lightblack"
                                     tools:ignore="HardcodedText,TouchTargetSizeCheck" />
 
                             </RelativeLayout>
@@ -611,7 +613,119 @@
                     </RelativeLayout>
 
                 </LinearLayout>
-                <!--                *********************************-->
+
+            </LinearLayout>
+
+            <!--                *********************************-->
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15sp"
+                android:layout_marginBottom="10sp"
+                android:fontFamily="@font/poppins_sembold"
+                android:text="Fault Diagnosis/ Observation"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                tools:ignore="HardcodedText" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="2sp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_regular"
+                    android:text="Client Obs: "
+                    android:textColor="@color/lightblack"
+                    android:textSize="19sp"
+                    tools:ignore="HardcodedText,TooDeepLayout" />
+
+                <EditText
+                    android:id="@+id/clientObs"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/grey"
+                    android:ellipsize="start"
+                    android:ems="10"
+                    android:fontFamily="@font/poppins_regular"
+                    android:gravity="center"
+                    android:hint="@string/hintValue"
+                    android:importantForAutofill="no"
+                    android:inputType="textPersonName"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/grey"
+                    tools:ignore="DuplicateSpeakableTextCheck,TextContrastCheck,VisualLintTextFieldSize" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="2sp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_regular"
+                    android:text="Our Obs: "
+                    android:textColor="@color/lightblack"
+                    android:textSize="19sp"
+                    tools:ignore="HardcodedText,TooDeepLayout" />
+
+                <EditText
+                    android:id="@+id/ourObs"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/grey"
+                    android:ellipsize="start"
+                    android:ems="10"
+                    android:fontFamily="@font/poppins_regular"
+                    android:gravity="center"
+                    android:hint="@string/hintValue"
+                    android:importantForAutofill="no"
+                    android:inputType="textPersonName"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/grey"
+                    tools:ignore="DuplicateSpeakableTextCheck,TextContrastCheck,VisualLintTextFieldSize" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="2sp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_regular"
+                    android:text="Last fault:"
+                    android:textColor="@color/lightblack"
+                    android:textSize="19sp"
+                    tools:ignore="HardcodedText,TooDeepLayout" />
+
+                <EditText
+                    android:id="@+id/lastFault"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/grey"
+                    android:ellipsize="start"
+                    android:ems="10"
+                    android:fontFamily="@font/poppins_regular"
+                    android:gravity="center"
+                    android:hint="@string/hintValue"
+                    android:importantForAutofill="no"
+                    android:inputType="textPersonName"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/grey"
+                    tools:ignore="DuplicateSpeakableTextCheck,TextContrastCheck,VisualLintTextFieldSize" />
+
             </LinearLayout>
 
         </LinearLayout>
