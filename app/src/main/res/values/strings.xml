@@ -32,6 +32,7 @@
     <string name="hintDate"><font size="14">select date</font></string>
     <string name="hintRate"><font size="14">enter feq. rate</font></string>
     <string name="hintValue"><font size="14">enter value</font></string>
+    <string name="hintRemark"><font size="14">write a remarks</font></string>
 
 
 </resources>

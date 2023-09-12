@@ -31,6 +31,12 @@ public class fill_one_fragment extends Fragment implements DatePickerDialog.OnDa
 
         dateTextField1 = rootView.findViewById(R.id.dateTextField);
 
+        initDatePicker();
+
+        return rootView;
+    }
+
+    private void initDatePicker() {
         Calendar cal = Calendar.getInstance();
         int year = cal.get(Calendar.YEAR);
         int month = cal.get(Calendar.MONTH);
@@ -44,8 +50,6 @@ public class fill_one_fragment extends Fragment implements DatePickerDialog.OnDa
         datePickerDialog1.setCancelable(true);
 
         dateTextField1.setOnClickListener(v -> datePickerDialog1.show());
-
-        return rootView;
     }
 
     @Override

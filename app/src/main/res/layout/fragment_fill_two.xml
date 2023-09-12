@@ -26,7 +26,7 @@
                 android:fontFamily="@font/poppins_regular"
                 android:text="Checked by: "
                 android:textColor="@color/lightblack"
-                android:textSize="25sp"
+                android:textSize="22sp"
                 tools:ignore="HardcodedText" />
 
             <Spinner
@@ -52,7 +52,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5sp"
-                android:fontFamily="@font/poppins_sembold"
+                android:fontFamily="@font/poppins_semibold"
                 android:text="Initial Observations"
                 android:textColor="@color/black"
                 android:textSize="22sp"
@@ -623,7 +623,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15sp"
                 android:layout_marginBottom="10sp"
-                android:fontFamily="@font/poppins_sembold"
+                android:fontFamily="@font/poppins_semibold"
                 android:text="Fault Diagnosis/ Observation"
                 android:textColor="@color/black"
                 android:textSize="20sp"
