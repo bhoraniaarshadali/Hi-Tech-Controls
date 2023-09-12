@@ -1,119 +1,111 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
-    android:fillViewport="true">
+    android:background="@android:color/white">
+
     <!-- SHAPE CURVE -->
     <!-- HEADING -->
 
-    <RelativeLayout
+    <!-- Dashboard text -->
+    <View
+        android:id="@+id/dash_vi"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="193dp"
+        android:background="@drawable/flip_top"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="-20dp"
+        tools:layout_editor_absoluteY="0dp" />
 
+    <!--    after your work is done REMOVE-->
 
-        <!-- Dashboard text -->
-        <View
-            android:id="@+id/dash_vi"
-            android:layout_width="match_parent"
-            android:layout_height="193dp"
-            android:background="@drawable/flip_top"
-            tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteX="-20dp"
-            tools:layout_editor_absoluteY="0dp" />
+    <ImageView
+        android:id="@+id/addClientDtls_Back"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="33dp"
+        android:background="@drawable/round"
+        android:importantForAccessibility="no"
+        android:src="@drawable/back_btn"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="23dp"
+        tools:layout_editor_absoluteY="37dp" />
 
-        <!--    after your work is done REMOVE-->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="25dp"
+        android:orientation="vertical"
+        tools:ignore="RelativeOverlap">
 
-        <ImageView
-            android:id="@+id/addClientDtls_Back"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="33dp"
-            android:background="@drawable/round"
-            android:importantForAccessibility="no"
-            android:src="@drawable/back_btn"
-            tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteX="23dp"
-            tools:layout_editor_absoluteY="37dp" />
-
-        <LinearLayout
+        <TextView
+            android:id="@+id/dash_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="32dp"
-            android:layout_marginBottom="25dp"
-            android:orientation="vertical"
-            tools:ignore="RelativeOverlap">
+            android:fontFamily="@font/poppins_medium"
+            android:text="Add Clients details"
+            android:textColor="@color/white"
+            android:textSize="22sp"
+            tools:ignore="HardcodedText,SpUsage" />
 
-            <TextView
-                android:id="@+id/dash_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/poppins_medium"
-                android:text="Add Clients details"
-                android:textColor="@color/white"
-                android:textSize="22sp"
-                tools:ignore="HardcodedText,SpUsage" />
+        <TextSwitcher
+            android:id="@+id/textSwitcher"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:inAnimation="@android:anim/slide_in_left"
+            android:outAnimation="@android:anim/slide_out_right"
+            android:textSize="20sp" />
+    </LinearLayout>
 
-            <TextSwitcher
-                android:id="@+id/textSwitcher"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:inAnimation="@android:anim/slide_in_left"
-                android:outAnimation="@android:anim/slide_out_right"
-                android:textSize="20sp" />
-        </LinearLayout>
+    <ImageView
+        android:id="@+id/addClientDtls_Next"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="33dp"
+        android:layout_marginEnd="20sp"
+        android:background="@drawable/round"
+        android:importantForAccessibility="no"
+        android:src="@drawable/next_btn"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="23dp"
+        tools:layout_editor_absoluteY="37dp" />
 
-        <ImageView
-            android:id="@+id/addClientDtls_Next"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="33dp"
-            android:layout_marginEnd="20sp"
-            android:background="@drawable/round"
-            android:importantForAccessibility="no"
-            android:src="@drawable/next_btn"
-            tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteX="23dp"
-            tools:layout_editor_absoluteY="37dp" />
+    <!-- Card view for proper layout -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cv_1"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="95dp"
+        android:layout_marginEnd="15dp"
+        android:backgroundTint="@color/white"
+        app:cardCornerRadius="25dp"
+        app:cardElevation="5dp"
+        tools:ignore="TextSizeCheck">
 
-        <!-- Card view for proper layout -->
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cv_1"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:layout_centerHorizontal="true"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="95dp"
-            android:layout_marginEnd="15dp"
-            android:backgroundTint="@color/white"
-            app:cardCornerRadius="25dp"
-            app:cardElevation="5dp"
-            tools:ignore="TextSizeCheck">
+    </androidx.cardview.widget.CardView>
 
-        </androidx.cardview.widget.CardView>
+    <!--        fragment (fill_one)-->
 
-        <!--        fragment (fill_one)-->
+    <FrameLayout
+        android:id="@+id/frameLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/cv_1"
+        android:layout_marginStart="5sp"
+        android:layout_marginTop="5sp"
+        android:layout_marginEnd="5sp"
+        android:layout_marginBottom="5sp"
+        android:padding="20sp"
+        tools:ignore="UselessParent" />
 
-        <FrameLayout
-            android:id="@+id/frameLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@id/cv_1"
-            android:layout_marginStart="5sp"
-            android:layout_marginTop="5sp"
-            android:layout_marginEnd="5sp"
-            android:layout_marginBottom="5sp"
-            android:padding="20sp"
-            tools:ignore="UselessParent" />
-
-
-    </RelativeLayout>
-
-</ScrollView>
+</RelativeLayout>

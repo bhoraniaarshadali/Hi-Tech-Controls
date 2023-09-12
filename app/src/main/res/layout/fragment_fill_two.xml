@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     android:background="@android:color/white"
     android:fillViewport="true"
+    android:scrollbars="none"
     android:orientation="vertical">
 
     <!-- Main layout container -->
