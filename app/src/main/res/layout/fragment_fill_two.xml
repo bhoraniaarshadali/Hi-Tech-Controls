@@ -61,61 +61,96 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="2sp"
+                android:layout_gravity="center"
                 android:orientation="horizontal">
 
-                <TextView
+                <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/poppins_regular"
-                    android:text="Freq. Ref."
-                    android:textColor="@color/lightblack"
-                    android:textSize="19sp"
-                    tools:ignore="HardcodedText,TooDeepLayout" />
+                    android:layout_height="match_parent"
+                    android:layout_gravity="start"
+                    android:layout_margin="2sp"
+                    android:orientation="horizontal">
 
-                <EditText
-                    android:id="@+id/enterName"
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_regular"
+                        android:padding="10sp"
+                        android:paddingStart="0sp"
+                        android:text="Freq. Ref."
+                        android:textColor="@color/lightblack"
+                        android:textSize="19sp"
+                        tools:ignore="HardcodedText,TooDeepLayout" />
+
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:backgroundTint="@color/grey"
-                    android:ellipsize="start"
-                    android:ems="10"
-                    android:fontFamily="@font/poppins_regular"
-                    android:gravity="center"
-                    android:hint="@string/hintRate"
-                    android:importantForAutofill="no"
-                    android:inputType="textPersonName"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/grey"
-                    tools:ignore="DuplicateSpeakableTextCheck,TextContrastCheck,VisualLintTextFieldSize" />
+                    android:layout_height="match_parent"
+                    android:layout_gravity="start"
+                    android:layout_margin="2sp"
+                    android:orientation="vertical">
+
+                    <EditText
+                        android:id="@+id/enterName"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="30sp"
+                        android:backgroundTint="@color/grey"
+                        android:ellipsize="start"
+                        android:ems="10"
+                        android:fontFamily="@font/poppins_regular"
+                        android:gravity="center"
+                        android:hint="@string/hintRate"
+                        android:importantForAutofill="no"
+                        android:inputType="textPersonName"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/grey"
+                        tools:ignore="DuplicateSpeakableTextCheck,TextContrastCheck,VisualLintTextFieldSize" />
+                </LinearLayout>
 
             </LinearLayout>
+
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="2sp"
+                android:layout_marginStart="2sp"
+                android:layout_marginTop="2sp"
+                android:layout_marginEnd="2sp"
+                android:layout_marginBottom="2sp"
                 android:orientation="horizontal">
 
-                <TextView
+                <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/poppins_regular"
-                    android:paddingTop="10sp"
-                    android:text="Start CMD: "
-                    android:textColor="@color/lightblack"
-                    android:textSize="19sp"
-                    tools:ignore="HardcodedText,TooDeepLayout" />
+                    android:layout_height="match_parent"
+                    android:layout_gravity="start"
+                    android:layout_margin="2sp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_regular"
+                        android:paddingTop="10sp"
+                        android:text="Start CMD: "
+                        android:textColor="@color/lightblack"
+                        android:textSize="19sp"
+                        tools:ignore="HardcodedText,TooDeepLayout" />
+
+                </LinearLayout>
+
 
                 <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    tools:context=".fill_two_fragment">
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
+                        android:layout_marginStart="19sp"
                         tools:ignore="UselessParent">
 
                         <RadioGroup
@@ -632,99 +667,106 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="2sp"
+                android:layout_gravity="center"
                 android:orientation="horizontal">
 
-                <TextView
+                <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/poppins_regular"
-                    android:text="Client Obs: "
-                    android:textColor="@color/lightblack"
-                    android:textSize="19sp"
-                    tools:ignore="HardcodedText,TooDeepLayout" />
+                    android:layout_height="match_parent"
+                    android:layout_gravity="start"
+                    android:layout_margin="2sp"
+                    android:orientation="vertical">
 
-                <EditText
-                    android:id="@+id/clientObs"
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_regular"
+                        android:padding="10sp"
+                        android:text="Client Obs: "
+                        android:textColor="@color/lightblack"
+                        android:textSize="19sp"
+                        tools:ignore="HardcodedText,TooDeepLayout" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_regular"
+                        android:padding="10sp"
+                        android:text="Our Obs: "
+                        android:textColor="@color/lightblack"
+                        android:textSize="19sp"
+                        tools:ignore="HardcodedText,TooDeepLayout" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_regular"
+                        android:padding="10sp"
+                        android:text="Last fault:"
+                        android:textColor="@color/lightblack"
+                        android:textSize="19sp"
+                        tools:ignore="HardcodedText,TooDeepLayout" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:backgroundTint="@color/grey"
-                    android:ellipsize="start"
-                    android:ems="10"
-                    android:fontFamily="@font/poppins_regular"
-                    android:gravity="center"
-                    android:hint="@string/hintValue"
-                    android:importantForAutofill="no"
-                    android:inputType="textPersonName"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/grey"
-                    tools:ignore="DuplicateSpeakableTextCheck,TextContrastCheck,VisualLintTextFieldSize" />
+                    android:layout_height="match_parent"
+                    android:layout_gravity="start"
+                    android:layout_margin="2sp"
+                    android:orientation="vertical">
 
-            </LinearLayout>
+                    <EditText
+                        android:id="@+id/clientObs"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/grey"
+                        android:ellipsize="start"
+                        android:ems="10"
+                        android:fontFamily="@font/poppins_regular"
+                        android:gravity="center"
+                        android:hint="@string/hintValue"
+                        android:importantForAutofill="no"
+                        android:inputType="textPersonName"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/grey"
+                        tools:ignore="DuplicateSpeakableTextCheck,TextContrastCheck,VisualLintTextFieldSize" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="2sp"
-                android:orientation="horizontal">
+                    <EditText
+                        android:id="@+id/ourObs"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/grey"
+                        android:ellipsize="start"
+                        android:ems="10"
+                        android:fontFamily="@font/poppins_regular"
+                        android:gravity="center"
+                        android:hint="@string/hintValue"
+                        android:importantForAutofill="no"
+                        android:inputType="textPersonName"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/grey"
+                        tools:ignore="DuplicateSpeakableTextCheck,TextContrastCheck,VisualLintTextFieldSize" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/poppins_regular"
-                    android:text="Our Obs: "
-                    android:textColor="@color/lightblack"
-                    android:textSize="19sp"
-                    tools:ignore="HardcodedText,TooDeepLayout" />
+                    <EditText
+                        android:id="@+id/lastFault"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/grey"
+                        android:ellipsize="start"
+                        android:ems="10"
+                        android:fontFamily="@font/poppins_regular"
+                        android:gravity="center"
+                        android:hint="@string/hintValue"
+                        android:importantForAutofill="no"
+                        android:inputType="textPersonName"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/grey"
+                        tools:ignore="DuplicateSpeakableTextCheck,TextContrastCheck,VisualLintTextFieldSize" />
 
-                <EditText
-                    android:id="@+id/ourObs"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:backgroundTint="@color/grey"
-                    android:ellipsize="start"
-                    android:ems="10"
-                    android:fontFamily="@font/poppins_regular"
-                    android:gravity="center"
-                    android:hint="@string/hintValue"
-                    android:importantForAutofill="no"
-                    android:inputType="textPersonName"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/grey"
-                    tools:ignore="DuplicateSpeakableTextCheck,TextContrastCheck,VisualLintTextFieldSize" />
 
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="2sp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/poppins_regular"
-                    android:text="Last fault:"
-                    android:textColor="@color/lightblack"
-                    android:textSize="19sp"
-                    tools:ignore="HardcodedText,TooDeepLayout" />
-
-                <EditText
-                    android:id="@+id/lastFault"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:backgroundTint="@color/grey"
-                    android:ellipsize="start"
-                    android:ems="10"
-                    android:fontFamily="@font/poppins_regular"
-                    android:gravity="center"
-                    android:hint="@string/hintValue"
-                    android:importantForAutofill="no"
-                    android:inputType="textPersonName"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/grey"
-                    tools:ignore="DuplicateSpeakableTextCheck,TextContrastCheck,VisualLintTextFieldSize" />
+                </LinearLayout>
 
             </LinearLayout>
 
