@@ -27,12 +27,12 @@
 
 
     <!--    all hints-->
-    <string name="hintNumber"><font size="14">enter number</font></string>
-    <string name="hintName"><font size="14">enter name</font></string>
-    <string name="hintDate"><font size="14">select date</font></string>
-    <string name="hintRate"><font size="14">enter feq. rate</font></string>
-    <string name="hintValue"><font size="14">enter value</font></string>
-    <string name="hintRemark"><font size="14">write a remarks</font></string>
+    <string name="hintNumber"><font size="14">Enter number</font></string>
+    <string name="hintName"><font size="14">Enter name</font></string>
+    <string name="hintDate"><font size="14">Select date</font></string>
+    <string name="hintRate"><font size="14">Enter feq. rate</font></string>
+    <string name="hintValue"><font size="14">Enter value</font></string>
+    <string name="hintRemark"><font size="14">Write a remarks</font></string>
 
 
 </resources>

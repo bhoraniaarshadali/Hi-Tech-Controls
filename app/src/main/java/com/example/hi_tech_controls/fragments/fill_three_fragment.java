@@ -6,8 +6,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.NumberPicker;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
@@ -15,10 +18,15 @@ import com.example.hi_tech_controls.R;
 
 public class fill_three_fragment extends Fragment {
 
+    NumberPicker np;
+    Button npbutton;
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_fill_three, container, false);
 
         setUpSpinner(rootView);
+        setupNumberPicker(rootView);
+        setupShowNumberButton(rootView);
         return rootView;
     }
 
@@ -50,5 +58,26 @@ public class fill_three_fragment extends Fragment {
                 ((TextView) selectedItemView).setTextColor(getResources().getColor(R.color.blue));
             }
         }
+    }
+
+    private void setupNumberPicker(View rootView) {
+        np = rootView.findViewById(R.id.npId);
+        np.setMinValue(1); // Set the minimum value for the NumberPicker
+        np.setMaxValue(100); // Set the maximum value for the NumberPicker
+    }
+
+    private void setupShowNumberButton(View rootView) {
+        npbutton = rootView.findViewById(R.id.npButton);
+        npbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int selectedNumber = np.getValue();
+                showToast("Selected Number: " + selectedNumber);
+            }
+        });
+    }
+
+    private void showToast(String message) {
+        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show();
     }
 }

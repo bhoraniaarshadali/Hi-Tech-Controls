@@ -24,5 +24,10 @@
         <item name="android:textSize">5sp</item> <!-- Adjust the text size as needed -->
     </style>
 
+    <!--    numberPicker-->
+    <style name="CustomNumberPickerStyle">
+        <item name="android:textColor">@color/black</item>
+    </style>
+
 
 </resources>
