@@ -557,7 +557,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/poppins_regular"
-                    android:text="Time taken for \nthe repair: "
+                    android:text="Repair time\nDuration: "
                     android:textColor="@color/lightblack"
                     android:textSize="19sp"
                     tools:ignore="HardcodedText,TooDeepLayout" />

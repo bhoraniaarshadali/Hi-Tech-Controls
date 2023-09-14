@@ -72,7 +72,7 @@ public class fill_three_fragment extends Fragment {
             @Override
             public void onClick(View view) {
                 int selectedNumber = np.getValue();
-                showToast("Selected Number: " + selectedNumber);
+                showToast("Duration: " + selectedNumber + "/days");
             }
         });
     }
