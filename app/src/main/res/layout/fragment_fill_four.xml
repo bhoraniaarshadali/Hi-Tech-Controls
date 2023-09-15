@@ -24,7 +24,7 @@
                 android:fontFamily="@font/poppins_regular"
                 android:text="Final Checked by: "
                 android:textColor="@color/lightblack"
-                android:textSize="22sp"
+                android:textSize="20sp"
                 tools:ignore="HardcodedText" />
 
             <Spinner

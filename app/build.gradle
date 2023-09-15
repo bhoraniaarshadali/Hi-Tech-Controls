@@ -35,6 +35,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics'
     implementation 'androidx.cardview:cardview:1.0.0' // Use the latest version
 
+    implementation("com.github.f0ris.sweetalert:library:1.6.2") //Sweet Dialog-box
+
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.9.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
