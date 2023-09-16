@@ -92,6 +92,7 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/poppins_medium"
                                     android:padding="10sp"
+                                    android:paddingStart="0sp"
                                     android:text="Client Name: "
                                     android:textColor="@color/lightblack"
                                     android:textSize="18sp"
@@ -102,6 +103,7 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/poppins_medium"
                                     android:padding="10sp"
+                                    android:paddingStart="0sp"
                                     android:text="Client Number: "
                                     android:textColor="@color/lightblack"
                                     android:textSize="18sp"
@@ -112,6 +114,7 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/poppins_medium"
                                     android:padding="10sp"
+                                    android:paddingStart="0sp"
                                     android:text="GP Number: "
                                     android:textColor="@color/lightblack"
                                     android:textSize="18sp"
@@ -122,6 +125,7 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/poppins_medium"
                                     android:padding="10sp"
+                                    android:paddingStart="0sp"
                                     android:text="GP Date: "
                                     android:textColor="@color/lightblack"
                                     android:textSize="18sp"
@@ -132,6 +136,7 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/poppins_medium"
                                     android:padding="10sp"
+                                    android:paddingStart="0sp"
                                     android:text="Make Name: "
                                     android:textColor="@color/lightblack"
                                     android:textSize="18sp"
@@ -142,6 +147,7 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/poppins_medium"
                                     android:padding="10sp"
+                                    android:paddingStart="0sp"
                                     android:text="Model Name: "
                                     android:textColor="@color/lightblack"
                                     android:textSize="18sp"
@@ -150,7 +156,8 @@
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:padding="10sp">
+                                    android:padding="10sp"
+                                    android:paddingStart="0sp">
 
                                     <TextView
                                         android:layout_width="wrap_content"
@@ -165,7 +172,7 @@
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="match_parent"
-                                        android:fontFamily="@font/poppins_thin"
+                                        android:fontFamily="@font/poppins_regular"
                                         android:text="HP"
                                         android:textColor="@color/black"
                                         android:textSize="18sp"
@@ -178,6 +185,7 @@
                                     android:layout_height="match_parent"
                                     android:fontFamily="@font/poppins_medium"
                                     android:padding="10sp"
+                                    android:paddingStart="0sp"
                                     android:text="Serial Number:"
                                     android:textColor="@color/lightblack"
                                     android:textSize="18sp"
