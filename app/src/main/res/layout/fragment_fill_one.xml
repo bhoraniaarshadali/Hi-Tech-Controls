@@ -96,7 +96,7 @@
                                     android:text="Client Name: "
                                     android:textColor="@color/lightblack"
                                     android:textSize="18sp"
-                                    tools:ignore="HardcodedText,TooDeepLayout" />
+                                    tools:ignore="HardcodedText,RtlSymmetry,TooDeepLayout" />
 
                                 <TextView
                                     android:layout_width="match_parent"
@@ -107,7 +107,7 @@
                                     android:text="Client Number: "
                                     android:textColor="@color/lightblack"
                                     android:textSize="18sp"
-                                    tools:ignore="HardcodedText" />
+                                    tools:ignore="HardcodedText,RtlSymmetry" />
 
                                 <TextView
                                     android:layout_width="match_parent"
@@ -118,7 +118,7 @@
                                     android:text="GP Number: "
                                     android:textColor="@color/lightblack"
                                     android:textSize="18sp"
-                                    tools:ignore="HardcodedText" />
+                                    tools:ignore="HardcodedText,RtlSymmetry" />
 
                                 <TextView
                                     android:layout_width="match_parent"
@@ -129,7 +129,7 @@
                                     android:text="GP Date: "
                                     android:textColor="@color/lightblack"
                                     android:textSize="18sp"
-                                    tools:ignore="HardcodedText" />
+                                    tools:ignore="HardcodedText,RtlSymmetry" />
 
                                 <TextView
                                     android:layout_width="match_parent"
@@ -140,7 +140,7 @@
                                     android:text="Make Name: "
                                     android:textColor="@color/lightblack"
                                     android:textSize="18sp"
-                                    tools:ignore="HardcodedText" />
+                                    tools:ignore="HardcodedText,RtlSymmetry" />
 
                                 <TextView
                                     android:layout_width="match_parent"
@@ -151,13 +151,14 @@
                                     android:text="Model Name: "
                                     android:textColor="@color/lightblack"
                                     android:textSize="18sp"
-                                    tools:ignore="HardcodedText" />
+                                    tools:ignore="HardcodedText,RtlSymmetry" />
 
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:padding="10sp"
-                                    android:paddingStart="0sp">
+                                    android:paddingStart="0sp"
+                                    tools:ignore="RtlSymmetry">
 
                                     <TextView
                                         android:layout_width="wrap_content"
@@ -167,7 +168,7 @@
                                         android:textColor="@color/lightblack"
                                         android:textSize="18sp"
 
-                                        tools:ignore="HardcodedText" />
+                                        tools:ignore="HardcodedText,TooDeepLayout" />
 
                                     <TextView
                                         android:layout_width="wrap_content"
@@ -189,7 +190,7 @@
                                     android:text="Serial Number:"
                                     android:textColor="@color/lightblack"
                                     android:textSize="18sp"
-                                    tools:ignore="HardcodedText" />
+                                    tools:ignore="HardcodedText,RtlSymmetry" />
 
 
                             </LinearLayout>
@@ -202,7 +203,7 @@
                                 android:orientation="vertical">
 
                                 <EditText
-                                    android:id="@+id/enterName"
+                                    android:id="@+id/fill_one_enterName"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:backgroundTint="@color/grey"
@@ -215,10 +216,10 @@
                                     android:inputType="textPersonName"
                                     android:textColor="@color/black"
                                     android:textColorHint="@color/hintFont"
-                                    tools:ignore="DuplicateSpeakableTextCheck,TextContrastCheck" />
+                                    tools:ignore="DuplicateSpeakableTextCheck,TextContrastCheck,VisualLintTextFieldSize" />
 
                                 <EditText
-                                    android:id="@+id/enterNumber"
+                                    android:id="@+id/fill_one_enterNumber"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:backgroundTint="@color/grey"
@@ -231,10 +232,10 @@
                                     android:inputType="date"
                                     android:textColor="@color/black"
                                     android:textColorHint="@color/hintFont"
-                                    tools:ignore="DuplicateSpeakableTextCheck,TextContrastCheck,TextFields" />
+                                    tools:ignore="DuplicateSpeakableTextCheck,TextContrastCheck,TextFields,VisualLintTextFieldSize" />
 
                                 <EditText
-                                    android:id="@+id/enterGPNumber"
+                                    android:id="@+id/fill_one_enterGPNumber"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:backgroundTint="@color/grey"
@@ -247,10 +248,10 @@
                                     android:inputType="number"
                                     android:textColor="@color/black"
                                     android:textColorHint="@color/hintFont"
-                                    tools:ignore="TextFields,TextContrastCheck" />
+                                    tools:ignore="TextFields,TextContrastCheck,VisualLintTextFieldSize" />
 
                                 <EditText
-                                    android:id="@+id/dateTextField"
+                                    android:id="@+id/fill_one_enterDate"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:backgroundTint="@color/grey"
@@ -265,10 +266,10 @@
                                     android:importantForAutofill="no"
                                     android:textColor="@color/black"
                                     android:textColorHint="@color/hintFont"
-                                    tools:ignore="TextContrastCheck,TextFields" />
+                                    tools:ignore="TextContrastCheck,TextFields,VisualLintTextFieldSize" />
 
                                 <EditText
-                                    android:id="@+id/enterMakeName"
+                                    android:id="@+id/fill_one_enterMakeName"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:backgroundTint="@color/grey"
@@ -281,10 +282,10 @@
                                     android:inputType="textPersonName"
                                     android:textColor="@color/black"
                                     android:textColorHint="@color/hintFont"
-                                    tools:ignore="TextContrastCheck" />
+                                    tools:ignore="TextContrastCheck,VisualLintTextFieldSize" />
 
                                 <EditText
-                                    android:id="@+id/enterModelName"
+                                    android:id="@+id/fill_one_enterModelName"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:backgroundTint="@color/grey"
@@ -297,10 +298,10 @@
                                     android:inputType="textPersonName"
                                     android:textColor="@color/black"
                                     android:textColorHint="@color/hintFont"
-                                    tools:ignore="TextContrastCheck" />
+                                    tools:ignore="TextContrastCheck,VisualLintTextFieldSize" />
 
                                 <EditText
-                                    android:id="@+id/enterHPrate"
+                                    android:id="@+id/fill_one_enterHPrate"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:backgroundTint="@color/grey"
@@ -313,10 +314,10 @@
                                     android:inputType="number"
                                     android:textColor="@color/black"
                                     android:textColorHint="@color/hintFont"
-                                    tools:ignore="TextContrastCheck" />
+                                    tools:ignore="TextContrastCheck,VisualLintTextFieldSize" />
 
                                 <EditText
-                                    android:id="@+id/enterSerialNumber"
+                                    android:id="@+id/fill_one_enterSerialNumber"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:backgroundTint="@color/grey"
@@ -329,7 +330,7 @@
                                     android:inputType="number"
                                     android:textColor="@color/black"
                                     android:textColorHint="@color/hintFont"
-                                    tools:ignore="TextFields,TouchTargetSizeCheck,TextContrastCheck" />
+                                    tools:ignore="TextFields,TouchTargetSizeCheck,TextContrastCheck,VisualLintTextFieldSize" />
 
                             </LinearLayout>
 
@@ -340,7 +341,8 @@
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="200sp"></View>
+                    android:layout_height="200sp" />
+
             </LinearLayout>
         </LinearLayout>
     </RelativeLayout>

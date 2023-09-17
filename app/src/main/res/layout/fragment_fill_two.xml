@@ -30,7 +30,7 @@
                 tools:ignore="HardcodedText" />
 
             <Spinner
-                android:id="@+id/spinner"
+                android:id="@+id/fill_two_selectEmply"
                 android:layout_width="150sp"
                 android:layout_height="35sp"
                 android:layout_alignParentEnd="true"
@@ -92,7 +92,7 @@
                     android:orientation="vertical">
 
                     <EditText
-                        android:id="@+id/enterName"
+                        android:id="@+id/fill_two_enterFRrate"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginStart="30sp"
@@ -149,8 +149,8 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
                         android:layout_marginStart="19sp"
+                        android:orientation="horizontal"
                         tools:ignore="UselessParent">
 
                         <RadioGroup
@@ -160,7 +160,7 @@
 
 
                             <RadioButton
-                                android:id="@+id/radioButtonLocal"
+                                android:id="@+id/fill_two_radioButtonLocal"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:buttonTint="@color/blue"
@@ -171,7 +171,7 @@
                                 tools:ignore="HardcodedText,TextContrastCheck" />
 
                             <RadioButton
-                                android:id="@+id/radioButtonRemote"
+                                android:id="@+id/fill_two_radioButtonRemote"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:buttonTint="@color/blue"
@@ -182,7 +182,7 @@
                                 tools:ignore="HardcodedText,TextContrastCheck" />
 
                             <RadioButton
-                                android:id="@+id/radioButtonComm"
+                                android:id="@+id/fill_two_radioButtonComm"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:buttonTint="@color/blue"
@@ -193,7 +193,7 @@
                         </RadioGroup>
 
                         <EditText
-                            android:id="@+id/localEditText"
+                            android:id="@+id/fill_two_localEditText"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:backgroundTint="@color/grey"
@@ -248,7 +248,7 @@
 
 
                         <RadioButton
-                            android:id="@+id/radioButtonDIODE"
+                            android:id="@+id/fill_two_radioButtonDIODE"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:buttonTint="@color/blue"
@@ -259,7 +259,7 @@
                             tools:ignore="HardcodedText,TextContrastCheck" />
 
                         <RadioButton
-                            android:id="@+id/radioButtonSCR"
+                            android:id="@+id/fill_two_radioButtonSCR"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:buttonTint="@color/blue"
@@ -322,7 +322,7 @@
                                 android:layout_marginHorizontal="10sp">
 
                                 <CheckBox
-                                    android:id="@+id/inputPOScheckboxU"
+                                    android:id="@+id/fill_two_input_POS_checkbox_U"
                                     android:layout_width="70sp"
                                     android:layout_height="40sp"
                                     android:layout_alignParentStart="true"
@@ -334,7 +334,7 @@
                                     tools:ignore="DuplicateSpeakableTextCheck,HardcodedText,TouchTargetSizeCheck" />
 
                                 <CheckBox
-                                    android:id="@+id/inputPOScheckboxV"
+                                    android:id="@+id/fill_two_input_POS_checkbox_V"
                                     android:layout_width="70sp"
                                     android:layout_height="40sp"
                                     android:layout_centerHorizontal="true"
@@ -346,7 +346,7 @@
                                     tools:ignore="DuplicateSpeakableTextCheck,HardcodedText,TouchTargetSizeCheck" />
 
                                 <CheckBox
-                                    android:id="@+id/inputPOScheckboxW"
+                                    android:id="@+id/fill_two_input_POS_checkbox_W"
                                     android:layout_width="70sp"
                                     android:layout_height="40sp"
                                     android:layout_alignParentEnd="true"
@@ -391,7 +391,7 @@
                                 android:layout_marginHorizontal="10sp">
 
                                 <CheckBox
-                                    android:id="@+id/inputNEGcheckboxU"
+                                    android:id="@+id/fill_two_input_NEG_checkbox_U"
                                     android:layout_width="70sp"
                                     android:layout_height="40sp"
                                     android:layout_alignParentStart="true"
@@ -403,7 +403,7 @@
                                     tools:ignore="HardcodedText,TouchTargetSizeCheck" />
 
                                 <CheckBox
-                                    android:id="@+id/inputNEGcheckboxV"
+                                    android:id="@+id/fill_two_input_NEG_checkbox_V"
                                     android:layout_width="70sp"
                                     android:layout_height="40sp"
                                     android:layout_centerHorizontal="true"
@@ -415,7 +415,7 @@
                                     tools:ignore="HardcodedText,TouchTargetSizeCheck" />
 
                                 <CheckBox
-                                    android:id="@+id/inputNEGcheckboxW"
+                                    android:id="@+id/fill_two_input_NEG_checkbox_W"
                                     android:layout_width="70sp"
                                     android:layout_height="40sp"
                                     android:layout_alignParentEnd="true"
@@ -473,7 +473,7 @@
 
 
                         <RadioButton
-                            android:id="@+id/outputradioButtonDIGBT"
+                            android:id="@+id/fill_two_radioButtonIGBT"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:buttonTint="@color/blue"
@@ -537,11 +537,11 @@
                                 android:layout_marginHorizontal="10sp">
 
                                 <CheckBox
-                                    android:id="@+id/POScheckboxU"
+                                    android:id="@+id/fill_two_output_POS_checkbox_U"
                                     android:layout_width="70sp"
                                     android:layout_height="40sp"
                                     android:layout_alignParentStart="true"
-                                    android:buttonTint="@color/lightblack"
+                                    android:buttonTint="@color/blue"
                                     android:fontFamily="@font/poppins_regular"
                                     android:padding="10sp"
                                     android:text="U"
@@ -549,11 +549,11 @@
                                     tools:ignore="HardcodedText,TouchTargetSizeCheck" />
 
                                 <CheckBox
-                                    android:id="@+id/POScheckboxV"
+                                    android:id="@+id/fill_two_output_POS_checkbox_V"
                                     android:layout_width="70sp"
                                     android:layout_height="40sp"
                                     android:layout_centerHorizontal="true"
-                                    android:buttonTint="@color/lightblack"
+                                    android:buttonTint="@color/blue"
                                     android:fontFamily="@font/poppins_regular"
                                     android:padding="10sp"
                                     android:text="V"
@@ -561,11 +561,11 @@
                                     tools:ignore="HardcodedText,TouchTargetSizeCheck" />
 
                                 <CheckBox
-                                    android:id="@+id/POScheckboxW"
+                                    android:id="@+id/fill_two_output_POS_checkbox_W"
                                     android:layout_width="70sp"
                                     android:layout_height="40sp"
                                     android:layout_alignParentEnd="true"
-                                    android:buttonTint="@color/lightblack"
+                                    android:buttonTint="@color/blue"
                                     android:fontFamily="@font/poppins_regular"
                                     android:padding="10sp"
                                     android:text="W"
@@ -606,7 +606,7 @@
                                 android:layout_marginHorizontal="10sp">
 
                                 <CheckBox
-                                    android:id="@+id/NEGcheckboxU"
+                                    android:id="@+id/fill_two_output_NEG_checkbox_U"
                                     android:layout_width="70sp"
                                     android:layout_height="40sp"
                                     android:layout_alignParentStart="true"
@@ -618,7 +618,7 @@
                                     tools:ignore="HardcodedText,TouchTargetSizeCheck" />
 
                                 <CheckBox
-                                    android:id="@+id/NEGcheckboxV"
+                                    android:id="@+id/fill_two_output_NEG_checkbox_V"
                                     android:layout_width="70sp"
                                     android:layout_height="40sp"
                                     android:layout_centerHorizontal="true"
@@ -630,7 +630,7 @@
                                     tools:ignore="HardcodedText,TouchTargetSizeCheck" />
 
                                 <CheckBox
-                                    android:id="@+id/NEGcheckboxW"
+                                    android:id="@+id/fill_two_output_NEG_checkbox_W"
                                     android:layout_width="70sp"
                                     android:layout_height="40sp"
                                     android:layout_alignParentEnd="true"
@@ -638,7 +638,7 @@
                                     android:fontFamily="@font/poppins_regular"
                                     android:padding="10sp"
                                     android:text="W"
-                                    android:textColor="@color/lightblack"
+                                    android:textColor="@color/blue"
                                     tools:ignore="HardcodedText,TouchTargetSizeCheck" />
 
                             </RelativeLayout>
@@ -718,7 +718,7 @@
                     android:orientation="vertical">
 
                     <EditText
-                        android:id="@+id/clientObs"
+                        android:id="@+id/fill_two_clientObs_text"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:backgroundTint="@color/grey"
@@ -734,7 +734,7 @@
                         tools:ignore="DuplicateSpeakableTextCheck,TextContrastCheck,VisualLintTextFieldSize" />
 
                     <EditText
-                        android:id="@+id/ourObs"
+                        android:id="@+id/fill_two_ourObs_text"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:backgroundTint="@color/grey"
@@ -750,7 +750,7 @@
                         tools:ignore="DuplicateSpeakableTextCheck,TextContrastCheck,VisualLintTextFieldSize" />
 
                     <EditText
-                        android:id="@+id/lastFault"
+                        android:id="@+id/fill_two_lastFault_text"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:backgroundTint="@color/grey"
@@ -764,14 +764,9 @@
                         android:textColor="@color/black"
                         android:textColorHint="@color/grey"
                         tools:ignore="DuplicateSpeakableTextCheck,TextContrastCheck,VisualLintTextFieldSize" />
-
 
                 </LinearLayout>
-
             </LinearLayout>
-
         </LinearLayout>
-
     </RelativeLayout>
-
 </ScrollView>
