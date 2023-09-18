@@ -28,7 +28,7 @@ public class fill_four_fragment extends Fragment {
     }
 
     private void setUpSpinner(View rootView) {
-        Spinner spinner = rootView.findViewById(R.id.spinner);
+        Spinner spinner = rootView.findViewById(R.id.fill_four_selectEmply);
         String[] employees = {"Select employee name", "employee 1", "employee 2", "employee 3", "employee 4"};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, employees);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

@@ -28,7 +28,7 @@ public class SharedPrefHelper {
     }
 
     // Retrieve a string value from SharedPreferences
-    public String getString(String key) {
+    public String getString(String key, String s) {
         return sharedPreferences.getString(key, "");
     }
 

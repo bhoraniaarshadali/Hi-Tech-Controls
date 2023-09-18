@@ -55,14 +55,14 @@ public class fill_one_fragment extends Fragment implements DatePickerDialog.OnDa
         enterSerialNumber = view.findViewById(R.id.fill_one_enterSerialNumber);
 
         // Load saved values from SharedPreferences and set them to EditText fields
-        enterName.setText(sharedPref.getString("name"));
-        enterNumber.setText(sharedPref.getString("number"));
-        enterGPNumber.setText(sharedPref.getString("gp_number"));
-        enterDate.setText(sharedPref.getString("date"));
-        enterMakeName.setText(sharedPref.getString("make_name"));
-        enterModelName.setText(sharedPref.getString("model_name"));
-        enterHPrate.setText(sharedPref.getString("hp_rate"));
-        enterSerialNumber.setText(sharedPref.getString("serial_number"));
+        enterName.setText(sharedPref.getString("name", ""));
+        enterNumber.setText(sharedPref.getString("number", ""));
+        enterGPNumber.setText(sharedPref.getString("gp_number", ""));
+        enterDate.setText(sharedPref.getString("date", ""));
+        enterMakeName.setText(sharedPref.getString("make_name", ""));
+        enterModelName.setText(sharedPref.getString("model_name", ""));
+        enterHPrate.setText(sharedPref.getString("hp_rate", ""));
+        enterSerialNumber.setText(sharedPref.getString("serial_number", ""));
     }
 
     private void initDatePicker() {
