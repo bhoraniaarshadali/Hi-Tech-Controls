@@ -13,13 +13,7 @@
         android:layout_height="wrap_content">
 
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            tools:ignore="UselessParent">
-
-            <LinearLayout
+    <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
@@ -344,6 +338,5 @@
                     android:layout_height="200sp" />
 
             </LinearLayout>
-        </LinearLayout>
     </RelativeLayout>
 </ScrollView>

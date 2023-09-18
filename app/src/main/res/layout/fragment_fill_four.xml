@@ -29,7 +29,7 @@
                 tools:ignore="HardcodedText" />
 
             <Spinner
-                android:id="@+id/spinner"
+                android:id="@+id/fill_four_selectEmply"
                 android:layout_width="150sp"
                 android:layout_height="35sp"
                 android:layout_alignParentEnd="true"
@@ -102,7 +102,7 @@
 
 
                         <CheckBox
-                            android:id="@+id/checkboxone"
+                            android:id="@+id/fill_four_checkbox1HP"
                             android:layout_width="wrap_content"
                             android:layout_height="50sp"
                             android:layout_alignParentStart="true"
@@ -115,10 +115,9 @@
                             tools:ignore="DuplicateSpeakableTextCheck,HardcodedText,TouchTargetSizeCheck" />
 
                         <CheckBox
-                            android:id="@+id/checkboxtwo"
+                            android:id="@+id/fill_four_checkbox10HP"
                             android:layout_width="wrap_content"
                             android:layout_height="50sp"
-                            android:layout_centerHorizontal="true"
                             android:layout_centerInParent="true"
                             android:buttonTint="@color/blue"
                             android:fontFamily="@font/poppins_regular"
@@ -127,7 +126,7 @@
                             tools:ignore="DuplicateSpeakableTextCheck,HardcodedText,TouchTargetSizeCheck" />
 
                         <CheckBox
-                            android:id="@+id/checkboxthree"
+                            android:id="@+id/fill_four_checkbox30HP"
                             android:layout_width="wrap_content"
                             android:layout_height="50sp"
                             android:layout_alignParentEnd="true"
@@ -220,7 +219,7 @@
                             android:orientation="vertical">
 
                             <EditText
-                                android:id="@+id/enterName"
+                                android:id="@+id/fill_four_OnDisplay_text"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:backgroundTint="@color/grey"
@@ -236,7 +235,7 @@
                                 tools:ignore="DuplicateSpeakableTextCheck,TextContrastCheck,VisualLintTextFieldSize" />
 
                             <EditText
-                                android:id="@+id/enterNumber"
+                                android:id="@+id/fill_four_OnClamp_text"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:backgroundTint="@color/grey"
@@ -261,7 +260,7 @@
                         android:orientation="vertical">
 
                         <CheckBox
-                            android:id="@+id/checkboxAMPone"
+                            android:id="@+id/fill_four_checkboxAMP_U"
                             android:layout_width="wrap_content"
                             android:layout_height="50sp"
                             android:layout_alignParentStart="true"
@@ -275,7 +274,7 @@
                             tools:ignore="DuplicateSpeakableTextCheck,HardcodedText,TouchTargetSizeCheck" />
 
                         <CheckBox
-                            android:id="@+id/checkboxAMPtwo"
+                            android:id="@+id/fill_four_checkboxAMP_V"
                             android:layout_width="wrap_content"
                             android:layout_height="50sp"
                             android:layout_centerHorizontal="true"
@@ -288,7 +287,7 @@
                             tools:ignore="DuplicateSpeakableTextCheck,HardcodedText,TouchTargetSizeCheck" />
 
                         <CheckBox
-                            android:id="@+id/checkboxAMPthree"
+                            android:id="@+id/fill_four_checkboxAMP_W"
                             android:layout_width="wrap_content"
                             android:layout_height="50sp"
                             android:layout_alignParentEnd="true"
@@ -383,7 +382,7 @@
                             android:orientation="vertical">
 
                             <EditText
-                                android:id="@+id/enterName2"
+                                android:id="@+id/fill_four_DC_DISP_text"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:backgroundTint="@color/grey"
@@ -399,7 +398,7 @@
                                 tools:ignore="DuplicateSpeakableTextCheck,TextContrastCheck,VisualLintTextFieldSize" />
 
                             <EditText
-                                android:id="@+id/enterNumber2"
+                                android:id="@+id/fill_four_DC_MET_text"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:backgroundTint="@color/grey"
@@ -476,7 +475,7 @@
                             android:orientation="vertical">
 
                             <EditText
-                                android:id="@+id/enterName2"
+                                android:id="@+id/fill_four_OUTPUT_DISP_text"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:backgroundTint="@color/grey"
@@ -492,7 +491,7 @@
                                 tools:ignore="DuplicateSpeakableTextCheck,TextContrastCheck,VisualLintTextFieldSize" />
 
                             <EditText
-                                android:id="@+id/enterNumber2"
+                                android:id="@+id/fill_four_OUTPUT_MET_text"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:backgroundTint="@color/grey"
@@ -623,7 +622,7 @@
                             android:orientation="vertical">
 
                             <EditText
-                                android:id="@+id/enterRH"
+                                android:id="@+id/fill_four_enterRH_text"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:backgroundTint="@color/grey"
@@ -639,7 +638,7 @@
                                 tools:ignore="DuplicateSpeakableTextCheck,TextContrastCheck" />
 
                             <EditText
-                                android:id="@+id/enterReplayOP"
+                                android:id="@+id/fill_four_enterReplayOP_text"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:backgroundTint="@color/grey"
@@ -655,7 +654,7 @@
                                 tools:ignore="DuplicateSpeakableTextCheck,TextContrastCheck,TextFields" />
 
                             <EditText
-                                android:id="@+id/enterFANopr"
+                                android:id="@+id/fill_four_enterFANOpr_text"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:backgroundTint="@color/grey"
@@ -671,7 +670,7 @@
                                 tools:ignore="TextFields,TextContrastCheck" />
 
                             <EditText
-                                android:id="@+id/enterBODYcon"
+                                android:id="@+id/fill_four_enterBODYCondition_text"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:backgroundTint="@color/grey"
@@ -687,7 +686,7 @@
                                 tools:ignore="TextContrastCheck,VisualLintTextFieldSize" />
 
                             <EditText
-                                android:id="@+id/enterIOcheck"
+                                android:id="@+id/fill_four_enterIOcheck_text"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:backgroundTint="@color/grey"
@@ -703,7 +702,7 @@
                                 tools:ignore="TextContrastCheck" />
 
                             <EditText
-                                android:id="@+id/enterCleanText"
+                                android:id="@+id/fill_four_enterClean_Text"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:backgroundTint="@color/grey"
@@ -719,7 +718,7 @@
                                 tools:ignore="TextContrastCheck" />
 
                             <EditText
-                                android:id="@+id/enterpramCopyText"
+                                android:id="@+id/fill_four_enterPramCopy_Text"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:backgroundTint="@color/grey"
@@ -749,7 +748,7 @@
                     android:gravity="center">
 
                     <TextView
-                        android:id="@+id/addremarkButton"
+                        android:id="@+id/fill_four_addRemarkButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/poppins_regular"
