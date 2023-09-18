@@ -18,12 +18,15 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.hi_tech_controls.R;
+import com.example.hi_tech_controls.SharedPrefHelper;
+
+import java.util.Objects;
 
 public class fill_three_fragment extends Fragment {
 
     private Spinner selectEmply;
 
-    private CheckBox checkboxCapasitor, checkboxDisplay, checkboxFAN, checkboxCC;
+    private CheckBox checkboxCapacitor, checkboxDisplay, checkboxFAN, checkboxCC;
 
     private EditText firstRemarks;
 
@@ -31,13 +34,15 @@ public class fill_three_fragment extends Fragment {
             Repair_checkboxFour, Repair_checkboxFive, Repair_checkboxSix;
 
     private CheckBox Replace_checkboxOne, Replace_checkboxTwo, Replace_checkboxThree,
-            Replace_checkboxFour, Replace_checkboxFive, Replace_checkBoxSix, Replace_checkboxSeven,
+            Replace_checkboxFour, Replace_checkboxFive, Replace_checkboxSix, Replace_checkboxSeven,
             Replace_checkboxEight, Replace_checkboxNine;
 
     private CheckBox checkboxTRIAL1, checkboxTRIAL2;
 
     NumberPicker np;
     Button npbutton;
+
+    private SharedPrefHelper sharedPref;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_fill_three, container, false);
@@ -55,7 +60,7 @@ public class fill_three_fragment extends Fragment {
 
         selectEmply = view.findViewById(R.id.fill_three_selectEmply);
 
-        checkboxCapasitor = view.findViewById(R.id.fill_three_checkboxCapasitor);
+        checkboxCapacitor = view.findViewById(R.id.fill_three_checkboxCapasitor);
         checkboxDisplay = view.findViewById(R.id.fill_three_checkboxDisplay);
         checkboxFAN = view.findViewById(R.id.fill_three_checkboxFAN);
         checkboxCC = view.findViewById(R.id.fill_three_checkboxCC);
@@ -74,7 +79,7 @@ public class fill_three_fragment extends Fragment {
         Replace_checkboxThree = view.findViewById(R.id.fill_three_Replace_checkboxThree);
         Replace_checkboxFour = view.findViewById(R.id.fill_three_Replace_checkboxFour);
         Replace_checkboxFive = view.findViewById(R.id.fill_three_Replace_checkboxFive);
-        Replace_checkBoxSix = view.findViewById(R.id.fill_three_Replace_checkboxSix);
+        Replace_checkboxSix = view.findViewById(R.id.fill_three_Replace_checkboxSix);
         Replace_checkboxSeven = view.findViewById(R.id.fill_three_Replace_checkboxSeven);
         Replace_checkboxEight = view.findViewById(R.id.fill_three_Replace_checkboxEight);
         Replace_checkboxNine = view.findViewById(R.id.fill_three_Replace_checkboxNine);
@@ -82,6 +87,57 @@ public class fill_three_fragment extends Fragment {
         checkboxTRIAL1 = view.findViewById(R.id.fill_three_checkboxTRIAL1);
         checkboxTRIAL2 = view.findViewById(R.id.fill_three_checkboxTRIAL2);
 
+        // Load saved values and set them to the UI elements
+        sharedPref = new SharedPrefHelper(requireContext());
+
+        String selectedEmployee = sharedPref.getString("select_emp", "");
+        if (!selectedEmployee.isEmpty()) {
+            // Find the position of the selectedEmployee in the employees array
+            int position = getPositionOfEmployee(selectedEmployee);
+            if (position >= 0) {
+                selectEmply.setSelection(position);
+            }
+        }
+
+        checkboxCapacitor.setChecked(sharedPref.getBoolean("checkboxCapacitor", false));
+        checkboxDisplay.setChecked(sharedPref.getBoolean("checkboxDisplay", false));
+        checkboxFAN.setChecked(sharedPref.getBoolean("checkboxFAN", false));
+        checkboxCC.setChecked(sharedPref.getBoolean("checkboxCC", false));
+
+        firstRemarks.setText(sharedPref.getString("enter_first_remarks", ""));
+
+        Repair_checkboxOne.setChecked(sharedPref.getBoolean("repair_checkboxOne", false));
+        Repair_checkboxTwo.setChecked(sharedPref.getBoolean("repair_checkboxTwo", false));
+        Repair_checkboxThree.setChecked(sharedPref.getBoolean("repair_checkboxThree", false));
+        Repair_checkboxFour.setChecked(sharedPref.getBoolean("repair_checkboxFour", false));
+        Repair_checkboxFive.setChecked(sharedPref.getBoolean("repair_checkboxFive", false));
+        Repair_checkboxSix.setChecked(sharedPref.getBoolean("repair_checkboxSix", false));
+
+        Replace_checkboxOne.setChecked(sharedPref.getBoolean("replace_checkboxOne", false));
+        Replace_checkboxTwo.setChecked(sharedPref.getBoolean("replace_checkboxTwo", false));
+        Replace_checkboxThree.setChecked(sharedPref.getBoolean("replace_checkboxThree", false));
+        Replace_checkboxFour.setChecked(sharedPref.getBoolean("replace_checkboxFour", false));
+        Replace_checkboxFive.setChecked(sharedPref.getBoolean("replace_checkboxFive", false));
+        Replace_checkboxSix.setChecked(sharedPref.getBoolean("replace_checkboxSix", false));
+        Replace_checkboxSeven.setChecked(sharedPref.getBoolean("replace_checkboxSeven", false));
+        Replace_checkboxEight.setChecked(sharedPref.getBoolean("replace_checkboxEight", false));
+        Replace_checkboxNine.setChecked(sharedPref.getBoolean("replace_checkboxNine", false));
+
+        checkboxTRIAL1.setChecked(sharedPref.getBoolean("checkboxTrial1", false));
+        checkboxTRIAL2.setChecked(sharedPref.getBoolean("checkboxTrial2", false));
+
+
+    }
+
+    // Helper method to get the position of the selected employee in the Spinner
+    private int getPositionOfEmployee(String selectedEmployee) {
+        ArrayAdapter<String> adapter = (ArrayAdapter<String>) selectEmply.getAdapter();
+        for (int i = 0; i < adapter.getCount(); i++) {
+            if (Objects.equals(adapter.getItem(i), selectedEmployee)) {
+                return i;
+            }
+        }
+        return -1; // Employee not found in the Spinner
     }
 
     private void setUpSpinner(View rootView) {
@@ -133,5 +189,17 @@ public class fill_three_fragment extends Fragment {
 
     private void showToast(String message) {
         Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show();
+    }
+
+    private void saveValuesToSharedPreferences() {
+
+        sharedPref.saveString("select_emp", selectEmply.getSelectedItem().toString());
+
+
+    }
+
+    public void onStop() {
+        super.onStop();
+        saveValuesToSharedPreferences();
     }
 }

@@ -72,7 +72,6 @@ public class fill_two_fragment extends Fragment {
 
 
         // Load saved values and set them to the UI elements
-        // Load saved values and set them to the UI elements
         String selectedEmployee = sharedPref.getString("select_emp", "");
         if (!selectedEmployee.isEmpty()) {
             // Find the position of the selectedEmployee in the employees array
