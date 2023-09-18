@@ -22,7 +22,6 @@ import java.util.Objects;
 
 public class fill_four_fragment extends Fragment {
 
-    //get sharedperefence
     private Spinner selectEmply;
     private CheckBox checkbox1HP, checkbox10HP, checkbox30HP;
     private EditText OnDisplay_text, OnClamp_text;
@@ -31,21 +30,12 @@ public class fill_four_fragment extends Fragment {
     private EditText enterRH_text, enterReplayOP_text, enterFANOpr_text, enterBODYCondition_text, enterIOcheck_text, enterClean_Text, enterPramCopy_Text;
     private SharedPrefHelper sharedPref;
 
-//    @Override
-//    public void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_fill_four, container, false);
         sharedPref = new SharedPrefHelper(requireContext());
         setUpSpinner(rootView);
         return rootView;
-        // Initialize sharedPref
-
-
-
     }
 
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -72,12 +62,10 @@ public class fill_four_fragment extends Fragment {
         enterClean_Text = view.findViewById(R.id.fill_four_enterClean_Text);
         enterPramCopy_Text = view.findViewById(R.id.fill_four_enterPramCopy_Text);
 
-        // Load saved values and set them to the UI elements
+
         // Load saved values and set them to the UI elements
         String selectedEmployee = sharedPref.getString("select_emp", "");
-        if(!selectedEmployee.isEmpty())
-
-        {
+        if (!selectedEmployee.isEmpty()) {
             // Find the position of the selectedEmployee in the employees array
             int position = getPositionOfEmployee(selectedEmployee);
             if (position >= 0) {
@@ -85,26 +73,24 @@ public class fill_four_fragment extends Fragment {
             }
         }
         // checkbox
-        checkbox1HP.setChecked(sharedPref.getBoolean("checkbox_1HP",false));
-        checkbox10HP.setChecked(sharedPref.getBoolean("checkbox_10HP",false));
-        checkbox30HP.setChecked(sharedPref.getBoolean("checkbox_30HP",false));
+        checkbox1HP.setChecked(sharedPref.getBoolean("checkbox_1HP", false));
+        checkbox10HP.setChecked(sharedPref.getBoolean("checkbox_10HP", false));
+        checkbox30HP.setChecked(sharedPref.getBoolean("checkbox_30HP", false));
 
         //edit text
         OnDisplay_text.setText(sharedPref.getString("On_Display", ""));
         OnClamp_text.setText(sharedPref.getString("On_Clamp", ""));
 
         //checkbox
-        checkboxAMP_U.setChecked(sharedPref.getBoolean("checkbox_u",false));
-        checkboxAMP_V.setChecked(sharedPref.getBoolean("checkbox_v",false));
-        checkboxAMP_W.setChecked(sharedPref.getBoolean("checkbox_w",false));
-
+        checkboxAMP_U.setChecked(sharedPref.getBoolean("checkbox_u", false));
+        checkboxAMP_V.setChecked(sharedPref.getBoolean("checkbox_v", false));
+        checkboxAMP_W.setChecked(sharedPref.getBoolean("checkbox_w", false));
 
         //edit text
         DC_DISP_text.setText(sharedPref.getString("dc_dsp", ""));
         DC_MET_text.setText(sharedPref.getString("dc_met", ""));
         OUTPUT_DISP_text.setText(sharedPref.getString("output_dsp", ""));
         OUTPUT_MET_text.setText(sharedPref.getString("output_met", ""));
-
 
         enterRH_text.setText(sharedPref.getString("enter_RH", ""));
         enterReplayOP_text.setText(sharedPref.getString("enterReplayOP", ""));
@@ -126,6 +112,7 @@ public class fill_four_fragment extends Fragment {
         }
         return -1; // Employee not found in the Spinner
     }
+
     private void setUpSpinner(View rootView) {
         Spinner spinner = rootView.findViewById(R.id.fill_four_selectEmply);
         String[] employees = {"Select employee name", "employee 1", "employee 2", "employee 3", "employee 4"};
@@ -156,37 +143,35 @@ public class fill_four_fragment extends Fragment {
         }
     }
 
-    private void saveValuesToSharedPreferences(){
+    private void saveValuesToSharedPreferences() {
         sharedPref.saveString("select_emp", selectEmply.getSelectedItem().toString());
 
-        sharedPref.saveBoolean("checkbox_1HP",checkbox1HP.isChecked());
-        sharedPref.saveBoolean("checkbox_10HP",checkbox10HP.isChecked());
-        sharedPref.saveBoolean("checkbox_30HP",checkbox30HP.isChecked());
-
+        sharedPref.saveBoolean("checkbox_1HP", checkbox1HP.isChecked());
+        sharedPref.saveBoolean("checkbox_10HP", checkbox10HP.isChecked());
+        sharedPref.saveBoolean("checkbox_30HP", checkbox30HP.isChecked());
 
         sharedPref.saveString("On_Display", OnDisplay_text.getText().toString());
-        sharedPref.saveString("On_Clamp",OnClamp_text.getText().toString());
+        sharedPref.saveString("On_Clamp", OnClamp_text.getText().toString());
 
-
-        sharedPref.saveBoolean("checkbox_u",checkboxAMP_U.isChecked());
+        sharedPref.saveBoolean("checkbox_u", checkboxAMP_U.isChecked());
         sharedPref.saveBoolean("checkbox_v", checkboxAMP_V.isChecked());
-        sharedPref.saveBoolean("checkbox_w",checkboxAMP_W.isChecked());
+        sharedPref.saveBoolean("checkbox_w", checkboxAMP_W.isChecked());
 
         sharedPref.saveString("dc_dsp", DC_DISP_text.getText().toString());
-        sharedPref.saveString("dc_met",DC_MET_text.getText().toString());
+        sharedPref.saveString("dc_met", DC_MET_text.getText().toString());
 
-        sharedPref.saveString("output_dsp",OUTPUT_DISP_text .getText().toString());
-        sharedPref.saveString("output_met",OUTPUT_MET_text.getText().toString());
+        sharedPref.saveString("output_dsp", OUTPUT_DISP_text.getText().toString());
+        sharedPref.saveString("output_met", OUTPUT_MET_text.getText().toString());
 
-
-        sharedPref.saveString("enter_RH",enterRH_text.getText().toString());
-        sharedPref.saveString("enterReplayOP",enterReplayOP_text.getText().toString());
-        sharedPref.saveString("enter_FANOpr",enterFANOpr_text.getText().toString());
-        sharedPref.saveString("enter_BODY_Condition",enterBODYCondition_text.getText().toString());
-        sharedPref.saveString("enter_io_check",enterIOcheck_text.getText().toString());
-        sharedPref.saveString("enterClean",enterClean_Text.getText().toString());
-        sharedPref.saveString("enterPramCopy",enterPramCopy_Text.getText().toString());
+        sharedPref.saveString("enter_RH", enterRH_text.getText().toString());
+        sharedPref.saveString("enterReplayOP", enterReplayOP_text.getText().toString());
+        sharedPref.saveString("enter_FANOpr", enterFANOpr_text.getText().toString());
+        sharedPref.saveString("enter_BODY_Condition", enterBODYCondition_text.getText().toString());
+        sharedPref.saveString("enter_io_check", enterIOcheck_text.getText().toString());
+        sharedPref.saveString("enterClean", enterClean_Text.getText().toString());
+        sharedPref.saveString("enterPramCopy", enterPramCopy_Text.getText().toString());
     }
+
     @Override
     public void onStop() {
         super.onStop();
@@ -194,64 +179,3 @@ public class fill_four_fragment extends Fragment {
     }
 
 }
-
-///backup
-//package com.example.hi_tech_controls.fragments;
-//
-//import android.os.Bundle;
-//import android.view.LayoutInflater;
-//import android.view.View;
-//import android.view.ViewGroup;
-//import android.widget.AdapterView;
-//import android.widget.ArrayAdapter;
-//import android.widget.Spinner;
-//import android.widget.TextView;
-//
-//import androidx.fragment.app.Fragment;
-//
-//import com.example.hi_tech_controls.R;
-//
-//public class fill_four_fragment extends Fragment {
-//
-//    @Override
-//    public void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//    }
-//
-//    @Override
-//    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-//        View rootView = inflater.inflate(R.layout.fragment_fill_four, container, false);
-//        setUpSpinner(rootView);
-//        return rootView;
-//    }
-//
-//    private void setUpSpinner(View rootView) {
-//        Spinner spinner = rootView.findViewById(R.id.fill_four_selectEmply);
-//        String[] employees = {"Select employee name", "employee 1", "employee 2", "employee 3", "employee 4"};
-//        ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, employees);
-//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//        spinner.setAdapter(adapter);
-//
-//        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-//                handleSpinnerItemSelected(selectedItemView, position);
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> parentView) {
-//                // Do nothing
-//            }
-//        });
-//    }
-//
-//    private void handleSpinnerItemSelected(View selectedItemView, int position) {
-//        if (selectedItemView instanceof TextView) {
-//            if (position == 0) {
-//                ((TextView) selectedItemView).setTextColor(getResources().getColor(R.color.grey));
-//            } else {
-//                ((TextView) selectedItemView).setTextColor(getResources().getColor(R.color.blue));
-//            }
-//        }
-//    }
-//}
