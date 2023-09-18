@@ -13,30 +13,19 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HiTechControls"
         tools:targetApi="31">
-        <activity
-            android:name=".SharedPrefHelper"
-            android:exported="false" />
-        <activity
-            android:name=".getSharedPref"
-            android:exported="false" />
-        <activity
-            android:name=".AddDetailsActivity"
-            android:exported="false"
-            android:theme="@style/Theme.ViewClntsDetails" />
-        <activity
-            android:name=".ViewDetailsActivity"
-            android:exported="false"
-            android:theme="@style/Theme.ViewClntsDetails" />
+
+        <!-- Splash Activity -->
         <activity
             android:name=".SplashActivity"
             android:exported="true"
             android:theme="@style/Theme.SplashNoTitleBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity> <!-- Main Activity -->
+        </activity>
+
+        <!-- Main Activity -->
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -44,11 +33,25 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
-        </activity> <!-- Login Activity -->
+        </activity>
+
+        <!-- Login Activity -->
         <activity
             android:name=".LoginActivity"
             android:exported="false"
             android:theme="@style/Theme.MainActivityBar" />
+
+        <!-- Add Client Details Activity -->
+        <activity
+            android:name=".AddDetailsActivity"
+            android:exported="false"
+            android:theme="@style/Theme.ViewClntsDetails" />
+
+        <!-- View Client Details Activity -->
+        <activity
+            android:name=".ViewDetailsActivity"
+            android:exported="false"
+            android:theme="@style/Theme.ViewClntsDetails" />
     </application>
 
 </manifest>

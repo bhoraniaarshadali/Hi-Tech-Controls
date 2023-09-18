@@ -3,8 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
-    android:scrollbars="none"
-    android:fillViewport="true">
+    android:fillViewport="true"
+    android:scrollbars="none">
 
     <!-- Main layout container -->
     <RelativeLayout
@@ -277,8 +277,8 @@
                             android:id="@+id/fill_four_checkboxAMP_V"
                             android:layout_width="wrap_content"
                             android:layout_height="50sp"
-                            android:layout_centerHorizontal="true"
                             android:layout_centerInParent="true"
+                            android:layout_centerHorizontal="true"
                             android:buttonTint="@color/blue"
                             android:fontFamily="@font/poppins_regular"
                             android:padding="10sp"
@@ -431,10 +431,10 @@
                         tools:ignore="HardcodedText,TooDeepLayout" />
 
                     <LinearLayout
-                        android:layout_below="@+id/voltageHeadng2"
                         android:id="@+id/putValues2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_below="@+id/voltageHeadng2"
                         android:layout_centerHorizontal="true"
                         android:layout_gravity="center"
                         android:orientation="horizontal"

@@ -3,8 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
-    android:scrollbars="none"
-    android:fillViewport="true">
+    android:fillViewport="true"
+    android:scrollbars="none">
 
     <!-- Main layout container -->
     <RelativeLayout
@@ -124,9 +124,9 @@
                                 android:fontFamily="@font/poppins_regular"
                                 android:padding="12sp"
                                 android:text="FAN"
-                                    android:textColor="@color/lightblack"
-                                    android:textSize="18sp"
-                                    tools:ignore="DuplicateSpeakableTextCheck,HardcodedText,TouchTargetSizeCheck" />
+                                android:textColor="@color/lightblack"
+                                android:textSize="18sp"
+                                tools:ignore="DuplicateSpeakableTextCheck,HardcodedText,TouchTargetSizeCheck" />
 
                             <CheckBox
                                 android:id="@+id/fill_three_checkboxCC"
@@ -236,11 +236,11 @@
                                 android:id="@+id/fill_three_Repair_checkboxOne"
                                 android:layout_width="wrap_content"
                                 android:layout_height="50sp"
-                                    android:buttonTint="@color/blue"
-                                    android:fontFamily="@font/poppins_regular"
-                                    android:text="SMPS"
-                                    android:textColor="@color/lightblack"
-                                    tools:ignore="DuplicateSpeakableTextCheck,HardcodedText,TouchTargetSizeCheck" />
+                                android:buttonTint="@color/blue"
+                                android:fontFamily="@font/poppins_regular"
+                                android:text="SMPS"
+                                android:textColor="@color/lightblack"
+                                tools:ignore="DuplicateSpeakableTextCheck,HardcodedText,TouchTargetSizeCheck" />
 
                             <CheckBox
                                 android:id="@+id/fill_three_Repair_checkboxTwo"
@@ -296,11 +296,11 @@
                                 android:id="@+id/fill_three_Repair_checkboxFive"
                                 android:layout_width="wrap_content"
                                 android:layout_height="50sp"
-                                    android:buttonTint="@color/blue"
-                                    android:fontFamily="@font/poppins_regular"
-                                    android:text="DC Station"
-                                    android:textColor="@color/lightblack"
-                                    tools:ignore="DuplicateSpeakableTextCheck,HardcodedText,TouchTargetSizeCheck" />
+                                android:buttonTint="@color/blue"
+                                android:fontFamily="@font/poppins_regular"
+                                android:text="DC Station"
+                                android:textColor="@color/lightblack"
+                                tools:ignore="DuplicateSpeakableTextCheck,HardcodedText,TouchTargetSizeCheck" />
 
                             <CheckBox
                                 android:id="@+id/fill_three_Repair_checkboxSix"
@@ -362,11 +362,11 @@
                                 android:id="@+id/fill_three_Replace_checkboxOne"
                                 android:layout_width="wrap_content"
                                 android:layout_height="50sp"
-                                    android:buttonTint="@color/blue"
-                                    android:fontFamily="@font/poppins_regular"
-                                    android:text="IGBT"
-                                    android:textColor="@color/lightblack"
-                                    tools:ignore="DuplicateSpeakableTextCheck,HardcodedText,TouchTargetSizeCheck" />
+                                android:buttonTint="@color/blue"
+                                android:fontFamily="@font/poppins_regular"
+                                android:text="IGBT"
+                                android:textColor="@color/lightblack"
+                                tools:ignore="DuplicateSpeakableTextCheck,HardcodedText,TouchTargetSizeCheck" />
 
                             <CheckBox
                                 android:id="@+id/fill_three_Replace_checkboxTwo"
@@ -403,10 +403,10 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="50sp"
                                 android:buttonTint="@color/blue"
-                                    android:fontFamily="@font/poppins_regular"
-                                    android:text="Rectifier"
-                                    android:textColor="@color/lightblack"
-                                    tools:ignore="DuplicateSpeakableTextCheck,HardcodedText,TouchTargetSizeCheck" />
+                                android:fontFamily="@font/poppins_regular"
+                                android:text="Rectifier"
+                                android:textColor="@color/lightblack"
+                                tools:ignore="DuplicateSpeakableTextCheck,HardcodedText,TouchTargetSizeCheck" />
 
                             <CheckBox
                                 android:id="@+id/fill_three_Replace_checkboxFive"
@@ -510,34 +510,31 @@
                         android:layout_marginHorizontal="10sp">
 
 
+                        <CheckBox
+                            android:id="@+id/fill_three_checkboxTRIAL1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:buttonTint="@color/blue"
+                            android:fontFamily="@font/poppins_regular"
+                            android:padding="12sp"
+                            android:text="TRAIL 1"
+                            android:textColor="@color/lightblack"
+                            android:textSize="20sp"
+                            tools:ignore="DuplicateSpeakableTextCheck,HardcodedText,TouchTargetSizeCheck" />
 
-
-                            <CheckBox
-                                android:id="@+id/fill_three_checkboxTRIAL1"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:buttonTint="@color/blue"
-                                android:fontFamily="@font/poppins_regular"
-                                android:padding="12sp"
-                                android:text="TRAIL 1"
-                                android:textColor="@color/lightblack"
-                                android:textSize="20sp"
-                                android:layout_alignParentStart="true"
-                                tools:ignore="DuplicateSpeakableTextCheck,HardcodedText,TouchTargetSizeCheck" />
-
-                            <CheckBox
-                                android:id="@+id/fill_three_checkboxTRIAL2"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:buttonTint="@color/blue"
-                                android:fontFamily="@font/poppins_regular"
-                                android:padding="12sp"
-                                android:text="TRIAL 2"
-                                android:textColor="@color/lightblack"
-                                android:textSize="20sp"
-                                android:layout_alignParentEnd="true"
-                                tools:ignore="DuplicateSpeakableTextCheck,HardcodedText,TouchTargetSizeCheck" />
-
+                        <CheckBox
+                            android:id="@+id/fill_three_checkboxTRIAL2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:buttonTint="@color/blue"
+                            android:fontFamily="@font/poppins_regular"
+                            android:padding="12sp"
+                            android:text="TRIAL 2"
+                            android:textColor="@color/lightblack"
+                            android:textSize="20sp"
+                            tools:ignore="DuplicateSpeakableTextCheck,HardcodedText,TouchTargetSizeCheck" />
 
 
                     </RelativeLayout>
@@ -548,8 +545,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="2sp"
                 android:layout_gravity="center"
+                android:layout_margin="2sp"
                 android:gravity="center"
                 android:orientation="horizontal">
 
@@ -565,8 +562,8 @@
 
                 <NumberPicker
                     android:id="@+id/npId"
-                    android:layout_width="40sp"
                     style="@style/CustomNumberPickerStyle"
+                    android:layout_width="40sp"
                     android:layout_height="100sp"
                     android:layout_marginStart="10sp"
                     android:background="@drawable/rectangle_checkbox" />

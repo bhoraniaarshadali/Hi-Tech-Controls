@@ -14,8 +14,6 @@ import androidx.fragment.app.FragmentTransaction;
 
 public class AddDetailsActivity extends AppCompatActivity {
 
-    ImageView addClientDtls_Back1;
-    ImageView addClientDtls_Next1;
     // Text values for the TextSwitcher
     private final String[] switcherValues = {
             "Inward Details",
@@ -23,7 +21,8 @@ public class AddDetailsActivity extends AppCompatActivity {
             "Repairs Details",
             "Final Trial Check"
     };
-
+    ImageView addClientDtls_Back1;
+    ImageView addClientDtls_Next1;
     // Fragments
     Fragment fillOneFragment;
     Fragment fillTwoFragment;

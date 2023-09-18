@@ -24,27 +24,19 @@ import java.util.Objects;
 
 public class fill_three_fragment extends Fragment {
 
+    private static final String PREF_KEY_NUMBER_PICKER_VALUE = "number_picker_value";
+    NumberPicker np;
+    Button npbutton;
     private Spinner selectEmply;
-
     private CheckBox checkboxCapacitor, checkboxDisplay, checkboxFAN, checkboxCC;
-
     private EditText firstRemarks;
-
     private CheckBox Repair_checkboxOne, Repair_checkboxTwo, Repair_checkboxThree,
             Repair_checkboxFour, Repair_checkboxFive, Repair_checkboxSix;
-
     private CheckBox Replace_checkboxOne, Replace_checkboxTwo, Replace_checkboxThree,
             Replace_checkboxFour, Replace_checkboxFive, Replace_checkboxSix, Replace_checkboxSeven,
             Replace_checkboxEight, Replace_checkboxNine;
-
     private CheckBox checkboxTRIAL1, checkboxTRIAL2;
-
-    NumberPicker np;
-    Button npbutton;
-
     private SharedPrefHelper sharedPref;
-
-    private static final String PREF_KEY_NUMBER_PICKER_VALUE = "number_picker_value";
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_fill_three, container, false);
