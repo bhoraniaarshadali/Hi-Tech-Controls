@@ -44,6 +44,8 @@ public class fill_three_fragment extends Fragment {
 
     private SharedPrefHelper sharedPref;
 
+    private static final String PREF_KEY_NUMBER_PICKER_VALUE = "number_picker_value";
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_fill_three, container, false);
 
@@ -126,7 +128,9 @@ public class fill_three_fragment extends Fragment {
         checkboxTRIAL1.setChecked(sharedPref.getBoolean("checkboxTrial1", false));
         checkboxTRIAL2.setChecked(sharedPref.getBoolean("checkboxTrial2", false));
 
-
+        // Load the NumberPicker value from SharedPreferences and set it
+        int savedNumberPickerValue = sharedPref.getInt(PREF_KEY_NUMBER_PICKER_VALUE, 1);
+        np.setValue(savedNumberPickerValue);
     }
 
     // Helper method to get the position of the selected employee in the Spinner
@@ -174,6 +178,15 @@ public class fill_three_fragment extends Fragment {
         np = rootView.findViewById(R.id.npId);
         np.setMinValue(1); // Set the minimum value for the NumberPicker
         np.setMaxValue(100); // Set the maximum value for the NumberPicker
+
+        // Add a listener to save the NumberPicker value when it changes
+        np.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                // Save the new NumberPicker value to SharedPreferences
+                sharedPref.saveInt(PREF_KEY_NUMBER_PICKER_VALUE, newVal);
+            }
+        });
     }
 
     private void setupShowNumberButton(View rootView) {
@@ -195,7 +208,30 @@ public class fill_three_fragment extends Fragment {
 
         sharedPref.saveString("select_emp", selectEmply.getSelectedItem().toString());
 
+        sharedPref.saveBoolean("checkboxCapacitor", checkboxCapacitor.isChecked());
+        sharedPref.saveBoolean("checkboxDisplay", checkboxDisplay.isChecked());
+        sharedPref.saveBoolean("checkboxFAN", checkboxFAN.isChecked());
+        sharedPref.saveBoolean("checkboxCC", checkboxCC.isChecked());
 
+        sharedPref.saveString("enter_first_remarks", firstRemarks.getText().toString());
+
+        sharedPref.saveBoolean("repair_checkboxOne", Repair_checkboxOne.isChecked());
+        sharedPref.saveBoolean("repair_checkboxTwo", Repair_checkboxTwo.isChecked());
+        sharedPref.saveBoolean("repair_checkboxThree", Repair_checkboxThree.isChecked());
+        sharedPref.saveBoolean("repair_checkboxFour", Repair_checkboxFour.isChecked());
+
+        sharedPref.saveBoolean("replace_checkboxOne", Replace_checkboxOne.isChecked());
+        sharedPref.saveBoolean("replace_checkboxTwo", Replace_checkboxTwo.isChecked());
+        sharedPref.saveBoolean("replace_checkboxThree", Replace_checkboxThree.isChecked());
+        sharedPref.saveBoolean("replace_checkboxFour", Replace_checkboxFour.isChecked());
+        sharedPref.saveBoolean("replace_checkboxFive", Replace_checkboxFive.isChecked());
+        sharedPref.saveBoolean("replace_checkboxSix", Replace_checkboxSix.isChecked());
+        sharedPref.saveBoolean("replace_checkboxSeven", Replace_checkboxSeven.isChecked());
+        sharedPref.saveBoolean("replace_checkboxEight", Replace_checkboxEight.isChecked());
+        sharedPref.saveBoolean("replace_checkboxNine", Replace_checkboxNine.isChecked());
+
+        sharedPref.saveBoolean("checkboxTrial1", checkboxTRIAL1.isChecked());
+        sharedPref.saveBoolean("checkboxTrial2", checkboxTRIAL2.isChecked());
     }
 
     public void onStop() {

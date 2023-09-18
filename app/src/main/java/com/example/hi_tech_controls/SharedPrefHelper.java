@@ -27,14 +27,25 @@ public class SharedPrefHelper {
         editor.apply();
     }
 
-    // Retrieve a string value from SharedPreferences
-    public String getString(String key, String s) {
-        return sharedPreferences.getString(key, "");
+    // Save an integer value to SharedPreferences
+    public void saveInt(String key, int value) {
+        editor.putInt(key, value);
+        editor.apply();
     }
 
-    // Retrieve a boolean value from SharedPreferences
+    // Retrieve a string value from SharedPreferences with a default value
+    public String getString(String key, String defaultValue) {
+        return sharedPreferences.getString(key, defaultValue);
+    }
+
+    // Retrieve a boolean value from SharedPreferences with a default value
     public boolean getBoolean(String key, boolean defaultValue) {
         return sharedPreferences.getBoolean(key, defaultValue);
+    }
+
+    // Retrieve an integer value from SharedPreferences with a default value
+    public int getInt(String key, int defaultValue) {
+        return sharedPreferences.getInt(key, defaultValue);
     }
 
     // Clear a specific value from SharedPreferences
