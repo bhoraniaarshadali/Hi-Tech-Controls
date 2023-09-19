@@ -1,5 +1,6 @@
 package com.example.hi_tech_controls;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -11,6 +12,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+
+import com.example.hi_tech_controls.fragments.fill_one_fragment;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class AddDetailsActivity extends AppCompatActivity {
 
@@ -37,6 +42,13 @@ public class AddDetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_details);
+
+//        //next and alertDialog box
+//        addClientDtls_Next1.setOnClickListener(new View.OnClickListener() {
+//            public void onClick(View v) {
+//            successMessage();
+//            }
+//        });
 
         // Initialize Fragments
         fillOneFragment = new com.example.hi_tech_controls.fragments.fill_one_fragment();
@@ -99,6 +111,7 @@ public class AddDetailsActivity extends AppCompatActivity {
             textSwitcher.setText(switcherValues[currentFragmentIndex]);
         } else {
             // Handle as needed when all values have been cycled through
+            successMessage();
         }
     }
 
@@ -120,5 +133,17 @@ public class AddDetailsActivity extends AppCompatActivity {
             // If the current fragment index is 0, handle as needed (e.g., go back to the previous activity)
             super.onBackPressed();
         }
+    }
+
+    public void successMessage() {
+        SweetAlertDialog dialog = new SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE);
+        dialog.setTitleText("Data Stored Successfully!" + "Client Id: " + fill_one_fragment.clientIdValue)
+                .setContentText("You clicked the button!")
+                .show();
+
+        dialog.setConfirmButtonBackgroundColor(Color.parseColor("#181C5C"));
+        dialog.setConfirmText("Okay");
+
+
     }
 }

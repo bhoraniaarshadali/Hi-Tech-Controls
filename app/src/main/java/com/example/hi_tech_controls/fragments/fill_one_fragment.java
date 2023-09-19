@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -18,7 +19,8 @@ import java.util.Calendar;
 
 public class fill_one_fragment extends Fragment implements DatePickerDialog.OnDateSetListener {
 
-    //getSharedPreferences
+
+    public static String clientIdValue;
     private EditText enterName, enterNumber, enterGPNumber, enterDate, enterMakeName, enterModelName, enterHPrate, enterSerialNumber;
     private SharedPrefHelper sharedPref;
 
@@ -43,6 +45,10 @@ public class fill_one_fragment extends Fragment implements DatePickerDialog.OnDa
 
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        //textView Id
+        TextView clientId = view.findViewById(R.id.clientId);
+        clientIdValue = clientId.getText().toString();
 
         // Initialize your EditText fields
         enterName = view.findViewById(R.id.fill_one_enterName);
