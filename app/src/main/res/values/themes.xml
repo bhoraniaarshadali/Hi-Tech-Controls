@@ -1,6 +1,6 @@
 <resources>
 
-    <style name="Base.Theme.HiTechControls" parent="Theme.AppCompat.Light.NoActionBar"></style>
+    <style name="Base.Theme.HiTechControls" parent="Theme.AppCompat.NoActionBar"></style>
 
     <style name="Theme.HiTechControls" parent="Base.Theme.HiTechControls" />
 </resources>

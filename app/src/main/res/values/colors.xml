@@ -4,6 +4,9 @@
     <color name="lightblack">#333333</color>
 
     <color name="white">#FFFFFFFF</color>
+    <color name="CardViewWhite">#FDFDFD</color>
+
+
     <color name="blue">#181C5C</color>
     <color name="hintFont">#7C7C7C</color>
 

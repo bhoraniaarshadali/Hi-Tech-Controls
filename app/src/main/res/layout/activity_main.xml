@@ -28,27 +28,28 @@
             android:id="@+id/logout_btn_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
+            android:layout_alignParentStart="true"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="37sp"
-            android:layout_marginEnd="20sp"
+            android:layout_marginStart="20sp"
             android:importantForAccessibility="no">
 
             <ImageView
                 android:id="@+id/logout_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="32sp"
+                android:layout_height="32sp"
                 android:contentDescription="TODO"
-                android:src="@drawable/logout_btn"
+                android:src="@drawable/logout"
                 tools:ignore="ContentDescription,HardcodedText" />
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="32sp"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/logout_btn"
                 android:layout_marginTop="0dp"
-                android:layout_marginEnd="0dp"
-                android:text="logout"
+                android:layout_centerInParent="true"
+                android:layout_marginStart="9sp"
+                android:text="Logout"
                 android:textColor="@color/white"
                 android:textSize="10sp"
                 tools:ignore="HardcodedText,SmallSp" />
@@ -83,6 +84,7 @@
             app:cardElevation="5dp"
             tools:ignore="TextSizeCheck">
 
+            <!--            full card TopView layout-->
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -94,7 +96,6 @@
                 android:layout_marginBottom="5dp"
                 android:gravity="center"
                 android:orientation="horizontal">
-
 
                 <!--            button left-->
                 <RelativeLayout
@@ -133,7 +134,6 @@
                     android:background="@android:color/darker_gray" />
 
                 <!--            button right-->
-
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -162,10 +162,7 @@
                         android:textSize="14sp" />
 
                 </RelativeLayout>
-
-
             </RelativeLayout>
-
         </androidx.cardview.widget.CardView>
 
         <LinearLayout
@@ -202,60 +199,85 @@
             <!--            android:layout_marginHorizontal="24sp"-->
             <!--            />-->
 
-
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="16dp"
+                android:layout_margin="15dp"
+                app:cardBackgroundColor="@color/CardViewWhite"
                 app:cardCornerRadius="8dp">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="80sp"
-                    android:padding="11dp">
+                    android:padding="10dp">
 
-                    <TextView
-                        android:id="@+id/showId"
+                    <LinearLayout
+                        android:id="@+id/showIdLayout"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
                         android:layout_centerVertical="true"
-                        android:layout_marginStart="15sp"
-                        android:fontFamily="@font/poppins_medium"
-                        android:text="@string/_2001"
-                        android:textSize="22sp" />
+                        android:layout_marginStart="15sp">
 
-                    <TextView
-                        android:id="@+id/showUsername"
+                        <TextView
+                            android:id="@+id/showId"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/poppins_medium"
+                            android:text="@string/_2001"
+                            android:textColor="@color/lightblack"
+                            android:textSize="22sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginStart="20sp"
-                        android:layout_marginEnd="15dp"
-                        android:layout_toStartOf="@id/progressStatusBar"
-                        android:layout_toEndOf="@id/showId"
-                        android:fontFamily="@font/poppins_regular"
-                        android:text="@string/usernameview"
-                        android:textSize="15sp" />
+                        android:layout_centerInParent="true"
+                        android:layout_marginEnd="8dp"
+                        android:layout_toStartOf="@id/progressStatusBarLayout"
+                        android:layout_toEndOf="@id/showIdLayout"
+                        android:gravity="center">
 
-                    <ProgressBar
-                        android:id="@+id/progressStatusBar"
-                        style="@android:style/Widget.ProgressBar.Horizontal"
-                        android:layout_width="90sp"
+                        <TextView
+                            android:id="@+id/showUsername"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:fontFamily="@font/poppins_regular"
+                            android:gravity="center"
+                            android:text="@string/usernameview"
+                            android:textColor="@color/lightblack"
+                            android:textSize="15sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/progressStatusBarLayout"
+                        android:layout_width="100sp"
                         android:layout_height="8sp"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
                         android:layout_marginEnd="15sp"
-                        android:max="100"
-                        android:progress="20"
-                        android:progressBackgroundTint="#B3B3B3"
-                        android:progressTint="#25B800"
-                        tools:ignore="SmallSp" />
+                        tools:ignore="SmallSp">
+
+                        <ProgressBar
+                            android:id="@+id/progressStatusBar"
+                            style="@android:style/Widget.ProgressBar.Horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:max="100"
+                            android:progress="60"
+                            android:progressBackgroundTint="#B3B3B3"
+                            android:progressTint="#25B800"
+                            tools:ignore="SmallSp" />
+
+                    </LinearLayout>
 
                     <RelativeLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/progressStatusBar"
+                        android:layout_below="@id/progressStatusBarLayout"
                         android:layout_alignParentEnd="true"
                         android:layout_marginTop="10sp"
                         android:layout_marginEnd="8sp"
@@ -267,7 +289,7 @@
                             android:drawablePadding="5sp"
                             android:fontFamily="@font/poppins_regular"
                             android:text="@string/in_progress"
-                            android:textColor="#757575"
+                            android:textColor="@color/lightblack"
                             android:textSize="10sp"
                             app:drawableStartCompat="@drawable/bluedot"
                             tools:ignore="SmallSp,TextContrastCheck" />
@@ -275,10 +297,6 @@
 
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
-
-
         </LinearLayout>
-
     </RelativeLayout>
-
 </ScrollView>

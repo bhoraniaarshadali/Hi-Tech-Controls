@@ -44,6 +44,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/firstLine"
+            android:layout_marginBottom="5sp"
             android:orientation="vertical">
 
             <LinearLayout
@@ -54,7 +55,6 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="5sp"
                     android:fontFamily="@font/poppins_semibold"
                     android:text="Final Trial Check List"
                     android:textColor="@color/black"
@@ -145,6 +145,7 @@
                     android:id="@+id/thirdBlock"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="5sp"
                     android:orientation="vertical">
 
                     <TextView
@@ -310,6 +311,7 @@
                     android:text="Voltage Details: "
                     android:textColor="@color/lightblack"
                     android:textSize="19sp"
+                    android:layout_marginTop="5sp"
                     tools:ignore="HardcodedText,TooDeepLayout" />
 
                 <RelativeLayout
