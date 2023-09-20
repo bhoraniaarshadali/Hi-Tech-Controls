@@ -221,10 +221,10 @@
 
                         <TextView
                             android:id="@+id/showId"
+                            android:text="0"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/poppins_medium"
-                            android:text="@string/_2001"
                             android:textColor="@color/lightblack"
                             android:textSize="22sp" />
 

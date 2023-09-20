@@ -43,13 +43,6 @@ public class AddDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_details);
 
-//        //next and alertDialog box
-//        addClientDtls_Next1.setOnClickListener(new View.OnClickListener() {
-//            public void onClick(View v) {
-//            successMessage();
-//            }
-//        });
-
         // Initialize Fragments
         fillOneFragment = new com.example.hi_tech_controls.fragments.fill_one_fragment();
         fillTwoFragment = new com.example.hi_tech_controls.fragments.fill_two_fragment();
@@ -140,7 +133,6 @@ public class AddDetailsActivity extends AppCompatActivity {
         dialog.setTitleText("Data Stored Successfully!" + "Client Id: " + fill_one_fragment.clientIdValue)
                 .setContentText("You clicked the button!")
                 .show();
-
         dialog.setConfirmButtonBackgroundColor(Color.parseColor("#181C5C"));
         dialog.setConfirmText("Okay");
 

@@ -19,36 +19,20 @@ import java.util.Calendar;
 
 public class fill_one_fragment extends Fragment implements DatePickerDialog.OnDateSetListener {
 
-
-    public static String clientIdValue;
     private EditText enterName, enterNumber, enterGPNumber, enterDate, enterMakeName, enterModelName, enterHPrate, enterSerialNumber;
     private SharedPrefHelper sharedPref;
+    public static String clientIdValue;
+    private OnClientIdValueListener listener;
 
     // date picker
     private EditText dateTextField1;
     private DatePickerDialog datePickerDialog1;
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_fill_one, container, false);
-        dateTextField1 = rootView.findViewById(R.id.fill_one_enterDate);
-        initDatePicker();
-
-        sharedPref = new SharedPrefHelper(requireContext());
-        return rootView;
-    }
-
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        //textView Id
+        // Initialize your UI elements
         TextView clientId = view.findViewById(R.id.clientId);
-        clientIdValue = clientId.getText().toString();
 
         // Initialize your EditText fields
         enterName = view.findViewById(R.id.fill_one_enterName);
@@ -69,6 +53,31 @@ public class fill_one_fragment extends Fragment implements DatePickerDialog.OnDa
         enterModelName.setText(sharedPref.getString("model_name", ""));
         enterHPrate.setText(sharedPref.getString("hp_rate", ""));
         enterSerialNumber.setText(sharedPref.getString("serial_number", ""));
+
+        // Set clientIdValue
+        String clientIdValue = clientId.getText().toString();
+        if (listener != null) {
+            listener.onClientIdValueChanged(clientIdValue);
+        }
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.fragment_fill_one, container, false);
+        dateTextField1 = rootView.findViewById(R.id.fill_one_enterDate);
+        initDatePicker();
+
+        sharedPref = new SharedPrefHelper(requireContext());
+        return rootView;
+    }
+
+    public void setOnClientIdValueListener(OnClientIdValueListener listener) {
+        this.listener = listener;
     }
 
     private void initDatePicker() {
@@ -107,5 +116,9 @@ public class fill_one_fragment extends Fragment implements DatePickerDialog.OnDa
     public void onStop() {
         super.onStop();
         saveValuesToSharedPreferences();
+    }
+
+    public interface OnClientIdValueListener {
+        void onClientIdValueChanged(String clientIdValue);
     }
 }

@@ -1,29 +1,44 @@
 package com.example.hi_tech_controls;
 
+import static com.example.hi_tech_controls.fragments.fill_one_fragment.clientIdValue;
+
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.hi_tech_controls.fragments.fill_one_fragment;
+
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements fill_one_fragment.OnClientIdValueListener {
 
+    TextView showId;
     Button addClientBtn1;
     Button viewClientBtn1;
-    private ImageView logout_btn_layout;
+    SharedPrefHelper sharedPref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        logout_btn_layout = findViewById(R.id.logout_btn);
+        // Initialize your UI elements
+        showId = findViewById(R.id.showId);
         addClientBtn1 = findViewById(R.id.addClientBtn);
         viewClientBtn1 = findViewById(R.id.viewClientBtn);
+        sharedPref = new SharedPrefHelper(this);
+
+        // Retrieve clientIdValue from SharedPreferences
+        clientIdValue = sharedPref.getString("clientIdValue", clientIdValue);
+
+        showId.setText(clientIdValue);
+
+        ImageView logout_btn_layout = findViewById(R.id.logout_btn);
 
         logout_btn_layout.setOnClickListener(v -> onBackPressed());
 
@@ -58,23 +73,21 @@ public class MainActivity extends AppCompatActivity {
 
         dialog.showCancelButton(true);
 
-        dialog.setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
-            @Override
-            public void onClick(SweetAlertDialog sDialog) {
-                // Handle cancel button click (dismiss the dialog)
-                sDialog.dismissWithAnimation();
-            }
-        });
+        // Handle cancel button click (dismiss the dialog)
+        dialog.setCancelClickListener(SweetAlertDialog::dismissWithAnimation);
 
-        dialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-            @Override
-            public void onClick(SweetAlertDialog sDialog) {
-                // Handle confirm button click (exit the app)
-                sDialog.dismissWithAnimation();
-                finish(); // Close the app
-            }
+        dialog.setConfirmClickListener(sDialog -> {
+            // Handle confirm button click (exit the app)
+            sDialog.dismissWithAnimation();
+            finish(); // Close the app
         });
 
         dialog.show();
+    }
+
+    @Override
+    public void onClientIdValueChanged(String clientIdValue) {
+        // Update the TextView with the clientIdValue received from fill_one_fragment
+        showId.setText(clientIdValue);
     }
 }
