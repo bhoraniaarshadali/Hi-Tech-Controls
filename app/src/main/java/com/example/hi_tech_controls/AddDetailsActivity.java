@@ -136,6 +136,5 @@ public class AddDetailsActivity extends AppCompatActivity {
         dialog.setConfirmButtonBackgroundColor(Color.parseColor("#181C5C"));
         dialog.setConfirmText("Okay");
 
-
     }
 }

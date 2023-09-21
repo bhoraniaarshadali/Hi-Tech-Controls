@@ -1,7 +1,5 @@
 package com.example.hi_tech_controls;
 
-import static com.example.hi_tech_controls.fragments.fill_one_fragment.clientIdValue;
-
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -11,11 +9,9 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.hi_tech_controls.fragments.fill_one_fragment;
-
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
-public class MainActivity extends AppCompatActivity implements fill_one_fragment.OnClientIdValueListener {
+public class MainActivity extends AppCompatActivity {
 
     TextView showId;
     Button addClientBtn1;
@@ -33,10 +29,7 @@ public class MainActivity extends AppCompatActivity implements fill_one_fragment
         viewClientBtn1 = findViewById(R.id.viewClientBtn);
         sharedPref = new SharedPrefHelper(this);
 
-        // Retrieve clientIdValue from SharedPreferences
-        clientIdValue = sharedPref.getString("clientIdValue", clientIdValue);
 
-        showId.setText(clientIdValue);
 
         ImageView logout_btn_layout = findViewById(R.id.logout_btn);
 
@@ -83,11 +76,5 @@ public class MainActivity extends AppCompatActivity implements fill_one_fragment
         });
 
         dialog.show();
-    }
-
-    @Override
-    public void onClientIdValueChanged(String clientIdValue) {
-        // Update the TextView with the clientIdValue received from fill_one_fragment
-        showId.setText(clientIdValue);
     }
 }

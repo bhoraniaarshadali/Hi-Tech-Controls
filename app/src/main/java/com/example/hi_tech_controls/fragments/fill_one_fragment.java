@@ -22,7 +22,6 @@ public class fill_one_fragment extends Fragment implements DatePickerDialog.OnDa
     private EditText enterName, enterNumber, enterGPNumber, enterDate, enterMakeName, enterModelName, enterHPrate, enterSerialNumber;
     private SharedPrefHelper sharedPref;
     public static String clientIdValue;
-    private OnClientIdValueListener listener;
 
     // date picker
     private EditText dateTextField1;
@@ -31,8 +30,10 @@ public class fill_one_fragment extends Fragment implements DatePickerDialog.OnDa
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // Initialize your UI elements
+        // Initialize your UI elements // Set clientIdValue
         TextView clientId = view.findViewById(R.id.clientId);
+        clientIdValue = clientId.getText().toString();
+
 
         // Initialize your EditText fields
         enterName = view.findViewById(R.id.fill_one_enterName);
@@ -54,11 +55,7 @@ public class fill_one_fragment extends Fragment implements DatePickerDialog.OnDa
         enterHPrate.setText(sharedPref.getString("hp_rate", ""));
         enterSerialNumber.setText(sharedPref.getString("serial_number", ""));
 
-        // Set clientIdValue
-        String clientIdValue = clientId.getText().toString();
-        if (listener != null) {
-            listener.onClientIdValueChanged(clientIdValue);
-        }
+
     }
 
     @Override
@@ -76,9 +73,6 @@ public class fill_one_fragment extends Fragment implements DatePickerDialog.OnDa
         return rootView;
     }
 
-    public void setOnClientIdValueListener(OnClientIdValueListener listener) {
-        this.listener = listener;
-    }
 
     private void initDatePicker() {
         Calendar cal = Calendar.getInstance();
@@ -118,7 +112,4 @@ public class fill_one_fragment extends Fragment implements DatePickerDialog.OnDa
         saveValuesToSharedPreferences();
     }
 
-    public interface OnClientIdValueListener {
-        void onClientIdValueChanged(String clientIdValue);
-    }
 }
