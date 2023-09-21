@@ -268,8 +268,8 @@
                             android:layout_gravity="center"
                             android:max="100"
                             android:progress="60"
-                            android:progressBackgroundTint="#B3B3B3"
-                            android:progressTint="#25B800"
+                            android:progressBackgroundTint="@color/progressBackground"
+                            android:progressTint="@color/progressTint"
                             tools:ignore="SmallSp" />
 
                     </LinearLayout>

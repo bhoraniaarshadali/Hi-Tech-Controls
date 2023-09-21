@@ -54,8 +54,6 @@ public class fill_one_fragment extends Fragment implements DatePickerDialog.OnDa
         enterModelName.setText(sharedPref.getString("model_name", ""));
         enterHPrate.setText(sharedPref.getString("hp_rate", ""));
         enterSerialNumber.setText(sharedPref.getString("serial_number", ""));
-
-
     }
 
     @Override

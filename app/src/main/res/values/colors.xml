@@ -13,8 +13,8 @@
     <color name="grey">#808080</color>
 
 
-    <color name="radium">#25B800</color>
-    <color name="lightradium">#B3B3B3</color>
+    <color name="progressTint">#25B800</color>
+    <color name="progressBackground">#B3B3B3</color>
 
 
     <color name="colorPrimary">#6200EE</color>

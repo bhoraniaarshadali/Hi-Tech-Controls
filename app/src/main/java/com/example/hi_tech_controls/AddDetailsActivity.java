@@ -1,5 +1,7 @@
 package com.example.hi_tech_controls;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -43,6 +45,10 @@ public class AddDetailsActivity extends AppCompatActivity {
     // ProgressBar
     private ProgressBar progressBar;
 
+    private static final String PROGRESS_KEY = "progress_key";
+    // SharedPreferences
+    private SharedPreferences sharedPreferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,6 +91,13 @@ public class AddDetailsActivity extends AppCompatActivity {
 
         // Find ProgressBar
         progressBar = findViewById(R.id.progressBar);
+
+        // Initialize SharedPreferences
+        sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+
+        // Load the progress from SharedPreferences
+        int savedProgress = sharedPreferences.getInt(PROGRESS_KEY, 0);
+        updateProgressBar(savedProgress); // Set the progress bar to the saved value
     }
 
     // Fragment Method
@@ -150,9 +163,14 @@ public class AddDetailsActivity extends AppCompatActivity {
         textSwitcher.setText(switcherValues[currentFragmentIndex]);
     }
 
-    // Method to update the ProgressBar
+    // Method to update the ProgressBar and save the progress value in SharedPreferences
     private void updateProgressBar(int progress) {
         progressBar.setProgress(progress);
+
+        // Save the progress value in SharedPreferences
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt(PROGRESS_KEY, progress);
+        editor.apply();
     }
 
     public void successMessage() {
@@ -163,5 +181,4 @@ public class AddDetailsActivity extends AppCompatActivity {
         dialog.setConfirmButtonBackgroundColor(Color.parseColor("#181C5C"));
         dialog.setConfirmText("Okay");
     }
-
 }

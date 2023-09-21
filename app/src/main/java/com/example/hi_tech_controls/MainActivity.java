@@ -71,15 +71,14 @@ public class MainActivity extends AppCompatActivity {
 
         dialog.showCancelButton(true);
 
-        // Handle cancel button click (dismiss the dialog)
-        dialog.setCancelClickListener(SweetAlertDialog::dismissWithAnimation);
-
-        dialog.setConfirmClickListener(sDialog -> {
-            // Handle confirm button click (exit the app)
-            sDialog.dismissWithAnimation();
-            finish(); // Close the app
+        dialog.setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+            @Override
+            public void onClick(SweetAlertDialog sDialog) {
+                // Handle cancel button click (dismiss the dialog)
+                sDialog.dismissWithAnimation();
+            }
         });
-
-        dialog.show();
     }
 }
+
+
