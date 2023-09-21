@@ -25,11 +25,16 @@ public class MainActivity extends AppCompatActivity {
 
         // Initialize your UI elements
         showId = findViewById(R.id.showId);
+
         addClientBtn1 = findViewById(R.id.addClientBtn);
         viewClientBtn1 = findViewById(R.id.viewClientBtn);
         sharedPref = new SharedPrefHelper(this);
 
+        // Retrieve clientId from SharedPreferences
+        String clientId = sharedPref.getString("client_id", "");
 
+        // Set clientId to the showId TextView
+        showId.setText(clientId);
 
         ImageView logout_btn_layout = findViewById(R.id.logout_btn);
 

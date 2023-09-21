@@ -92,6 +92,16 @@
         app:cardElevation="5dp"
         tools:ignore="TextSizeCheck">
 
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="@android:style/Widget.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="10sp"
+            android:max="100"
+            android:progress="20" />
+
     </androidx.cardview.widget.CardView>
 
     <!--        fragment (fill_one)-->
