@@ -46,7 +46,7 @@ public class AddDetailsActivity extends AppCompatActivity {
     private ProgressBar progressBar;
 
     // Define the progress values array
-    public static final int[] progressValues = {0, 20, 60, 80, 100};
+    public static final int[] progressValues = {0, 20, 60, 80, 100}; // Updated progress values
 
     // SharedPreferences
     private SharedPreferences sharedPreferences;
@@ -96,6 +96,12 @@ public class AddDetailsActivity extends AppCompatActivity {
 
         // Initialize SharedPreferences
         sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+
+        // Get the saved progress index (0 by default)
+        currentFragmentIndex = sharedPreferences.getInt("progressIndex", 0);
+
+        // Set the initial progress based on the current progress index
+        progressBar.setProgress(progressValues[currentFragmentIndex]);
     }
 
     // Fragment Method
@@ -120,11 +126,26 @@ public class AddDetailsActivity extends AppCompatActivity {
             // Update progress bar based on progressValues array
             updateProgressBar(progressValues[currentFragmentIndex]);
             updateTextSwitcher();
+
+            // Save the current progress index
+            saveProgressIndex(currentFragmentIndex);
         } else {
-            // Handle as needed when all values have been cycled through
-            successMessage();
-            updateProgressBar(progressValues[progressValues.length - 1]);
+            // Handle the case when the user is on the last fragment and presses "Next"
+            showCompletionPopup();
         }
+    }
+
+    // Method to show a completion pop-up and set progress to 100%
+    private void showCompletionPopup() {
+        SweetAlertDialog dialog = new SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE);
+        dialog.setTitleText("Data Stored Successfully!" + "Client Id: " + fill_one_fragment.clientIdValue);
+        dialog.setContentText("You completed all the steps!")
+                .show();
+        dialog.setConfirmButtonBackgroundColor(Color.parseColor("#181C5C"));
+        dialog.setConfirmText("Okay");
+
+        // Set progress to 100%
+        progressBar.setProgress(100);
     }
 
     // Method to navigate back to the previous fragment
@@ -138,6 +159,9 @@ public class AddDetailsActivity extends AppCompatActivity {
             // Update progress bar based on progressValues array
             updateProgressBar(progressValues[currentFragmentIndex]);
             updateTextSwitcher();
+
+            // Save the current progress index
+            saveProgressIndex(currentFragmentIndex);
         } else {
             // If the current fragment index is 0, handle as needed (e.g., go back to the previous activity)
             super.onBackPressed();
@@ -165,6 +189,8 @@ public class AddDetailsActivity extends AppCompatActivity {
             case 3:
                 loadFragment(fillFourFragment);
                 break;
+            case 4:
+                showCompletionPopup();
         }
     }
 
@@ -173,13 +199,10 @@ public class AddDetailsActivity extends AppCompatActivity {
         progressBar.setProgress(progress);
     }
 
-    // Method to display a success message
-    private void successMessage() {
-        SweetAlertDialog dialog = new SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE);
-        dialog.setTitleText("Data Stored Successfully!" + "Client Id: " + fill_one_fragment.clientIdValue);
-        dialog.setContentText("You clicked the button!");
-        dialog.show();
-        dialog.setConfirmButtonBackgroundColor(Color.parseColor("#181C5C"));
-        dialog.setConfirmText("Okay");
+    // Helper method to save progress index using SharedPreferences
+    private void saveProgressIndex(int index) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("progressIndex", index);
+        editor.apply();
     }
 }
