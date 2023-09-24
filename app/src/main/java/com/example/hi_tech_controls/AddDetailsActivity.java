@@ -45,7 +45,9 @@ public class AddDetailsActivity extends AppCompatActivity {
     // ProgressBar
     private ProgressBar progressBar;
 
-    private static final String PROGRESS_KEY = "progress_key";
+    // Define the progress values array
+    public static final int[] progressValues = {0, 20, 60, 80, 100};
+
     // SharedPreferences
     private SharedPreferences sharedPreferences;
 
@@ -94,10 +96,6 @@ public class AddDetailsActivity extends AppCompatActivity {
 
         // Initialize SharedPreferences
         sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
-
-        // Load the progress from SharedPreferences
-        int savedProgress = sharedPreferences.getInt(PROGRESS_KEY, 0);
-        updateProgressBar(savedProgress); // Set the progress bar to the saved value
     }
 
     // Fragment Method
@@ -116,21 +114,16 @@ public class AddDetailsActivity extends AppCompatActivity {
         if (currentFragmentIndex < switcherValues.length - 1) { // Check if there's a next fragment
             currentFragmentIndex++;
 
-            if (currentFragmentIndex == 1) {
-                loadFragment(fillTwoFragment);
-                updateProgressBar(20); // Update progress to 20%
-            } else if (currentFragmentIndex == 2) {
-                loadFragment(fillThreeFragment);
-                updateProgressBar(60); // Update progress to 60%
-            } else if (currentFragmentIndex == 3) {
-                loadFragment(fillFourFragment);
-                updateProgressBar(80); // Update progress to 80%
-            }
+            // Load the corresponding fragment and update progress
+            loadFragmentByIndex(currentFragmentIndex);
+
+            // Update progress bar based on progressValues array
+            updateProgressBar(progressValues[currentFragmentIndex]);
             updateTextSwitcher();
         } else {
             // Handle as needed when all values have been cycled through
             successMessage();
-            updateProgressBar(100); // Update progress to 100%
+            updateProgressBar(progressValues[progressValues.length - 1]);
         }
     }
 
@@ -139,17 +132,11 @@ public class AddDetailsActivity extends AppCompatActivity {
         if (currentFragmentIndex > 0) {
             currentFragmentIndex--;
 
-            if (currentFragmentIndex == 0) {
-                loadFragment(fillOneFragment);
-                updateProgressBar(0); // Update progress to 0%
-            } else if (currentFragmentIndex == 1) {
-                loadFragment(fillTwoFragment);
-                updateProgressBar(20); // Update progress to 20%
-            } else if (currentFragmentIndex == 2) {
-                loadFragment(fillThreeFragment);
-                updateProgressBar(60); // Update progress to 60%
-            }
+            // Load the corresponding fragment and update progress
+            loadFragmentByIndex(currentFragmentIndex);
 
+            // Update progress bar based on progressValues array
+            updateProgressBar(progressValues[currentFragmentIndex]);
             updateTextSwitcher();
         } else {
             // If the current fragment index is 0, handle as needed (e.g., go back to the previous activity)
@@ -163,21 +150,35 @@ public class AddDetailsActivity extends AppCompatActivity {
         textSwitcher.setText(switcherValues[currentFragmentIndex]);
     }
 
-    // Method to update the ProgressBar and save the progress value in SharedPreferences
-    private void updateProgressBar(int progress) {
-        progressBar.setProgress(progress);
-
-        // Save the progress value in SharedPreferences
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putInt(PROGRESS_KEY, progress);
-        editor.apply();
+    // Method to load a fragment based on its index
+    private void loadFragmentByIndex(int index) {
+        switch (index) {
+            case 0:
+                loadFragment(fillOneFragment);
+                break;
+            case 1:
+                loadFragment(fillTwoFragment);
+                break;
+            case 2:
+                loadFragment(fillThreeFragment);
+                break;
+            case 3:
+                loadFragment(fillFourFragment);
+                break;
+        }
     }
 
-    public void successMessage() {
+    // Method to update the ProgressBar
+    private void updateProgressBar(int progress) {
+        progressBar.setProgress(progress);
+    }
+
+    // Method to display a success message
+    private void successMessage() {
         SweetAlertDialog dialog = new SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE);
-        dialog.setTitleText("Data Stored Successfully!" + "Client Id: " + fill_one_fragment.clientIdValue)
-                .setContentText("You clicked the button!")
-                .show();
+        dialog.setTitleText("Data Stored Successfully!" + "Client Id: " + fill_one_fragment.clientIdValue);
+        dialog.setContentText("You clicked the button!");
+        dialog.show();
         dialog.setConfirmButtonBackgroundColor(Color.parseColor("#181C5C"));
         dialog.setConfirmText("Okay");
     }
