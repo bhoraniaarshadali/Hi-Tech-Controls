@@ -9,7 +9,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class LoginActivity extends AppCompatActivity {
@@ -26,6 +25,18 @@ public class LoginActivity extends AppCompatActivity {
         passwordEditText = findViewById(R.id.passwordEditText);
         loginButton = findViewById(R.id.loginButton);
 
+
+        loginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
+        //loginCred();
+    }
+
+    public void loginCred() {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
