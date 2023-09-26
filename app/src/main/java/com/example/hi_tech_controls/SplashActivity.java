@@ -2,15 +2,16 @@ package com.example.hi_tech_controls;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
+
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-@SuppressLint("CustomSplashScreen")
+
 public class SplashActivity extends AppCompatActivity {
 
     private ImageView imageView;
@@ -48,7 +49,7 @@ public class SplashActivity extends AppCompatActivity {
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                new Handler().postDelayed(() -> imageView.startAnimation(slideCenterToTopAnimation), 500);
+                imageView.startAnimation(slideCenterToTopAnimation);
             }
 
             @Override
@@ -63,9 +64,7 @@ public class SplashActivity extends AppCompatActivity {
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
-                startActivity(intent);
-                finish();
+                handleUserAuthentication();
             }
 
             @Override
@@ -75,4 +74,20 @@ public class SplashActivity extends AppCompatActivity {
 
         imageView.startAnimation(slideBottomToCenterAnimation);
     }
+
+    private void handleUserAuthentication() {
+        SharedPreferences preferences = getSharedPreferences("Login", MODE_PRIVATE);
+        boolean isLoggedIn = preferences.getBoolean("flag", false);
+        Intent nextIntent;
+
+        if (isLoggedIn) {
+            nextIntent = new Intent(SplashActivity.this, MainActivity.class);
+        } else {
+            nextIntent = new Intent(SplashActivity.this, LoginActivity.class);
+        }
+
+        startActivity(nextIntent);
+        finish();
+    }
+
 }

@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         logout_btn_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onBackPressed();
+                showExitConfirmationDialog();
             }
         });
 
@@ -129,15 +129,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void logout() {
-        // Add your logout logic here, such as clearing user data or preferences
-        // For example, you can use shared preferences to store login state and clear it
-//        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
-//        SharedPreferences.Editor editor = sharedPreferences.edit();
-//        editor.clear(); // Clear user data
-//        editor.apply();
+        // Clear the user's login state by setting "flag" to false in shared preferences
+        SharedPreferences preferences = getSharedPreferences("Login", MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("flag", false);
+        editor.apply();
 
-        // After clearing data, you can start the login activity or perform any other necessary actions
-        Intent intent = new Intent(MainActivity.this, LoginActivity.class); // Replace LoginActivity with your login activity
+        // After clearing data, you can start the LoginActivity
+        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
         startActivity(intent);
 
         // Finish the current activity (main activity)
