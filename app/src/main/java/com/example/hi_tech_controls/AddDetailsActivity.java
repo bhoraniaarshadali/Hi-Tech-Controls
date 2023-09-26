@@ -1,6 +1,7 @@
 package com.example.hi_tech_controls;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -25,7 +26,6 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class AddDetailsActivity extends AppCompatActivity {
 
-    // Text values for the TextSwitcher
     private final String[] switcherValues = {
             "Inward Details",
             "Initial Observation",
@@ -33,22 +33,14 @@ public class AddDetailsActivity extends AppCompatActivity {
             "Final Trial Check"
     };
 
-    // Fragments
     private Fragment fillOneFragment;
     private Fragment fillTwoFragment;
     private Fragment fillThreeFragment;
     private Fragment fillFourFragment;
 
-    // Current fragment index
     private int currentFragmentIndex = 0;
-
-    // ProgressBar
+    public static final int[] progressValues = {0, 20, 60, 80, 100};
     private ProgressBar progressBar;
-
-    // Define the progress values array
-    public static final int[] progressValues = {0, 20, 60, 80, 100}; // Updated progress values
-
-    // SharedPreferences
     private SharedPreferences sharedPreferences;
 
     @Override
@@ -56,28 +48,31 @@ public class AddDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_details);
 
-        // Initialize Fragments
+        //PreFix-Load-Fragment
+        initializeFragments();
+        loadFragment(fillOneFragment);
+
+
+        //PostFix-Load
+        initializeUIElements();
+        initializeSharedPreferences();
+        setInitialProgress();
+        setButtonListeners();
+    }
+
+    // Initialize Fragments
+    private void initializeFragments() {
         fillOneFragment = new fill_one_fragment();
         fillTwoFragment = new fill_two_fragment();
         fillThreeFragment = new fill_three_fragment();
         fillFourFragment = new fill_four_fragment();
+    }
 
-        // Load First Fragment (Fill_one)
-        loadFragment(fillOneFragment);
+    // Initialize UI elements
+    private void initializeUIElements() {
+        //ImageView addClientDtls_Back1 = findViewById(R.id.addClientDtls_Back);
+        //ImageView addClientDtls_Next1 = findViewById(R.id.addClientDtls_Next);
 
-        // Find BACK
-        ImageView addClientDtls_Back1 = findViewById(R.id.addClientDtls_Back);
-
-        // Implement BACK button
-        addClientDtls_Back1.setOnClickListener(v -> goBack());
-
-        // Find NEXT
-        ImageView addClientDtls_Next1 = findViewById(R.id.addClientDtls_Next);
-
-        // Implement NEXT button
-        addClientDtls_Next1.setOnClickListener(v -> loadNextFragment());
-
-        // Find TextSwitcher
         TextSwitcher textSwitcher = findViewById(R.id.textSwitcher);
         textSwitcher.setFactory(new ViewSwitcher.ViewFactory() {
             @Override
@@ -87,55 +82,62 @@ public class AddDetailsActivity extends AppCompatActivity {
                 return textView;
             }
         });
-
-        // Set initial text
         textSwitcher.setText(switcherValues[currentFragmentIndex]);
-
-        // Find ProgressBar
         progressBar = findViewById(R.id.progressBar);
+    }
 
-        // Initialize SharedPreferences
+    // Initialize SharedPreferences
+    private void initializeSharedPreferences() {
         sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+    }
 
-        // Get the saved progress index (0 by default)
+    // Set initial progress based on the current progress index
+    private void setInitialProgress() {
         currentFragmentIndex = sharedPreferences.getInt("progressIndex", 0);
-
-        // Set the initial progress based on the current progress index
         progressBar.setProgress(progressValues[currentFragmentIndex]);
     }
 
-    // Fragment Method
-    private void loadFragment(Fragment fragment) {
-        // Create a FragmentManager
-        FragmentManager fm = getSupportFragmentManager();
+    // Set button click listeners
+    private void setButtonListeners() {
+        ImageView addClientDtls_Back1 = findViewById(R.id.addClientDtls_Back);
+        addClientDtls_Back1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goBack();
+            }
+        });
 
-        // Create a FragmentTransaction to begin the transaction and replace the fragment
+        ImageView addClientDtls_Next1 = findViewById(R.id.addClientDtls_Next);
+        addClientDtls_Next1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadNextFragment();
+            }
+        });
+    }
+
+    // Load a fragment into the FrameLayout
+    private void loadFragment(Fragment fragment) {
+        FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fm.beginTransaction();
         fragmentTransaction.replace(R.id.frameLayout, fragment);
         fragmentTransaction.commit();
     }
 
-    // Method to load the next fragment in sequence
+    // Load the next fragment in sequence
     private void loadNextFragment() {
-        if (currentFragmentIndex < switcherValues.length - 1) { // Check if there's a next fragment
+        if (currentFragmentIndex < switcherValues.length - 1) {
             currentFragmentIndex++;
-
-            // Load the corresponding fragment and update progress
             loadFragmentByIndex(currentFragmentIndex);
-
-            // Update progress bar based on progressValues array
             updateProgressBar(progressValues[currentFragmentIndex]);
             updateTextSwitcher();
-
-            // Save the current progress index
             saveProgressIndex(currentFragmentIndex);
         } else {
-            // Handle the case when the user is on the last fragment and presses "Next"
             showCompletionPopup();
         }
     }
 
-    // Method to show a completion pop-up and set progress to 100%
+    // Show a completion pop-up and set progress to 100%
     private void showCompletionPopup() {
         SweetAlertDialog dialog = new SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE);
         dialog.setTitleText("Data Stored Successfully!" + "Client Id: " + fill_one_fragment.clientIdValue);
@@ -143,38 +145,31 @@ public class AddDetailsActivity extends AppCompatActivity {
                 .show();
         dialog.setConfirmButtonBackgroundColor(Color.parseColor("#181C5C"));
         dialog.setConfirmText("Okay");
-
-        // Set progress to 100%
         progressBar.setProgress(100);
     }
 
-    // Method to navigate back to the previous fragment
+    // Navigate back to the previous fragment
     private void goBack() {
         if (currentFragmentIndex > 0) {
             currentFragmentIndex--;
-
-            // Load the corresponding fragment and update progress
             loadFragmentByIndex(currentFragmentIndex);
-
-            // Update progress bar based on progressValues array
             updateProgressBar(progressValues[currentFragmentIndex]);
             updateTextSwitcher();
-
-            // Save the current progress index
             saveProgressIndex(currentFragmentIndex);
         } else {
-            // If the current fragment index is 0, handle as needed (e.g., go back to the previous activity)
-            super.onBackPressed();
+            //super.onBackPressed();
+            Intent intent = new Intent(AddDetailsActivity.this, MainActivity.class);
+            startActivity(intent);
         }
     }
 
-    // Method to update the TextSwitcher's text
+    // Update the TextSwitcher's text
     private void updateTextSwitcher() {
         TextSwitcher textSwitcher = findViewById(R.id.textSwitcher);
         textSwitcher.setText(switcherValues[currentFragmentIndex]);
     }
 
-    // Method to load a fragment based on its index
+    // Load a fragment based on its index
     private void loadFragmentByIndex(int index) {
         switch (index) {
             case 0:
@@ -194,7 +189,7 @@ public class AddDetailsActivity extends AppCompatActivity {
         }
     }
 
-    // Method to update the ProgressBar
+    // Update the ProgressBar
     private void updateProgressBar(int progress) {
         progressBar.setProgress(progress);
     }
