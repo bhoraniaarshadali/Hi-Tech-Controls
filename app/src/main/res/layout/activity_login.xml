@@ -129,6 +129,8 @@
             tools:ignore="RtlSymmetry,TextSizeCheck,TextSizeCheck,VisualLintTextFieldSize" />
 
         <!-- Button for the login action -->
+
+
         <Button
             android:id="@+id/loginButton"
             android:layout_width="wrap_content"
@@ -142,6 +144,7 @@
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="18sp" />
+
 
         <!-- FrameLayout for the bottom shape -->
         <FrameLayout
@@ -157,6 +160,7 @@
 
             <!-- TextView for the version information -->
             <TextView
+                android:id="@+id/versionTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal|bottom"

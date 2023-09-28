@@ -37,6 +37,9 @@ dependencies {
 
     implementation("com.github.f0ris.sweetalert:library:1.6.2") //Sweet Dialog-box
 
+    implementation 'com.daimajia.androidanimations:library:2.4@aar'  //different anim
+
+    implementation 'com.google.android.material:material:1.9.0' //snakeBar
 
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.9.0'
