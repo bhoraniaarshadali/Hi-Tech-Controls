@@ -41,6 +41,7 @@ public class fill_two_fragment extends Fragment {
         setUpRadioGroupListener();
         setUpSpinner(rootView);
 
+
         // Initialize sharedPref
         sharedPref = new SharedPrefHelper(requireContext());
         return rootView;

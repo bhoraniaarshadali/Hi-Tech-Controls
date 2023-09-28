@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -110,4 +111,10 @@ public class fill_one_fragment extends Fragment implements DatePickerDialog.OnDa
         saveValuesToSharedPreferences();
     }
 
+    public void anim() {
+        RelativeLayout main_container1 = requireView().findViewById(R.id.main_container);
+        main_container1.setAlpha(0f);
+        main_container1.setTranslationY(50);
+        main_container1.animate().alpha(1f).translationYBy(-50).setDuration(1000);
+    }
 }

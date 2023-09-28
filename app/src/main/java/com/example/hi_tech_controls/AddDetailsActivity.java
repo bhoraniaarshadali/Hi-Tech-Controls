@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextSwitcher;
@@ -51,7 +52,7 @@ public class AddDetailsActivity extends AppCompatActivity {
         //PreFix-Load-Fragment
         initializeFragments();
         loadFragment(fillOneFragment);
-
+        anim();
 
         //PostFix-Load
         initializeUIElements();
@@ -199,5 +200,13 @@ public class AddDetailsActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt("progressIndex", index);
         editor.apply();
+    }
+
+    public void anim() {
+        FrameLayout frameLayout1 = findViewById(R.id.frameLayout);
+
+        frameLayout1.setAlpha(0f);
+        frameLayout1.setTranslationY(50);
+        frameLayout1.animate().alpha(1f).translationYBy(-50).setDuration(1000);
     }
 }

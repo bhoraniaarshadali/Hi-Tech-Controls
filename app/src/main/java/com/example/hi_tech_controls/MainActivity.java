@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
         cardView_1 = findViewById(R.id.cardView_1);
 
         sharedPref = new SharedPrefHelper(this);
+        anim();
 
         logout_btn_layout = findViewById(R.id.logout_btn);
         logout_btn_layout.setOnClickListener(new View.OnClickListener() {
@@ -141,5 +142,13 @@ public class MainActivity extends AppCompatActivity {
 
         // Finish the current activity (main activity)
         finish();
+    }
+
+    public void anim() {
+        CardView cardView_1 = findViewById(R.id.cardView_1);
+        cardView_1.setAlpha(0f);
+        cardView_1.setTranslationY(50);
+        cardView_1.animate().alpha(1f).translationYBy(-50).setDuration(1000);
+
     }
 }
