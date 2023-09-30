@@ -252,7 +252,6 @@
                                 android:layout_height="wrap_content"
                                 android:backgroundTint="@color/grey"
                                 android:drawableStart="@drawable/date_icon"
-                                android:drawablePadding="20dp"
                                 android:ellipsize="start"
                                 android:ems="10"
                                 android:focusable="false"
