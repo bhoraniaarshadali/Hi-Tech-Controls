@@ -27,9 +27,8 @@
         android:layout_height="40dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="33dp"
-        android:background="@drawable/round"
+        android:background="@drawable/back_btn"
         android:importantForAccessibility="no"
-        android:src="@drawable/back_btn"
         tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="23dp"
         tools:layout_editor_absoluteY="37dp" />
@@ -71,9 +70,8 @@
         android:layout_alignParentEnd="true"
         android:layout_marginTop="33dp"
         android:layout_marginEnd="20sp"
-        android:background="@drawable/round"
+        android:background="@drawable/next_btn"
         android:importantForAccessibility="no"
-        android:src="@drawable/next_btn"
         tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="23dp"
         tools:layout_editor_absoluteY="37dp" />

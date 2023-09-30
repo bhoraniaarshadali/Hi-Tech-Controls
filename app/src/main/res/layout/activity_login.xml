@@ -138,6 +138,7 @@
             android:layout_below="@id/passwordEditText"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="60sp"
+            android:backgroundTint="@color/blue"
             android:background="@drawable/login_button"
             android:fontFamily="@font/poppins_medium"
             android:text="@string/login"
