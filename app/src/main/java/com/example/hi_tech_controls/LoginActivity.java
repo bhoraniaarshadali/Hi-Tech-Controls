@@ -10,6 +10,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -21,6 +22,7 @@ public class LoginActivity extends AppCompatActivity {
     EditText emailEditText, passwordEditText;
     Button loginButton;
     String username, password;
+    ToggleButton passwordToggleBtn; // Reference to the password toggle button
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,17 +32,24 @@ public class LoginActivity extends AppCompatActivity {
         emailEditText = findViewById(R.id.emailEditText);
         passwordEditText = findViewById(R.id.passwordEditText);
         loginButton = findViewById(R.id.loginButton);
+        //passwordToggleBtn = findViewById(R.id.passwordToggleBtn); // Initialize the toggle button
 
+        // Set an OnClickListener for the password toggle button
+//        passwordToggleBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                togglePasswordVisibility();
+//            }
+//        });
 
         loginButton.setOnClickListener(v -> {
             //LoginCred();
 
-            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            Intent intent = new Intent(LoginActivity.this, mediaUpload.class);
             startActivity(intent);
         });
 
         anim();
-
     }
 
     public void LoginCred() {
@@ -49,14 +58,12 @@ public class LoginActivity extends AppCompatActivity {
 
         // Check if username or password is empty
         if (username.isEmpty()) {
-            //Toast.makeText(LoginActivity.this, "Please enter username!", Toast.LENGTH_LONG).show();
             Snackbar.make(emailEditText, "Please enter username!", Snackbar.LENGTH_LONG).show();
             YoYo.with(Techniques.Shake)
                     .duration(200)
                     .repeat(2)
                     .playOn(findViewById(R.id.emailEditText));
         } else if (password.isEmpty()) {
-            //Toast.makeText(LoginActivity.this, "Please enter password!", Toast.LENGTH_LONG).show();
             Snackbar.make(emailEditText, "Please enter password!", Snackbar.LENGTH_LONG).show();
             YoYo.with(Techniques.Shake)
                     .duration(200)
@@ -77,8 +84,6 @@ public class LoginActivity extends AppCompatActivity {
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(intent);
         } else {
-            // Display a message for incorrect login credentials
-            //Toast.makeText(LoginActivity.this, "Wrong login credentials, please try again", Toast.LENGTH_LONG).show();
             Snackbar.make(emailEditText, "Wrong login credentials, please try again", Snackbar.LENGTH_LONG).show();
             emailEditText.setText("");
             passwordEditText.setText("");
@@ -91,6 +96,20 @@ public class LoginActivity extends AppCompatActivity {
                     .repeat(2)
                     .playOn(findViewById(R.id.passwordEditText));
         }
+    }
+
+    // Toggle password visibility based on the toggle button state
+    private void togglePasswordVisibility() {
+        if (passwordToggleBtn.isChecked()) {
+            // Show password
+            passwordEditText.setInputType(android.text.InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+        } else {
+            // Hide password
+            passwordEditText.setInputType(android.text.InputType.TYPE_CLASS_TEXT | android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        }
+
+        // Move the cursor to the end of the text
+        passwordEditText.setSelection(passwordEditText.getText().length());
     }
 
     public void anim() {

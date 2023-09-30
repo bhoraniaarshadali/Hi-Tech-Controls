@@ -1,10 +1,8 @@
 package com.example.hi_tech_controls;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
@@ -21,7 +19,7 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        imageView = findViewById(R.id.imageView);
+        imageView = findViewById(R.id.SplashLogo);
 
         Animation slideBottomToCenterAnimation = AnimationUtils.loadAnimation(this, R.anim.slide_bottom_to_center);
         Animation pauseAnimation = AnimationUtils.loadAnimation(this, R.anim.pause);

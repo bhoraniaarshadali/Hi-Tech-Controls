@@ -171,8 +171,7 @@
                 android:textColor="#BABABA"
                 android:textSize="15sp"
                 tools:ignore="HardcodedText" />
+
         </FrameLayout>
-
     </RelativeLayout>
-
 </ScrollView>

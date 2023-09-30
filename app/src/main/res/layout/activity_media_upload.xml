@@ -64,6 +64,7 @@
             app:cardElevation="5dp"
             tools:ignore="TextSizeCheck">
 
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -84,8 +85,9 @@
                         android:orientation="vertical">
 
                         <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:id="@+id/boxOne"
+                            android:layout_width="75sp"
+                            android:layout_height="75sp"
                             android:src="@drawable/imageview" />
 
                         <TextView
@@ -104,8 +106,9 @@
                         android:orientation="vertical">
 
                         <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:id="@+id/boxTwo"
+                            android:layout_width="75sp"
+                            android:layout_height="75sp"
                             android:src="@drawable/imageview" />
 
                         <TextView
@@ -123,8 +126,9 @@
                         android:orientation="vertical">
 
                         <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:id="@+id/boxThree"
+                            android:layout_width="75sp"
+                            android:layout_height="75sp"
                             android:src="@drawable/imageview" />
 
                         <TextView
@@ -154,8 +158,9 @@
                         android:orientation="vertical">
 
                         <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:id="@+id/boxFour"
+                            android:layout_width="75sp"
+                            android:layout_height="75sp"
                             android:src="@drawable/imageview" />
 
                         <TextView
@@ -174,8 +179,9 @@
                         android:orientation="vertical">
 
                         <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:id="@+id/boxFive"
+                            android:layout_width="75sp"
+                            android:layout_height="75sp"
                             android:src="@drawable/imageview" />
 
                         <TextView
@@ -193,8 +199,9 @@
                         android:orientation="vertical">
 
                         <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:id="@+id/boxSix"
+                            android:layout_width="75sp"
+                            android:layout_height="75sp"
                             android:src="@drawable/imageview" />
 
                         <TextView
@@ -202,16 +209,42 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:fontFamily="@font/poppins_regular"
-                            android:text="add more.."
+                            android:text="6"
                             android:textColor="@color/lightblack"
                             android:textSize="12sp" />
                     </LinearLayout>
 
                 </LinearLayout>
 
+                <LinearLayout
+                    android:id="@+id/boxContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"></LinearLayout>
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="15sp"
+                    android:layout_marginBottom="10sp">
+
+                    <TextView
+                        android:id="@+id/add_more_Button"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginEnd="15sp"
+                        android:layout_marginBottom="10sp"
+                        android:fontFamily="@font/poppins_regular"
+                        android:gravity="end"
+                        android:text="add images.."
+                        android:textColor="@color/lightblack"
+                        android:textSize="15sp"
+                        android:visibility="visible" />
+                </FrameLayout>
 
             </LinearLayout>
-
 
         </androidx.cardview.widget.CardView>
 
