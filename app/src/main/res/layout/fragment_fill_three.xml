@@ -63,95 +63,111 @@
                     android:textSize="22sp"
                     tools:ignore="HardcodedText" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <RelativeLayout
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:layout_marginTop="20sp"
+                    tools:ignore="UselessParent">
 
-                    <RelativeLayout
-                        android:id="@+id/initialCheckDetails"
+                    <View
+                        android:id="@+id/inputtextView"
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        tools:ignore="UselessParent">
+                        android:layout_height="100sp"
+                        android:background="@drawable/rectangle_check_box_big"
+                        android:padding="15sp"
+                        android:text="POS: "
+                        tools:ignore="HardcodedText,TooDeepLayout" />
 
 
-                        <RelativeLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_alignParentStart="true"
-                            android:layout_marginStart="5sp"
-                            android:orientation="vertical">
-
-                            <CheckBox
-                                android:id="@+id/fill_three_checkboxCapasitor"
-                                android:layout_width="wrap_content"
-                                android:layout_height="50sp"
-                                android:buttonTint="@color/blue"
-                                android:fontFamily="@font/poppins_regular"
-                                android:padding="12sp"
-                                android:text="Capacitor"
-                                android:textColor="@color/lightblack"
-                                android:textSize="18sp"
-                                tools:ignore="DuplicateSpeakableTextCheck,HardcodedText,TouchTargetSizeCheck" />
-
-                            <CheckBox
-                                android:id="@+id/fill_three_checkboxDisplay"
-                                android:layout_width="wrap_content"
-                                android:layout_height="50sp"
-                                android:layout_below="@id/fill_three_checkboxCapasitor"
-                                android:buttonTint="@color/blue"
-                                android:fontFamily="@font/poppins_regular"
-                                android:padding="12sp"
-                                android:text="Display"
-                                android:textColor="@color/lightblack"
-                                android:textSize="18sp"
-                                tools:ignore="DuplicateSpeakableTextCheck,HardcodedText,TouchTargetSizeCheck" />
-
-                        </RelativeLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
 
                         <RelativeLayout
+                            android:id="@+id/initialCheckDetails"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:layout_alignParentEnd="true"
-                            android:layout_marginEnd="5sp"
-                            android:orientation="vertical">
+                            android:gravity="center"
+                            tools:ignore="UselessParent">
 
-                            <CheckBox
-                                android:id="@+id/fill_three_checkboxFAN"
+
+                            <RelativeLayout
                                 android:layout_width="wrap_content"
-                                android:layout_height="50sp"
-                                android:buttonTint="@color/blue"
-                                android:fontFamily="@font/poppins_regular"
-                                android:padding="12sp"
-                                android:text="FAN"
-                                android:textColor="@color/lightblack"
-                                android:textSize="18sp"
-                                tools:ignore="DuplicateSpeakableTextCheck,HardcodedText,TouchTargetSizeCheck" />
+                                android:layout_height="match_parent"
+                                android:layout_alignParentStart="true"
+                                android:layout_marginStart="5sp"
+                                android:orientation="vertical">
 
-                            <CheckBox
-                                android:id="@+id/fill_three_checkboxCC"
+                                <CheckBox
+                                    android:id="@+id/fill_three_checkboxCapasitor"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="50sp"
+                                    android:buttonTint="@color/blue"
+                                    android:fontFamily="@font/poppins_regular"
+                                    android:padding="12sp"
+                                    android:text="Capacitor"
+                                    android:textColor="@color/lightblack"
+                                    android:textSize="18sp"
+                                    tools:ignore="DuplicateSpeakableTextCheck,HardcodedText,TouchTargetSizeCheck" />
+
+                                <CheckBox
+                                    android:id="@+id/fill_three_checkboxDisplay"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="50sp"
+                                    android:layout_below="@id/fill_three_checkboxCapasitor"
+                                    android:buttonTint="@color/blue"
+                                    android:fontFamily="@font/poppins_regular"
+                                    android:padding="12sp"
+                                    android:text="Display"
+                                    android:textColor="@color/lightblack"
+                                    android:textSize="18sp"
+                                    tools:ignore="DuplicateSpeakableTextCheck,HardcodedText,TouchTargetSizeCheck" />
+
+                            </RelativeLayout>
+
+                            <RelativeLayout
                                 android:layout_width="wrap_content"
-                                android:layout_height="50sp"
-                                android:layout_below="@+id/fill_three_checkboxFAN"
-                                android:buttonTint="@color/blue"
-                                android:fontFamily="@font/poppins_regular"
-                                android:padding="12sp"
-                                android:text="Control Card"
-                                android:textColor="@color/lightblack"
-                                android:textSize="18sp"
-                                tools:ignore="DuplicateSpeakableTextCheck,HardcodedText,TouchTargetSizeCheck" />
+                                android:layout_height="match_parent"
+                                android:layout_alignParentEnd="true"
+                                android:layout_marginEnd="5sp"
+                                android:orientation="vertical">
 
+                                <CheckBox
+                                    android:id="@+id/fill_three_checkboxFAN"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="50sp"
+                                    android:buttonTint="@color/blue"
+                                    android:fontFamily="@font/poppins_regular"
+                                    android:padding="12sp"
+                                    android:text="FAN"
+                                    android:textColor="@color/lightblack"
+                                    android:textSize="18sp"
+                                    tools:ignore="DuplicateSpeakableTextCheck,HardcodedText,TouchTargetSizeCheck" />
+
+                                <CheckBox
+                                    android:id="@+id/fill_three_checkboxCC"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="50sp"
+                                    android:layout_below="@+id/fill_three_checkboxFAN"
+                                    android:buttonTint="@color/blue"
+                                    android:fontFamily="@font/poppins_regular"
+                                    android:padding="12sp"
+                                    android:text="Control Card"
+                                    android:textColor="@color/lightblack"
+                                    android:textSize="18sp"
+                                    tools:ignore="DuplicateSpeakableTextCheck,HardcodedText,TouchTargetSizeCheck" />
+
+                            </RelativeLayout>
                         </RelativeLayout>
-                    </RelativeLayout>
-                </LinearLayout>
+                    </LinearLayout>
+                </RelativeLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="2sp"
                     android:layout_marginStart="2sp"
-                    android:layout_marginTop="2sp"
+                    android:layout_marginTop="10sp"
                     android:layout_marginEnd="2sp"
                     android:layout_marginBottom="2sp"
                     android:orientation="horizontal">
@@ -497,6 +513,7 @@
                     android:textColor="@color/black"
                     android:textSize="22sp"
                     tools:ignore="HardcodedText" />
+
 
                 <LinearLayout
                     android:id="@+id/inputPOSLayout"

@@ -131,7 +131,7 @@
         <!-- Button for the login action -->
 
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/loginButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -139,8 +139,8 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="60sp"
             android:backgroundTint="@color/blue"
-            android:background="@drawable/login_button"
             android:fontFamily="@font/poppins_medium"
+            android:background="@drawable/radius_button"
             android:text="@string/login"
             android:textAllCaps="false"
             android:textColor="@color/white"

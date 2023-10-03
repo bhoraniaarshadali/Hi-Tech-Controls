@@ -20,7 +20,14 @@ import java.util.Calendar;
 
 public class fill_one_fragment extends Fragment implements DatePickerDialog.OnDateSetListener {
 
-    private EditText enterName, enterNumber, enterGPNumber, enterDate, enterMakeName, enterModelName, enterHPrate, enterSerialNumber;
+    private EditText enterName;
+    private EditText enterNumber;
+    private EditText enterGPNumber;
+    private EditText enterDate;
+    private EditText enterMakeName;
+    private EditText enterModelName;
+    private EditText enterHPrate;
+    private EditText enterSerialNumber;
     private SharedPrefHelper sharedPref;
     public static String clientIdValue;
 
@@ -37,7 +44,9 @@ public class fill_one_fragment extends Fragment implements DatePickerDialog.OnDa
 
 
         // Initialize your EditText fields
-        enterName = view.findViewById(R.id.fill_one_enterName);
+        enterName = (EditText) view.findViewById(R.id.fill_one_enterName);
+        //String text = enterName.getText().toString().trim();
+
         enterNumber = view.findViewById(R.id.fill_one_enterNumber);
         enterGPNumber = view.findViewById(R.id.fill_one_enterGPNumber);
         enterDate = view.findViewById(R.id.fill_one_enterDate);
@@ -67,6 +76,7 @@ public class fill_one_fragment extends Fragment implements DatePickerDialog.OnDa
         View rootView = inflater.inflate(R.layout.fragment_fill_one, container, false);
         dateTextField1 = rootView.findViewById(R.id.fill_one_enterDate);
         initDatePicker();
+
 
         sharedPref = new SharedPrefHelper(requireContext());
         return rootView;
