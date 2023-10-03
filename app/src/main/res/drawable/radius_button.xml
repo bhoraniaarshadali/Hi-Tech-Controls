@@ -1,0 +1,9 @@
+<!-- custom_shape.xml -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="#F1F1F1" /> <!-- Background color -->
+    <corners android:radius="30dp" /> <!-- Corner radius -->
+    <size
+        android:width="180sp"
+        android:height="55dp" /> <!-- Width and height -->
+
+</shape>

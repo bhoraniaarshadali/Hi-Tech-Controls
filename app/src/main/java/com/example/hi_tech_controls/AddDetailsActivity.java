@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -40,14 +41,26 @@ public class AddDetailsActivity extends AppCompatActivity {
     private Fragment fillFourFragment;
 
     private int currentFragmentIndex = 0;
-    public static final int[] progressValues = {0, 20, 60, 80, 100};
+    public static final int[] progressValues = {0, 25, 50, 75, 100};
     private ProgressBar progressBar;
+    private ProgressBar progressBarDUMP;
+
     private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_details);
+
+        Button cameraButton1 = findViewById(R.id.cameraButton);
+
+        cameraButton1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AddDetailsActivity.this, mediaUpload.class);
+                startActivity(intent);
+            }
+        });
 
         //PreFix-Load-Fragment
         initializeFragments();
@@ -84,7 +97,11 @@ public class AddDetailsActivity extends AppCompatActivity {
             }
         });
         textSwitcher.setText(switcherValues[currentFragmentIndex]);
+
+        progressBarDUMP = findViewById(R.id.progressBarDUMP);
+        progressBarDUMP.setEnabled(false);
         progressBar = findViewById(R.id.progressBar);
+        progressBar.setEnabled(false);
     }
 
     // Initialize SharedPreferences

@@ -43,9 +43,9 @@ public class LoginActivity extends AppCompatActivity {
 //        });
 
         loginButton.setOnClickListener(v -> {
-            //LoginCred();
+            LoginCred();
 
-            Intent intent = new Intent(LoginActivity.this, mediaUpload.class);
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(intent);
         });
 
@@ -70,7 +70,11 @@ public class LoginActivity extends AppCompatActivity {
                     .repeat(2)
                     .playOn(findViewById(R.id.passwordEditText));
         } else if ("Admin".equals(username) && "Admin".equals(password)) {
+
             Toast.makeText(LoginActivity.this, "Successfully Login", Toast.LENGTH_LONG).show();
+
+//            Snackbar snakbar = Snackbar.make(findViewById(android.R.id.content), "Successfully", Snackbar.LENGTH_SHORT);
+//            snakbar.show();
 
             SharedPreferences preferences = getSharedPreferences("Login", MODE_PRIVATE);
             SharedPreferences.Editor editor = preferences.edit();
