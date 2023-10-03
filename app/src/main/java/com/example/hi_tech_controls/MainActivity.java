@@ -1,5 +1,7 @@
 package com.example.hi_tech_controls;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -9,6 +11,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
@@ -77,9 +80,40 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        showExitConfirmationDialog();
-    }
+        // Check if the user is logged in
+        SharedPreferences preferences = getSharedPreferences("Login", MODE_PRIVATE);
+        boolean isLoggedIn = preferences.getBoolean("flag", false);
 
+        if (isLoggedIn) {
+            showExitConfirmationDialog(); // If logged in, show the confirmation dialog
+        } else {
+            super.onBackPressed(); // If not logged in, handle back button normally
+        }
+
+        SweetAlertDialog dialog = new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE);
+        dialog.setTitleText("Exit");
+        dialog.setContentText("Are you sure you want to exit?");
+        dialog.setConfirmText("Yes");
+        dialog.setCancelText("No");
+        dialog.setCustomImage(R.drawable.baseline_exit_to_app_24);
+
+        dialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+            @Override
+            public void onClick(SweetAlertDialog sweetAlertDialog) {
+                MainActivity.super.onBackPressed(); // Exit the app
+                sweetAlertDialog.dismissWithAnimation();
+            }
+        });
+        dialog.setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+            @Override
+            public void onClick(SweetAlertDialog sweetAlertDialog) {
+                // Cancel action, do nothing
+                sweetAlertDialog.dismissWithAnimation();
+            }
+        });
+        dialog.show();
+
+    }
     private void setProgressBarStatus() {
         progressBar = findViewById(R.id.progressStatusBar);
 
@@ -138,6 +172,7 @@ public class MainActivity extends AppCompatActivity {
 
         // After clearing data, you can start the LoginActivity
         Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK); // Clear back stack
         startActivity(intent);
 
         // Finish the current activity (main activity)
