@@ -97,7 +97,7 @@
             <SeekBar
                 android:id="@+id/progressBarDUMP"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:paddingTop="10sp"
                 android:progress="100"
                 android:progressDrawable="@drawable/custom_progress"
@@ -107,7 +107,7 @@
             <SeekBar
                 android:id="@+id/progressBar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:paddingTop="10sp"
                 android:progress="100"
                 android:progressDrawable="@drawable/custom_progress1"
