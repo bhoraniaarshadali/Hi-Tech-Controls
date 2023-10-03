@@ -1,5 +1,7 @@
 package com.example.hi_tech_controls;
 
+import static com.example.hi_tech_controls.MainActivity.statusText1;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -62,12 +64,12 @@ public class AddDetailsActivity extends AppCompatActivity {
             }
         });
 
-        //PreFix-Load-Fragment
+        // PreFix-Load-Fragment
         initializeFragments();
         loadFragment(fillOneFragment);
         anim();
 
-        //PostFix-Load
+        // PostFix-Load
         initializeUIElements();
         initializeSharedPreferences();
         setInitialProgress();
@@ -84,9 +86,6 @@ public class AddDetailsActivity extends AppCompatActivity {
 
     // Initialize UI elements
     private void initializeUIElements() {
-        //ImageView addClientDtls_Back1 = findViewById(R.id.addClientDtls_Back);
-        //ImageView addClientDtls_Next1 = findViewById(R.id.addClientDtls_Next);
-
         TextSwitcher textSwitcher = findViewById(R.id.textSwitcher);
         textSwitcher.setFactory(new ViewSwitcher.ViewFactory() {
             @Override
@@ -159,12 +158,40 @@ public class AddDetailsActivity extends AppCompatActivity {
     private void showCompletionPopup() {
         SweetAlertDialog dialog = new SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE);
         dialog.setTitleText("Data Stored Successfully!" + "Client Id: " + fill_one_fragment.clientIdValue);
-        dialog.setContentText("You completed all the steps!")
-                .show();
+        dialog.setContentText("You completed all the steps!");
+
+        // Set a click listener for the confirmation button
         dialog.setConfirmButtonBackgroundColor(Color.parseColor("#181C5C"));
         dialog.setConfirmText("Okay");
-        progressBar.setProgress(100);
+        dialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+            @Override
+            public void onClick(SweetAlertDialog sDialog) {
+                // Close the dialog
+                sDialog.dismissWithAnimation();
+
+                // Send a broadcast to inform MainActivity
+                Intent broadcastIntent = new Intent("com.example.hi_tech_controls.PROGRESS_UPDATE");
+                broadcastIntent.putExtra("progress", 100);
+                sendBroadcast(broadcastIntent);
+
+                // Update the text accordingly
+                statusText1.setText("Completed");
+
+                // Navigate back to MainActivity
+                navigateToMainActivity();
+            }
+        });
+
+        dialog.show();
     }
+
+    // Navigate to MainActivity
+    private void navigateToMainActivity() {
+        Intent intent = new Intent(AddDetailsActivity.this, MainActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
 
     // Navigate back to the previous fragment
     private void goBack() {
@@ -175,9 +202,7 @@ public class AddDetailsActivity extends AppCompatActivity {
             updateTextSwitcher();
             saveProgressIndex(currentFragmentIndex);
         } else {
-            //super.onBackPressed();
-            Intent intent = new Intent(AddDetailsActivity.this, MainActivity.class);
-            startActivity(intent);
+            navigateToMainActivity();
         }
     }
 

@@ -1,8 +1,9 @@
 package com.example.hi_tech_controls;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -11,7 +12,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
@@ -19,15 +19,52 @@ import androidx.cardview.widget.CardView;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class MainActivity extends AppCompatActivity {
+
     public static String clientIdValue;
     TextView showId;
-    private ProgressBar progressBar;
+    public static TextView statusText1;
     private ImageView logout_btn_layout;
 
     private CardView cardView_1;
+    private static ProgressBar progressBar;
     Button addClientBtn1;
     Button viewClientBtn1;
     SharedPrefHelper sharedPref;
+    // Define your BroadcastReceiver
+    private final BroadcastReceiver progressUpdateReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction() != null && intent.getAction().equals("com.example.hi_tech_controls.PROGRESS_UPDATE")) {
+                int progress = intent.getIntExtra("progress", 0);
+                progressBar.setProgress(progress);
+
+                // Check if the progress is 100% and update the text accordingly
+                if (progress == 100) {
+                    statusText1.setText("Completed");
+
+                    // Send a broadcast to inform MainActivity
+                    Intent broadcastIntent = new Intent("com.example.hi_tech_controls.PROGRESS_UPDATE");
+                    broadcastIntent.putExtra("progress", progress);
+                    sendBroadcast(broadcastIntent);
+                }
+            }
+        }
+    };
+
+    // Register your BroadcastReceiver in onResume
+    @Override
+    protected void onResume() {
+        super.onResume();
+        IntentFilter intentFilter = new IntentFilter("com.example.hi_tech_controls.PROGRESS_UPDATE");
+        registerReceiver(progressUpdateReceiver, intentFilter);
+    }
+
+    // Unregister your BroadcastReceiver in onPause to avoid leaks
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(progressUpdateReceiver);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +76,8 @@ public class MainActivity extends AppCompatActivity {
         addClientBtn1 = findViewById(R.id.addClientBtn);
         viewClientBtn1 = findViewById(R.id.viewClientBtn);
         cardView_1 = findViewById(R.id.cardView_1);
+        progressBar = findViewById(R.id.progressStatusBar);  // Initialize progressBar
+        statusText1 = findViewById(R.id.statusText);  // Initialize statusText1
 
         sharedPref = new SharedPrefHelper(this);
         anim();
@@ -80,40 +119,9 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        // Check if the user is logged in
-        SharedPreferences preferences = getSharedPreferences("Login", MODE_PRIVATE);
-        boolean isLoggedIn = preferences.getBoolean("flag", false);
-
-        if (isLoggedIn) {
-            showExitConfirmationDialog(); // If logged in, show the confirmation dialog
-        } else {
-            super.onBackPressed(); // If not logged in, handle back button normally
-        }
-
-        SweetAlertDialog dialog = new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE);
-        dialog.setTitleText("Exit");
-        dialog.setContentText("Are you sure you want to exit?");
-        dialog.setConfirmText("Yes");
-        dialog.setCancelText("No");
-        dialog.setCustomImage(R.drawable.baseline_exit_to_app_24);
-
-        dialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-            @Override
-            public void onClick(SweetAlertDialog sweetAlertDialog) {
-                MainActivity.super.onBackPressed(); // Exit the app
-                sweetAlertDialog.dismissWithAnimation();
-            }
-        });
-        dialog.setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
-            @Override
-            public void onClick(SweetAlertDialog sweetAlertDialog) {
-                // Cancel action, do nothing
-                sweetAlertDialog.dismissWithAnimation();
-            }
-        });
-        dialog.show();
-
+        showExitConfirmationDialog();
     }
+
     private void setProgressBarStatus() {
         progressBar = findViewById(R.id.progressStatusBar);
 
@@ -156,6 +164,7 @@ public class MainActivity extends AppCompatActivity {
 
                 // Dismiss the dialog
                 sDialog.dismissWithAnimation();
+
             }
         });
 
@@ -164,26 +173,26 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void logout() {
-        // Clear the user's login state by setting "flag" to false in shared preferences
-        SharedPreferences preferences = getSharedPreferences("Login", MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putBoolean("flag", false);
+        // Add your logout logic here, such as clearing user data or preferences
+        // For example, you can use shared preferences to store login state and clear it
+        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.clear(); // Clear user data
         editor.apply();
 
-        // After clearing data, you can start the LoginActivity
-        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK); // Clear back stack
+        // After clearing data, you can start the login activity or perform any other necessary actions
+        Intent intent = new Intent(MainActivity.this, LoginActivity.class); // Replace LoginActivity with your login activity
         startActivity(intent);
 
         // Finish the current activity (main activity)
         finish();
     }
 
+
     public void anim() {
         CardView cardView_1 = findViewById(R.id.cardView_1);
         cardView_1.setAlpha(0f);
         cardView_1.setTranslationY(50);
         cardView_1.animate().alpha(1f).translationYBy(-50).setDuration(1000);
-
     }
 }

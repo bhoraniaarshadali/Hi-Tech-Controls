@@ -6,7 +6,7 @@ import android.content.SharedPreferences;
 public class SharedPrefHelper {
     private static final String SHARED_PREF_NAME = "MySharedPref"; // Change this to your preferred name
     private final SharedPreferences sharedPreferences;
-    private final SharedPreferences.Editor editor;
+    private static SharedPreferences.Editor editor;
     private final Context context;
 
     public SharedPrefHelper(Context context) {
@@ -49,13 +49,13 @@ public class SharedPrefHelper {
     }
 
     // Clear a specific value from SharedPreferences
-    public void clearValue(String key) {
+    public static void clearValue(String key) {
         editor.remove(key);
         editor.apply();
     }
 
     // Clear all values in SharedPreferences
-    public void clearAll() {
+    public static void clearAll() {
         editor.clear();
         editor.apply();
     }
