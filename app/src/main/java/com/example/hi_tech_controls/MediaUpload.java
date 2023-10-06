@@ -88,6 +88,7 @@ public class MediaUpload extends AppCompatActivity {
 
                     if (addMoreTaps >= MAX_ADD_MORE_TAPS) {
                         add_more_Button.setVisibility(View.GONE);
+                        Toast.makeText(MediaUpload.this, "Maximum images added", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
