@@ -59,7 +59,7 @@ public class AddDetailsActivity extends AppCompatActivity {
         cameraButton1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(AddDetailsActivity.this, mediaUpload.class);
+                Intent intent = new Intent(AddDetailsActivity.this, MediaUpload.class);
                 startActivity(intent);
             }
         });

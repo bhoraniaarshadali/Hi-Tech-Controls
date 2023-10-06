@@ -4,13 +4,19 @@
     package="com.example.hi_tech_controls">
 
     <uses-permission android:name="android.permission.CAMERA" />
+
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32"
+        tools:ignore="ScopedStorage" />
 
     <application
         android:allowBackup="true"
@@ -23,7 +29,7 @@
         android:theme="@style/Theme.HiTechControls"
         tools:targetApi="31">
         <activity
-            android:name=".mediaUpload"
+            android:name=".MediaUpload"
             android:exported="false"
             android:theme="@style/Theme.SplashNoTitleBar" />
         <!-- Splash Activity -->
