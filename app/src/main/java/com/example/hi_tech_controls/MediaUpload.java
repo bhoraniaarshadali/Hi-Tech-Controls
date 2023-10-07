@@ -18,12 +18,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import java.util.Objects;
+
 public class MediaUpload extends AppCompatActivity {
 
-    private static final int CAMERA_REQUEST = 1;
-    private static final int VIDEO_REQUEST = 2;
     private static final int PERMISSION_CAMERA = 1;
-    private static final int PERMISSION_VIDEO = 2;
     private static final int MAX_BOXES = 6;
     private static final int MAX_ADD_MORE_TAPS = 2;
 
@@ -55,48 +54,35 @@ public class MediaUpload extends AppCompatActivity {
 
         add_more_Button.setVisibility(View.VISIBLE);
 
-        mediaActivity_Back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
+        mediaActivity_Back.setOnClickListener(v -> onBackPressed());
 
         // Set an OnClickListener for boxes 1 to 6
         for (int i = 0; i < boxes.length; i++) {
             final int index = i;
-            boxes[i].setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    checkCameraAndVideoPermissionAndStart(index);
-                }
-            });
+            boxes[i].setOnClickListener(v -> checkCameraAndVideoPermissionAndStart(index));
         }
 
-        add_more_Button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (boxCount < MAX_BOXES && addMoreTaps < MAX_ADD_MORE_TAPS) {
-                    boxCount++;
-                    addNewBox(boxCount);
+        add_more_Button.setOnClickListener(v -> {
+            if (boxCount < MAX_BOXES && addMoreTaps < MAX_ADD_MORE_TAPS) {
+                boxCount++;
+                addNewBox();
 
-                    if (boxCount >= MAX_BOXES) {
-                        add_more_Button.setVisibility(View.GONE);
-                    }
+                if (boxCount >= MAX_BOXES) {
+                    add_more_Button.setVisibility(View.GONE);
+                }
 
-                    addMoreTaps++;
+                addMoreTaps++;
 
-                    if (addMoreTaps >= MAX_ADD_MORE_TAPS) {
-                        add_more_Button.setVisibility(View.GONE);
-                        Toast.makeText(MediaUpload.this, "Maximum images added", Toast.LENGTH_SHORT).show();
-                    }
+                if (addMoreTaps >= MAX_ADD_MORE_TAPS) {
+                    add_more_Button.setVisibility(View.GONE);
+                    Toast.makeText(MediaUpload.this, "Maximum images added", Toast.LENGTH_SHORT).show();
                 }
             }
         });
     }
 
 
-    private void addNewBox(int boxNumber) {
+    private void addNewBox() {
         View newBox = getLayoutInflater().inflate(R.layout.new_box_layout, null);
 
         if (newBox != null) {
@@ -110,12 +96,7 @@ public class MediaUpload extends AppCompatActivity {
 
             for (int i = 0; i < newBoxes.length; i++) {
                 final int index = (boxCount - 1) * 3 + i;
-                newBoxes[i].setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        checkCameraAndVideoPermissionAndStart(index);
-                    }
-                });
+                newBoxes[i].setOnClickListener(v -> checkCameraAndVideoPermissionAndStart(index));
             }
         } else {
             Toast.makeText(this, "Error creating a new box", Toast.LENGTH_SHORT).show();
@@ -161,7 +142,7 @@ public class MediaUpload extends AppCompatActivity {
                     if (data.getData() != null) {
                         // Handle video capture here (store video or display a video thumbnail)
                     } else {
-                        Bitmap photo = (Bitmap) data.getExtras().get("data");
+                        Bitmap photo = (Bitmap) Objects.requireNonNull(data.getExtras()).get("data");
                         if (photo != null) {
                             boxImages[requestCode] = photo;
                             boxes[requestCode].setImageBitmap(photo);

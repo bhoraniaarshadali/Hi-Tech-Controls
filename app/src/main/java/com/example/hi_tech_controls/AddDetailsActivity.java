@@ -46,6 +46,9 @@ public class AddDetailsActivity extends AppCompatActivity {
     public static final int[] progressValues = {0, 25, 50, 75, 100};
     private ProgressBar progressBar;
     private ProgressBar progressBarDUMP;
+    private ProgressBar progressBarTEXTDUMPwhite;
+    private ProgressBar progressBarTEXTDUMPblue;
+
 
     private SharedPreferences sharedPreferences;
 
@@ -99,6 +102,10 @@ public class AddDetailsActivity extends AppCompatActivity {
 
         progressBarDUMP = findViewById(R.id.progressBarDUMP);
         progressBarDUMP.setEnabled(false);
+        progressBarTEXTDUMPwhite = findViewById(R.id.progressBarTEXTDUMPwhite);
+        progressBarTEXTDUMPwhite.setEnabled(false);
+        progressBarTEXTDUMPblue = findViewById(R.id.progressBarTEXTDUMPblue);
+        progressBarTEXTDUMPblue.setEnabled(false);
         progressBar = findViewById(R.id.progressBar);
         progressBar.setEnabled(false);
     }
