@@ -18,8 +18,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import java.util.Objects;
-
 public class MediaUpload extends AppCompatActivity {
 
     private static final int PERMISSION_CAMERA = 1;
@@ -81,7 +79,6 @@ public class MediaUpload extends AppCompatActivity {
         });
     }
 
-
     private void addNewBox() {
         View newBox = getLayoutInflater().inflate(R.layout.new_box_layout, null);
 
@@ -142,7 +139,7 @@ public class MediaUpload extends AppCompatActivity {
                     if (data.getData() != null) {
                         // Handle video capture here (store video or display a video thumbnail)
                     } else {
-                        Bitmap photo = (Bitmap) Objects.requireNonNull(data.getExtras()).get("data");
+                        Bitmap photo = (Bitmap) data.getExtras().get("data");
                         if (photo != null) {
                             boxImages[requestCode] = photo;
                             boxes[requestCode].setImageBitmap(photo);

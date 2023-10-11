@@ -20,7 +20,7 @@ import java.util.Calendar;
 
 public class fill_one_fragment extends Fragment implements DatePickerDialog.OnDateSetListener {
 
-    private EditText enterName;
+    public EditText enterName;
     private EditText enterNumber;
     private EditText enterGPNumber;
     private EditText enterDate;
@@ -69,6 +69,8 @@ public class fill_one_fragment extends Fragment implements DatePickerDialog.OnDa
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
     }
 
     @Override

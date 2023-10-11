@@ -22,7 +22,7 @@
             tools:layout_editor_absoluteX="-20dp"
             tools:layout_editor_absoluteY="0dp" />
 
-        <!--    after your work is done REMOVE-->
+        <!-- after your work is done REMOVE -->
 
         <ImageView
             android:id="@+id/mediaActivity_Back"
@@ -64,7 +64,6 @@
             app:cardElevation="5dp"
             tools:ignore="TextSizeCheck">
 
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -90,13 +89,6 @@
                             android:layout_height="75sp"
                             android:src="@drawable/imageview" />
 
-                        <!--                        <TextView-->
-                        <!--                            android:layout_width="wrap_content"-->
-                        <!--                            android:layout_height="wrap_content"-->
-                        <!--                            android:layout_gravity="center"-->
-                        <!--                            android:fontFamily="@font/poppins_regular"-->
-                        <!--                            android:text="1"-->
-                        <!--                            android:textColor="@color/lightblack" />-->
                     </LinearLayout>
 
                     <LinearLayout
@@ -111,13 +103,6 @@
                             android:layout_height="75sp"
                             android:src="@drawable/imageview" />
 
-                        <!--                        <TextView-->
-                        <!--                            android:layout_width="wrap_content"-->
-                        <!--                            android:layout_height="wrap_content"-->
-                        <!--                            android:layout_gravity="center"-->
-                        <!--                            android:fontFamily="@font/poppins_regular"-->
-                        <!--                            android:text="2"-->
-                        <!--                            android:textColor="@color/lightblack" />-->
                     </LinearLayout>
 
                     <LinearLayout
@@ -131,13 +116,6 @@
                             android:layout_height="75sp"
                             android:src="@drawable/imageview" />
 
-                        <!--                        <TextView-->
-                        <!--                            android:layout_width="wrap_content"-->
-                        <!--                            android:layout_height="wrap_content"-->
-                        <!--                            android:layout_gravity="center"-->
-                        <!--                            android:fontFamily="@font/poppins_regular"-->
-                        <!--                            android:text="3"-->
-                        <!--                            android:textColor="@color/lightblack" />-->
                     </LinearLayout>
 
                 </LinearLayout>
@@ -163,13 +141,6 @@
                             android:layout_height="75sp"
                             android:src="@drawable/imageview" />
 
-                        <!--                        <TextView-->
-                        <!--                            android:layout_width="wrap_content"-->
-                        <!--                            android:layout_height="wrap_content"-->
-                        <!--                            android:layout_gravity="center"-->
-                        <!--                            android:fontFamily="@font/poppins_regular"-->
-                        <!--                            android:text="4"-->
-                        <!--                            android:textColor="@color/lightblack" />-->
                     </LinearLayout>
 
                     <LinearLayout
@@ -184,13 +155,6 @@
                             android:layout_height="75sp"
                             android:src="@drawable/imageview" />
 
-                        <!--                        <TextView-->
-                        <!--                            android:layout_width="wrap_content"-->
-                        <!--                            android:layout_height="wrap_content"-->
-                        <!--                            android:layout_gravity="center"-->
-                        <!--                            android:fontFamily="@font/poppins_regular"-->
-                        <!--                            android:text="5"-->
-                        <!--                            android:textColor="@color/lightblack" />-->
                     </LinearLayout>
 
                     <LinearLayout
@@ -204,17 +168,22 @@
                             android:layout_height="75sp"
                             android:src="@drawable/imageview" />
 
-                        <!--                        <TextView-->
-                        <!--                            android:layout_width="wrap_content"-->
-                        <!--                            android:layout_height="wrap_content"-->
-                        <!--                            android:layout_gravity="center"-->
-                        <!--                            android:fontFamily="@font/poppins_regular"-->
-                        <!--                            android:text="6"-->
-                        <!--                            android:textColor="@color/lightblack"-->
-                        <!--                            android:textSize="12sp" />-->
                     </LinearLayout>
 
                 </LinearLayout>
+
+                <!-- Add largeImageView for displaying larger images -->
+                <ImageView
+                    android:id="@+id/largeImageView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:background="@android:color/black"
+                    android:clickable="true"
+                    android:contentDescription="Large Image Preview"
+                    android:focusable="true"
+                    android:scaleType="fitCenter"
+                    android:visibility="gone" />
 
                 <LinearLayout
                     android:id="@+id/boxContainer"

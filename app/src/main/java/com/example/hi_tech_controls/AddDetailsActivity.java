@@ -1,7 +1,5 @@
 package com.example.hi_tech_controls;
 
-import static com.example.hi_tech_controls.MainActivity.statusText1;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -59,6 +57,7 @@ public class AddDetailsActivity extends AppCompatActivity {
 
         Button cameraButton1 = findViewById(R.id.cameraButton);
 
+
         cameraButton1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -70,13 +69,15 @@ public class AddDetailsActivity extends AppCompatActivity {
         // PreFix-Load-Fragment
         initializeFragments();
         loadFragment(fillOneFragment);
-        anim();
+        //anim();
 
         // PostFix-Load
         initializeUIElements();
         initializeSharedPreferences();
         setInitialProgress();
         setButtonListeners();
+
+
     }
 
     // Initialize Fragments
@@ -108,6 +109,8 @@ public class AddDetailsActivity extends AppCompatActivity {
         progressBarTEXTDUMPblue.setEnabled(false);
         progressBar = findViewById(R.id.progressBar);
         progressBar.setEnabled(false);
+
+
     }
 
     // Initialize SharedPreferences
@@ -148,15 +151,22 @@ public class AddDetailsActivity extends AppCompatActivity {
         fragmentTransaction.commit();
     }
 
-    // Load the next fragment in sequence
+    // Method to load the next fragment in sequence
     private void loadNextFragment() {
-        if (currentFragmentIndex < switcherValues.length - 1) {
+        if (currentFragmentIndex < switcherValues.length - 1) { // Check if there's a next fragment
             currentFragmentIndex++;
+
+            // Load the corresponding fragment and update progress
             loadFragmentByIndex(currentFragmentIndex);
+
+            // Update progress bar based on progressValues array
             updateProgressBar(progressValues[currentFragmentIndex]);
             updateTextSwitcher();
+
+            // Save the current progress index
             saveProgressIndex(currentFragmentIndex);
         } else {
+            // Handle the case when the user is on the last fragment and presses "Next"
             showCompletionPopup();
         }
     }
@@ -176,20 +186,14 @@ public class AddDetailsActivity extends AppCompatActivity {
                 // Close the dialog
                 sDialog.dismissWithAnimation();
 
-                // Send a broadcast to inform MainActivity
-                Intent broadcastIntent = new Intent("com.example.hi_tech_controls.PROGRESS_UPDATE");
-                broadcastIntent.putExtra("progress", 100);
-                sendBroadcast(broadcastIntent);
+                // Navigate back to Preview_Fragment
+                //navigatePreview();
 
-                // Update the text accordingly
-                statusText1.setText("Completed");
-
-                // Navigate back to MainActivity
-                navigateToMainActivity();
             }
         });
 
         dialog.show();
+        progressBar.setProgress(100);
     }
 
     // Navigate to MainActivity
@@ -224,6 +228,7 @@ public class AddDetailsActivity extends AppCompatActivity {
         switch (index) {
             case 0:
                 loadFragment(fillOneFragment);
+
                 break;
             case 1:
                 loadFragment(fillTwoFragment);

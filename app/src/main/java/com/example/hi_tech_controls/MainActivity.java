@@ -15,10 +15,19 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.hi_tech_controls.adapter.AddDetailsAdp;
+import com.example.hi_tech_controls.adapter.DetailsModel;
+
+import java.util.ArrayList;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class MainActivity extends AppCompatActivity {
+
+    RecyclerView recyclerViewDiscovery1;
 
     public static String clientIdValue;
     TextView showId;
@@ -71,16 +80,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Initialize your UI elements
-        showId = findViewById(R.id.showId);
         addClientBtn1 = findViewById(R.id.addClientBtn);
         viewClientBtn1 = findViewById(R.id.viewClientBtn);
-        cardView_1 = findViewById(R.id.cardView_1);
-        progressBar = findViewById(R.id.progressStatusBar);  // Initialize progressBar
-        statusText1 = findViewById(R.id.statusText);  // Initialize statusText1
+
 
         sharedPref = new SharedPrefHelper(this);
-        anim();
+        //anim();
 
         logout_btn_layout = findViewById(R.id.logout_btn);
         logout_btn_layout.setOnClickListener(new View.OnClickListener() {
@@ -90,13 +95,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        cardView_1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, AddDetailsActivity.class);
-                startActivity(intent);
-            }
-        });
 
         addClientBtn1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -114,7 +112,39 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        setProgressBarStatus();
+        recyclerViewDiscovery1 = (RecyclerView) findViewById(R.id.recyclerViewDiscovery);
+
+        ArrayList<DetailsModel> DetailsData = new ArrayList<>();
+
+        DetailsModel details = new DetailsModel();
+
+        details.setUId(125);
+        details.setuName("Dev Dave");
+        details.setProgress(100);
+
+
+        DetailsModel details1 = new DetailsModel();
+
+        details1.setUId(125);
+        details1.setuName("Arshad ali Bhorania");
+        details1.setProgress(60);
+
+        DetailsModel details2 = new DetailsModel();
+
+        details2.setUId(125);
+        details2.setuName("Amit Suthar");
+        details2.setProgress(80);
+
+        DetailsData.add(details);
+        DetailsData.add(details1);
+        DetailsData.add(details2);
+
+        AddDetailsAdp obj = new AddDetailsAdp(this, DetailsData);
+
+        recyclerViewDiscovery1.setLayoutManager(new LinearLayoutManager(this));
+        recyclerViewDiscovery1.setAdapter(obj);
+
+        //setProgressBarStatus();
     }
 
     @Override
@@ -189,10 +219,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void anim() {
-        CardView cardView_1 = findViewById(R.id.cardView_1);
-        cardView_1.setAlpha(0f);
-        cardView_1.setTranslationY(50);
-        cardView_1.animate().alpha(1f).translationYBy(-50).setDuration(1000);
-    }
+//    public void anim() {
+//        CardView cardView_1 = findViewById(R.id.cardView_1);
+//        cardView_1.setAlpha(0f);
+//        cardView_1.setTranslationY(50);
+//        cardView_1.animate().alpha(1f).translationYBy(-50).setDuration(1000);
+//    }
 }
