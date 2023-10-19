@@ -1,20 +1,34 @@
 package com.example.hi_tech_controls.fragments;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget. RadioButton;
 
 import android.widget.TextView;
+
+import com.example.hi_tech_controls.Print_PDF;
 import com.example.hi_tech_controls.R;
 import com.example.hi_tech_controls.SharedPrefHelper;
 
 public class View_data_fragment extends Fragment {
 
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_view_data_fragement, container, false);
+        // Find the button in the fragment's layout
+        Button generatePdfButton = rootView.findViewById(R.id.printpdf); // Replace with your button ID
+
+
+// Initialize the pdfCreator when the fragment is created
+
 
         // Initialize SharedPrefHelper
         SharedPrefHelper sharedPref = new SharedPrefHelper(requireContext());
