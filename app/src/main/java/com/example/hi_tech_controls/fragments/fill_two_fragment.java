@@ -29,7 +29,7 @@ public class fill_two_fragment extends Fragment {
     private EditText enterFRrate;
     private RadioButton radioButtonLocal, radioButtonRemote, radioButtonComm, radioButtonDIODE, radioButtonSCR;
     private CheckBox input_POS_checkbox_U, input_POS_checkbox_V, input_POS_checkbox_W, input_NEG_checkbox_U, input_NEG_checkbox_V,
-            input_NEG_checkbox_W, output_POS_checkbox_U, output_POS_checkbox_V, output_POS_checkbox_W;
+            input_NEG_checkbox_W, output_POS_checkbox_U, output_POS_checkbox_V, output_POS_checkbox_W,output_NEG_checkbox_U,output_NEG_checkbox_V,output_NEG_checkbox_W;
     private EditText clientObsText, ourObsText, lastFaultText;
     private SharedPrefHelper sharedPref;
 
@@ -67,6 +67,9 @@ public class fill_two_fragment extends Fragment {
         output_POS_checkbox_U = view.findViewById(R.id.fill_two_output_POS_checkbox_U);
         output_POS_checkbox_V = view.findViewById(R.id.fill_two_output_POS_checkbox_V);
         output_POS_checkbox_W = view.findViewById(R.id.fill_two_output_POS_checkbox_W);
+        output_NEG_checkbox_U = view.findViewById(R.id.fill_two_output_NEG_checkbox_U);
+        output_NEG_checkbox_V = view.findViewById(R.id.fill_two_output_NEG_checkbox_V);
+        output_NEG_checkbox_W = view.findViewById(R.id.fill_two_output_NEG_checkbox_W);
         clientObsText = view.findViewById(R.id.fill_two_clientObs_text);
         ourObsText = view.findViewById(R.id.fill_two_ourObs_text);
         lastFaultText = view.findViewById(R.id.fill_two_lastFault_text);
@@ -106,7 +109,9 @@ public class fill_two_fragment extends Fragment {
         output_POS_checkbox_U.setChecked(sharedPref.getBoolean("output_pos_checkbox_U", false));
         output_POS_checkbox_V.setChecked(sharedPref.getBoolean("output_pos_checkbox_V", false));
         output_POS_checkbox_W.setChecked(sharedPref.getBoolean("output_pos_checkbox_W", false));
-
+        output_NEG_checkbox_U.setChecked(sharedPref.getBoolean("output_neg_checkbox_U", false));
+        output_NEG_checkbox_V.setChecked(sharedPref.getBoolean("output_neg_checkbox_V", false));
+        output_NEG_checkbox_W.setChecked(sharedPref.getBoolean("output_neg_checkbox_W", false));
         clientObsText.setText(sharedPref.getString("client_obs", ""));
         ourObsText.setText(sharedPref.getString("our_obs", ""));
         lastFaultText.setText(sharedPref.getString("last_fault", ""));
@@ -193,10 +198,13 @@ public class fill_two_fragment extends Fragment {
         sharedPref.saveBoolean("input_neg_checkbox_U", input_NEG_checkbox_U.isChecked());
         sharedPref.saveBoolean("input_neg_checkbox_V", input_NEG_checkbox_V.isChecked());
         sharedPref.saveBoolean("input_neg_checkbox_W", input_NEG_checkbox_W.isChecked());
-
         sharedPref.saveBoolean("output_pos_checkbox_U", output_POS_checkbox_U.isChecked());
         sharedPref.saveBoolean("output_pos_checkbox_V", output_POS_checkbox_V.isChecked());
         sharedPref.saveBoolean("output_pos_checkbox_W", output_POS_checkbox_W.isChecked());
+        sharedPref.saveBoolean("output_neg_checkbox_U", output_NEG_checkbox_U.isChecked());
+        sharedPref.saveBoolean("output_neg_checkbox_V", output_NEG_checkbox_V.isChecked());
+        sharedPref.saveBoolean("output_neg_checkbox_W", output_NEG_checkbox_W.isChecked());
+
 
         sharedPref.saveString("client_obs", clientObsText.getText().toString());
         sharedPref.saveString("our_obs", ourObsText.getText().toString());

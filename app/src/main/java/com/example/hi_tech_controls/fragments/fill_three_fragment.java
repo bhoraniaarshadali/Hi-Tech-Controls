@@ -211,6 +211,8 @@ public class fill_three_fragment extends Fragment {
         sharedPref.saveBoolean("repair_checkboxTwo", Repair_checkboxTwo.isChecked());
         sharedPref.saveBoolean("repair_checkboxThree", Repair_checkboxThree.isChecked());
         sharedPref.saveBoolean("repair_checkboxFour", Repair_checkboxFour.isChecked());
+        sharedPref.saveBoolean("repair_checkboxFive", Repair_checkboxFive.isChecked());
+        sharedPref.saveBoolean("repair_checkboxSix", Repair_checkboxSix.isChecked());
 
         sharedPref.saveBoolean("replace_checkboxOne", Replace_checkboxOne.isChecked());
         sharedPref.saveBoolean("replace_checkboxTwo", Replace_checkboxTwo.isChecked());
