@@ -1,0 +1,43 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Shadow Layer 1 (outer shadow) -->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="#E8E8EF" />
+            <corners android:radius="10dp" />
+        </shape>
+    </item>
+    <!-- Shadow Layer 2 (inner shadow) -->
+    <item
+        android:bottom="1dp"
+        android:left="1dp"
+        android:right="1dp"
+        android:top="1dp">
+        <shape android:shape="rectangle">
+            <solid android:color="#E8E8EF" />
+            <corners android:radius="10dp" />
+        </shape>
+    </item>
+    <!-- Content Layer (Your Vector Drawable) -->
+    <item
+        android:bottom="2dp"
+        android:left="2dp"
+        android:right="2dp"
+        android:top="2dp">
+        <vector
+            android:width="313dp"
+            android:height="74dp"
+            android:viewportWidth="313"
+            android:viewportHeight="74">
+            <group>
+                <clip-path android:pathData="M8 0H305C309.418 0 313 3.58172 313 8V66C313 70.4183 309.418 74 305 74H8C3.58172 74 0 70.4183 0 66V8C0 3.58172 3.58172 0 8 0Z" />
+                <path
+                    android:fillColor="#FFFFFF"
+                    android:pathData="M0 0V74H313V0" />
+                <path
+                    android:pathData="M8 0H305C309.418 0 313 3.58172 313 8V66C313 70.4183 309.418 74 305 74H8C3.58172 74 0 70.4183 0 66V8C0 3.58172 3.58172 0 8 0Z"
+                    android:strokeWidth="2"
+                    android:strokeColor="#FFFFFF" />
+            </group>
+        </vector>
+    </item>
+</layer-list>

@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:fillViewport="true">
+
+    <!-- Main layout container -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!-- Dashboard text -->
+        <View
+            android:id="@+id/dash_vi"
+            android:layout_width="match_parent"
+            android:layout_height="193dp"
+            android:background="@drawable/flip_top"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteX="-20dp"
+            tools:layout_editor_absoluteY="0dp" />
+
+        <!--    after your work is done REMOVE-->
+
+        <ImageView
+            android:id="@+id/viewClientDtls_Back"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="33dp"
+            android:importantForAccessibility="no"
+            android:src="@drawable/back_btn"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteX="23dp"
+            tools:layout_editor_absoluteY="37dp" />
+
+        <TextView
+            android:id="@+id/dash_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="25dp"
+            android:fontFamily="@font/poppins_medium"
+            android:text="Clients details"
+            android:textColor="@color/white"
+            android:textSize="25sp"
+            tools:ignore="HardcodedText,SpUsage" />
+
+        <!-- Card view for proper layout -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cv_1"
+            android:layout_width="match_parent"
+            android:layout_height="230sp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="95dp"
+            android:layout_marginEnd="15dp"
+            android:backgroundTint="@color/white"
+            app:cardCornerRadius="25dp"
+            app:cardElevation="5dp"
+            tools:ignore="TextSizeCheck">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginBottom="5dp"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30sp"
+                    android:layout_marginTop="25sp"
+                    android:fontFamily="@font/poppins_bold"
+                    android:text="@string/find_a_client_details"
+                    android:textColor="#4D4D4D"
+                    android:textSize="15sp" />
+
+                <EditText
+                    android:id="@+id/searchField"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/usernameTitleTextView"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginRight="20dp"
+                    android:background="@drawable/round_textfield"
+                    android:drawableStart="@drawable/search_icon"
+                    android:ellipsize="start"
+                    android:fontFamily="@font/poppins_regular"
+                    android:gravity="center"
+                    android:hint="Find by Name, Client-Id, Circuit No. "
+                    android:importantForAutofill="no"
+                    android:inputType="text"
+                    android:paddingStart="15sp"
+                    android:paddingTop="13sp"
+                    android:paddingBottom="12sp"
+                    android:textColor="@color/black"
+                    android:textColorHint="#546E7A"
+                    android:textCursorDrawable="@null"
+                    android:textSize="12sp"
+                    tools:ignore="HardcodedText,ObsoleteLayoutParam,RtlSymmetry,TextFields,TextSizeCheck,VisualLintTextFieldSize" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="20sp"
+                    android:layout_marginTop="30sp"
+                    android:layout_marginEnd="20sp"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:padding="5sp">
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/searchButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/radius_button"
+                        android:backgroundTint="@color/blue"
+                        android:fontFamily="@font/poppins_medium"
+                        android:text="Search"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
+                        tools:ignore="SpeakableTextPresentCheck" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <LinearLayout
+            android:id="@+id/subHeading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/cv_1"
+            android:layout_marginTop="22sp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20sp"
+                android:fontFamily="@font/poppins_bold"
+                android:text="@string/recent_discoveries"
+                android:textColor="#4D4D4D"
+                android:textSize="15sp" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</ScrollView>

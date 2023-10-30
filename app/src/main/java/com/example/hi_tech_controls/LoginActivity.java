@@ -4,13 +4,13 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ToggleButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -22,7 +22,7 @@ public class LoginActivity extends AppCompatActivity {
     EditText emailEditText, passwordEditText;
     Button loginButton;
     String username, password;
-    ToggleButton passwordToggleBtn; // Reference to the password toggle button
+    ImageView passwordVisibilityToggle; // Reference to the password visibility toggle button
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,27 +32,23 @@ public class LoginActivity extends AppCompatActivity {
         emailEditText = findViewById(R.id.emailEditText);
         passwordEditText = findViewById(R.id.passwordEditText);
         loginButton = findViewById(R.id.loginButton);
-        //passwordToggleBtn = findViewById(R.id.passwordToggleBtn); // Initialize the toggle button
+        passwordVisibilityToggle = findViewById(R.id.passwordVisibilityToggle);
 
-        // Set an OnClickListener for the password toggle button
-//        passwordToggleBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                togglePasswordVisibility();
-//            }
-//        });
+        // Set an OnClickListener for the password visibility toggle button
+        passwordVisibilityToggle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                togglePasswordVisibility();
+            }
+        });
 
         loginButton.setOnClickListener(v -> {
             LoginCred();
-
-            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-            startActivity(intent);
         });
-
-        anim();
+        //anim();
     }
 
-    public boolean LoginCred() {
+    public void LoginCred() {
         username = emailEditText.getText().toString();
         password = passwordEditText.getText().toString();
 
@@ -63,17 +59,14 @@ public class LoginActivity extends AppCompatActivity {
                     .duration(200)
                     .repeat(2)
                     .playOn(findViewById(R.id.emailEditText));
-            return false;
         } else if (password.isEmpty()) {
             Snackbar.make(emailEditText, "Please enter password!", Snackbar.LENGTH_LONG).show();
             YoYo.with(Techniques.Shake)
                     .duration(200)
                     .repeat(2)
                     .playOn(findViewById(R.id.passwordEditText));
-            return false;
         } else if ("Admin".equals(username) && "Admin".equals(password)) {
-            Toast.makeText(this,"Successful Login" ,Toast.LENGTH_LONG).show();
-
+            Toast.makeText(this, "Successful Login", Toast.LENGTH_LONG).show();
 
             SharedPreferences preferences = getSharedPreferences("Login", MODE_PRIVATE);
             SharedPreferences.Editor editor = preferences.edit();
@@ -85,7 +78,6 @@ public class LoginActivity extends AppCompatActivity {
             Intent Home = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(Home);
 
-            return true;
         } else {
             Snackbar.make(emailEditText, "Wrong login credentials, please try again", Snackbar.LENGTH_LONG).show();
             emailEditText.setText("");
@@ -98,18 +90,20 @@ public class LoginActivity extends AppCompatActivity {
                     .duration(200)
                     .repeat(2)
                     .playOn(findViewById(R.id.passwordEditText));
-            return false;
         }
     }
 
     // Toggle password visibility based on the toggle button state
     private void togglePasswordVisibility() {
-        if (passwordToggleBtn.isChecked()) {
-            // Show password
-            passwordEditText.setInputType(android.text.InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+        int inputType = passwordEditText.getInputType();
+        if ((inputType & android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD) > 0) {
+            // Password is currently hidden, show it
+            passwordVisibilityToggle.setImageResource(R.drawable.ic_password_visibility_on);
+            passwordEditText.setInputType(inputType & ~android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD);
         } else {
-            // Hide password
-            passwordEditText.setInputType(android.text.InputType.TYPE_CLASS_TEXT | android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD);
+            // Password is currently visible, hide it
+            passwordVisibilityToggle.setImageResource(R.drawable.ic_password_visibility_off);
+            passwordEditText.setInputType(inputType | android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD);
         }
 
         // Move the cursor to the end of the text
@@ -127,6 +121,7 @@ public class LoginActivity extends AppCompatActivity {
         Button loginButton1 = findViewById(R.id.loginButton);
         FrameLayout bottomShape1 = findViewById(R.id.bottomShape);
         TextView versionTextView1 = findViewById(R.id.versionTextView);
+        ImageView passwordVisibilityToggle1 = findViewById(R.id.passwordVisibilityToggle);
 
         //logo ImageView
         logoImageView1.setAlpha(0f);
@@ -177,7 +172,12 @@ public class LoginActivity extends AppCompatActivity {
         versionTextView1.setAlpha(0f);
         versionTextView1.setTranslationY(70);
         versionTextView1.animate().alpha(1f).translationYBy(-50).setDuration(2000);
+
+        //version TextView
+        passwordVisibilityToggle1.setAlpha(0f);
+        passwordVisibilityToggle1.setTranslationY(70);
+        passwordVisibilityToggle1.animate().alpha(1f).translationYBy(-50).setDuration(2000);
     }
-
-
 }
+
+

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "234534879775",
+    "project_id": "hi-tech-controls-d41f7",
+    "storage_bucket": "hi-tech-controls-d41f7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:234534879775:android:ed4cea822592ab2fda8b2a",
+        "android_client_info": {
+          "package_name": "com.example.hi_tech_controls"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "234534879775-ic6227lbfksh6nk0pqg1dcnt0s6c9o7m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBc-odXPvAeA_3ienm3wutqEiOOIrWkT3A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "234534879775-ic6227lbfksh6nk0pqg1dcnt0s6c9o7m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

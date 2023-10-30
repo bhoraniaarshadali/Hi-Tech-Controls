@@ -57,7 +57,6 @@ public class AddDetailsAdp extends RecyclerView.Adapter<AddDetailsAdp.ViewHolder
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-
             userId1 = (TextView) itemView.findViewById(R.id.showId);
             userName1 = (TextView) itemView.findViewById(R.id.showUsername);
             textStatus1 = (TextView) itemView.findViewById(R.id.textStatus);

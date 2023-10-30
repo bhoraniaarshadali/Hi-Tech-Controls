@@ -137,6 +137,7 @@
 
     </androidx.cardview.widget.CardView>
 
+
     <!--        fragment (fill_one)-->
 
     <RelativeLayout
@@ -144,7 +145,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/cv_1">
 
-        <FrameLayout
+
+    <FrameLayout
             android:id="@+id/frameLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

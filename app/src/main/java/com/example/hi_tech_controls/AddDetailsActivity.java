@@ -19,6 +19,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.hi_tech_controls.fragments.View_data_fragment;
 import com.example.hi_tech_controls.fragments.fill_four_fragment;
 import com.example.hi_tech_controls.fragments.fill_one_fragment;
 import com.example.hi_tech_controls.fragments.fill_three_fragment;
@@ -39,7 +40,7 @@ public class AddDetailsActivity extends AppCompatActivity {
     private Fragment fillTwoFragment;
     private Fragment fillThreeFragment;
     private Fragment fillFourFragment;
-
+    private Fragment viewfragment;
     private int currentFragmentIndex = 0;
     public static final int[] progressValues = {0, 25, 50, 75, 100};
     private ProgressBar progressBar;
@@ -76,8 +77,6 @@ public class AddDetailsActivity extends AppCompatActivity {
         initializeSharedPreferences();
         setInitialProgress();
         setButtonListeners();
-
-
     }
 
     // Initialize Fragments
@@ -86,6 +85,7 @@ public class AddDetailsActivity extends AppCompatActivity {
         fillTwoFragment = new fill_two_fragment();
         fillThreeFragment = new fill_three_fragment();
         fillFourFragment = new fill_four_fragment();
+        viewfragment = new View_data_fragment();
     }
 
     // Initialize UI elements
@@ -109,8 +109,6 @@ public class AddDetailsActivity extends AppCompatActivity {
         progressBarTEXTDUMPblue.setEnabled(false);
         progressBar = findViewById(R.id.progressBar);
         progressBar.setEnabled(false);
-
-
     }
 
     // Initialize SharedPreferences
@@ -183,12 +181,8 @@ public class AddDetailsActivity extends AppCompatActivity {
         dialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
             @Override
             public void onClick(SweetAlertDialog sDialog) {
-                // Close the dialog
                 sDialog.dismissWithAnimation();
-
-                // Navigate back to Preview_Fragment
-                //navigatePreview();
-
+                View_data_fragment();
             }
         });
 
@@ -196,11 +190,21 @@ public class AddDetailsActivity extends AppCompatActivity {
         progressBar.setProgress(100);
     }
 
+
     // Navigate to MainActivity
     private void navigateToMainActivity() {
         Intent intent = new Intent(AddDetailsActivity.this, MainActivity.class);
         startActivity(intent);
         finish();
+    }
+
+    private void View_data_fragment() {
+        if (viewfragment != null) {
+            currentFragmentIndex++; // Update the current fragment index
+            loadFragment(viewfragment); // Load the new fragment
+
+            //navigateToMainActivity();
+        }
     }
 
 
@@ -228,7 +232,6 @@ public class AddDetailsActivity extends AppCompatActivity {
         switch (index) {
             case 0:
                 loadFragment(fillOneFragment);
-
                 break;
             case 1:
                 loadFragment(fillTwoFragment);
