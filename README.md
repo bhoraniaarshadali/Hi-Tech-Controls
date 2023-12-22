@@ -20,7 +20,7 @@ To get started with the Hi-Tech Controls Application, follow these steps:
 
 1. **Clone the Repository:**
    ```bash
-   git clone https://github.com/bhoraniaarshadali/hi-tech-controls-app.git
+   [git clone https://github.com/bhoraniaarshadali/hi-tech-controls-app.git](https://github.com/bhoraniaarshadali/Hi-Tech-Controls.git)
 <p align="center">
   <img width="600" src="https://github.com/bhoraniaarshadali/Hi-Tech-Controls/blob/09904d3ce89ffca0d0211f00e5fb6cf3e3b917be/image.jpg" alt="Hi-Tech Controls Image">
 </p>
