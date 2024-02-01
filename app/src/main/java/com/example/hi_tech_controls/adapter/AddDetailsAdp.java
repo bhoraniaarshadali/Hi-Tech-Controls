@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,22 +22,22 @@ public class AddDetailsAdp extends RecyclerView.Adapter<AddDetailsAdp.ViewHolder
 
     public AddDetailsAdp(Context context, ArrayList<DetailsModel> detailsData) {
         this.context = context;
+        this.context = context;
         this.arrayData = detailsData;
-
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.add_cardview, parent, false);
-        Toast.makeText(context, "In Adapter", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(context, "In Adapter", Toast.LENGTH_SHORT).show();
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.userName1.setText(arrayData.get(position).getuName());
-        holder.userId1.setText(arrayData.get(position).getUId() + "");
+        holder.userId1.setText(String.valueOf(arrayData.get(position).getUId()));
         holder.progress1.setProgress(arrayData.get(position).getProgress());
     }
 

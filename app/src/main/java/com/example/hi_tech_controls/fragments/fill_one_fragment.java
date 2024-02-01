@@ -35,12 +35,13 @@ public class fill_one_fragment extends Fragment implements DatePickerDialog.OnDa
     private EditText dateTextField1;
     private DatePickerDialog datePickerDialog1;
 
+    TextView clientId;
+
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         // Initialize your UI elements // Set clientIdValue
-        TextView clientId = view.findViewById(R.id.clientId);
-        clientIdValue = clientId.getText().toString();
+        clientId = view.findViewById(R.id.clientId);
 
 
         // Initialize your EditText fields
@@ -69,8 +70,6 @@ public class fill_one_fragment extends Fragment implements DatePickerDialog.OnDa
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
     }
 
     @Override
@@ -79,7 +78,7 @@ public class fill_one_fragment extends Fragment implements DatePickerDialog.OnDa
         dateTextField1 = rootView.findViewById(R.id.fill_one_enterDate);
         initDatePicker();
 
-
+        getClientId();
         sharedPref = new SharedPrefHelper(requireContext());
         return rootView;
     }
@@ -129,4 +128,19 @@ public class fill_one_fragment extends Fragment implements DatePickerDialog.OnDa
         main_container1.setTranslationY(50);
         main_container1.animate().alpha(1f).translationYBy(-50).setDuration(1000);
     }
+
+    public void getClientId() {
+        // Retrieve the data from the arguments
+        Bundle bundle = getArguments();
+        if (bundle != null && bundle.containsKey("id")) {
+            String id = bundle.getString("id");
+
+            // Assuming clientId is a TextView, set the text
+            if (clientId != null) {
+                clientId.setText(id);
+            }
+        }
+    }
+
+
 }

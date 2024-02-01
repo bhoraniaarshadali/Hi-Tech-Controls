@@ -2538,15 +2538,25 @@
 
                                 </LinearLayout>
 
-                                <Button
-                                    android:id="@+id/printpdf"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginStart="150dp"
-                                    android:background="@color/blue"
-                                    android:text="PRINT"
-                                    android:textStyle="bold"
-                                    tools:ignore="HardcodedText" />
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content">
+
+                                    <androidx.appcompat.widget.AppCompatButton
+                                        android:id="@+id/printpdf"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginStart="80sp"
+                                        android:layout_marginEnd="50sp"
+                                        android:layout_marginBottom="50sp"
+                                        android:background="@drawable/radius_button"
+                                        android:backgroundTint="@color/blue"
+                                        android:fontFamily="@font/poppins_medium"
+                                        android:text="Print"
+                                        android:textAllCaps="true"
+                                        android:textColor="@color/white"
+                                        android:textSize="18sp" />
+                                </LinearLayout>
                             </LinearLayout>
 
                         </LinearLayout>
