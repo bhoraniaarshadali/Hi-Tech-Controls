@@ -20,7 +20,6 @@ public class ViewDetailsActivity extends AppCompatActivity {
         viewClientDtls_Back1 = findViewById(R.id.viewClientDtls_Back);
         searchButton1 = findViewById(R.id.searchButton);
 
-
         viewClientDtls_Back1.setOnClickListener(v -> onBackPressed());
     }
 }

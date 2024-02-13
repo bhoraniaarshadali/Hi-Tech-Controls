@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -82,7 +82,7 @@
             android:backgroundTint="@color/white"
             app:cardCornerRadius="25dp"
             app:cardElevation="5dp"
-            tools:ignore="TextSizeCheck">
+            tools:ignore="MissingClass,TextSizeCheck">
 
             <!--            full card TopView layout-->
             <RelativeLayout
@@ -193,7 +193,8 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerViewDiscovery"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                tools:ignore="MissingClass">
 
             </androidx.recyclerview.widget.RecyclerView>
 
@@ -202,4 +203,4 @@
 
 
     </RelativeLayout>
-</ScrollView>
+</RelativeLayout>

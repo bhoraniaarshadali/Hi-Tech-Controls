@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
@@ -20,6 +21,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.hi_tech_controls.adapter.AddDetailsAdp;
 import com.example.hi_tech_controls.adapter.DetailsModel;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
 
@@ -27,18 +31,9 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class MainActivity extends AppCompatActivity {
 
-    RecyclerView recyclerViewDiscovery1;
-
     public static String clientIdValue;
-    TextView showId;
     public static TextView statusText1;
-    private ImageView logout_btn_layout;
-
-    private CardView cardView_1;
     private static ProgressBar progressBar;
-    Button addClientBtn1;
-    Button viewClientBtn1;
-    SharedPrefHelper sharedPref;
     // Define your BroadcastReceiver
     private final BroadcastReceiver progressUpdateReceiver = new BroadcastReceiver() {
         @Override
@@ -59,6 +54,13 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     };
+    RecyclerView recyclerViewDiscovery1;
+    TextView showId;
+    Button addClientBtn1;
+    Button viewClientBtn1;
+    SharedPrefHelper sharedPref;
+    private ImageView logout_btn_layout;
+    private CardView cardView_1;
 
     // Register your BroadcastReceiver in onResume
     @Override
@@ -99,6 +101,7 @@ public class MainActivity extends AppCompatActivity {
         addClientBtn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                fetchKey();
                 Intent intent = new Intent(MainActivity.this, AddDetailsActivity.class);
                 startActivity(intent);
             }
@@ -137,10 +140,17 @@ public class MainActivity extends AppCompatActivity {
         details3.setuName("John Brush");
         details3.setProgress(60);
 
+        DetailsModel details4 = new DetailsModel();
+        details4.setUId(2010);
+        details4.setuName("Stark Hally");
+        details4.setProgress(20);
+
+
         DetailsData.add(details);
         DetailsData.add(details1);
         DetailsData.add(details2);
         DetailsData.add(details3);
+        DetailsData.add(details4);
 
         AddDetailsAdp obj = new AddDetailsAdp(this, DetailsData);
 
@@ -213,19 +223,38 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void logout() {
-
         // clear the user's login state by setting "flag" to false in shared preferences
         SharedPreferences preferences = getSharedPreferences("Login", MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean("flag", false);
         editor.apply();
-
         // After clearing data, you can start the LoginActivity
         Intent intent = new Intent(MainActivity.this, LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK); // clear back stack
         startActivity(intent);
-
         //finish the current activity (main activity)
         finish();
     }
+
+
+    private void fetchKey() {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        CollectionReference ref = db.collection("user");
+
+        Toast.makeText(this, "entering fetchKey()", Toast.LENGTH_SHORT).show();
+        ref.get().addOnSuccessListener(queryDocumentSnapshots -> {
+
+            Toast.makeText(this, "getting data", Toast.LENGTH_SHORT).show();
+            for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+                String id = document.getId();
+
+                // Create a new bundle and add the ID
+                Bundle bundle = new Bundle();
+                bundle.putString("id", id);
+
+            }
+        });
+    }
+
+
 }

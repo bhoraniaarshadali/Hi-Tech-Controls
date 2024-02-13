@@ -37,6 +37,7 @@ import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 
+import com.example.hi_tech_controls.MainActivity;
 import com.example.hi_tech_controls.R;
 import com.example.hi_tech_controls.SharedPrefHelper;
 
@@ -380,6 +381,7 @@ public class View_data_fragment extends Fragment {
     public void checkAndRequestPermission() {
         if (ActivityCompat.checkSelfPermission(requireActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_CODE);
+            showFileNameDialog();
         } else {
             showFileNameDialog();
         }
@@ -397,6 +399,12 @@ public class View_data_fragment extends Fragment {
             String fileName = input.getText().toString();
             if (!fileName.isEmpty()) {
                 createPdf(fileName);
+
+                // Navigate to MainActivity.java after saving the PDF
+                Intent intent = new Intent(requireContext(), MainActivity.class);
+                startActivity(intent);
+                requireActivity().finish(); // Optional: Finish the current activity if needed
+
             } else {
                 Toast.makeText(requireContext(), "File name cannot be empty", Toast.LENGTH_SHORT).show();
             }
@@ -437,7 +445,6 @@ public class View_data_fragment extends Fragment {
                 }
                 pdfDoc.close();
 
-
                 // Show a toast message upon successful PDF creation
                 Toast.makeText(requireContext(), "PDF saved as " + fileName + ".pdf", Toast.LENGTH_SHORT).show();
 
@@ -477,7 +484,6 @@ public class View_data_fragment extends Fragment {
             // Add logo and subheading at the top near the border
             addLogoAndSubheading(canvas);
             addDateTimeToPage(canvas);
-
         }
 
         // Adjust this to your desired scale (0.5 for 50% of the original size)
@@ -498,7 +504,7 @@ public class View_data_fragment extends Fragment {
         canvas.scale(scaleFactor, scaleFactor);
         view.draw(canvas);
         canvas.restoreToCount(saveCount);
-// Display the page number for all pages
+        // Display the page number for all pages
         drawPageNumber(canvas, pageNumber, borderRight, borderBottom);
         pdfDoc.finishPage(page);
         pageNumber++;
@@ -592,7 +598,7 @@ public class View_data_fragment extends Fragment {
         int logoX = canvas.getWidth() - resizedLogo.getWidth() - 20;
         int logoY = 10;
         canvas.drawBitmap(resizedLogo, logoX, logoY, null);
-// Draw the rounded horizontal line below all content
+        // Draw the rounded horizontal line below all content
         drawRoundedHorizontalLine(canvas, lineY + 120, lineEndX);
     }
 
@@ -601,7 +607,6 @@ public class View_data_fragment extends Fragment {
         Paint linePaint = new Paint();
         linePaint.setColor(Color.BLACK);
         linePaint.setStrokeWidth(2);
-
 
         Paint paint = new Paint();
         paint.setColor(Color.BLACK);
@@ -676,11 +681,12 @@ public class View_data_fragment extends Fragment {
         taglinePaint.setTextSize(18); // Set the tagline text size
         taglinePaint.setTextSkewX(-0.25f); // Apply italic skew
 
-        String tagline = "\"Your service in your hand\"";
+        //String tagline = "\"Your service in your hand\"";
+        String tagline = "Your service in your hand";
 
         // Calculate the position to center the tagline text horizontally
         float taglineX = (canvas.getWidth() - taglinePaint.measureText(tagline)) / 2;
-        float taglineY = textY + taglinePaint.getTextSize() + 10; // Increase the gap below "HI-TECH CONTROLS" text
+        float taglineY = textY + taglinePaint.getTextSize() + 9; // Increase the gap below "HI-TECH CONTROLS" text
 
         // Draw the italic tagline text
         canvas.drawText(tagline, taglineX, taglineY, taglinePaint);
@@ -720,7 +726,7 @@ public class View_data_fragment extends Fragment {
             PendingIntent pdfPendingIntent = PendingIntent.getActivity(requireContext(), 0, openPdfIntent, PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_IMMUTABLE);
 
             NotificationCompat.Builder builder = new NotificationCompat.Builder(requireContext(), channelId)
-                    .setSmallIcon(R.drawable.pdflogo) // Replace with your notification icon
+                    .setSmallIcon(R.drawable.logowhite) // Replace with your notification icon
                     .setContentTitle("PDF Downloaded")
                     .setContentText("Your PDF has been downloaded successfully.")
                     .setPriority(NotificationCompat.PRIORITY_DEFAULT)
@@ -729,13 +735,6 @@ public class View_data_fragment extends Fragment {
 
             NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(requireContext());
             if (ActivityCompat.checkSelfPermission(requireActivity(), Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
-                // TODO: Consider calling
-                //    ActivityCompat#requestPermissions
-                // here to request the missing permissions, and then overriding
-                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                //                                          int[] grantResults)
-                // to handle the case where the user grants the permission. See the documentation
-                // for ActivityCompat#requestPermissions for more details.
                 return;
             }
             int notificationId = 1;

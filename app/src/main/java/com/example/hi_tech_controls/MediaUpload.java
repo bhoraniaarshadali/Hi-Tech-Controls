@@ -18,68 +18,102 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import java.util.Objects;
+// Import statements...
+
+// Import statements...
+
 public class MediaUpload extends AppCompatActivity {
 
+    // Constants...
+    private static final int CAMERA_REQUEST_BASE = 1000;
     private static final int PERMISSION_CAMERA = 1;
     private static final int MAX_BOXES = 6;
     private static final int MAX_ADD_MORE_TAPS = 2;
 
     private LinearLayout boxContainer;
-    private TextView add_more_Button;
-    private ImageView[] boxes;
-    private Bitmap[] boxImages;
+    private TextView addMoreButton;
+    private ImageView[][] boxes;
+    private Bitmap[][] boxImages;
     private int boxCount = 0;
     private int addMoreTaps = 0;
+    private ImageView[] allBoxes;
+
+    // Define ImageView objects for boxOne to boxSix...
+    private ImageView boxOne;
+    private ImageView boxTwo;
+    private ImageView boxThree;
+    private ImageView boxFour;
+    private ImageView boxFive;
+    private ImageView boxSix;
+
+    private ImageView mediaActivity_Back1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_media_upload);
 
-        ImageView mediaActivity_Back = findViewById(R.id.mediaActivity_Back);
         boxContainer = findViewById(R.id.boxContainer);
-        add_more_Button = findViewById(R.id.add_more_Button);
+        addMoreButton = findViewById(R.id.add_more_Button);
+        boxOne = findViewById(R.id.boxOne);
+        boxTwo = findViewById(R.id.boxTwo);
+        boxThree = findViewById(R.id.boxThree);
+        boxFour = findViewById(R.id.boxFour);
+        boxFive = findViewById(R.id.boxFive);
+        boxSix = findViewById(R.id.boxSix);
 
-        boxes = new ImageView[MAX_BOXES];
-        boxes[0] = findViewById(R.id.boxOne);
-        boxes[1] = findViewById(R.id.boxTwo);
-        boxes[2] = findViewById(R.id.boxThree);
-        boxes[3] = findViewById(R.id.boxFour);
-        boxes[4] = findViewById(R.id.boxFive);
-        boxes[5] = findViewById(R.id.boxSix);
-
-        boxImages = new Bitmap[MAX_BOXES];
-
-        add_more_Button.setVisibility(View.VISIBLE);
-
-        mediaActivity_Back.setOnClickListener(v -> onBackPressed());
-
-        // Set an OnClickListener for boxes 1 to 6
-        for (int i = 0; i < boxes.length; i++) {
-            final int index = i;
-            boxes[i].setOnClickListener(v -> checkCameraAndVideoPermissionAndStart(index));
-        }
-
-        add_more_Button.setOnClickListener(v -> {
-            if (boxCount < MAX_BOXES && addMoreTaps < MAX_ADD_MORE_TAPS) {
-                boxCount++;
-                addNewBox();
-
-                if (boxCount >= MAX_BOXES) {
-                    add_more_Button.setVisibility(View.GONE);
-                }
-
-                addMoreTaps++;
-
-                if (addMoreTaps >= MAX_ADD_MORE_TAPS) {
-                    add_more_Button.setVisibility(View.GONE);
-                    Toast.makeText(MediaUpload.this, "Maximum images added", Toast.LENGTH_SHORT).show();
-                }
+        mediaActivity_Back1 = findViewById(R.id.mediaActivity_Back);
+        mediaActivity_Back1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
             }
         });
+
+        // Initialize arrays...
+        boxes = new ImageView[MAX_BOXES][3];
+        boxImages = new Bitmap[MAX_BOXES][3];
+        allBoxes = new ImageView[MAX_BOXES * 3];
+
+        // Initialization...
+        addMoreButton.setOnClickListener(this::handleAddMoreButtonClick);
+        initializeBoxClickListeners();
     }
 
-    private void addNewBox() {
+    private void handleAddMoreButtonClick(View view) {
+        if (boxCount < MAX_BOXES && addMoreTaps < MAX_ADD_MORE_TAPS) {
+            boxCount++;
+            addNewBox(boxCount);
+
+            if (boxCount >= MAX_BOXES) {
+                addMoreButton.setVisibility(View.GONE);
+            }
+
+            addMoreTaps++;
+
+            if (addMoreTaps >= MAX_ADD_MORE_TAPS) {
+                addMoreButton.setVisibility(View.GONE);
+                showToast("Maximum images added");
+            }
+        }
+    }
+
+    private void initializeBoxClickListeners() {
+        // Set click listeners for boxOne to boxSix...
+        setBoxClickListener(boxOne, 0);
+        setBoxClickListener(boxTwo, 1);
+        setBoxClickListener(boxThree, 2);
+        setBoxClickListener(boxFour, 3);
+        setBoxClickListener(boxFive, 4);
+        setBoxClickListener(boxSix, 5);
+    }
+
+    private void setBoxClickListener(ImageView box, int index) {
+        box.setOnClickListener(v -> checkCameraAndVideoPermissionAndStart(index));
+    }
+
+    private void addNewBox(int boxNumber) {
         View newBox = getLayoutInflater().inflate(R.layout.new_box_layout, null);
 
         if (newBox != null) {
@@ -91,12 +125,17 @@ public class MediaUpload extends AppCompatActivity {
                     newBox.findViewById(R.id.boxNine)
             };
 
-            for (int i = 0; i < newBoxes.length; i++) {
-                final int index = (boxCount - 1) * 3 + i;
-                newBoxes[i].setOnClickListener(v -> checkCameraAndVideoPermissionAndStart(index));
-            }
+            addNewBoxClickListeners(newBoxes);
         } else {
-            Toast.makeText(this, "Error creating a new box", Toast.LENGTH_SHORT).show();
+            showToast("Error creating a new box");
+        }
+    }
+
+    private void addNewBoxClickListeners(ImageView[] newBoxes) {
+        for (int i = 0; i < newBoxes.length; i++) {
+            final int index = (boxCount - 1) * 3 + i;
+            newBoxes[i].setOnClickListener(v -> checkCameraAndVideoPermissionAndStart(index));
+            allBoxes[index] = newBoxes[i];
         }
     }
 
@@ -118,15 +157,15 @@ public class MediaUpload extends AppCompatActivity {
     private void startCameraOrVideo(int index) {
         Intent captureIntent = new Intent();
         captureIntent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
-        captureIntent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1); // Set video quality if needed
 
         Intent videoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
-        videoIntent.putExtra(MediaStore.EXTRA_DURATION_LIMIT, 10); // Set video duration limit if needed
+        videoIntent.putExtra(MediaStore.EXTRA_DURATION_LIMIT, 10);
 
         Intent chooserIntent = Intent.createChooser(captureIntent, "Capture Image or Video");
         chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[]{videoIntent});
 
-        startActivityForResult(chooserIntent, index);
+        int uniqueRequestCode = CAMERA_REQUEST_BASE + index;
+        startActivityForResult(chooserIntent, uniqueRequestCode);
     }
 
     @Override
@@ -134,19 +173,39 @@ public class MediaUpload extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (resultCode == Activity.RESULT_OK) {
-            if (requestCode >= 0 && requestCode < MAX_BOXES) {
-                if (data != null) {
-                    if (data.getData() != null) {
-                        // Handle video capture here (store video or display a video thumbnail)
-                    } else {
-                        Bitmap photo = (Bitmap) data.getExtras().get("data");
-                        if (photo != null) {
-                            boxImages[requestCode] = photo;
-                            boxes[requestCode].setImageBitmap(photo);
-                        }
-                    }
-                }
+            int boxIndex = (requestCode - CAMERA_REQUEST_BASE) / 3;
+            int imageIndex = (requestCode - CAMERA_REQUEST_BASE) % 3;
+
+            if (isValidBoxIndex(boxIndex) && isValidImageIndex(imageIndex)) {
+                processActivityResult(data, boxIndex, imageIndex);
             }
+        }
+    }
+
+    private boolean isValidBoxIndex(int boxIndex) {
+        return boxIndex >= 0 && boxIndex < MAX_BOXES;
+    }
+
+    private boolean isValidImageIndex(int imageIndex) {
+        return imageIndex >= 0;
+    }
+
+    private void processActivityResult(Intent data, int boxIndex, int imageIndex) {
+        if (data != null) {
+            if (data.getData() != null) {
+                // Handle video capture...
+                showToast("Video capture not implemented");
+            } else {
+                handleImageCapture(data, boxIndex, imageIndex);
+            }
+        }
+    }
+
+    private void handleImageCapture(Intent data, int boxIndex, int imageIndex) {
+        Bitmap photo = (Bitmap) Objects.requireNonNull(data.getExtras()).get("data");
+        if (photo != null) {
+            boxImages[boxIndex][imageIndex] = photo;
+            allBoxes[(boxIndex * 3) + imageIndex].setImageBitmap(photo);
         }
     }
 
@@ -154,11 +213,19 @@ public class MediaUpload extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == PERMISSION_CAMERA) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Permission granted, do nothing here, as the camera will be started in the onClick method
-            } else {
-                Toast.makeText(this, "Camera and audio recording permission denied", Toast.LENGTH_SHORT).show();
-            }
+            handleCameraPermissionResult(grantResults);
         }
+    }
+
+    private void handleCameraPermissionResult(int[] grantResults) {
+        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            // Permission granted, do nothing here, as the camera will be started in the onClick method
+        } else {
+            showToast("Camera and audio recording permission denied");
+        }
+    }
+
+    private void showToast(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 }

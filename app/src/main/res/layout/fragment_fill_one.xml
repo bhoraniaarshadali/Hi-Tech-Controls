@@ -43,10 +43,9 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:fontFamily="@font/poppins_regular"
-                    android:text="2001"
+                    android:text="@string/_2001"
                     android:textColor="@color/black"
-                    android:textSize="25sp"
-                    tools:ignore="HardcodedText" />
+                    android:textSize="25sp" />
             </RelativeLayout>
 
             <LinearLayout

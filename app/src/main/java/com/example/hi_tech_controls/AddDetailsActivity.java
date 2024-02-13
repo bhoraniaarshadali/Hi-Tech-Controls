@@ -5,13 +5,16 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextSwitcher;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -44,11 +47,7 @@ public class AddDetailsActivity extends AppCompatActivity {
     private int currentFragmentIndex = 0;
     public static final int[] progressValues = {0, 25, 50, 75, 100};
     private ProgressBar progressBar;
-    private ProgressBar progressBarDUMP;
-    private ProgressBar progressBarTEXTDUMPwhite;
-    private ProgressBar progressBarTEXTDUMPblue;
-
-
+    private ProgressBar progressBarPdf0;
     private SharedPreferences sharedPreferences;
 
     @Override
@@ -77,6 +76,9 @@ public class AddDetailsActivity extends AppCompatActivity {
         initializeSharedPreferences();
         setInitialProgress();
         setButtonListeners();
+
+        //Toaster
+        barToast();
     }
 
     // Initialize Fragments
@@ -101,11 +103,11 @@ public class AddDetailsActivity extends AppCompatActivity {
         });
         textSwitcher.setText(switcherValues[currentFragmentIndex]);
 
-        progressBarDUMP = findViewById(R.id.progressBarDUMP);
+        ProgressBar progressBarDUMP = findViewById(R.id.progressBarDUMP);
         progressBarDUMP.setEnabled(false);
-        progressBarTEXTDUMPwhite = findViewById(R.id.progressBarTEXTDUMPwhite);
+        ProgressBar progressBarTEXTDUMPwhite = findViewById(R.id.progressBarTEXTDUMPwhite);
         progressBarTEXTDUMPwhite.setEnabled(false);
-        progressBarTEXTDUMPblue = findViewById(R.id.progressBarTEXTDUMPblue);
+        ProgressBar progressBarTEXTDUMPblue = findViewById(R.id.progressBarTEXTDUMPblue);
         progressBarTEXTDUMPblue.setEnabled(false);
         progressBar = findViewById(R.id.progressBar);
         progressBar.setEnabled(false);
@@ -181,15 +183,39 @@ public class AddDetailsActivity extends AppCompatActivity {
         dialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
             @Override
             public void onClick(SweetAlertDialog sDialog) {
+                // Dismiss the popup first
                 sDialog.dismissWithAnimation();
-                View_data_fragment();
+
+                // Show the progress bar after dismissing the popup
+                showProgressBar();
             }
         });
 
         dialog.show();
-        progressBar.setProgress(100);
     }
 
+    private void showProgressBar() {
+        // Show the progress bar
+        progressBarPdf0 = findViewById(R.id.progressBarPdf); // Change R.id.progressBar to your actual ProgressBar id
+        progressBarPdf0.setVisibility(View.VISIBLE);
+
+        // You can use a Handler to delay the transition and simulate a loading process
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                // Move to the next page or perform any other actions after hiding the progress bar
+                moveToNextPage();
+            }
+        }, 5000); // Adjust the delay (in milliseconds) as needed
+    }
+
+    private void moveToNextPage() {
+        // Perform any actions before moving to the next page
+        progressBarPdf0.setVisibility(View.GONE);
+        View_data_fragment();
+        // Navigate to MainActivity
+        //navigateToMainActivity();
+    }
 
     // Navigate to MainActivity
     private void navigateToMainActivity() {
@@ -217,9 +243,12 @@ public class AddDetailsActivity extends AppCompatActivity {
             updateTextSwitcher();
             saveProgressIndex(currentFragmentIndex);
         } else {
-            navigateToMainActivity();
+            //Toast.makeText(this, "AddDetailsActivity.goBack() - Something wrong!!", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(AddDetailsActivity.this, MainActivity.class);
+            startActivity(intent);
         }
     }
+
 
     // Update the TextSwitcher's text
     private void updateTextSwitcher() {
@@ -258,6 +287,59 @@ public class AddDetailsActivity extends AppCompatActivity {
         editor.putInt("progressIndex", index);
         editor.apply();
     }
+
+
+    public void barToast() {
+        LinearLayout pushOne = findViewById(R.id.one);
+        LinearLayout pushTwo = findViewById(R.id.two);
+        LinearLayout pushThree = findViewById(R.id.three);
+        LinearLayout pushFour = findViewById(R.id.four);
+
+        pushOne.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                loadFragment(fillOneFragment);
+                currentFragmentIndex = 0;
+                updateTextSwitcher();
+                updateProgressBar(progressValues[currentFragmentIndex]);
+                saveProgressIndex(currentFragmentIndex);
+                Toast.makeText(AddDetailsActivity.this, "Inward Details", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        pushTwo.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                loadFragment(fillTwoFragment);
+                currentFragmentIndex = 1;
+                updateTextSwitcher();
+                updateProgressBar(progressValues[currentFragmentIndex]);
+                saveProgressIndex(currentFragmentIndex);
+                Toast.makeText(AddDetailsActivity.this, "Initial Observation", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        pushThree.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                loadFragment(fillThreeFragment);
+                currentFragmentIndex = 2;
+                updateTextSwitcher();
+                updateProgressBar(progressValues[currentFragmentIndex]);
+                saveProgressIndex(currentFragmentIndex);
+                Toast.makeText(AddDetailsActivity.this, "Repairs Details", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        pushFour.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                loadFragment(fillFourFragment);
+                currentFragmentIndex = 3;
+                updateTextSwitcher();
+                updateProgressBar(progressValues[currentFragmentIndex]);
+                saveProgressIndex(currentFragmentIndex);
+                Toast.makeText(AddDetailsActivity.this, "Final Trial Check", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
 
     public void anim() {
         FrameLayout frameLayout1 = findViewById(R.id.frameLayout);
