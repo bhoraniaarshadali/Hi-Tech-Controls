@@ -90,10 +90,6 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:layout_margin="5dp"
-                android:layout_marginStart="5dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginBottom="5dp"
                 android:gravity="center"
                 android:orientation="horizontal">
 
@@ -197,10 +193,6 @@
                 tools:ignore="MissingClass">
 
             </androidx.recyclerview.widget.RecyclerView>
-
-
         </RelativeLayout>
-
-
     </RelativeLayout>
 </RelativeLayout>

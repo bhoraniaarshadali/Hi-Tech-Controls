@@ -5,14 +5,26 @@ import android.content.SharedPreferences;
 
 public class SharedPrefHelper {
     private static final String SHARED_PREF_NAME = "MySharedPref"; // Change this to your preferred name
-    private final SharedPreferences sharedPreferences;
     private static SharedPreferences.Editor editor;
+    private final SharedPreferences sharedPreferences;
     private final Context context;
 
     public SharedPrefHelper(Context context) {
         this.context = context;
         sharedPreferences = context.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
+    }
+
+    // Clear a specific value from SharedPreferences
+    public static void clearValue(String key) {
+        editor.remove(key);
+        editor.apply();
+    }
+
+    // Clear all values in SharedPreferences
+    public static void clearAll() {
+        editor.clear();
+        editor.apply();
     }
 
     // Save a string value to SharedPreferences
@@ -46,17 +58,5 @@ public class SharedPrefHelper {
     // Retrieve an integer value from SharedPreferences with a default value
     public int getInt(String key, int defaultValue) {
         return sharedPreferences.getInt(key, defaultValue);
-    }
-
-    // Clear a specific value from SharedPreferences
-    public static void clearValue(String key) {
-        editor.remove(key);
-        editor.apply();
-    }
-
-    // Clear all values in SharedPreferences
-    public static void clearAll() {
-        editor.clear();
-        editor.apply();
     }
 }
