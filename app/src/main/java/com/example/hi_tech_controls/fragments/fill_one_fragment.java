@@ -14,10 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.example.hi_tech_controls.R;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Calendar;
@@ -26,9 +23,9 @@ import java.util.Map;
 
 public class fill_one_fragment extends Fragment implements DatePickerDialog.OnDateSetListener {
 
-    public static TextView clientIdTv;
-    public static long currentId1;
-    static FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private static TextView clientIdTv;
+    private static long currentId1;
+    private static final FirebaseFirestore db = FirebaseFirestore.getInstance();
     private static EditText enterName;
     private static EditText enterNumber;
     private static EditText enterGPNumber;
@@ -51,33 +48,27 @@ public class fill_one_fragment extends Fragment implements DatePickerDialog.OnDa
         fillOneData.put("serial_number", enterSerialNumber.getText().toString());
 
         CollectionReference mainCollectionRef = db.collection("04June2024");
-
         mainCollectionRef.add(fillOneData)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        long newId = currentId1 + 1;
+                .addOnSuccessListener(documentReference -> {
+                    //long newId = currentId1 + 1;
+                    long newId = currentId1;
 
-                        CollectionReference subCollectionRef = mainCollectionRef
-                                .document(String.valueOf(newId))
-                                .collection("pages");
 
-                        subCollectionRef.document("fill_one").set(fillOneData)
-                                .addOnSuccessListener(aVoid -> {
-                                    currentId1 = newId;
-                                    clientIdTv.setText("ID: " + currentId1);
+                    CollectionReference subCollectionRef = mainCollectionRef
+                            .document(String.valueOf(newId))
+                            .collection("pages");
 
-                                    Map<String, Object> idUpdate = new HashMap<>();
-                                    idUpdate.put("lastId", currentId1);
+                    subCollectionRef.document("fill_one").set(fillOneData)
+                            .addOnSuccessListener(aVoid -> {
+                                currentId1 = newId;
+                                clientIdTv.setText("ID: " + currentId1);
 
-                                    db.collection("04June2024").document("last_id").set(idUpdate)
-                                            .addOnSuccessListener(aVoid1 -> clearInputFields());
-                                    //.addOnFailureListener(e ->Toast.makeText(getActivity(),"Failed to update ID", Toast.LENGTH_SHORT).show());
-                                });
-                        //.addOnFailureListener(e -> Toast.makeText(getActivity(), "Failed to insert data into subcollection", Toast.LENGTH_SHORT).show());
-                    }
+                                Map<String, Object> idUpdate = new HashMap<>();
+                                idUpdate.put("lastId", currentId1);
+                                db.collection("04June2024").document("last_id").set(idUpdate)
+                                        .addOnSuccessListener(aVoid1 -> clearInputFields());
+                            });
                 });
-        //.addOnFailureListener(e -> Toast.makeText(requireContext(), "Failed to insert data", Toast.LENGTH_SHORT).show());
     }
 
     private static void clearInputFields() {
@@ -123,7 +114,6 @@ public class fill_one_fragment extends Fragment implements DatePickerDialog.OnDa
             String date = dayOfMonth + "/" + month1 + "/" + year1;
             enterDate.setText(date);
         }, year, month, day);
-        datePickerDialog.setCancelable(true);
 
         enterDate.setOnClickListener(v -> datePickerDialog.show());
     }
@@ -137,17 +127,16 @@ public class fill_one_fragment extends Fragment implements DatePickerDialog.OnDa
         db.collection("04June2024")
                 .document("last_id")
                 .get()
-                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                    @Override
-                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        if (documentSnapshot.exists() && documentSnapshot.getLong("lastId") != null) {
-                            currentId1 = documentSnapshot.getLong("lastId");
-                        } else {
-                            currentId1 = 1; // Start with 1 if no ID exists
-                        }
-                        clientIdTv.setText("ID: " + currentId1);
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists() && documentSnapshot.getLong("lastId") != null) {
+                        currentId1 = documentSnapshot.getLong("lastId") + 1;
+                        Toast.makeText(requireContext(), "Current ID: " + currentId1, Toast.LENGTH_SHORT).show();
+                    } else {
+                        currentId1 = 1; // Start with 1 if no ID exists
                     }
+                    clientIdTv.setText("ID: " + currentId1);
                 })
                 .addOnFailureListener(e -> Toast.makeText(requireContext(), "Failed to fetch client ID", Toast.LENGTH_LONG).show());
     }
+
 }
