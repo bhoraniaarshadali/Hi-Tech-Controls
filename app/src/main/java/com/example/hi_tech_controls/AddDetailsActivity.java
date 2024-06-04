@@ -172,7 +172,7 @@ public class AddDetailsActivity extends AppCompatActivity {
     // Show a completion pop-up and set progress to 100%
     private void showCompletionPopup() {
         SweetAlertDialog dialog = new SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE);
-        dialog.setTitleText("Data Stored Successfully!" + "Client Id: " + fill_one_fragment.clientIdValue);
+        dialog.setTitleText("Data Stored Successfully!" + "Client Id: ");//+fill_one_fragment.clientIdValue);
         dialog.setContentText("You completed all the steps!");
 
         // Set a click listener for the confirmation button

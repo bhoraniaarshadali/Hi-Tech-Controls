@@ -6,14 +6,15 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -21,9 +22,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.hi_tech_controls.adapter.AddDetailsAdp;
 import com.example.hi_tech_controls.adapter.DetailsModel;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
 
@@ -63,11 +61,12 @@ public class MainActivity extends AppCompatActivity {
     private CardView cardView_1;
 
     // Register your BroadcastReceiver in onResume
+    @RequiresApi(api = Build.VERSION_CODES.TIRAMISU)
     @Override
     protected void onResume() {
         super.onResume();
         IntentFilter intentFilter = new IntentFilter("com.example.hi_tech_controls.PROGRESS_UPDATE");
-        registerReceiver(progressUpdateReceiver, intentFilter);
+        registerReceiver(progressUpdateReceiver, intentFilter, Context.RECEIVER_NOT_EXPORTED);
     }
 
     // Unregister your BroadcastReceiver in onPause to avoid leaks
@@ -101,7 +100,6 @@ public class MainActivity extends AppCompatActivity {
         addClientBtn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fetchKey();
                 Intent intent = new Intent(MainActivity.this, AddDetailsActivity.class);
                 startActivity(intent);
             }
@@ -115,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        recyclerViewDiscovery1 = (RecyclerView) findViewById(R.id.recyclerViewDiscovery);
+        recyclerViewDiscovery1 = findViewById(R.id.recyclerViewDiscovery);
 
         ArrayList<DetailsModel> DetailsData = new ArrayList<>();
 
@@ -211,7 +209,6 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(SweetAlertDialog sDialog) {
                 // Handle confirm button click (perform logout)
                 logout();
-
                 // Dismiss the dialog
                 sDialog.dismissWithAnimation();
 
@@ -235,26 +232,5 @@ public class MainActivity extends AppCompatActivity {
         //finish the current activity (main activity)
         finish();
     }
-
-
-    private void fetchKey() {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        CollectionReference ref = db.collection("user");
-
-        Toast.makeText(this, "entering fetchKey()", Toast.LENGTH_SHORT).show();
-        ref.get().addOnSuccessListener(queryDocumentSnapshots -> {
-
-            Toast.makeText(this, "getting data", Toast.LENGTH_SHORT).show();
-            for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
-                String id = document.getId();
-
-                // Create a new bundle and add the ID
-                Bundle bundle = new Bundle();
-                bundle.putString("id", id);
-
-            }
-        });
-    }
-
 
 }

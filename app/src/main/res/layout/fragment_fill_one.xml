@@ -29,7 +29,7 @@
                 android:layout_marginBottom="5sp">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/poppins_bold"
                     android:text="Client Id"
@@ -37,15 +37,17 @@
                     android:textSize="25sp"
                     tools:ignore="HardcodedText" />
 
+
                 <TextView
                     android:id="@+id/clientId"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:fontFamily="@font/poppins_regular"
-                    android:text="@string/_2001"
+                    android:text=""
                     android:textColor="@color/black"
                     android:textSize="25sp" />
+
             </RelativeLayout>
 
             <LinearLayout

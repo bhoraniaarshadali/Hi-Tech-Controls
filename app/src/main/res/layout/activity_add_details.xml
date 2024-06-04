@@ -151,21 +151,21 @@
                     android:layout_height="match_parent"
                     android:layout_alignParentStart="true"
                     android:layout_centerHorizontal="true"
-                    android:orientation="horizontal"></LinearLayout>
+                    android:orientation="horizontal" />
 
                 <LinearLayout
                     android:id="@+id/two"
                     android:layout_width="100sp"
                     android:layout_height="match_parent"
                     android:layout_toEndOf="@+id/one"
-                    android:orientation="horizontal"></LinearLayout>
+                    android:orientation="horizontal" />
 
                 <LinearLayout
                     android:id="@+id/three"
                     android:layout_width="80sp"
                     android:layout_height="match_parent"
                     android:layout_toEndOf="@+id/two"
-                    android:orientation="horizontal"></LinearLayout>
+                    android:orientation="horizontal" />
 
                 <LinearLayout
                     android:id="@+id/four"
@@ -173,7 +173,7 @@
                     android:layout_height="match_parent"
                     android:layout_alignParentEnd="true"
                     android:layout_centerHorizontal="true"
-                    android:orientation="horizontal"></LinearLayout>
+                    android:orientation="horizontal" />
 
             </RelativeLayout>
 

@@ -45,10 +45,17 @@ public class fill_two_fragment extends Fragment {
         // Initialize sharedPref
         sharedPref = new SharedPrefHelper(requireContext());
         return rootView;
-    }
 
+
+    }
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+
+        fill_one_fragment.insertDataToFirestore();
+
+        //Toast.makeText(requireContext(), "Data inserted successfully!", Toast.LENGTH_SHORT).show();
+
         // Initialize your View elements using findViewById on the view
         selectEmply = view.findViewById(R.id.fill_two_selectEmply);
         enterFRrate = view.findViewById(R.id.fill_two_enterFRrate);

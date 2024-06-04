@@ -7,142 +7,147 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import androidx.annotation.Nullable;
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.example.hi_tech_controls.R;
-import com.example.hi_tech_controls.SharedPrefHelper;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 public class fill_one_fragment extends Fragment implements DatePickerDialog.OnDateSetListener {
 
-    public EditText enterName;
-    private EditText enterNumber;
-    private EditText enterGPNumber;
-    private EditText enterDate;
-    private EditText enterMakeName;
-    private EditText enterModelName;
-    private EditText enterHPrate;
-    private EditText enterSerialNumber;
-    private SharedPrefHelper sharedPref;
-    public static String clientIdValue;
+    public static TextView clientIdTv;
+    public static long currentId1;
+    static FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private static EditText enterName;
+    private static EditText enterNumber;
+    private static EditText enterGPNumber;
+    private static EditText enterDate;
+    private static EditText enterMakeName;
+    private static EditText enterModelName;
+    private static EditText enterHPrate;
+    private static EditText enterSerialNumber;
+    private DatePickerDialog datePickerDialog;
 
-    // date picker
-    private EditText dateTextField1;
+    public static void insertDataToFirestore() {
+        Map<String, String> fillOneData = new HashMap<>();
+        fillOneData.put("name", enterName.getText().toString());
+        fillOneData.put("client_number", enterNumber.getText().toString());
+        fillOneData.put("gp_number", enterGPNumber.getText().toString());
+        fillOneData.put("gp_date", enterDate.getText().toString());
+        fillOneData.put("make_name", enterMakeName.getText().toString());
+        fillOneData.put("model_name", enterModelName.getText().toString());
+        fillOneData.put("hp_rate", enterHPrate.getText().toString());
+        fillOneData.put("serial_number", enterSerialNumber.getText().toString());
 
+        CollectionReference mainCollectionRef = db.collection("04June2024");
 
-    private DatePickerDialog datePickerDialog1;
+        mainCollectionRef.add(fillOneData)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        long newId = currentId1 + 1;
 
-    TextView clientId;
+                        CollectionReference subCollectionRef = mainCollectionRef
+                                .document(String.valueOf(newId))
+                                .collection("pages");
 
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+                        subCollectionRef.document("fill_one").set(fillOneData)
+                                .addOnSuccessListener(aVoid -> {
+                                    currentId1 = newId;
+                                    clientIdTv.setText("ID: " + currentId1);
 
-        // Initialize your UI elements // Set clientIdValue
-        clientId = view.findViewById(R.id.clientId);
+                                    Map<String, Object> idUpdate = new HashMap<>();
+                                    idUpdate.put("lastId", currentId1);
 
+                                    db.collection("04June2024").document("last_id").set(idUpdate)
+                                            .addOnSuccessListener(aVoid1 -> clearInputFields());
+                                    //.addOnFailureListener(e ->Toast.makeText(getActivity(),"Failed to update ID", Toast.LENGTH_SHORT).show());
+                                });
+                        //.addOnFailureListener(e -> Toast.makeText(getActivity(), "Failed to insert data into subcollection", Toast.LENGTH_SHORT).show());
+                    }
+                });
+        //.addOnFailureListener(e -> Toast.makeText(requireContext(), "Failed to insert data", Toast.LENGTH_SHORT).show());
+    }
 
-        // Initialize your EditText fields
-        enterName = (EditText) view.findViewById(R.id.fill_one_enterName);
-        //String text = enterName.getText().toString().trim();
-
-        enterNumber = view.findViewById(R.id.fill_one_enterNumber);
-        enterGPNumber = view.findViewById(R.id.fill_one_enterGPNumber);
-        enterDate = view.findViewById(R.id.fill_one_enterDate);
-        enterMakeName = view.findViewById(R.id.fill_one_enterMakeName);
-        enterModelName = view.findViewById(R.id.fill_one_enterModelName);
-        enterHPrate = view.findViewById(R.id.fill_one_enterHPrate);
-        enterSerialNumber = view.findViewById(R.id.fill_one_enterSerialNumber);
-
-        // Load saved values from SharedPreferences and set them to EditText fields
-        enterName.setText(sharedPref.getString("name", ""));
-        enterNumber.setText(sharedPref.getString("number", ""));
-        enterGPNumber.setText(sharedPref.getString("gp_number", ""));
-        enterDate.setText(sharedPref.getString("date", ""));
-        enterMakeName.setText(sharedPref.getString("make_name", ""));
-        enterModelName.setText(sharedPref.getString("model_name", ""));
-        enterHPrate.setText(sharedPref.getString("hp_rate", ""));
-        enterSerialNumber.setText(sharedPref.getString("serial_number", ""));
+    private static void clearInputFields() {
+        enterName.setText("");
+        enterNumber.setText("");
+        enterGPNumber.setText("");
+        enterDate.setText("");
+        enterMakeName.setText("");
+        enterModelName.setText("");
+        enterHPrate.setText("");
+        enterSerialNumber.setText("");
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_fill_one, container, false);
-        dateTextField1 = rootView.findViewById(R.id.fill_one_enterDate);
+        initializeViews(rootView);
         initDatePicker();
-
-        getClientId();
-        sharedPref = new SharedPrefHelper(requireContext());
+        fetchCurrentId();
         return rootView;
     }
 
+    private void initializeViews(View rootView) {
+        enterName = rootView.findViewById(R.id.fill_one_enterName);
+        enterNumber = rootView.findViewById(R.id.fill_one_enterNumber);
+        enterGPNumber = rootView.findViewById(R.id.fill_one_enterGPNumber);
+        enterDate = rootView.findViewById(R.id.fill_one_enterDate);
+        enterMakeName = rootView.findViewById(R.id.fill_one_enterMakeName);
+        enterModelName = rootView.findViewById(R.id.fill_one_enterModelName);
+        enterHPrate = rootView.findViewById(R.id.fill_one_enterHPrate);
+        enterSerialNumber = rootView.findViewById(R.id.fill_one_enterSerialNumber);
+        clientIdTv = rootView.findViewById(R.id.clientId);
+    }
 
     private void initDatePicker() {
-        Calendar cal = Calendar.getInstance();
-        int year = cal.get(Calendar.YEAR);
-        int month = cal.get(Calendar.MONTH);
-        int day = cal.get(Calendar.DAY_OF_MONTH);
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
 
-        datePickerDialog1 = new DatePickerDialog(requireActivity(), (view, year1, month1, dayOfMonth) -> {
+        datePickerDialog = new DatePickerDialog(requireActivity(), (view, year1, month1, dayOfMonth) -> {
             month1 += 1;
             String date = dayOfMonth + "/" + month1 + "/" + year1;
-            dateTextField1.setText(date);
+            enterDate.setText(date);
         }, year, month, day);
-        datePickerDialog1.setCancelable(true);
+        datePickerDialog.setCancelable(true);
 
-        dateTextField1.setOnClickListener(v -> datePickerDialog1.show());
+        enterDate.setOnClickListener(v -> datePickerDialog.show());
     }
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-        // This method is called when the date is set in the DatePickerDialog
+        // Not needed for now
     }
 
-    private void saveValuesToSharedPreferences() {
-        sharedPref.saveString("name", enterName.getText().toString());
-        sharedPref.saveString("number", enterNumber.getText().toString());
-        sharedPref.saveString("gp_number", enterGPNumber.getText().toString());
-        sharedPref.saveString("date", enterDate.getText().toString());
-        sharedPref.saveString("make_name", enterMakeName.getText().toString());
-        sharedPref.saveString("model_name", enterModelName.getText().toString());
-        sharedPref.saveString("hp_rate", enterHPrate.getText().toString());
-        sharedPref.saveString("serial_number", enterSerialNumber.getText().toString());
+    private void fetchCurrentId() {
+        db.collection("04June2024")
+                .document("last_id")
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        if (documentSnapshot.exists() && documentSnapshot.getLong("lastId") != null) {
+                            currentId1 = documentSnapshot.getLong("lastId");
+                        } else {
+                            currentId1 = 1; // Start with 1 if no ID exists
+                        }
+                        clientIdTv.setText("ID: " + currentId1);
+                    }
+                })
+                .addOnFailureListener(e -> Toast.makeText(requireContext(), "Failed to fetch client ID", Toast.LENGTH_LONG).show());
     }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        saveValuesToSharedPreferences();
-    }
-
-    public void anim() {
-        RelativeLayout main_container1 = requireView().findViewById(R.id.main_container);
-        main_container1.setAlpha(0f);
-        main_container1.setTranslationY(50);
-        main_container1.animate().alpha(1f).translationYBy(-50).setDuration(1000);
-    }
-
-    public void getClientId() {
-        // Retrieve the data from the arguments
-        Bundle bundle = getArguments();
-        if (bundle != null && bundle.containsKey("id")) {
-            String id = bundle.getString("id");
-
-            // Assuming clientId is a TextView, set the text
-            if (clientId != null) {
-                clientId.setText(id);
-            }
-        }
-    }
-
-
 }

@@ -1,36 +1,140 @@
 {
   "project_info": {
-    "project_number": "234534879775",
-    "project_id": "hi-tech-controls-d41f7",
-    "storage_bucket": "hi-tech-controls-d41f7.appspot.com"
+    "project_number": "562003682769",
+    "project_id": "firestore-8f112",
+    "storage_bucket": "firestore-8f112.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:234534879775:android:ed4cea822592ab2fda8b2a",
+        "mobilesdk_app_id": "1:562003682769:android:ffe29489ed1a8a8ab92cf0",
         "android_client_info": {
-          "package_name": "com.example.hi_tech_controls"
+          "package_name": "com.example.database"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "234534879775-ic6227lbfksh6nk0pqg1dcnt0s6c9o7m.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyBc-odXPvAeA_3ienm3wutqEiOOIrWkT3A"
+          "current_key": "AIzaSyDZdzU_IPKQM7ISNmo8JlvlNccGTJ9fLQY"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "234534879775-ic6227lbfksh6nk0pqg1dcnt0s6c9o7m.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:562003682769:android:05d6b54dd6749509b92cf0",
+        "android_client_info": {
+          "package_name": "com.example.fetchkey"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDZdzU_IPKQM7ISNmo8JlvlNccGTJ9fLQY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:562003682769:android:29021484e0deed1eb92cf0",
+        "android_client_info": {
+          "package_name": "com.example.firebase_firestoredatabase"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDZdzU_IPKQM7ISNmo8JlvlNccGTJ9fLQY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:562003682769:android:00dbf6eda1ca5fe4b92cf0",
+        "android_client_info": {
+          "package_name": "com.example.firebasepushclientid"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDZdzU_IPKQM7ISNmo8JlvlNccGTJ9fLQY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:562003682769:android:5dcf86accddba001b92cf0",
+        "android_client_info": {
+          "package_name": "com.example.firestorelearn22april24"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDZdzU_IPKQM7ISNmo8JlvlNccGTJ9fLQY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:562003682769:android:1e99050ab4bc06f5b92cf0",
+        "android_client_info": {
+          "package_name": "com.example.hi_tech_controls"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDZdzU_IPKQM7ISNmo8JlvlNccGTJ9fLQY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:562003682769:android:013f1d4dfcceccfbb92cf0",
+        "android_client_info": {
+          "package_name": "com.example.newdb"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDZdzU_IPKQM7ISNmo8JlvlNccGTJ9fLQY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
         }
       }
     }

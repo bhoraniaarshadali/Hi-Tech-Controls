@@ -104,6 +104,8 @@
                     android:layout_toStartOf="@+id/vi_2"
                     android:gravity="center">
 
+                    0
+
                     <Button
                         android:id="@+id/addClientBtn"
                         android:layout_width="wrap_content"
@@ -167,7 +169,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/cv_1"
             android:layout_marginTop="22sp"
-            android:orientation="vertical">
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -177,6 +179,15 @@
                 android:text="@string/recent_discoveries"
                 android:textColor="#4D4D4D"
                 android:textSize="15sp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginStart="160sp"
+                android:background="@drawable/refreshbutton"
+                android:contentDescription="TODO"
+                android:fontFamily="@font/poppins_bold"
+                android:text="@string/recent_discoveries" />
 
         </LinearLayout>
 
