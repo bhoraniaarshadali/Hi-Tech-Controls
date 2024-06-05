@@ -44,9 +44,12 @@ public class fill_one_fragment extends Fragment implements DatePickerDialog.OnDa
     private static EditText enterSerialNumber;
     private DatePickerDialog datePickerDialog;
 
-    public static void insertDataToFirestore(Context context) {
+    // Global data map for storing form data
+    private static Map<String, String> fillOneData;
+
+    public static void insertDataToFirestore_FillOne(Context context) {
         if (validateFields(context)) {
-            Map<String, String> fillOneData = new HashMap<>();
+            // Populate the global data map
             fillOneData.put("name", enterName.getText().toString());
             fillOneData.put("client_number", enterNumber.getText().toString());
             fillOneData.put("gp_number", enterGPNumber.getText().toString());
@@ -67,7 +70,7 @@ public class fill_one_fragment extends Fragment implements DatePickerDialog.OnDa
                         subCollectionRef.document(DOCUMENT_FILL_ONE).set(fillOneData)
                                 .addOnSuccessListener(aVoid1 -> {
                                     // Create and set data for "fill_two"
-                                    subCollectionRef.document(DOCUMENT_FILL_TWO).set(fillOneData)
+                                    subCollectionRef.document(DOCUMENT_FILL_TWO).set(fill_two_fragment.fillTwoData)
                                             .addOnSuccessListener(aVoid2 -> {
                                                 // Create and set data for "fill_three"
                                                 subCollectionRef.document(DOCUMENT_FILL_THREE).set(fillOneData)
@@ -89,49 +92,6 @@ public class fill_one_fragment extends Fragment implements DatePickerDialog.OnDa
         }
     }
 
-    private void initializeViews(View rootView) {
-        enterName = rootView.findViewById(R.id.fill_one_enterName);
-        enterNumber = rootView.findViewById(R.id.fill_one_enterNumber);
-        enterGPNumber = rootView.findViewById(R.id.fill_one_enterGPNumber);
-        enterDate = rootView.findViewById(R.id.fill_one_enterDate);
-        enterMakeName = rootView.findViewById(R.id.fill_one_enterMakeName);
-        enterModelName = rootView.findViewById(R.id.fill_one_enterModelName);
-        enterHPrate = rootView.findViewById(R.id.fill_one_enterHPrate);
-        enterSerialNumber = rootView.findViewById(R.id.fill_one_enterSerialNumber);
-        clientIdTv = rootView.findViewById(R.id.clientId);
-    }
-
-    private void initDatePicker() {
-        Calendar calendar = Calendar.getInstance();
-        int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH);
-        int day = calendar.get(Calendar.DAY_OF_MONTH);
-
-        datePickerDialog = new DatePickerDialog(requireActivity(), (view, year1, month1, dayOfMonth) -> {
-            month1 += 1;
-            String date = dayOfMonth + "/" + month1 + "/" + year1;
-            enterDate.setText(date);
-        }, year, month, day);
-
-        enterDate.setOnClickListener(v -> datePickerDialog.show());
-    }
-
-    @Override
-    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-        // Not needed for now
-    }
-
-    private static void clearInputFields() {
-        enterName.setText("");
-        enterNumber.setText("");
-        enterGPNumber.setText("");
-        enterDate.setText("");
-        enterMakeName.setText("");
-        enterModelName.setText("");
-        enterHPrate.setText("");
-        enterSerialNumber.setText("");
-    }
-
     private static boolean validateFields(Context context) {
         if (enterName.getText().toString().isEmpty() ||
                 //enterNumber.getText().toString().isEmpty() ||
@@ -147,6 +107,17 @@ public class fill_one_fragment extends Fragment implements DatePickerDialog.OnDa
         return true;
     }
 
+    private static void clearInputFields() {
+        enterName.setText("");
+        enterNumber.setText("");
+        enterGPNumber.setText("");
+        enterDate.setText("");
+        enterMakeName.setText("");
+        enterModelName.setText("");
+        enterHPrate.setText("");
+        enterSerialNumber.setText("");
+    }
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_fill_one, container, false);
@@ -154,6 +125,21 @@ public class fill_one_fragment extends Fragment implements DatePickerDialog.OnDa
         initDatePicker();
         fetchCurrentId(requireContext());
         return rootView;
+    }
+
+    private void initializeViews(View rootView) {
+        // Initialize global data map
+        fillOneData = new HashMap<>();
+
+        enterName = rootView.findViewById(R.id.fill_one_enterName);
+        enterNumber = rootView.findViewById(R.id.fill_one_enterNumber);
+        enterGPNumber = rootView.findViewById(R.id.fill_one_enterGPNumber);
+        enterDate = rootView.findViewById(R.id.fill_one_enterDate);
+        enterMakeName = rootView.findViewById(R.id.fill_one_enterMakeName);
+        enterModelName = rootView.findViewById(R.id.fill_one_enterModelName);
+        enterHPrate = rootView.findViewById(R.id.fill_one_enterHPrate);
+        enterSerialNumber = rootView.findViewById(R.id.fill_one_enterSerialNumber);
+        clientIdTv = rootView.findViewById(R.id.clientId);
     }
 
     private void fetchCurrentId(Context context) {
@@ -171,5 +157,24 @@ public class fill_one_fragment extends Fragment implements DatePickerDialog.OnDa
                     clientIdTv.setText("ID: " + currentId1);
                 })
                 .addOnFailureListener(e -> Toast.makeText(requireContext(), "Failed to fetch client ID", Toast.LENGTH_LONG).show());
+    }
+
+    private void initDatePicker() {
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        datePickerDialog = new DatePickerDialog(requireActivity(), (view, year1, month1, dayOfMonth) -> {
+            month1 += 1;
+            String date = dayOfMonth + "/" + month1 + "/" + year1;
+            enterDate.setText(date);
+        }, year, month, day);
+
+        enterDate.setOnClickListener(v -> datePickerDialog.show());
+    }
+
+    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+        // Not needed for now
     }
 }

@@ -1,5 +1,6 @@
 package com.example.hi_tech_controls.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,43 +21,71 @@ import androidx.fragment.app.Fragment;
 import com.example.hi_tech_controls.R;
 import com.example.hi_tech_controls.SharedPrefHelper;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 public class fill_two_fragment extends Fragment {
 
     private RadioGroup radioGroup;
-    private EditText localEditText;
-    private Spinner selectEmply;
-    private EditText enterFRrate;
-    private RadioButton radioButtonLocal, radioButtonRemote, radioButtonComm, radioButtonDIODE, radioButtonSCR;
-    private CheckBox input_POS_checkbox_U, input_POS_checkbox_V, input_POS_checkbox_W, input_NEG_checkbox_U, input_NEG_checkbox_V,
-            input_NEG_checkbox_W, output_POS_checkbox_U, output_POS_checkbox_V, output_POS_checkbox_W, output_NEG_checkbox_U, output_NEG_checkbox_V, output_NEG_checkbox_W;
-    private EditText clientObsText, ourObsText, lastFaultText;
+    // Define the static Map object
+    public static Map<String, String> fillTwoData = new HashMap<>();
+    private static EditText localEditText;
+    private static Spinner selectEmply;
+    private static EditText enterFRrate;
+    private static RadioButton radioButtonLocal;
+    private static RadioButton radioButtonRemote;
+    private static RadioButton radioButtonComm;
+    private static RadioButton radioButtonDIODE;
+    private static RadioButton radioButtonSCR;
+    private static CheckBox input_POS_checkbox_U;
+    private static CheckBox input_POS_checkbox_V;
+    private static CheckBox input_POS_checkbox_W;
+    private static CheckBox input_NEG_checkbox_U;
+    private static CheckBox input_NEG_checkbox_V;
+    private static CheckBox input_NEG_checkbox_W;
+    private static CheckBox output_POS_checkbox_U;
+    private static CheckBox output_POS_checkbox_V;
+    private static CheckBox output_POS_checkbox_W;
+    private static CheckBox output_NEG_checkbox_U;
+    private static CheckBox output_NEG_checkbox_V;
+    private static CheckBox output_NEG_checkbox_W;
+    private static EditText clientObsText;
+    private static EditText ourObsText;
     private SharedPrefHelper sharedPref;
+    private static EditText lastFaultText;
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_fill_two, container, false);
+    public static void insertDataToFirestore_FillTwo(Context context) {
+        // Retrieve values from UI elements and store them in the static map
+        fillTwoData.put("select_emp", selectEmply.getSelectedItem().toString());
+        fillTwoData.put("fr_rate", enterFRrate.getText().toString());
 
-        fill_one_fragment.insertDataToFirestore(requireContext());
-        Toast.makeText(requireContext(), "Data inserted successfully! FILL_ONE", Toast.LENGTH_SHORT).show();
+        fillTwoData.put("local_radio_checked", String.valueOf(radioButtonLocal.isChecked()));
+        fillTwoData.put("remote_radio_checked", String.valueOf(radioButtonRemote.isChecked()));
+        fillTwoData.put("comm_radio_checked", String.valueOf(radioButtonComm.isChecked()));
+        fillTwoData.put("diode_radio_checked", String.valueOf(radioButtonDIODE.isChecked()));
+        fillTwoData.put("scr_radio_checked", String.valueOf(radioButtonSCR.isChecked()));
+        fillTwoData.put("localEditText", localEditText.getText().toString());
 
-        initializeUIElements(rootView);
-        setUpRadioGroupListener();
-        setUpSpinner(rootView);
+        fillTwoData.put("input_pos_checkbox_U", String.valueOf(input_POS_checkbox_U.isChecked()));
+        fillTwoData.put("input_pos_checkbox_V", String.valueOf(input_POS_checkbox_V.isChecked()));
+        fillTwoData.put("input_pos_checkbox_W", String.valueOf(input_POS_checkbox_W.isChecked()));
+        fillTwoData.put("input_neg_checkbox_U", String.valueOf(input_NEG_checkbox_U.isChecked()));
+        fillTwoData.put("input_neg_checkbox_V", String.valueOf(input_NEG_checkbox_V.isChecked()));
+        fillTwoData.put("input_neg_checkbox_W", String.valueOf(input_NEG_checkbox_W.isChecked()));
+        fillTwoData.put("output_pos_checkbox_U", String.valueOf(output_POS_checkbox_U.isChecked()));
+        fillTwoData.put("output_pos_checkbox_V", String.valueOf(output_POS_checkbox_V.isChecked()));
+        fillTwoData.put("output_pos_checkbox_W", String.valueOf(output_POS_checkbox_W.isChecked()));
+        fillTwoData.put("output_neg_checkbox_U", String.valueOf(output_NEG_checkbox_U.isChecked()));
+        fillTwoData.put("output_neg_checkbox_V", String.valueOf(output_NEG_checkbox_V.isChecked()));
+        fillTwoData.put("output_neg_checkbox_W", String.valueOf(output_NEG_checkbox_W.isChecked()));
 
-
-        // Initialize sharedPref
-        sharedPref = new SharedPrefHelper(requireContext());
-        return rootView;
-
-
+        fillTwoData.put("client_obs", clientObsText.getText().toString());
+        fillTwoData.put("our_obs", ourObsText.getText().toString());
+        fillTwoData.put("last_fault", lastFaultText.getText().toString());
     }
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-
-
 
         // Initialize your View elements using findViewById on the view
         selectEmply = view.findViewById(R.id.fill_two_selectEmply);
@@ -218,6 +247,24 @@ public class fill_two_fragment extends Fragment {
         sharedPref.saveString("client_obs", clientObsText.getText().toString());
         sharedPref.saveString("our_obs", ourObsText.getText().toString());
         sharedPref.saveString("last_fault", lastFaultText.getText().toString());
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.fragment_fill_two, container, false);
+
+        fill_one_fragment.insertDataToFirestore_FillOne(requireContext());
+        Toast.makeText(requireContext(), "Data inserted successfully! FILL_ONE", Toast.LENGTH_SHORT).show();
+
+        initializeUIElements(rootView);
+        setUpRadioGroupListener();
+        setUpSpinner(rootView);
+
+
+        // Initialize sharedPref
+        sharedPref = new SharedPrefHelper(requireContext());
+        return rootView;
+
     }
 
     @Override

@@ -41,6 +41,7 @@ public class fill_three_fragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_fill_three, container, false);
 
+        fill_two_fragment.insertDataToFirestore_FillTwo(requireContext());
 
         setUpSpinner(rootView);
         setupNumberPicker(rootView);
