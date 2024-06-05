@@ -12,6 +12,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -37,6 +38,9 @@ public class fill_two_fragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_fill_two, container, false);
 
+        fill_one_fragment.insertDataToFirestore(requireContext());
+        Toast.makeText(requireContext(), "Data inserted successfully! FILL_ONE", Toast.LENGTH_SHORT).show();
+
         initializeUIElements(rootView);
         setUpRadioGroupListener();
         setUpSpinner(rootView);
@@ -52,9 +56,7 @@ public class fill_two_fragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
 
-        fill_one_fragment.insertDataToFirestore();
 
-        //Toast.makeText(requireContext(), "Data inserted successfully!", Toast.LENGTH_SHORT).show();
 
         // Initialize your View elements using findViewById on the view
         selectEmply = view.findViewById(R.id.fill_two_selectEmply);

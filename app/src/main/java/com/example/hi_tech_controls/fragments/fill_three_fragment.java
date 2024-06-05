@@ -41,6 +41,7 @@ public class fill_three_fragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_fill_three, container, false);
 
+
         setUpSpinner(rootView);
         setupNumberPicker(rootView);
         setupShowNumberButton(rootView);
@@ -50,8 +51,9 @@ public class fill_three_fragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // Initialize your View elements using findViewById on the view
+        //fill_two_fragment.insertDataToFirestoreFill_two(requireContext());
 
+        // Initialize your View elements using findViewById on the view
         selectEmply = view.findViewById(R.id.fill_three_selectEmply);
 
         checkboxCapacitor = view.findViewById(R.id.fill_three_checkboxCapasitor);

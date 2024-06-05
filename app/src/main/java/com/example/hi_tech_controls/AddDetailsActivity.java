@@ -37,7 +37,7 @@ public class AddDetailsActivity extends AppCompatActivity {
     };
 
     private Fragment fillOneFragment;
-    private Fragment fillTwoFragment;
+    public Fragment fillTwoFragment;
     private Fragment fillThreeFragment;
     private Fragment fillFourFragment;
     private Fragment viewfragment;

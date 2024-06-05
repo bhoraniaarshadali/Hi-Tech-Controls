@@ -1,6 +1,7 @@
 package com.example.hi_tech_controls.fragments;
 
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,13 +44,49 @@ public class fill_one_fragment extends Fragment implements DatePickerDialog.OnDa
     private static EditText enterSerialNumber;
     private DatePickerDialog datePickerDialog;
 
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_fill_one, container, false);
-        initializeViews(rootView);
-        initDatePicker();
-        fetchCurrentId();
-        return rootView;
+    public static void insertDataToFirestore(Context context) {
+        if (validateFields(context)) {
+            Map<String, String> fillOneData = new HashMap<>();
+            fillOneData.put("name", enterName.getText().toString());
+            fillOneData.put("client_number", enterNumber.getText().toString());
+            fillOneData.put("gp_number", enterGPNumber.getText().toString());
+            fillOneData.put("gp_date", enterDate.getText().toString());
+            fillOneData.put("make_name", enterMakeName.getText().toString());
+            fillOneData.put("model_name", enterModelName.getText().toString());
+            fillOneData.put("hp_rate", enterHPrate.getText().toString());
+            fillOneData.put("serial_number", enterSerialNumber.getText().toString());
+
+            // Create document with specific ID
+            db.collection(COLLECTION_NAME).document(String.valueOf(currentId1)).set(fillOneData)
+                    .addOnSuccessListener(aVoid -> {
+                        CollectionReference subCollectionRef = db.collection(COLLECTION_NAME)
+                                .document(String.valueOf(currentId1))
+                                .collection("pages");
+
+                        // Create and set data for "fill_one"
+                        subCollectionRef.document(DOCUMENT_FILL_ONE).set(fillOneData)
+                                .addOnSuccessListener(aVoid1 -> {
+                                    // Create and set data for "fill_two"
+                                    subCollectionRef.document(DOCUMENT_FILL_TWO).set(fillOneData)
+                                            .addOnSuccessListener(aVoid2 -> {
+                                                // Create and set data for "fill_three"
+                                                subCollectionRef.document(DOCUMENT_FILL_THREE).set(fillOneData)
+                                                        .addOnSuccessListener(aVoid3 -> {
+                                                            // Create and set data for "fill_four"
+                                                            subCollectionRef.document(DOCUMENT_FILL_FOUR).set(fillOneData)
+                                                                    .addOnSuccessListener(aVoid4 -> {
+                                                                        clientIdTv.setText("ID: " + currentId1);
+
+                                                                        Map<String, Object> idUpdate = new HashMap<>();
+                                                                        idUpdate.put("lastId", currentId1);
+                                                                        db.collection(COLLECTION_NAME).document(DOCUMENT_LAST_ID).set(idUpdate)
+                                                                                .addOnSuccessListener(aVoid5 -> clearInputFields());
+                                                                    });
+                                                        });
+                                            });
+                                });
+                    });
+        }
     }
 
     private void initializeViews(View rootView) {
@@ -95,54 +132,9 @@ public class fill_one_fragment extends Fragment implements DatePickerDialog.OnDa
         enterSerialNumber.setText("");
     }
 
-    public static void insertDataToFirestore() {
-        if (validateFields()) {
-            Map<String, String> fillOneData = new HashMap<>();
-            fillOneData.put("name", enterName.getText().toString());
-            fillOneData.put("client_number", enterNumber.getText().toString());
-            fillOneData.put("gp_number", enterGPNumber.getText().toString());
-            fillOneData.put("gp_date", enterDate.getText().toString());
-            fillOneData.put("make_name", enterMakeName.getText().toString());
-            fillOneData.put("model_name", enterModelName.getText().toString());
-            fillOneData.put("hp_rate", enterHPrate.getText().toString());
-            fillOneData.put("serial_number", enterSerialNumber.getText().toString());
-
-            // Create document with specific ID
-            db.collection(COLLECTION_NAME).document(String.valueOf(currentId1)).set(fillOneData)
-                    .addOnSuccessListener(aVoid -> {
-                        CollectionReference subCollectionRef = db.collection(COLLECTION_NAME)
-                                .document(String.valueOf(currentId1))
-                                .collection("pages");
-
-                        // Create and set data for "fill_one"
-                        subCollectionRef.document(DOCUMENT_FILL_ONE).set(fillOneData)
-                                .addOnSuccessListener(aVoid1 -> {
-                                    // Create and set data for "fill_two"
-                                    subCollectionRef.document(DOCUMENT_FILL_TWO).set(fillOneData)
-                                            .addOnSuccessListener(aVoid2 -> {
-                                                // Create and set data for "fill_three"
-                                                subCollectionRef.document(DOCUMENT_FILL_THREE).set(fillOneData)
-                                                        .addOnSuccessListener(aVoid3 -> {
-                                                            // Create and set data for "fill_four"
-                                                            subCollectionRef.document(DOCUMENT_FILL_FOUR).set(fillOneData)
-                                                                    .addOnSuccessListener(aVoid4 -> {
-                                                                        clientIdTv.setText("ID: " + currentId1);
-
-                                                                        Map<String, Object> idUpdate = new HashMap<>();
-                                                                        idUpdate.put("lastId", currentId1);
-                                                                        db.collection(COLLECTION_NAME).document(DOCUMENT_LAST_ID).set(idUpdate)
-                                                                                .addOnSuccessListener(aVoid5 -> clearInputFields());
-                                                                    });
-                                                        });
-                                            });
-                                });
-                    });
-        }
-    }
-
-    private static boolean validateFields() {
+    private static boolean validateFields(Context context) {
         if (enterName.getText().toString().isEmpty() ||
-                enterNumber.getText().toString().isEmpty() ||
+                //enterNumber.getText().toString().isEmpty() ||
                 enterGPNumber.getText().toString().isEmpty() ||
                 enterDate.getText().toString().isEmpty() ||
                 enterMakeName.getText().toString().isEmpty() ||
@@ -155,7 +147,16 @@ public class fill_one_fragment extends Fragment implements DatePickerDialog.OnDa
         return true;
     }
 
-    private void fetchCurrentId() {
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.fragment_fill_one, container, false);
+        initializeViews(rootView);
+        initDatePicker();
+        fetchCurrentId(requireContext());
+        return rootView;
+    }
+
+    private void fetchCurrentId(Context context) {
         db.collection(COLLECTION_NAME)
                 .document(DOCUMENT_LAST_ID)
                 .get()
@@ -165,6 +166,7 @@ public class fill_one_fragment extends Fragment implements DatePickerDialog.OnDa
                         Toast.makeText(requireContext(), "Current ID: " + currentId1, Toast.LENGTH_SHORT).show();
                     } else {
                         currentId1 = 2001; // Start with 2001 if no ID exists
+                        Toast.makeText(requireContext(), "No ID found. Starting with 2001.", Toast.LENGTH_SHORT).show();
                     }
                     clientIdTv.setText("ID: " + currentId1);
                 })
