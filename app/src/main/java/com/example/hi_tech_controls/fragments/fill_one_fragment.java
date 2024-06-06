@@ -24,16 +24,17 @@ import java.util.Map;
 
 public class fill_one_fragment extends Fragment implements DatePickerDialog.OnDateSetListener {
 
-    private static final String COLLECTION_NAME = "hi_tech_controls_dataset_JUNE";
-    private static final String DOCUMENT_LAST_ID = "last_id";
+    static final String COLLECTION_NAME = "hi_tech_controls_dataset_JUNE";
+    static final String DOCUMENT_LAST_ID = "last_id";
     private static final String DOCUMENT_FILL_ONE = "fill_one";
-    private static final String DOCUMENT_FILL_TWO = "fill_two";
-    private static final String DOCUMENT_FILL_THREE = "fill_three";
-    private static final String DOCUMENT_FILL_FOUR = "fill_four";
+    static final String DOCUMENT_FILL_TWO = "fill_two";
+    static final String DOCUMENT_FILL_THREE = "fill_three";
+    static final String DOCUMENT_FILL_FOUR = "fill_four";
 
     private static TextView clientIdTv;
-    private static long currentId1;
-    private static final FirebaseFirestore db = FirebaseFirestore.getInstance();
+    static final FirebaseFirestore db = FirebaseFirestore.getInstance();
+    // Define the static Map object
+    public static Map<String, String> fillOneData = new HashMap<>();
     private static EditText enterName;
     private static EditText enterNumber;
     private static EditText enterGPNumber;
@@ -43,9 +44,7 @@ public class fill_one_fragment extends Fragment implements DatePickerDialog.OnDa
     private static EditText enterHPrate;
     private static EditText enterSerialNumber;
     private DatePickerDialog datePickerDialog;
-
-    // Global data map for storing form data
-    private static Map<String, String> fillOneData;
+    static long currentId1;
 
     public static void insertDataToFirestore_FillOne(Context context) {
         if (validateFields(context)) {
@@ -69,53 +68,32 @@ public class fill_one_fragment extends Fragment implements DatePickerDialog.OnDa
                         // Create and set data for "fill_one"
                         subCollectionRef.document(DOCUMENT_FILL_ONE).set(fillOneData)
                                 .addOnSuccessListener(aVoid1 -> {
-                                    // Create and set data for "fill_two"
-                                    subCollectionRef.document(DOCUMENT_FILL_TWO).set(fill_two_fragment.fillTwoData)
+                                    Map<String, Object> idUpdate = new HashMap<>();
+                                    idUpdate.put("lastId", currentId1);
+                                    db.collection(COLLECTION_NAME).document(DOCUMENT_LAST_ID).set(idUpdate)
                                             .addOnSuccessListener(aVoid2 -> {
-                                                // Create and set data for "fill_three"
-                                                subCollectionRef.document(DOCUMENT_FILL_THREE).set(fillOneData)
-                                                        .addOnSuccessListener(aVoid3 -> {
-                                                            // Create and set data for "fill_four"
-                                                            subCollectionRef.document(DOCUMENT_FILL_FOUR).set(fillOneData)
-                                                                    .addOnSuccessListener(aVoid4 -> {
-                                                                        clientIdTv.setText("ID: " + currentId1);
-
-                                                                        Map<String, Object> idUpdate = new HashMap<>();
-                                                                        idUpdate.put("lastId", currentId1);
-                                                                        db.collection(COLLECTION_NAME).document(DOCUMENT_LAST_ID).set(idUpdate)
-                                                                                .addOnSuccessListener(aVoid5 -> clearInputFields());
-                                                                    });
-                                                        });
+                                                Toast.makeText(context, "Data saved successfully!", Toast.LENGTH_SHORT).show();
                                             });
                                 });
+                    })
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(context, "Failed to save data: " + e.getMessage(), Toast.LENGTH_LONG).show();
                     });
         }
     }
 
     private static boolean validateFields(Context context) {
         if (enterName.getText().toString().isEmpty() ||
-                //enterNumber.getText().toString().isEmpty() ||
                 enterGPNumber.getText().toString().isEmpty() ||
                 enterDate.getText().toString().isEmpty() ||
                 enterMakeName.getText().toString().isEmpty() ||
                 enterModelName.getText().toString().isEmpty() ||
                 enterHPrate.getText().toString().isEmpty() ||
                 enterSerialNumber.getText().toString().isEmpty()) {
-            Toast.makeText(enterName.getContext(), "All fields must be filled", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "All fields must be filled", Toast.LENGTH_SHORT).show();
             return false;
         }
         return true;
-    }
-
-    private static void clearInputFields() {
-        enterName.setText("");
-        enterNumber.setText("");
-        enterGPNumber.setText("");
-        enterDate.setText("");
-        enterMakeName.setText("");
-        enterModelName.setText("");
-        enterHPrate.setText("");
-        enterSerialNumber.setText("");
     }
 
     @Override
@@ -128,9 +106,6 @@ public class fill_one_fragment extends Fragment implements DatePickerDialog.OnDa
     }
 
     private void initializeViews(View rootView) {
-        // Initialize global data map
-        fillOneData = new HashMap<>();
-
         enterName = rootView.findViewById(R.id.fill_one_enterName);
         enterNumber = rootView.findViewById(R.id.fill_one_enterNumber);
         enterGPNumber = rootView.findViewById(R.id.fill_one_enterGPNumber);
@@ -149,14 +124,14 @@ public class fill_one_fragment extends Fragment implements DatePickerDialog.OnDa
                 .addOnSuccessListener(documentSnapshot -> {
                     if (documentSnapshot.exists() && documentSnapshot.getLong("lastId") != null) {
                         currentId1 = documentSnapshot.getLong("lastId") + 1;
-                        Toast.makeText(requireContext(), "Current ID: " + currentId1, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "Current ID: " + currentId1, Toast.LENGTH_SHORT).show();
                     } else {
                         currentId1 = 2001; // Start with 2001 if no ID exists
-                        Toast.makeText(requireContext(), "No ID found. Starting with 2001.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "No ID found. Starting with 2001.", Toast.LENGTH_SHORT).show();
                     }
                     clientIdTv.setText("ID: " + currentId1);
                 })
-                .addOnFailureListener(e -> Toast.makeText(requireContext(), "Failed to fetch client ID", Toast.LENGTH_LONG).show());
+                .addOnFailureListener(e -> Toast.makeText(context, "Failed to fetch client ID", Toast.LENGTH_LONG).show());
     }
 
     private void initDatePicker() {
@@ -174,6 +149,7 @@ public class fill_one_fragment extends Fragment implements DatePickerDialog.OnDa
         enterDate.setOnClickListener(v -> datePickerDialog.show());
     }
 
+    @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
         // Not needed for now
     }
