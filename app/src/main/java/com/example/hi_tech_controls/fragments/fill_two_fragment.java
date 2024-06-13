@@ -60,7 +60,12 @@ public class fill_two_fragment extends Fragment {
         fillTwoData.put("comm_radio_checked", String.valueOf(radioButtonComm.isChecked()));
         fillTwoData.put("diode_radio_checked", String.valueOf(radioButtonDIODE.isChecked()));
         fillTwoData.put("scr_radio_checked", String.valueOf(radioButtonSCR.isChecked()));
-        fillTwoData.put("localEditText", localEditText.getText().toString());
+
+        if (radioButtonLocal.isChecked()) {
+            fillTwoData.put("localEditText", localEditText.getText().toString());
+        } else {
+            fillTwoData.put("localEditText", "");
+        }
 
         fillTwoData.put("input_pos_checkbox_U", String.valueOf(input_POS_checkbox_U.isChecked()));
         fillTwoData.put("input_pos_checkbox_V", String.valueOf(input_POS_checkbox_V.isChecked()));
@@ -79,17 +84,14 @@ public class fill_two_fragment extends Fragment {
         fillTwoData.put("our_obs", ourObsText.getText().toString());
         fillTwoData.put("last_fault", lastFaultText.getText().toString());
 
-        // Save data to Firestore
         db.collection(COLLECTION_NAME).document(String.valueOf(currentId1)).set(fillTwoData)
                 .addOnSuccessListener(aVoid -> {
-                    // Create sub-collection "pages" and save "fill_two" document
                     CollectionReference subCollectionRef = db.collection(COLLECTION_NAME)
                             .document(String.valueOf(currentId1))
                             .collection("pages");
 
                     subCollectionRef.document(DOCUMENT_FILL_TWO).set(fillTwoData)
                             .addOnSuccessListener(aVoid1 -> {
-                                // Update lastId document
                                 Map<String, Object> idUpdate = new HashMap<>();
                                 idUpdate.put("lastId", currentId1);
                                 db.collection(COLLECTION_NAME).document(DOCUMENT_LAST_ID).set(idUpdate)
@@ -98,49 +100,46 @@ public class fill_two_fragment extends Fragment {
                                         });
                             });
                 })
-                .addOnFailureListener(e -> Toast.makeText(context, "Failed to save data: " + e.getMessage(), Toast.LENGTH_LONG).show());
+                .addOnFailureListener(e -> {
+                    Toast.makeText(context, "Failed to save data: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                });
     }
 
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    public static void clearFields_FillTwo(Context context) {
+        // Clear EditText fields
+        selectEmply.setSelection(0); // Reset spinner selection
+        enterFRrate.setText(""); // Clear FR rate field
+        localEditText.setText(""); // Clear localEditText field
+        clientObsText.setText(""); // Clear clientObsText field
+        ourObsText.setText(""); // Clear ourObsText field
+        lastFaultText.setText(""); // Clear lastFaultText field
 
-        // Insert data from fill_one_fragment into Firestore
-        fill_one_fragment.insertDataToFirestore_FillOne(requireContext());
+        // Clear RadioButton selections
+        radioButtonLocal.setChecked(false);
+        radioButtonRemote.setChecked(false);
+        radioButtonComm.setChecked(false);
+        radioButtonDIODE.setChecked(false);
+        radioButtonSCR.setChecked(false);
 
-        // Initialize UI elements
-        selectEmply = view.findViewById(R.id.fill_two_selectEmply);
-        enterFRrate = view.findViewById(R.id.fill_two_enterFRrate);
-        radioButtonLocal = view.findViewById(R.id.fill_two_radioButtonLocal);
-        radioButtonRemote = view.findViewById(R.id.fill_two_radioButtonRemote);
-        radioButtonComm = view.findViewById(R.id.fill_two_radioButtonComm);
-        localEditText = view.findViewById(R.id.fill_two_localEditText);
-        radioButtonDIODE = view.findViewById(R.id.fill_two_radioButtonDIODE);
-        radioButtonSCR = view.findViewById(R.id.fill_two_radioButtonSCR);
-        input_POS_checkbox_U = view.findViewById(R.id.fill_two_input_POS_checkbox_U);
-        input_POS_checkbox_V = view.findViewById(R.id.fill_two_input_POS_checkbox_V);
-        input_POS_checkbox_W = view.findViewById(R.id.fill_two_input_POS_checkbox_W);
-        input_NEG_checkbox_U = view.findViewById(R.id.fill_two_input_NEG_checkbox_U);
-        input_NEG_checkbox_V = view.findViewById(R.id.fill_two_input_NEG_checkbox_V);
-        input_NEG_checkbox_W = view.findViewById(R.id.fill_two_input_NEG_checkbox_W);
-        output_POS_checkbox_U = view.findViewById(R.id.fill_two_output_POS_checkbox_U);
-        output_POS_checkbox_V = view.findViewById(R.id.fill_two_output_POS_checkbox_V);
-        output_POS_checkbox_W = view.findViewById(R.id.fill_two_output_POS_checkbox_W);
-        output_NEG_checkbox_U = view.findViewById(R.id.fill_two_output_NEG_checkbox_U);
-        output_NEG_checkbox_V = view.findViewById(R.id.fill_two_output_NEG_checkbox_V);
-        output_NEG_checkbox_W = view.findViewById(R.id.fill_two_output_NEG_checkbox_W);
-        clientObsText = view.findViewById(R.id.fill_two_clientObs_text);
-        ourObsText = view.findViewById(R.id.fill_two_ourObs_text);
-        lastFaultText = view.findViewById(R.id.fill_two_lastFault_text);
+        // Clear CheckBox selections
+        input_POS_checkbox_U.setChecked(false);
+        input_POS_checkbox_V.setChecked(false);
+        input_POS_checkbox_W.setChecked(false);
+        input_NEG_checkbox_U.setChecked(false);
+        input_NEG_checkbox_V.setChecked(false);
+        input_NEG_checkbox_W.setChecked(false);
+        output_POS_checkbox_U.setChecked(false);
+        output_POS_checkbox_V.setChecked(false);
+        output_POS_checkbox_W.setChecked(false);
+        output_NEG_checkbox_U.setChecked(false);
+        output_NEG_checkbox_V.setChecked(false);
+        output_NEG_checkbox_W.setChecked(false);
 
-        // Set up the spinner
-        setUpSpinner(view);
+        // Hide localEditText if it's currently visible
+        localEditText.setVisibility(View.GONE);
 
-        // Initialize SharedPrefHelper
-        sharedPref = new SharedPrefHelper(requireContext());
-
-        // Load saved values and set them to the UI elements
-        loadSavedValues();
+        SharedPrefHelper.clearAll(); // Assuming there's a method in SharedPrefHelper to clear all SharedPreferences
+        Toast.makeText(context, "SharedPreferences cleared successfully!", Toast.LENGTH_SHORT).show();
     }
 
     private void loadSavedValues() {
@@ -222,35 +221,49 @@ public class fill_two_fragment extends Fragment {
         }
     }
 
-    private void saveValuesToSharedPreferences() {
-        sharedPref.saveString("select_emp", selectEmply.getSelectedItem().toString());
-        sharedPref.saveString("fr_rate", enterFRrate.getText().toString());
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
-        sharedPref.saveBoolean("local_radio_checked", radioButtonLocal.isChecked());
-        sharedPref.saveBoolean("remote_radio_checked", radioButtonRemote.isChecked());
-        sharedPref.saveBoolean("comm_radio_checked", radioButtonComm.isChecked());
-        sharedPref.saveBoolean("diode_radio_checked", radioButtonDIODE.isChecked());
-        sharedPref.saveBoolean("scr_radio_checked", radioButtonSCR.isChecked());
-        sharedPref.saveString("localEditText", localEditText.getText().toString());
+        // Insert data from fill_one_fragment into Firestore
+        fill_one_fragment.insertDataToFirestore_FillOne(requireContext());
 
-        sharedPref.saveBoolean("input_pos_checkbox_U", input_POS_checkbox_U.isChecked());
-        sharedPref.saveBoolean("input_pos_checkbox_V", input_POS_checkbox_V.isChecked());
-        sharedPref.saveBoolean("input_pos_checkbox_W", input_POS_checkbox_W.isChecked());
-        sharedPref.saveBoolean("input_neg_checkbox_U", input_NEG_checkbox_U.isChecked());
-        sharedPref.saveBoolean("input_neg_checkbox_V", input_NEG_checkbox_V.isChecked());
-        sharedPref.saveBoolean("input_neg_checkbox_W", input_NEG_checkbox_W.isChecked());
-        sharedPref.saveBoolean("output_pos_checkbox_U", output_POS_checkbox_U.isChecked());
-        sharedPref.saveBoolean("output_pos_checkbox_V", output_POS_checkbox_V.isChecked());
-        sharedPref.saveBoolean("output_pos_checkbox_W", output_POS_checkbox_W.isChecked());
-        sharedPref.saveBoolean("output_neg_checkbox_U", output_NEG_checkbox_U.isChecked());
-        sharedPref.saveBoolean("output_neg_checkbox_V", output_NEG_checkbox_V.isChecked());
-        sharedPref.saveBoolean("output_neg_checkbox_W", output_NEG_checkbox_W.isChecked());
+        // Initialize UI elements
+        selectEmply = view.findViewById(R.id.fill_two_selectEmply);
+        enterFRrate = view.findViewById(R.id.fill_two_enterFRrate);
+        radioButtonLocal = view.findViewById(R.id.fill_two_radioButtonLocal);
+        radioButtonRemote = view.findViewById(R.id.fill_two_radioButtonRemote);
+        radioButtonComm = view.findViewById(R.id.fill_two_radioButtonComm);
+        localEditText = view.findViewById(R.id.fill_two_localEditText);
+        radioButtonDIODE = view.findViewById(R.id.fill_two_radioButtonDIODE);
+        radioButtonSCR = view.findViewById(R.id.fill_two_radioButtonSCR);
+        input_POS_checkbox_U = view.findViewById(R.id.fill_two_input_POS_checkbox_U);
+        input_POS_checkbox_V = view.findViewById(R.id.fill_two_input_POS_checkbox_V);
+        input_POS_checkbox_W = view.findViewById(R.id.fill_two_input_POS_checkbox_W);
+        input_NEG_checkbox_U = view.findViewById(R.id.fill_two_input_NEG_checkbox_U);
+        input_NEG_checkbox_V = view.findViewById(R.id.fill_two_input_NEG_checkbox_V);
+        input_NEG_checkbox_W = view.findViewById(R.id.fill_two_input_NEG_checkbox_W);
+        output_POS_checkbox_U = view.findViewById(R.id.fill_two_output_POS_checkbox_U);
+        output_POS_checkbox_V = view.findViewById(R.id.fill_two_output_POS_checkbox_V);
+        output_POS_checkbox_W = view.findViewById(R.id.fill_two_output_POS_checkbox_W);
+        output_NEG_checkbox_U = view.findViewById(R.id.fill_two_output_NEG_checkbox_U);
+        output_NEG_checkbox_V = view.findViewById(R.id.fill_two_output_NEG_checkbox_V);
+        output_NEG_checkbox_W = view.findViewById(R.id.fill_two_output_NEG_checkbox_W);
+        clientObsText = view.findViewById(R.id.fill_two_clientObs_text);
+        ourObsText = view.findViewById(R.id.fill_two_ourObs_text);
+        lastFaultText = view.findViewById(R.id.fill_two_lastFault_text);
 
-        sharedPref.saveString("client_obs", clientObsText.getText().toString());
-        sharedPref.saveString("our_obs", ourObsText.getText().toString());
-        sharedPref.saveString("last_fault", lastFaultText.getText().toString());
+        // Set up the spinner
+        setUpSpinner(view);
 
-        Toast.makeText(requireContext(), "Values saved successfully", Toast.LENGTH_SHORT).show();
+        // Initialize SharedPrefHelper
+        sharedPref = new SharedPrefHelper(requireContext());
+
+        // Load saved values and set them to the UI elements
+        loadSavedValues();
+
+        // Set up the RadioGroup listener
+        setUpRadioGroupListener();
     }
 
     @Override
@@ -283,6 +296,43 @@ public class fill_two_fragment extends Fragment {
             localEditText.setVisibility(View.GONE);
         }
     }
+
+    private void saveValuesToSharedPreferences() {
+        sharedPref.saveString("select_emp", selectEmply.getSelectedItem().toString());
+        sharedPref.saveString("fr_rate", enterFRrate.getText().toString());
+
+        sharedPref.saveBoolean("local_radio_checked", radioButtonLocal.isChecked());
+        sharedPref.saveBoolean("remote_radio_checked", radioButtonRemote.isChecked());
+        sharedPref.saveBoolean("comm_radio_checked", radioButtonComm.isChecked());
+        sharedPref.saveBoolean("diode_radio_checked", radioButtonDIODE.isChecked());
+        sharedPref.saveBoolean("scr_radio_checked", radioButtonSCR.isChecked());
+
+        if (radioButtonLocal.isChecked()) {
+            sharedPref.saveString("localEditText", localEditText.getText().toString());
+        } else {
+            sharedPref.saveString("localEditText", "");
+        }
+
+        sharedPref.saveBoolean("input_pos_checkbox_U", input_POS_checkbox_U.isChecked());
+        sharedPref.saveBoolean("input_pos_checkbox_V", input_POS_checkbox_V.isChecked());
+        sharedPref.saveBoolean("input_pos_checkbox_W", input_POS_checkbox_W.isChecked());
+        sharedPref.saveBoolean("input_neg_checkbox_U", input_NEG_checkbox_U.isChecked());
+        sharedPref.saveBoolean("input_neg_checkbox_V", input_NEG_checkbox_V.isChecked());
+        sharedPref.saveBoolean("input_neg_checkbox_W", input_NEG_checkbox_W.isChecked());
+        sharedPref.saveBoolean("output_pos_checkbox_U", output_POS_checkbox_U.isChecked());
+        sharedPref.saveBoolean("output_pos_checkbox_V", output_POS_checkbox_V.isChecked());
+        sharedPref.saveBoolean("output_pos_checkbox_W", output_POS_checkbox_W.isChecked());
+        sharedPref.saveBoolean("output_neg_checkbox_U", output_NEG_checkbox_U.isChecked());
+        sharedPref.saveBoolean("output_neg_checkbox_V", output_NEG_checkbox_V.isChecked());
+        sharedPref.saveBoolean("output_neg_checkbox_W", output_NEG_checkbox_W.isChecked());
+
+        sharedPref.saveString("client_obs", clientObsText.getText().toString());
+        sharedPref.saveString("our_obs", ourObsText.getText().toString());
+        sharedPref.saveString("last_fault", lastFaultText.getText().toString());
+
+        Toast.makeText(requireContext(), "Values saved successfully fill_two!!", Toast.LENGTH_SHORT).show();
+    }
+
 
     @Override
     public void onStop() {
