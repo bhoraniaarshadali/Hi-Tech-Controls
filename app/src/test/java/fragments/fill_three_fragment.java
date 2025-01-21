@@ -25,8 +25,8 @@ import java.util.Objects;
 public class fill_three_fragment extends Fragment {
 
     private static final String PREF_KEY_NUMBER_PICKER_VALUE = "number_picker_value";
-    NumberPicker np;
-    Button npbutton;
+    private NumberPicker np;
+    private Button npbutton;
     private Spinner selectEmply;
     private CheckBox checkboxCapacitor, checkboxDisplay, checkboxFAN, checkboxCC;
     private EditText firstRemarks;
@@ -50,8 +50,7 @@ public class fill_three_fragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // Initialize your View elements using findViewById on the view
-
+        // Initialize View elements using findViewById on the view
         selectEmply = view.findViewById(R.id.fill_three_selectEmply);
 
         checkboxCapacitor = view.findViewById(R.id.fill_three_checkboxCapasitor);
@@ -81,12 +80,16 @@ public class fill_three_fragment extends Fragment {
         checkboxTRIAL1 = view.findViewById(R.id.fill_three_checkboxTRIAL1);
         checkboxTRIAL2 = view.findViewById(R.id.fill_three_checkboxTRIAL2);
 
-        // Load saved values and set them to the UI elements
+        // Initialize SharedPrefHelper
         sharedPref = new SharedPrefHelper(requireContext());
 
+        // Load saved values and set them to the UI elements
+        loadValuesFromSharedPreferences();
+    }
+
+    private void loadValuesFromSharedPreferences() {
         String selectedEmployee = sharedPref.getString("select_emp", "");
         if (!selectedEmployee.isEmpty()) {
-            // Find the position of the selectedEmployee in the employees array
             int position = getPositionOfEmployee(selectedEmployee);
             if (position >= 0) {
                 selectEmply.setSelection(position);
@@ -120,12 +123,10 @@ public class fill_three_fragment extends Fragment {
         checkboxTRIAL1.setChecked(sharedPref.getBoolean("checkboxTrial1", false));
         checkboxTRIAL2.setChecked(sharedPref.getBoolean("checkboxTrial2", false));
 
-        // Load the NumberPicker value from SharedPreferences and set it
         int savedNumberPickerValue = sharedPref.getInt(PREF_KEY_NUMBER_PICKER_VALUE, 1);
         np.setValue(savedNumberPickerValue);
     }
 
-    // Helper method to get the position of the selected employee in the Spinner
     private int getPositionOfEmployee(String selectedEmployee) {
         ArrayAdapter<String> adapter = (ArrayAdapter<String>) selectEmply.getAdapter();
         for (int i = 0; i < adapter.getCount(); i++) {
@@ -133,7 +134,7 @@ public class fill_three_fragment extends Fragment {
                 return i;
             }
         }
-        return -1; // Employee not found in the Spinner
+        return -1;
     }
 
     private void setUpSpinner(View rootView) {
@@ -168,27 +169,19 @@ public class fill_three_fragment extends Fragment {
 
     private void setupNumberPicker(View rootView) {
         np = rootView.findViewById(R.id.npId);
-        np.setMinValue(1); // Set the minimum value for the NumberPicker
-        np.setMaxValue(100); // Set the maximum value for the NumberPicker
+        np.setMinValue(1);
+        np.setMaxValue(100);
 
-        // Add a listener to save the NumberPicker value when it changes
-        np.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
-            @Override
-            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-                // Save the new NumberPicker value to SharedPreferences
-                sharedPref.saveInt(PREF_KEY_NUMBER_PICKER_VALUE, newVal);
-            }
-        });
+        np.setOnValueChangedListener((picker, oldVal, newVal) ->
+                sharedPref.saveInt(PREF_KEY_NUMBER_PICKER_VALUE, newVal)
+        );
     }
 
     private void setupShowNumberButton(View rootView) {
         npbutton = rootView.findViewById(R.id.npButton);
-        npbutton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                int selectedNumber = np.getValue();
-                showToast("Duration: " + selectedNumber + "/days");
-            }
+        npbutton.setOnClickListener(view -> {
+            int selectedNumber = np.getValue();
+            showToast("Duration: " + selectedNumber + " days");
         });
     }
 
@@ -197,7 +190,6 @@ public class fill_three_fragment extends Fragment {
     }
 
     private void saveValuesToSharedPreferences() {
-
         sharedPref.saveString("select_emp", selectEmply.getSelectedItem().toString());
 
         sharedPref.saveBoolean("checkboxCapacitor", checkboxCapacitor.isChecked());
@@ -228,6 +220,7 @@ public class fill_three_fragment extends Fragment {
         sharedPref.saveBoolean("checkboxTrial2", checkboxTRIAL2.isChecked());
     }
 
+    @Override
     public void onStop() {
         super.onStop();
         saveValuesToSharedPreferences();
