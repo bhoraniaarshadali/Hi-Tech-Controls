@@ -29,20 +29,19 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class AddDetailsActivity extends AppCompatActivity {
 
+    public static final int[] progressValues = {0, 25, 50, 75, 100};
     private final String[] switcherValues = {
             "Inward Details",
             "Initial Observation",
             "Repairs Details",
             "Final Trial Check"
     };
-
-    private Fragment fillOneFragment;
     public Fragment fillTwoFragment;
+    private Fragment fillOneFragment;
     private Fragment fillThreeFragment;
     private Fragment fillFourFragment;
     private Fragment viewfragment;
     private int currentFragmentIndex = 0;
-    public static final int[] progressValues = {0, 25, 50, 75, 100};
     private ProgressBar progressBar;
     private ProgressBar progressBarDUMP;
     private ProgressBar progressBarTEXTDUMPwhite;

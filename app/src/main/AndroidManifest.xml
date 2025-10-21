@@ -84,8 +84,6 @@
             android:theme="@style/Theme.ViewClntsDetails" />
 
 
-
-
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.example.hi_tech_controls.provider"

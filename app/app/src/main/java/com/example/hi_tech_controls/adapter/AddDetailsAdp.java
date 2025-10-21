@@ -43,7 +43,6 @@ public class AddDetailsAdp extends RecyclerView.Adapter<AddDetailsAdp.ViewHolder
     }
 
 
-
     @Override
     public int getItemCount() {
         return arrayData.size();

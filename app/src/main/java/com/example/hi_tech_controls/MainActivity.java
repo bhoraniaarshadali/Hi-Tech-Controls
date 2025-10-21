@@ -1,5 +1,6 @@
 package com.example.hi_tech_controls;
 
+import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -34,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     private static ProgressBar progressBar;
     // Define your BroadcastReceiver
     private final BroadcastReceiver progressUpdateReceiver = new BroadcastReceiver() {
+        @SuppressLint("SetTextI18n")
         @Override
         public void onReceive(Context context, Intent intent) {
             if (intent.getAction() != null && intent.getAction().equals("com.example.hi_tech_controls.PROGRESS_UPDATE")) {
@@ -45,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
                     statusText1.setText("Completed");
 
                     // Send a broadcast to inform MainActivity
-                    Intent broadcastIntent = new Intent("com.example.hi_tech_controls.PROGRESS_UPDATE");
+                    Intent broadcastIntent = new Intent("com.example.hi_tech_controls.PROGRESS_UPDATE").setPackage(/* TODO: provide the application ID. For example: */ getPackageName());
                     broadcastIntent.putExtra("progress", progress);
                     sendBroadcast(broadcastIntent);
                 }

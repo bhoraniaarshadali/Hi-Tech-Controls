@@ -34,11 +34,10 @@ import java.util.Map;
 import java.util.Objects;
 
 public class fill_three_fragment extends Fragment {
+    private static final String PREF_KEY_NUMBER_PICKER_VALUE = "number_picker_value";
     // Static Map to store form data
     public static Map<String, String> fillThreeData = new HashMap<>();
-    private static final String PREF_KEY_NUMBER_PICKER_VALUE = "number_picker_value";
     static NumberPicker np;
-    Button npbutton;
     private static Spinner selectEmply;
     private static CheckBox checkboxCapacitor;
     private static CheckBox checkboxDisplay;
@@ -62,18 +61,8 @@ public class fill_three_fragment extends Fragment {
     private static CheckBox Replace_checkboxNine;
     private static CheckBox checkboxTRIAL1;
     private static CheckBox checkboxTRIAL2;
+    Button npbutton;
     private SharedPrefHelper sharedPref;
-
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_fill_three, container, false);
-
-        fill_two_fragment.insertDataToFirestore_FillTwo(requireContext());
-
-        setUpSpinner(rootView);
-        setupNumberPicker(rootView);
-        setupShowNumberButton(rootView);
-        return rootView;
-    }
 
     public static void insertDataToFirestore_FillThree(Context context) {
         fillThreeData.put("select_emp", selectEmply.getSelectedItem().toString());
@@ -124,6 +113,54 @@ public class fill_three_fragment extends Fragment {
                 .addOnFailureListener(e -> {
                     Toast.makeText(context, "Failed to save data: " + e.getMessage(), Toast.LENGTH_LONG).show();
                 });
+    }
+
+    public static void clearFields_FillThree(Context context) {
+        // Clear Spinner selection
+        selectEmply.setSelection(0);
+
+        // Clear CheckBox selections
+        checkboxCapacitor.setChecked(false);
+        checkboxDisplay.setChecked(false);
+        checkboxFAN.setChecked(false);
+        checkboxCC.setChecked(false);
+        Repair_checkboxOne.setChecked(false);
+        Repair_checkboxTwo.setChecked(false);
+        Repair_checkboxThree.setChecked(false);
+        Repair_checkboxFour.setChecked(false);
+        Repair_checkboxFive.setChecked(false);
+        Repair_checkboxSix.setChecked(false);
+        Replace_checkboxOne.setChecked(false);
+        Replace_checkboxTwo.setChecked(false);
+        Replace_checkboxThree.setChecked(false);
+        Replace_checkboxFour.setChecked(false);
+        Replace_checkboxFive.setChecked(false);
+        Replace_checkboxSix.setChecked(false);
+        Replace_checkboxSeven.setChecked(false);
+        Replace_checkboxEight.setChecked(false);
+        Replace_checkboxNine.setChecked(false);
+        checkboxTRIAL1.setChecked(false);
+        checkboxTRIAL2.setChecked(false);
+
+        // Clear EditText field
+        firstRemarks.setText("");
+
+        // Reset NumberPicker value to 1
+        np.setValue(1);
+
+        SharedPrefHelper.clearAll(); // Assuming there's a method in SharedPrefHelper to clear all SharedPreferences
+        //Toast.makeText(context, "SharedPreferences cleared successfully!", Toast.LENGTH_SHORT).show();
+    }
+
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.fragment_fill_three, container, false);
+
+        fill_two_fragment.insertDataToFirestore_FillTwo(requireContext());
+
+        setUpSpinner(rootView);
+        setupNumberPicker(rootView);
+        setupShowNumberButton(rootView);
+        return rootView;
     }
 
     // Helper method to get the position of the selected employee in the Spinner
@@ -197,42 +234,6 @@ public class fill_three_fragment extends Fragment {
         Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show();
     }
 
-    public static void clearFields_FillThree(Context context) {
-        // Clear Spinner selection
-        selectEmply.setSelection(0);
-
-        // Clear CheckBox selections
-        checkboxCapacitor.setChecked(false);
-        checkboxDisplay.setChecked(false);
-        checkboxFAN.setChecked(false);
-        checkboxCC.setChecked(false);
-        Repair_checkboxOne.setChecked(false);
-        Repair_checkboxTwo.setChecked(false);
-        Repair_checkboxThree.setChecked(false);
-        Repair_checkboxFour.setChecked(false);
-        Repair_checkboxFive.setChecked(false);
-        Repair_checkboxSix.setChecked(false);
-        Replace_checkboxOne.setChecked(false);
-        Replace_checkboxTwo.setChecked(false);
-        Replace_checkboxThree.setChecked(false);
-        Replace_checkboxFour.setChecked(false);
-        Replace_checkboxFive.setChecked(false);
-        Replace_checkboxSix.setChecked(false);
-        Replace_checkboxSeven.setChecked(false);
-        Replace_checkboxEight.setChecked(false);
-        Replace_checkboxNine.setChecked(false);
-        checkboxTRIAL1.setChecked(false);
-        checkboxTRIAL2.setChecked(false);
-
-        // Clear EditText field
-        firstRemarks.setText("");
-
-        // Reset NumberPicker value to 1
-        np.setValue(1);
-
-        SharedPrefHelper.clearAll(); // Assuming there's a method in SharedPrefHelper to clear all SharedPreferences
-        //Toast.makeText(context, "SharedPreferences cleared successfully!", Toast.LENGTH_SHORT).show();
-    }
     private void saveValuesToSharedPreferences() {
 
         sharedPref.saveString("select_emp", selectEmply.getSelectedItem().toString());

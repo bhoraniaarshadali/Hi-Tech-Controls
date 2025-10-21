@@ -1,209 +1,160 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
-    android:fillViewport="true">
+    tools:context=".MainActivity">
 
-    <!-- Main layout container -->
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:paddingBottom="16dp">
 
-        <!-- Dashboard text -->
+        <!-- Header Background -->
         <View
             android:id="@+id/dash_vi"
             android:layout_width="match_parent"
-            android:layout_height="193dp"
-            android:background="@drawable/flip_top"
-            tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteX="-20dp"
-            tools:layout_editor_absoluteY="0dp" />
+            android:layout_height="200dp"
+            android:background="@drawable/flip_top" />
 
-        <!--    after your work is done REMOVE-->
-
-        <RelativeLayout
+        <!-- Logout Button -->
+        <LinearLayout
             android:id="@+id/logout_btn_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginStart="20sp"
-            android:layout_marginTop="37sp"
-            android:importantForAccessibility="no">
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="35dp"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_alignParentStart="true">
 
             <ImageView
                 android:id="@+id/logout_btn"
-                android:layout_width="32sp"
-                android:layout_height="32sp"
-                android:contentDescription="TODO"
-                android:src="@drawable/logout"
-                tools:ignore="ContentDescription,HardcodedText" />
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/logout" />
 
             <TextView
-                android:layout_width="32sp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/logout_btn"
-                android:layout_centerInParent="true"
-                android:layout_marginStart="9sp"
-                android:layout_marginTop="0dp"
                 android:text="Logout"
                 android:textColor="@color/white"
                 android:textSize="10sp"
-                tools:ignore="HardcodedText,SmallSp" />
-        </RelativeLayout>
+                android:fontFamily="@font/poppins_medium" />
+        </LinearLayout>
 
-
+        <!-- Dashboard Title -->
         <TextView
             android:id="@+id/dash_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="32dp"
-            android:layout_marginBottom="25dp"
-            android:fontFamily="@font/poppins_medium"
             android:text="Dashboard"
             android:textColor="@color/white"
-            android:textSize="30sp"
-            tools:ignore="HardcodedText,SpUsage" />
+            android:textSize="24sp"
+            android:fontFamily="@font/poppins_medium" />
 
-        <!-- Card view for proper layout -->
+        <!-- Main Card -->
         <androidx.cardview.widget.CardView
             android:id="@+id/cv_1"
             android:layout_width="match_parent"
             android:layout_height="120dp"
             android:layout_centerHorizontal="true"
             android:layout_marginStart="15dp"
-            android:layout_marginTop="90dp"
             android:layout_marginEnd="15dp"
-            android:backgroundTint="@color/white"
+            android:layout_marginTop="100dp"
             app:cardCornerRadius="25dp"
             app:cardElevation="5dp"
-            tools:ignore="MissingClass,TextSizeCheck">
+            android:backgroundTint="@color/white">
 
-            <!--            full card TopView layout-->
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_margin="5dp"
+                android:orientation="horizontal"
                 android:gravity="center"
-                android:orientation="horizontal">
+                android:weightSum="2">
 
-                <!--button left-->
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_marginStart="5sp"
-                    android:layout_marginTop="5sp"
-                    android:layout_marginBottom="5sp"
-                    android:layout_toStartOf="@+id/vi_2"
-                    android:gravity="center">
-
-                    0
-
-                    <Button
-                        android:id="@+id/addClientBtn"
-                        android:layout_width="wrap_content"
-                        android:layout_height="100sp"
-                        android:background="@null"
-                        android:drawableStart="@drawable/add"
-                        android:drawablePadding="9sp"
-                        android:fontFamily="@font/poppins_medium"
-                        android:gravity="start|center_vertical"
-                        android:padding="10sp"
-                        android:text="@string/add_client_details"
-                        android:textAllCaps="false"
-                        android:textColor="@color/blue"
-                        android:textSize="15sp" />
-                </RelativeLayout>
+                <Button
+                    android:id="@+id/addClientBtn"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:drawableStart="@drawable/add"
+                    android:drawablePadding="8dp"
+                    android:padding="20dp"
+                    android:text="@string/add_client_details"
+                    android:textAlignment="textStart"
+                    android:textAllCaps="false"
+                    android:textColor="@color/blue"
+                    android:textSize="15sp"
+                    android:fontFamily="@font/poppins_medium" />
 
                 <View
-                    android:id="@+id/vi_2"
-                    android:layout_width="2sp"
-                    android:layout_height="100sp"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="10sp"
-                    android:layout_marginBottom="10sp"
-                    android:background="@android:color/darker_gray" />
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="#E0E0E0" />
 
-                <!--            button right-->
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginTop="5sp"
-                    android:layout_marginEnd="5dp"
-                    android:layout_marginBottom="5sp"
-                    android:layout_toEndOf="@+id/vi_2"
-                    android:gravity="center">
-
-                    <Button
-                        android:id="@+id/viewClientBtn"
-                        android:layout_width="wrap_content"
-                        android:layout_height="100sp"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginEnd="10dp"
-                        android:background="@null"
-                        android:drawableStart="@drawable/view"
-                        android:drawablePadding="9sp"
-                        android:fontFamily="@font/poppins_medium"
-                        android:gravity="start|center_vertical"
-                        android:padding="10sp"
-                        android:text="@string/view_clients_details"
-                        android:textAllCaps="false"
-                        android:textColor="@color/blue"
-                        android:textSize="14sp" />
-
-                </RelativeLayout>
-            </RelativeLayout>
+                <Button
+                    android:id="@+id/viewClientBtn"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:drawableStart="@drawable/view"
+                    android:drawablePadding="8dp"
+                    android:padding="20dp"
+                    android:text="@string/view_clients_details"
+                    android:textAlignment="textStart"
+                    android:textAllCaps="false"
+                    android:textColor="@color/blue"
+                    android:textSize="15sp"
+                    android:fontFamily="@font/poppins_medium" />
+            </LinearLayout>
         </androidx.cardview.widget.CardView>
 
+        <!-- Recent Discoveries -->
         <LinearLayout
             android:id="@+id/recentDiscoveries"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/cv_1"
-            android:layout_marginTop="22sp"
-            android:orientation="horizontal">
+            android:layout_marginTop="22dp"
+            android:paddingHorizontal="20dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            tools:ignore="UseCompoundDrawables">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20sp"
-                android:fontFamily="@font/poppins_bold"
+                android:layout_weight="1"
                 android:text="@string/recent_discoveries"
                 android:textColor="#4D4D4D"
-                android:textSize="15sp" />
+                android:textSize="15sp"
+                android:fontFamily="@font/poppins_bold"
+                android:gravity="start" />
 
             <ImageView
+                android:id="@+id/refreshButton"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginStart="160sp"
-                android:background="@drawable/refreshbutton"
-                android:contentDescription="TODO"
-                android:fontFamily="@font/poppins_bold"
-                android:text="@string/recent_discoveries" />
-
+                android:layout_height="24dp"
+                android:src="@drawable/refreshbutton"
+                android:layout_gravity="end"/>
         </LinearLayout>
 
-        <RelativeLayout
+        <!-- RecyclerView -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewDiscovery"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/recentDiscoveries"
-            android:layout_marginTop="5sp">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerViewDiscovery"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                tools:ignore="MissingClass">
-
-            </androidx.recyclerview.widget.RecyclerView>
-        </RelativeLayout>
+            android:layout_below="@id/recentDiscoveries"
+            android:layout_marginTop="5dp"
+            android:paddingBottom="16dp"
+            android:nestedScrollingEnabled="false"
+            tools:listitem="@layout/add_cardview" />
     </RelativeLayout>
-</RelativeLayout>
+</ScrollView>

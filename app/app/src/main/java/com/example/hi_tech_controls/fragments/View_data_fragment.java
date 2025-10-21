@@ -54,6 +54,7 @@ public class View_data_fragment extends Fragment {
     private RelativeLayout frag3;
     private RelativeLayout frag4;
     private int pageHeight;
+    private int pageNumber = 1;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_view_data_fragement, container, false);
@@ -451,8 +452,6 @@ public class View_data_fragment extends Fragment {
             Toast.makeText(requireContext(), "External storage not available or writable", Toast.LENGTH_SHORT).show();
         }
     }
-
-    private int pageNumber = 1;
 
     private void addPageFromViewWithBorder(PdfDocument pdfDoc, View view, boolean isFirstPage) {
         // 11 inches converted to points

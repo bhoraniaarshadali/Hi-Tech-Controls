@@ -106,6 +106,34 @@ public class fill_four_fragment extends Fragment {
                 .addOnFailureListener(e -> Toast.makeText(context, "Failed to save data: " + e.getMessage(), Toast.LENGTH_LONG).show());
     }
 
+    public static void clearFields_FillFour(Context context) {
+        // Clear Spinner selection
+        selectEmply.setSelection(0);
+
+        // Clear CheckBox selections
+        checkbox1HP.setChecked(false);
+        checkbox10HP.setChecked(false);
+        checkbox30HP.setChecked(false);
+        checkboxAMP_U.setChecked(false);
+        checkboxAMP_V.setChecked(false);
+        checkboxAMP_W.setChecked(false);
+
+        // Clear EditText fields
+        OnDisplay_text.setText("");
+        OnClamp_text.setText("");
+        DC_DISP_text.setText("");
+        DC_MET_text.setText("");
+        OUTPUT_DISP_text.setText("");
+        OUTPUT_MET_text.setText("");
+        enterRH_text.setText("");
+        enterReplayOP_text.setText("");
+        enterFANOpr_text.setText("");
+        enterBODYCondition_text.setText("");
+        enterIOcheck_text.setText("");
+        enterClean_Text.setText("");
+        enterPramCopy_Text.setText("");
+    }
+
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         // Initializing   View elements using findViewById on the view
@@ -168,7 +196,6 @@ public class fill_four_fragment extends Fragment {
         enterClean_Text.setText(sharedPref.getString("enterClean", ""));
         enterPramCopy_Text.setText(sharedPref.getString("enterPramCopy", ""));
     }
-
 
     // Helper method to get the position of the selected employee in the Spinner
     private int getPositionOfEmployee(String selectedEmployee) {
@@ -239,35 +266,6 @@ public class fill_four_fragment extends Fragment {
         sharedPref.saveString("enterClean", enterClean_Text.getText().toString());
         sharedPref.saveString("enterPramCopy", enterPramCopy_Text.getText().toString());
     }
-
-    public static void clearFields_FillFour(Context context) {
-        // Clear Spinner selection
-        selectEmply.setSelection(0);
-
-        // Clear CheckBox selections
-        checkbox1HP.setChecked(false);
-        checkbox10HP.setChecked(false);
-        checkbox30HP.setChecked(false);
-        checkboxAMP_U.setChecked(false);
-        checkboxAMP_V.setChecked(false);
-        checkboxAMP_W.setChecked(false);
-
-        // Clear EditText fields
-        OnDisplay_text.setText("");
-        OnClamp_text.setText("");
-        DC_DISP_text.setText("");
-        DC_MET_text.setText("");
-        OUTPUT_DISP_text.setText("");
-        OUTPUT_MET_text.setText("");
-        enterRH_text.setText("");
-        enterReplayOP_text.setText("");
-        enterFANOpr_text.setText("");
-        enterBODYCondition_text.setText("");
-        enterIOcheck_text.setText("");
-        enterClean_Text.setText("");
-        enterPramCopy_Text.setText("");
-    }
-
 
     @Override
     public void onStop() {

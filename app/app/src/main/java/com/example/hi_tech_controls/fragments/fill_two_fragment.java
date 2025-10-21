@@ -29,7 +29,7 @@ public class fill_two_fragment extends Fragment {
     private EditText enterFRrate;
     private RadioButton radioButtonLocal, radioButtonRemote, radioButtonComm, radioButtonDIODE, radioButtonSCR;
     private CheckBox input_POS_checkbox_U, input_POS_checkbox_V, input_POS_checkbox_W, input_NEG_checkbox_U, input_NEG_checkbox_V,
-            input_NEG_checkbox_W, output_POS_checkbox_U, output_POS_checkbox_V, output_POS_checkbox_W,output_NEG_checkbox_U,output_NEG_checkbox_V,output_NEG_checkbox_W;
+            input_NEG_checkbox_W, output_POS_checkbox_U, output_POS_checkbox_V, output_POS_checkbox_W, output_NEG_checkbox_U, output_NEG_checkbox_V, output_NEG_checkbox_W;
     private EditText clientObsText, ourObsText, lastFaultText;
     private SharedPrefHelper sharedPref;
 

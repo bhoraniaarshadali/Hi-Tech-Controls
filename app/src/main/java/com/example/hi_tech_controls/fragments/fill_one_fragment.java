@@ -27,14 +27,14 @@ public class fill_one_fragment extends Fragment implements DatePickerDialog.OnDa
 
     static final String COLLECTION_NAME = "hi_tech_controls_dataset_JUNE";
     static final String DOCUMENT_LAST_ID = "last_id";
-    private static final String DOCUMENT_FILL_ONE = "fill_one";
     static final String DOCUMENT_FILL_TWO = "fill_two";
     static final String DOCUMENT_FILL_THREE = "fill_three";
     static final String DOCUMENT_FILL_FOUR = "fill_four";
-
-    private static TextView clientIdTv;
     static final FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private static final String DOCUMENT_FILL_ONE = "fill_one";
     public static Map<String, String> fillOneData = new HashMap<>();
+    public static long currentId1;
+    private static TextView clientIdTv;
     private static EditText enterName;
     private static EditText enterNumber;
     private static EditText enterGPNumber;
@@ -44,7 +44,6 @@ public class fill_one_fragment extends Fragment implements DatePickerDialog.OnDa
     private static EditText enterHPrate;
     private static EditText enterSerialNumber;
     private DatePickerDialog datePickerDialog;
-    public static long currentId1;
     private SharedPrefHelper sharedPref;
 
     public static void insertDataToFirestore_FillOne(Context context) {
@@ -109,18 +108,6 @@ public class fill_one_fragment extends Fragment implements DatePickerDialog.OnDa
         //Toast.makeText(context, "SharedPreferences cleared successfully!", Toast.LENGTH_SHORT).show();
     }
 
-    private void initializeViews(View rootView) {
-        enterName = rootView.findViewById(R.id.fill_one_enterName);
-        enterNumber = rootView.findViewById(R.id.fill_one_enterNumber);
-        enterGPNumber = rootView.findViewById(R.id.fill_one_enterGPNumber);
-        enterDate = rootView.findViewById(R.id.fill_one_enterDate);
-        enterMakeName = rootView.findViewById(R.id.fill_one_enterMakeName);
-        enterModelName = rootView.findViewById(R.id.fill_one_enterModelName);
-        enterHPrate = rootView.findViewById(R.id.fill_one_enterHPrate);
-        enterSerialNumber = rootView.findViewById(R.id.fill_one_enterSerialNumber);
-        clientIdTv = rootView.findViewById(R.id.clientId);
-    }
-
     private static void checkAndCreateCollection(Context context, Runnable onSuccess) {
         db.collection(COLLECTION_NAME)
                 .get()
@@ -145,6 +132,18 @@ public class fill_one_fragment extends Fragment implements DatePickerDialog.OnDa
                 .addOnFailureListener(e -> {
                     Toast.makeText(context, "Failed to check collection existence: " + e.getMessage(), Toast.LENGTH_LONG).show();
                 });
+    }
+
+    private void initializeViews(View rootView) {
+        enterName = rootView.findViewById(R.id.fill_one_enterName);
+        enterNumber = rootView.findViewById(R.id.fill_one_enterNumber);
+        enterGPNumber = rootView.findViewById(R.id.fill_one_enterGPNumber);
+        enterDate = rootView.findViewById(R.id.fill_one_enterDate);
+        enterMakeName = rootView.findViewById(R.id.fill_one_enterMakeName);
+        enterModelName = rootView.findViewById(R.id.fill_one_enterModelName);
+        enterHPrate = rootView.findViewById(R.id.fill_one_enterHPrate);
+        enterSerialNumber = rootView.findViewById(R.id.fill_one_enterSerialNumber);
+        clientIdTv = rootView.findViewById(R.id.clientId);
     }
 
     @Override

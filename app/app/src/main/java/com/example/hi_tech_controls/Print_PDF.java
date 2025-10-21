@@ -1,4 +1,5 @@
 package com.example.hi_tech_controls;
+
 import android.Manifest;
 import android.app.AlertDialog;
 import android.app.NotificationChannel;
@@ -39,13 +40,14 @@ import java.util.Date;
 
 public class Print_PDF extends AppCompatActivity {
     private static final int REQUEST_CODE = 123;
+    private final int pageWidth = (int) (8.5f * 72); // 8.5 inches converted to points
+    private final int notificationId = 1;
     private RelativeLayout mainLayout;
     private RelativeLayout frag2;
     private RelativeLayout frag3;
     private RelativeLayout frag4;
-    private final int pageWidth = (int) (8.5f * 72); // 8.5 inches converted to points
     private int pageHeight;
-    private final int notificationId = 1;
+    private int pageNumber = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +60,7 @@ public class Print_PDF extends AppCompatActivity {
         frag3 = findViewById(R.id.frag_3);
         frag4 = findViewById(R.id.frag_4);
 
-        printButton.setOnClickListener(v ->{
+        printButton.setOnClickListener(v -> {
             checkAndRequestPermission();
         });
 
@@ -125,7 +127,6 @@ public class Print_PDF extends AppCompatActivity {
                 pdfDoc.close();
 
 
-
                 // Show a toast message upon successful PDF creation
                 Toast.makeText(this, "PDF saved as " + fileName + ".pdf", Toast.LENGTH_SHORT).show();
 
@@ -140,7 +141,7 @@ public class Print_PDF extends AppCompatActivity {
             Toast.makeText(this, "External storage not available or writable", Toast.LENGTH_SHORT).show();
         }
     }
-    private int pageNumber = 1;
+
     private void addPageFromViewWithBorder(PdfDocument pdfDoc, View view, boolean isFirstPage) {
         // 11 inches converted to points
         int pageHeight = (int) (12f * 72);
@@ -189,6 +190,7 @@ public class Print_PDF extends AppCompatActivity {
         pdfDoc.finishPage(page);
         pageNumber++;
     }
+
     private void addDateTimeToPage(Canvas canvas) {
         SimpleDateFormat sdfDate = new SimpleDateFormat("dd/MM/yyyy");
         String currentDate = sdfDate.format(new Date());
@@ -214,7 +216,6 @@ public class Print_PDF extends AppCompatActivity {
         canvas.drawText(" 🗓 ", dateX, dateY, textPaint);
 
 
-
         // Increase the size of the email symbol
         Paint emailSymbolPaint = new Paint();
         emailSymbolPaint.setColor(Color.BLUE);
@@ -237,7 +238,7 @@ public class Print_PDF extends AppCompatActivity {
         emailTextPaint.setTextSize(16);
         emailTextPaint.setFakeBoldText(true);
         // Adjust the email text size as needed
-        canvas.drawText(" hitech@gmail.com", emailSymbolX + (int) emailSymbolPaint.measureText(" ✉ ") +10, numberY, emailTextPaint);
+        canvas.drawText(" hitech@gmail.com", emailSymbolX + (int) emailSymbolPaint.measureText(" ✉ ") + 10, numberY, emailTextPaint);
 
         // Display the current date
         textPaint.setColor(Color.BLACK);
@@ -263,7 +264,7 @@ public class Print_PDF extends AppCompatActivity {
         // Draw the horizontal line at the top
         int lineStartX = 20;
         int lineEndX = canvas.getWidth() - 20;
-        int lineY =10;
+        int lineY = 10;
         Paint linePaint = new Paint();
         linePaint.setColor(Color.BLACK);
         linePaint.setStrokeWidth(2);
@@ -281,12 +282,12 @@ public class Print_PDF extends AppCompatActivity {
 // Draw the rounded horizontal line below all content
         drawRoundedHorizontalLine(canvas, lineY + 120, lineEndX, 2, Color.BLACK);
     }
+
     private void drawRoundedHorizontalLine(Canvas canvas, int y, int width, int strokeWidth, int color) {
         // Draw the rounded horizontal line
         Paint linePaint = new Paint();
         linePaint.setColor(color);
         linePaint.setStrokeWidth(strokeWidth);
-
 
 
         Paint paint = new Paint();
@@ -374,7 +375,6 @@ public class Print_PDF extends AppCompatActivity {
     }
 
 
-
     private Bitmap resizeImage(Bitmap originalImage) {
         int width = originalImage.getWidth();
         int height = originalImage.getHeight();
@@ -426,6 +426,7 @@ public class Print_PDF extends AppCompatActivity {
             notificationManagerCompat.notify(notificationId, builder.build());
         }
     }
+
     // Convert a File to a Uri
     private Uri pdfFileToUri(File pdfFile) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {

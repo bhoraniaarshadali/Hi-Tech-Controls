@@ -27,18 +27,9 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class MainActivity extends AppCompatActivity {
 
-    RecyclerView recyclerViewDiscovery1;
-
     public static String clientIdValue;
-    TextView showId;
     public static TextView statusText1;
-    private ImageView logout_btn_layout;
-
-    private CardView cardView_1;
     private static ProgressBar progressBar;
-    Button addClientBtn1;
-    Button viewClientBtn1;
-    SharedPrefHelper sharedPref;
     // Define your BroadcastReceiver
     private final BroadcastReceiver progressUpdateReceiver = new BroadcastReceiver() {
         @Override
@@ -59,6 +50,13 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     };
+    RecyclerView recyclerViewDiscovery1;
+    TextView showId;
+    Button addClientBtn1;
+    Button viewClientBtn1;
+    SharedPrefHelper sharedPref;
+    private ImageView logout_btn_layout;
+    private CardView cardView_1;
 
     // Register your BroadcastReceiver in onResume
     @Override
@@ -153,12 +151,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         //check if the user is logged in
-        SharedPreferences preferences = getSharedPreferences("Login",MODE_PRIVATE);
-        boolean isLoggedIn = preferences.getBoolean("flag",false);
-        if(isLoggedIn){
+        SharedPreferences preferences = getSharedPreferences("Login", MODE_PRIVATE);
+        boolean isLoggedIn = preferences.getBoolean("flag", false);
+        if (isLoggedIn) {
             showExitConfirmationDialog(); // if logged in , show the confirmation dialog
-        }
-        else {
+        } else {
             super.onBackPressed();
         }
 
@@ -217,14 +214,14 @@ public class MainActivity extends AppCompatActivity {
     private void logout() {
 
         // clear the user's login state by setting "flag" to false in shared preferences
-        SharedPreferences preferences = getSharedPreferences("Login",MODE_PRIVATE);
+        SharedPreferences preferences = getSharedPreferences("Login", MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
-        editor.putBoolean("flag",false);
+        editor.putBoolean("flag", false);
         editor.apply();
 
         // After clearing data, you can start the LoginActivity
-        Intent intent = new Intent(MainActivity.this,LoginActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK); // clear back stack
+        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK); // clear back stack
         startActivity(intent);
 
         //finish the current activity (main activity)

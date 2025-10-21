@@ -11,6 +11,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -123,61 +124,61 @@ public class LoginActivity extends AppCompatActivity {
         TextView versionTextView1 = findViewById(R.id.versionTextView);
         ImageView passwordVisibilityToggle1 = findViewById(R.id.passwordVisibilityToggle);
 
-            //logo ImageView
-            logoImageView1.setAlpha(0f);
-            logoImageView1.setTranslationY(50);
-            logoImageView1.animate().alpha(1f).translationYBy(-50).setDuration(1000);
+        //logo ImageView
+        logoImageView1.setAlpha(0f);
+        logoImageView1.setTranslationY(50);
+        logoImageView1.animate().alpha(1f).translationYBy(-50).setDuration(1000);
 
-            //welcome Text
-            welcomeTextView1.setAlpha(0f);
-            welcomeTextView1.setTranslationY(50);
-            welcomeTextView1.animate().alpha(1f).translationYBy(-50).setDuration(1000);
+        //welcome Text
+        welcomeTextView1.setAlpha(0f);
+        welcomeTextView1.setTranslationY(50);
+        welcomeTextView1.animate().alpha(1f).translationYBy(-50).setDuration(1000);
 
-            //subHeading Text
-            subHeadingTextView1.setAlpha(0f);
-            subHeadingTextView1.setTranslationY(50);
-            subHeadingTextView1.animate().alpha(1f).translationYBy(-50).setDuration(1000);
+        //subHeading Text
+        subHeadingTextView1.setAlpha(0f);
+        subHeadingTextView1.setTranslationY(50);
+        subHeadingTextView1.animate().alpha(1f).translationYBy(-50).setDuration(1000);
 
-            //usernameTitleTextView1
-            usernameTitleTextView1.setAlpha(0f);
-            usernameTitleTextView1.setTranslationY(50);
-            usernameTitleTextView1.animate().alpha(1f).translationYBy(-50).setDuration(1000);
+        //usernameTitleTextView1
+        usernameTitleTextView1.setAlpha(0f);
+        usernameTitleTextView1.setTranslationY(50);
+        usernameTitleTextView1.animate().alpha(1f).translationYBy(-50).setDuration(1000);
 
-            //username EditText
-            emailEditText1.setAlpha(0f);
-            emailEditText1.setTranslationY(50);
-            emailEditText1.animate().alpha(1f).translationYBy(-50).setDuration(1000);
+        //username EditText
+        emailEditText1.setAlpha(0f);
+        emailEditText1.setTranslationY(50);
+        emailEditText1.animate().alpha(1f).translationYBy(-50).setDuration(1000);
 
-            //passwordTitleTextView1
-            passwordTitleTextView1.setAlpha(0f);
-            passwordTitleTextView1.setTranslationY(50);
-            passwordTitleTextView1.animate().alpha(1f).translationYBy(-50).setDuration(1000);
+        //passwordTitleTextView1
+        passwordTitleTextView1.setAlpha(0f);
+        passwordTitleTextView1.setTranslationY(50);
+        passwordTitleTextView1.animate().alpha(1f).translationYBy(-50).setDuration(1000);
 
-            //password EditText
-            passwordEditText1.setAlpha(0f);
-            passwordEditText1.setTranslationY(50);
-            passwordEditText1.animate().alpha(1f).translationYBy(-50).setDuration(1000);
+        //password EditText
+        passwordEditText1.setAlpha(0f);
+        passwordEditText1.setTranslationY(50);
+        passwordEditText1.animate().alpha(1f).translationYBy(-50).setDuration(1000);
 
-            //login Button
-            loginButton1.setAlpha(0f);
-            loginButton1.setTranslationY(50);
-            loginButton1.animate().alpha(1f).translationYBy(-50).setDuration(1000);
+        //login Button
+        loginButton1.setAlpha(0f);
+        loginButton1.setTranslationY(50);
+        loginButton1.animate().alpha(1f).translationYBy(-50).setDuration(1000);
 
-            //bottom Shape
-            bottomShape1.setAlpha(0f);
-            bottomShape1.setTranslationY(50);
-            bottomShape1.animate().alpha(1f).translationYBy(-50).setDuration(1000);
+        //bottom Shape
+        bottomShape1.setAlpha(0f);
+        bottomShape1.setTranslationY(50);
+        bottomShape1.animate().alpha(1f).translationYBy(-50).setDuration(1000);
 
-            //version TextView
-            versionTextView1.setAlpha(0f);
-            versionTextView1.setTranslationY(70);
-            versionTextView1.animate().alpha(1f).translationYBy(-50).setDuration(2000);
+        //version TextView
+        versionTextView1.setAlpha(0f);
+        versionTextView1.setTranslationY(70);
+        versionTextView1.animate().alpha(1f).translationYBy(-50).setDuration(2000);
 
-            //version TextView
-            passwordVisibilityToggle1.setAlpha(0f);
-            passwordVisibilityToggle1.setTranslationY(70);
-            passwordVisibilityToggle1.animate().alpha(1f).translationYBy(-50).setDuration(2000);
-        }
+        //version TextView
+        passwordVisibilityToggle1.setAlpha(0f);
+        passwordVisibilityToggle1.setTranslationY(70);
+        passwordVisibilityToggle1.animate().alpha(1f).translationYBy(-50).setDuration(2000);
     }
+}
 
 
