@@ -45,7 +45,7 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(v -> {
             LoginCred();
         });
-        //anim();
+        anim();
     }
 
     public void LoginCred() {
@@ -95,20 +95,20 @@ public class LoginActivity extends AppCompatActivity {
 
     // Toggle password visibility based on the toggle button state
     private void togglePasswordVisibility() {
-        int inputType = passwordEditText.getInputType();
-        if ((inputType & android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD) > 0) {
-            // Password is currently hidden, show it
-            passwordVisibilityToggle.setImageResource(R.drawable.ic_password_visibility_on);
-            passwordEditText.setInputType(inputType & ~android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD);
-        } else {
-            // Password is currently visible, hide it
-            passwordVisibilityToggle.setImageResource(R.drawable.ic_password_visibility_off);
-            passwordEditText.setInputType(inputType | android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD);
-        }
+        if (passwordEditText.getInputType() ==
+                (android.text.InputType.TYPE_CLASS_TEXT | android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD)) {
 
-        // Move the cursor to the end of the text
+            // Show password
+            passwordEditText.setInputType(android.text.InputType.TYPE_CLASS_TEXT | android.text.InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+            passwordVisibilityToggle.setImageResource(R.drawable.ic_password_visibility_on);
+        } else {
+            // Hide password
+            passwordEditText.setInputType(android.text.InputType.TYPE_CLASS_TEXT | android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD);
+            passwordVisibilityToggle.setImageResource(R.drawable.ic_password_visibility_off);
+        }
         passwordEditText.setSelection(passwordEditText.getText().length());
     }
+
 
     public void anim() {
         TextView welcomeTextView1 = findViewById(R.id.welcomeTextView);
