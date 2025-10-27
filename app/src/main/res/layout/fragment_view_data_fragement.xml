@@ -13,7 +13,6 @@
         tools:context=".Detail_fragment"
         tools:ignore="ExtraText,UselessParent">
 
-
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -48,7 +47,7 @@
                             android:text="Inward client details "
                             android:textColor="@color/black"
                             android:textSize="22sp"
-                            tools:ignore="HardcodedText" />
+                            tools:ignore="Hardco dedText" />
 
                         <RelativeLayout
                             android:layout_width="wrap_content"
@@ -63,7 +62,6 @@
                                 android:background="@drawable/rectangle_check_box_big"
                                 android:text="POS: "
                                 tools:ignore="HardcodedText,TooDeepLayout" />
-
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -166,7 +164,6 @@
                                             android:text="Rating:  "
                                             android:textColor="@color/lightblack"
                                             android:textSize="18sp"
-
                                             tools:ignore="HardcodedText,TooDeepLayout" />
 
                                         <TextView
@@ -177,7 +174,6 @@
                                             android:textColor="@color/black"
                                             android:textSize="18sp"
                                             tools:ignore="HardcodedText,TextContrastCheck" />
-
                                     </LinearLayout>
 
                                     <TextView
@@ -191,7 +187,6 @@
                                         android:textColor="@color/lightblack"
                                         android:textSize="18sp"
                                         tools:ignore="HardcodedText,RtlSymmetry" />
-
 
                                 </LinearLayout>
 
@@ -211,7 +206,6 @@
                                         android:ems="10"
                                         android:fontFamily="@font/poppins_regular"
                                         android:gravity="center"
-
                                         android:importantForAutofill="no"
                                         android:inputType="textPersonName"
                                         android:textColor="@color/black"
@@ -227,7 +221,6 @@
                                         android:ems="10"
                                         android:fontFamily="@font/poppins_regular"
                                         android:gravity="center"
-
                                         android:importantForAutofill="no"
                                         android:inputType="date"
                                         android:textColor="@color/black"
@@ -243,7 +236,6 @@
                                         android:ems="10"
                                         android:fontFamily="@font/poppins_regular"
                                         android:gravity="center"
-
                                         android:importantForAutofill="no"
                                         android:inputType="number"
                                         android:textColor="@color/black"
@@ -261,7 +253,6 @@
                                         android:focusable="false"
                                         android:fontFamily="@font/poppins_regular"
                                         android:gravity="center"
-
                                         android:importantForAutofill="no"
                                         android:textColor="@color/black"
                                         android:textColorHint="@color/hintFont"
@@ -276,7 +267,6 @@
                                         android:ems="10"
                                         android:fontFamily="@font/poppins_regular"
                                         android:gravity="center"
-
                                         android:importantForAutofill="no"
                                         android:inputType="textPersonName"
                                         android:textColor="@color/black"
@@ -292,7 +282,6 @@
                                         android:ems="10"
                                         android:fontFamily="@font/poppins_regular"
                                         android:gravity="center"
-
                                         android:importantForAutofill="no"
                                         android:inputType="textPersonName"
                                         android:textColor="@color/black"
@@ -308,7 +297,6 @@
                                         android:ems="10"
                                         android:fontFamily="@font/poppins_regular"
                                         android:gravity="center"
-
                                         android:importantForAutofill="no"
                                         android:inputType="number"
                                         android:textColor="@color/black"
@@ -324,7 +312,6 @@
                                         android:ems="10"
                                         android:fontFamily="@font/poppins_regular"
                                         android:gravity="center"
-
                                         android:importantForAutofill="no"
                                         android:inputType="number"
                                         android:textColor="@color/black"
@@ -332,16 +319,12 @@
                                         tools:ignore="LabelFor,SpeakableTextPresentCheck,TextContrastCheck,TextFields,TouchTargetSizeCheck,VisualLintTextFieldSize" />
 
                                 </LinearLayout>
-
-
                             </LinearLayout>
                         </RelativeLayout>
-
-
                     </LinearLayout>
                 </RelativeLayout>
 
-                <!--fragment 2 -->
+                <!-- FRAGMENT 2 -->
                 <RelativeLayout
                     android:id="@+id/frag_2"
                     android:layout_width="match_parent"
@@ -349,13 +332,11 @@
                     android:layout_below="@+id/main_container">
 
                     <RelativeLayout
-
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_margin="10dp"
                         android:textAlignment="center"
                         tools:ignore="UselessParent">
-
 
                         <RelativeLayout
                             android:id="@+id/firstLine"
@@ -387,7 +368,6 @@
                                 android:textAllCaps="true"
                                 android:textColor="@color/black"
                                 android:textSize="15sp"
-
                                 tools:ignore="HardcodedText" />
                         </RelativeLayout>
 
@@ -407,6 +387,7 @@
                                 android:textSize="22sp"
                                 tools:ignore="HardcodedText" />
 
+                            <!-- Freq Ref -->
                             <RelativeLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -422,7 +403,6 @@
                                     android:text="POS: "
                                     tools:ignore="HardcodedText,TooDeepLayout" />
 
-
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
@@ -430,55 +410,38 @@
                                     android:orientation="horizontal"
                                     android:padding="8sp">
 
-                                    <LinearLayout
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="match_parent"
-                                        android:layout_gravity="start"
-                                        android:layout_margin="2sp"
-                                        android:orientation="horizontal">
+                                    <TextView
+                                        android:id="@+id/freq_ref"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/poppins_regular"
+                                        android:padding="10sp"
+                                        android:paddingStart="0sp"
+                                        android:text="Freq. Ref."
+                                        android:textColor="@color/lightblack"
+                                        android:textSize="19sp"
+                                        tools:ignore="HardcodedText,RtlSymmetry,TooDeepLayout" />
 
-                                        <TextView
-                                            android:id="@+id/freq_ref"
-                                            android:layout_width="match_parent"
-                                            android:layout_height="wrap_content"
-                                            android:fontFamily="@font/poppins_regular"
-                                            android:padding="10sp"
-                                            android:paddingStart="0sp"
-                                            android:text="Freq. Ref."
-                                            android:textColor="@color/lightblack"
-                                            android:textSize="19sp"
-                                            tools:ignore="HardcodedText,RtlSymmetry,TooDeepLayout" />
-
-                                    </LinearLayout>
-
-                                    <LinearLayout
+                                    <EditText
+                                        android:id="@+id/fill_two_enterFRrate"
                                         android:layout_width="match_parent"
                                         android:layout_height="match_parent"
-                                        android:layout_gravity="start"
-                                        android:layout_margin="2sp"
-                                        android:orientation="vertical">
-
-                                        <EditText
-                                            android:id="@+id/fill_two_enterFRrate"
-                                            android:layout_width="match_parent"
-                                            android:layout_height="match_parent"
-                                            android:layout_marginStart="30sp"
-                                            android:backgroundTint="@color/grey"
-                                            android:ellipsize="start"
-                                            android:ems="10"
-                                            android:fontFamily="@font/poppins_regular"
-                                            android:gravity="center"
-                                            android:hint="@string/hintRate"
-                                            android:importantForAutofill="no"
-                                            android:inputType="textPersonName"
-                                            android:textColor="@color/black"
-                                            android:textColorHint="@color/grey"
-                                            tools:ignore="DuplicateSpeakableTextCheck,TextContrastCheck,VisualLintTextFieldSize" />
-                                    </LinearLayout>
-
+                                        android:layout_marginStart="30sp"
+                                        android:backgroundTint="@color/grey"
+                                        android:ellipsize="start"
+                                        android:ems="10"
+                                        android:fontFamily="@font/poppins_regular"
+                                        android:gravity="center"
+                                        android:hint="@string/hintRate"
+                                        android:importantForAutofill="no"
+                                        android:inputType="textPersonName"
+                                        android:textColor="@color/black"
+                                        android:textColorHint="@color/grey"
+                                        tools:ignore="DuplicateSpeakableTextCheck,TextContrastCheck,VisualLintTextFieldSize" />
                                 </LinearLayout>
                             </RelativeLayout>
 
+                            <!-- Start CMD -->
                             <RelativeLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -494,7 +457,6 @@
                                     android:text="POS: "
                                     tools:ignore="HardcodedText,TooDeepLayout" />
 
-
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
@@ -505,106 +467,78 @@
                                     android:orientation="horizontal"
                                     android:padding="8sp">
 
-                                    <LinearLayout
+                                    <TextView
+                                        android:id="@+id/start_cmd"
                                         android:layout_width="wrap_content"
-                                        android:layout_height="match_parent"
-                                        android:layout_gravity="start"
-                                        android:layout_margin="2sp"
-                                        android:orientation="horizontal">
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/poppins_regular"
+                                        android:paddingTop="10sp"
+                                        android:text="Start CMD: "
+                                        android:textColor="@color/lightblack"
+                                        android:textSize="19sp"
+                                        tools:ignore="HardcodedText,TooDeepLayout" />
 
-                                        <TextView
-                                            android:id="@+id/start_cmd"
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:fontFamily="@font/poppins_regular"
-                                            android:paddingTop="10sp"
-                                            android:text="Start CMD: "
-                                            android:textColor="@color/lightblack"
-                                            android:textSize="19sp"
-                                            tools:ignore="HardcodedText,TooDeepLayout" />
-
-                                    </LinearLayout>
-
-
-                                    <RelativeLayout
-                                        android:layout_width="match_parent"
+                                    <RadioGroup
+                                        android:id="@+id/radioGroupCMD"
+                                        android:layout_width="138dp"
                                         android:layout_height="wrap_content">
 
-                                        <LinearLayout
-                                            android:layout_width="match_parent"
+                                        <RadioButton
+                                            android:id="@+id/fill_two_radioButtonLocal"
+                                            android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
-                                            android:layout_marginStart="19sp"
-                                            android:orientation="horizontal"
-                                            tools:ignore="UselessParent">
+                                            android:buttonTint="@color/blue"
+                                            android:clickable="false"
+                                            android:minHeight="48dp"
+                                            android:padding="10sp"
+                                            android:text="Local"
+                                            android:textColor="@color/black"
+                                            tools:ignore="HardcodedText,TextContrastCheck" />
 
-                                            <RadioGroup
-                                                android:id="@+id/radioGroupCMD"
-                                                android:layout_width="138dp"
-                                                android:layout_height="wrap_content">
+                                        <RadioButton
+                                            android:id="@+id/fill_two_radioButtonRemote"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:buttonTint="@color/blue"
+                                            android:clickable="false"
+                                            android:minHeight="48dp"
+                                            android:padding="10sp"
+                                            android:text="Remote"
+                                            android:textColor="@color/black"
+                                            tools:ignore="HardcodedText,TextContrastCheck" />
 
+                                        <RadioButton
+                                            android:id="@+id/fill_two_radioButtonComm"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:buttonTint="@color/blue"
+                                            android:clickable="false"
+                                            android:padding="10sp"
+                                            android:text="Communication"
+                                            android:textColor="@color/black"
+                                            tools:ignore="HardcodedText,TextContrastCheck" />
+                                    </RadioGroup>
 
-                                                <RadioButton
-                                                    android:id="@+id/radioButtonLocal"
-                                                    android:layout_width="wrap_content"
-                                                    android:layout_height="wrap_content"
-                                                    android:buttonTint="@color/blue"
-                                                    android:clickable="false"
-                                                    android:minHeight="48dp"
-                                                    android:padding="10sp"
-                                                    android:text="Local"
-                                                    android:textColor="@color/black"
-                                                    tools:ignore="HardcodedText,TextContrastCheck" />
-
-                                                <RadioButton
-                                                    android:id="@+id/radioButtonRemote"
-                                                    android:layout_width="wrap_content"
-                                                    android:layout_height="wrap_content"
-                                                    android:buttonTint="@color/blue"
-                                                    android:clickable="false"
-                                                    android:minHeight="48dp"
-                                                    android:padding="10sp"
-                                                    android:text="Remote"
-                                                    android:textColor="@color/black"
-                                                    tools:ignore="HardcodedText,TextContrastCheck" />
-
-                                                <RadioButton
-                                                    android:id="@+id/radioButtonComm"
-                                                    android:layout_width="wrap_content"
-                                                    android:layout_height="wrap_content"
-                                                    android:buttonTint="@color/blue"
-                                                    android:clickable="false"
-                                                    android:padding="10sp"
-                                                    android:text="Communication"
-                                                    android:textColor="@color/black"
-                                                    tools:ignore="HardcodedText,TextContrastCheck" />
-                                            </RadioGroup>
-
-                                            <EditText
-                                                android:id="@+id/fill_two_localEditText"
-                                                android:layout_width="match_parent"
-                                                android:layout_height="wrap_content"
-                                                android:backgroundTint="@color/grey"
-                                                android:ellipsize="start"
-                                                android:ems="10"
-                                                android:fontFamily="@font/poppins_regular"
-                                                android:gravity="center"
-                                                android:hint="@string/hintValue"
-                                                android:importantForAutofill="no"
-                                                android:inputType="textPersonName"
-                                                android:textColor="@color/black"
-                                                android:textColorHint="@color/grey"
-                                                android:visibility="gone"
-                                                tools:ignore="DuplicateSpeakableTextCheck,TextContrastCheck" />
-                                        </LinearLayout>
-
-                                    </RelativeLayout>
-
+                                    <EditText
+                                        android:id="@+id/fill_two_localEditText"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:backgroundTint="@color/grey"
+                                        android:ellipsize="start"
+                                        android:ems="10"
+                                        android:fontFamily="@font/poppins_regular"
+                                        android:gravity="center"
+                                        android:hint="@string/hintValue"
+                                        android:importantForAutofill="no"
+                                        android:inputType="textPersonName"
+                                        android:textColor="@color/black"
+                                        android:textColorHint="@color/grey"
+                                        android:visibility="gone"
+                                        tools:ignore="DuplicateSpeakableTextCheck,TextContrastCheck" />
                                 </LinearLayout>
                             </RelativeLayout>
 
-
-                            <!--            input supply-->
-
+                            <!-- Input Supply -->
                             <LinearLayout
                                 android:id="@+id/InputSupplyLayout"
                                 android:layout_width="wrap_content"
@@ -636,9 +570,8 @@
                                         android:layout_height="wrap_content"
                                         android:orientation="horizontal">
 
-
                                         <RadioButton
-                                            android:id="@+id/radioButtonDIODE"
+                                            android:id="@+id/fill_two_radioButtonDIODE"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:buttonTint="@color/blue"
@@ -650,7 +583,7 @@
                                             tools:ignore="HardcodedText,TextContrastCheck" />
 
                                         <RadioButton
-                                            android:id="@+id/radioButtonSCR"
+                                            android:id="@+id/fill_two_radioButtonSCR"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:buttonTint="@color/blue"
@@ -660,183 +593,144 @@
                                             android:text="SCR"
                                             android:textColor="@color/black"
                                             tools:ignore="HardcodedText,TextContrastCheck" />
-
                                     </RadioGroup>
-
                                 </LinearLayout>
 
-                                <LinearLayout
-                                    android:layout_width="match_parent"
+                                <RelativeLayout
+                                    android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:orientation="vertical">
+                                    tools:ignore="UselessParent">
 
-
-                                    <RelativeLayout
+                                    <View
+                                        android:id="@+id/inputtextView"
                                         android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        tools:ignore="UselessParent">
+                                        android:layout_height="90sp"
+                                        android:background="@drawable/rectangle_checkbox"
+                                        android:padding="15sp"
+                                        android:text="POS: "
+                                        tools:ignore="HardcodedText,TooDeepLayout" />
 
-                                        <!-- TextView -->
-                                        <View
-                                            android:id="@+id/inputtextView"
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="90sp"
-                                            android:background="@drawable/rectangle_checkbox"
-                                            android:padding="15sp"
+                                    <!-- POS -->
+                                    <LinearLayout
+                                        android:id="@+id/inputPOSLayout"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerHorizontal="true"
+                                        android:layout_marginStart="10sp"
+                                        android:layout_marginEnd="10sp"
+                                        android:orientation="horizontal">
+
+                                        <TextView
+                                            android:id="@+id/input_pos"
+                                            android:layout_width="79dp"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/poppins_regular"
+                                            android:padding="10sp"
                                             android:text="POS: "
+                                            android:textColor="@color/lightblack"
+                                            android:textSize="15sp"
                                             tools:ignore="HardcodedText,TooDeepLayout" />
 
-                                        <!--                        POS: -->
+                                        <CheckBox
+                                            android:id="@+id/fill_two_input_POS_checkbox_U"
+                                            android:layout_width="70sp"
+                                            android:layout_height="40sp"
+                                            android:layout_alignParentStart="true"
+                                            android:buttonTint="@color/blue"
+                                            android:fontFamily="@font/poppins_regular"
+                                            android:padding="12sp"
+                                            android:text="U"
+                                            android:textColor="@color/lightblack"
+                                            tools:ignore="DuplicateSpeakableTextCheck,HardcodedText,TouchTargetSizeCheck" />
 
-                                        <LinearLayout
-                                            android:id="@+id/inputPOSLayout"
-                                            android:layout_width="match_parent"
-                                            android:layout_height="wrap_content"
+                                        <CheckBox
+                                            android:id="@+id/fill_two_input_POS_checkbox_V"
+                                            android:layout_width="70sp"
+                                            android:layout_height="40sp"
                                             android:layout_centerHorizontal="true"
-                                            android:layout_marginStart="10sp"
-                                            android:layout_marginEnd="10sp"
-                                            android:orientation="horizontal"
-                                            tools:ignore="DuplicateIds">
+                                            android:buttonTint="@color/blue"
+                                            android:fontFamily="@font/poppins_regular"
+                                            android:padding="10sp"
+                                            android:text="V"
+                                            android:textColor="@color/lightblack"
+                                            tools:ignore="DuplicateSpeakableTextCheck,HardcodedText,TouchTargetSizeCheck" />
 
-                                            <!-- LinearLayout with Checkboxes (aligned to the left of TextView) -->
-                                            <TextView
-                                                android:id="@+id/input_pos"
-                                                android:layout_width="79dp"
-                                                android:layout_height="wrap_content"
-                                                android:fontFamily="@font/poppins_regular"
-                                                android:padding="10sp"
-                                                android:text="POS: "
-                                                android:textColor="@color/lightblack"
-                                                android:textSize="15sp"
-                                                tools:ignore="HardcodedText,TooDeepLayout" />
+                                        <CheckBox
+                                            android:id="@+id/fill_two_input_POS_checkbox_W"
+                                            android:layout_width="70sp"
+                                            android:layout_height="40sp"
+                                            android:layout_alignParentEnd="true"
+                                            android:buttonTint="@color/blue"
+                                            android:fontFamily="@font/poppins_regular"
+                                            android:padding="10sp"
+                                            android:text="W"
+                                            android:textColor="@color/lightblack"
+                                            tools:ignore="DuplicateSpeakableTextCheck,HardcodedText,TouchTargetSizeCheck" />
+                                    </LinearLayout>
 
-                                            <RelativeLayout
-                                                android:layout_width="match_parent"
-                                                android:layout_height="wrap_content"
-                                                android:layout_marginHorizontal="10sp">
+                                    <!-- NEG -->
+                                    <LinearLayout
+                                        android:id="@+id/inputNEGLayout"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_below="@id/inputPOSLayout"
+                                        android:layout_centerHorizontal="true"
+                                        android:layout_marginStart="10sp"
+                                        android:layout_marginEnd="10sp"
+                                        android:orientation="horizontal">
 
-                                                <CheckBox
-                                                    android:id="@+id/detail_checkbox_U"
-                                                    android:layout_width="70sp"
-                                                    android:layout_height="40sp"
-                                                    android:layout_alignParentStart="true"
-                                                    android:buttonTint="@color/blue"
-                                                    android:fontFamily="@font/poppins_regular"
-                                                    android:padding="12sp"
-                                                    android:text="U"
-                                                    android:textColor="@color/lightblack"
-                                                    tools:ignore="DuplicateSpeakableTextCheck,HardcodedText,TouchTargetSizeCheck" />
-
-                                                <CheckBox
-                                                    android:id="@+id/detail_checkbox_V"
-                                                    android:layout_width="70sp"
-                                                    android:layout_height="40sp"
-                                                    android:layout_centerHorizontal="true"
-                                                    android:buttonTint="@color/blue"
-                                                    android:fontFamily="@font/poppins_regular"
-                                                    android:padding="10sp"
-                                                    android:text="V"
-                                                    android:textColor="@color/lightblack"
-                                                    tools:ignore="DuplicateSpeakableTextCheck,HardcodedText,TouchTargetSizeCheck" />
-
-                                                <CheckBox
-                                                    android:id="@+id/detail_checkbox_W"
-                                                    android:layout_width="70sp"
-                                                    android:layout_height="40sp"
-                                                    android:layout_alignParentEnd="true"
-                                                    android:buttonTint="@color/blue"
-                                                    android:fontFamily="@font/poppins_regular"
-                                                    android:padding="10sp"
-                                                    android:text="W"
-                                                    android:textColor="@color/lightblack"
-                                                    tools:ignore="DuplicateSpeakableTextCheck,HardcodedText,TouchTargetSizeCheck" />
-
-                                            </RelativeLayout>
-
-                                        </LinearLayout>
-
-                                        <!--                        NEG:-->
-
-                                        <LinearLayout
-                                            android:id="@+id/inputNEGLayout"
-                                            android:layout_width="match_parent"
+                                        <TextView
+                                            android:id="@+id/input_neg"
+                                            android:layout_width="79dp"
                                             android:layout_height="wrap_content"
-                                            android:layout_below="@id/inputPOSLayout"
-                                            android:layout_centerInParent="true"
+                                            android:fontFamily="@font/poppins_regular"
+                                            android:padding="10sp"
+                                            android:text="NEG: "
+                                            android:textColor="@color/lightblack"
+                                            android:textSize="15sp"
+                                            tools:ignore="HardcodedText,TooDeepLayout" />
+
+                                        <CheckBox
+                                            android:id="@+id/fill_two_input_NEG_checkbox_U"
+                                            android:layout_width="70sp"
+                                            android:layout_height="40sp"
+                                            android:layout_alignParentStart="true"
+                                            android:buttonTint="@color/blue"
+                                            android:fontFamily="@font/poppins_regular"
+                                            android:padding="10sp"
+                                            android:text="U"
+                                            android:textColor="@color/lightblack"
+                                            tools:ignore="HardcodedText,TouchTargetSizeCheck" />
+
+                                        <CheckBox
+                                            android:id="@+id/fill_two_input_NEG_checkbox_V"
+                                            android:layout_width="70sp"
+                                            android:layout_height="40sp"
                                             android:layout_centerHorizontal="true"
-                                            android:layout_marginStart="10sp"
-                                            android:layout_marginEnd="10sp"
-                                            android:orientation="horizontal">
+                                            android:buttonTint="@color/blue"
+                                            android:fontFamily="@font/poppins_regular"
+                                            android:padding="10sp"
+                                            android:text="V"
+                                            android:textColor="@color/lightblack"
+                                            tools:ignore="HardcodedText,TouchTargetSizeCheck" />
 
-                                            <!-- LinearLayout with Checkboxes (aligned to the left of TextView) -->
-                                            <TextView
-                                                android:id="@+id/input_neg"
-                                                android:layout_width="79dp"
-                                                android:layout_height="wrap_content"
-                                                android:fontFamily="@font/poppins_regular"
-                                                android:padding="10sp"
-                                                android:text="NEG: "
-                                                android:textColor="@color/lightblack"
-                                                android:textSize="15sp"
-                                                tools:ignore="HardcodedText,TooDeepLayout" />
-
-                                            <RelativeLayout
-                                                android:layout_width="match_parent"
-                                                android:layout_height="wrap_content"
-                                                android:layout_marginHorizontal="10sp">
-
-                                                <CheckBox
-                                                    android:id="@+id/detail_neg_checkboxU"
-                                                    android:layout_width="70sp"
-                                                    android:layout_height="40sp"
-                                                    android:layout_alignParentStart="true"
-                                                    android:buttonTint="@color/blue"
-                                                    android:fontFamily="@font/poppins_regular"
-                                                    android:padding="10sp"
-                                                    android:text="U"
-                                                    android:textColor="@color/lightblack"
-                                                    tools:ignore="HardcodedText,TouchTargetSizeCheck" />
-
-                                                <CheckBox
-                                                    android:id="@+id/detail_neg_checkboxV"
-                                                    android:layout_width="70sp"
-                                                    android:layout_height="40sp"
-                                                    android:layout_centerHorizontal="true"
-                                                    android:buttonTint="@color/blue"
-                                                    android:fontFamily="@font/poppins_regular"
-                                                    android:padding="10sp"
-                                                    android:text="V"
-                                                    android:textColor="@color/lightblack"
-                                                    tools:ignore="HardcodedText,TouchTargetSizeCheck" />
-
-                                                <CheckBox
-                                                    android:id="@+id/detail_neg_checkboxW"
-                                                    android:layout_width="70sp"
-                                                    android:layout_height="40sp"
-                                                    android:layout_alignParentEnd="true"
-                                                    android:buttonTint="@color/blue"
-                                                    android:fontFamily="@font/poppins_regular"
-                                                    android:padding="10sp"
-                                                    android:text="W"
-                                                    android:textColor="@color/lightblack"
-                                                    tools:ignore="HardcodedText,TouchTargetSizeCheck" />
-
-                                            </RelativeLayout>
-
-                                        </LinearLayout>
-
-                                    </RelativeLayout>
-
-                                </LinearLayout>
+                                        <CheckBox
+                                            android:id="@+id/fill_two_input_NEG_checkbox_W"
+                                            android:layout_width="70sp"
+                                            android:layout_height="40sp"
+                                            android:layout_alignParentEnd="true"
+                                            android:buttonTint="@color/blue"
+                                            android:fontFamily="@font/poppins_regular"
+                                            android:padding="10sp"
+                                            android:text="W"
+                                            android:textColor="@color/lightblack"
+                                            tools:ignore="HardcodedText,TouchTargetSizeCheck" />
+                                    </LinearLayout>
+                                </RelativeLayout>
                             </LinearLayout>
 
-                            <!--                ********************************-->
-
-
-                            <!--            output supply-->
-
+                            <!-- Output Supply -->
                             <LinearLayout
-
                                 android:id="@+id/OutputSupplyLayout"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -867,7 +761,6 @@
                                         android:layout_height="wrap_content"
                                         android:orientation="horizontal">
 
-
                                         <RadioButton
                                             android:id="@+id/fill_two_radioButtonIGBT"
                                             android:layout_width="wrap_content"
@@ -879,179 +772,143 @@
                                             android:text="IGBT"
                                             android:textColor="@color/grey"
                                             tools:ignore="HardcodedText,TextContrastCheck" />
-
                                     </RadioGroup>
-
                                 </LinearLayout>
 
-                                <LinearLayout
-                                    android:layout_width="match_parent"
+                                <RelativeLayout
+                                    android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:orientation="vertical">
+                                    tools:ignore="UselessParent">
 
-
-                                    <RelativeLayout
+                                    <View
+                                        android:id="@+id/textView"
                                         android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        tools:ignore="UselessParent">
+                                        android:layout_height="90sp"
+                                        android:background="@drawable/rectangle_checkbox"
+                                        android:padding="15sp"
+                                        android:text="POS: "
+                                        tools:ignore="HardcodedText,TooDeepLayout" />
 
-                                        <!-- TextView -->
-                                        <View
-                                            android:id="@+id/textView"
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="90sp"
-                                            android:background="@drawable/rectangle_checkbox"
-                                            android:padding="15sp"
+                                    <!-- POS -->
+                                    <LinearLayout
+                                        android:id="@+id/POSLayout"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerHorizontal="true"
+                                        android:layout_marginStart="10sp"
+                                        android:layout_marginEnd="10sp"
+                                        android:orientation="horizontal">
+
+                                        <TextView
+                                            android:id="@+id/output_pos"
+                                            android:layout_width="79dp"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/poppins_regular"
+                                            android:padding="10sp"
                                             android:text="POS: "
+                                            android:textColor="@color/lightblack"
+                                            android:textSize="15sp"
                                             tools:ignore="HardcodedText,TooDeepLayout" />
 
-                                        <!--                        POS: -->
+                                        <CheckBox
+                                            android:id="@+id/fill_two_output_POS_checkbox_U"
+                                            android:layout_width="70sp"
+                                            android:layout_height="40sp"
+                                            android:layout_alignParentStart="true"
+                                            android:buttonTint="@color/blue"
+                                            android:fontFamily="@font/poppins_regular"
+                                            android:padding="10sp"
+                                            android:text="U"
+                                            android:textColor="@color/blue"
+                                            tools:ignore="HardcodedText,TouchTargetSizeCheck" />
 
-                                        <LinearLayout
-                                            android:id="@+id/POSLayout"
-                                            android:layout_width="match_parent"
-                                            android:layout_height="wrap_content"
+                                        <CheckBox
+                                            android:id="@+id/fill_two_output_POS_checkbox_V"
+                                            android:layout_width="70sp"
+                                            android:layout_height="40sp"
                                             android:layout_centerHorizontal="true"
-                                            android:layout_marginStart="10sp"
-                                            android:layout_marginEnd="10sp"
-                                            android:orientation="horizontal">
+                                            android:buttonTint="@color/blue"
+                                            android:fontFamily="@font/poppins_regular"
+                                            android:padding="10sp"
+                                            android:text="V"
+                                            android:textColor="@color/blue"
+                                            tools:ignore="HardcodedText,TouchTargetSizeCheck" />
 
-                                            <!-- LinearLayout with Checkboxes (aligned to the left of TextView) -->
-                                            <TextView
-                                                android:id="@+id/output_pos"
-                                                android:layout_width="79dp"
-                                                android:layout_height="wrap_content"
-                                                android:fontFamily="@font/poppins_regular"
-                                                android:padding="10sp"
-                                                android:text="POS: "
-                                                android:textColor="@color/lightblack"
-                                                android:textSize="15sp"
-                                                tools:ignore="HardcodedText,TooDeepLayout" />
+                                        <CheckBox
+                                            android:id="@+id/fill_two_output_POS_checkbox_W"
+                                            android:layout_width="70sp"
+                                            android:layout_height="40sp"
+                                            android:layout_alignParentEnd="true"
+                                            android:buttonTint="@color/blue"
+                                            android:fontFamily="@font/poppins_regular"
+                                            android:padding="10sp"
+                                            android:text="W"
+                                            android:textColor="@color/blue"
+                                            tools:ignore="HardcodedText,TouchTargetSizeCheck" />
+                                    </LinearLayout>
 
-                                            <RelativeLayout
-                                                android:layout_width="match_parent"
-                                                android:layout_height="wrap_content"
-                                                android:layout_marginHorizontal="10sp">
+                                    <!-- NEG -->
+                                    <LinearLayout
+                                        android:id="@+id/NEGLayout"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_below="@id/POSLayout"
+                                        android:layout_centerHorizontal="true"
+                                        android:layout_marginStart="10sp"
+                                        android:layout_marginEnd="10sp"
+                                        android:orientation="horizontal">
 
-                                                <CheckBox
-                                                    android:id="@+id/detail_output_POS_U"
-
-                                                    android:layout_width="70sp"
-                                                    android:layout_height="40sp"
-                                                    android:layout_alignParentStart="true"
-                                                    android:buttonTint="@color/blue"
-                                                    android:fontFamily="@font/poppins_regular"
-                                                    android:padding="10sp"
-                                                    android:text="U"
-                                                    android:textColor="@color/blue"
-                                                    tools:ignore="HardcodedText,TouchTargetSizeCheck" />
-
-                                                <CheckBox
-                                                    android:id="@+id/detail_output_POS_V"
-                                                    android:layout_width="70sp"
-                                                    android:layout_height="40sp"
-                                                    android:layout_centerHorizontal="true"
-                                                    android:buttonTint="@color/blue"
-                                                    android:fontFamily="@font/poppins_regular"
-                                                    android:padding="10sp"
-                                                    android:text="V"
-                                                    android:textColor="@color/blue"
-                                                    tools:ignore="HardcodedText,TouchTargetSizeCheck" />
-
-                                                <CheckBox
-                                                    android:id="@+id/detail_output_POS_W"
-                                                    android:layout_width="70sp"
-                                                    android:layout_height="40sp"
-                                                    android:layout_alignParentEnd="true"
-                                                    android:buttonTint="@color/blue"
-                                                    android:fontFamily="@font/poppins_regular"
-                                                    android:padding="10sp"
-                                                    android:text="W"
-                                                    android:textColor="@color/blue"
-                                                    tools:ignore="HardcodedText,TouchTargetSizeCheck" />
-
-                                            </RelativeLayout>
-
-                                        </LinearLayout>
-
-                                        <!--                        NEG:-->
-
-                                        <LinearLayout
-                                            android:id="@+id/NEGLayout"
-                                            android:layout_width="match_parent"
+                                        <TextView
+                                            android:id="@+id/output_neg"
+                                            android:layout_width="79dp"
                                             android:layout_height="wrap_content"
-                                            android:layout_below="@id/POSLayout"
-                                            android:layout_centerInParent="true"
+                                            android:fontFamily="@font/poppins_regular"
+                                            android:padding="10sp"
+                                            android:text="NEG: "
+                                            android:textColor="@color/lightblack"
+                                            android:textSize="15sp"
+                                            tools:ignore="HardcodedText,TooDeepLayout" />
+
+                                        <CheckBox
+                                            android:id="@+id/fill_two_output_NEG_checkbox_U"
+                                            android:layout_width="70sp"
+                                            android:layout_height="40sp"
+                                            android:layout_alignParentStart="true"
+                                            android:buttonTint="@color/blue"
+                                            android:fontFamily="@font/poppins_regular"
+                                            android:padding="10sp"
+                                            android:text="U"
+                                            android:textColor="@color/lightblack"
+                                            tools:ignore="HardcodedText,TouchTargetSizeCheck" />
+
+                                        <CheckBox
+                                            android:id="@+id/fill_two_output_NEG_checkbox_V"
+                                            android:layout_width="70sp"
+                                            android:layout_height="40sp"
                                             android:layout_centerHorizontal="true"
-                                            android:layout_marginStart="10sp"
-                                            android:layout_marginEnd="10sp"
-                                            android:orientation="horizontal">
+                                            android:buttonTint="@color/blue"
+                                            android:fontFamily="@font/poppins_regular"
+                                            android:padding="10sp"
+                                            android:text="V"
+                                            android:textColor="@color/lightblack"
+                                            tools:ignore="HardcodedText,TouchTargetSizeCheck" />
 
-                                            <!-- LinearLayout with Checkboxes (aligned to the left of TextView) -->
-                                            <TextView
-                                                android:id="@+id/output_neg"
-                                                android:layout_width="79dp"
-                                                android:layout_height="wrap_content"
-                                                android:fontFamily="@font/poppins_regular"
-                                                android:padding="10sp"
-                                                android:text="NEG: "
-                                                android:textColor="@color/lightblack"
-                                                android:textSize="15sp"
-                                                tools:ignore="HardcodedText,TooDeepLayout" />
-
-                                            <RelativeLayout
-                                                android:layout_width="match_parent"
-                                                android:layout_height="wrap_content"
-                                                android:layout_marginHorizontal="10sp">
-
-                                                <CheckBox
-                                                    android:id="@+id/detail_output_NEG_U"
-                                                    android:layout_width="70sp"
-                                                    android:layout_height="40sp"
-                                                    android:layout_alignParentStart="true"
-                                                    android:buttonTint="@color/blue"
-                                                    android:fontFamily="@font/poppins_regular"
-                                                    android:padding="10sp"
-                                                    android:text="U"
-                                                    android:textColor="@color/lightblack"
-                                                    tools:ignore="HardcodedText,TouchTargetSizeCheck" />
-
-                                                <CheckBox
-                                                    android:id="@+id/detail_output_NEG_V"
-                                                    android:layout_width="70sp"
-                                                    android:layout_height="40sp"
-                                                    android:layout_centerHorizontal="true"
-                                                    android:buttonTint="@color/blue"
-                                                    android:fontFamily="@font/poppins_regular"
-                                                    android:padding="10sp"
-                                                    android:text="V"
-                                                    android:textColor="@color/lightblack"
-                                                    tools:ignore="HardcodedText,TouchTargetSizeCheck" />
-
-                                                <CheckBox
-                                                    android:id="@+id/detail_output_NEG_W"
-                                                    android:layout_width="70sp"
-                                                    android:layout_height="40sp"
-                                                    android:layout_alignParentEnd="true"
-                                                    android:buttonTint="@color/blue"
-                                                    android:fontFamily="@font/poppins_regular"
-                                                    android:padding="10sp"
-                                                    android:text="W"
-                                                    android:textColor="@color/blue"
-                                                    tools:ignore="HardcodedText,TouchTargetSizeCheck" />
-
-                                            </RelativeLayout>
-
-                                        </LinearLayout>
-
-                                    </RelativeLayout>
-
-                                </LinearLayout>
-
+                                        <CheckBox
+                                            android:id="@+id/fill_two_output_NEG_checkbox_W"
+                                            android:layout_width="70sp"
+                                            android:layout_height="40sp"
+                                            android:layout_alignParentEnd="true"
+                                            android:buttonTint="@color/blue"
+                                            android:fontFamily="@font/poppins_regular"
+                                            android:padding="10sp"
+                                            android:text="W"
+                                            android:textColor="@color/blue"
+                                            tools:ignore="HardcodedText,TouchTargetSizeCheck" />
+                                    </LinearLayout>
+                                </RelativeLayout>
                             </LinearLayout>
 
-                            <!--                *********************************-->
-
+                            <!-- Fault Diagnosis -->
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -1077,7 +934,6 @@
                                     android:padding="15sp"
                                     android:text="POS: "
                                     tools:ignore="HardcodedText,TooDeepLayout" />
-
 
                                 <LinearLayout
                                     android:layout_width="match_parent"
@@ -1124,8 +980,6 @@
                                             android:textColor="@color/lightblack"
                                             android:textSize="19sp"
                                             tools:ignore="HardcodedText,TooDeepLayout" />
-
-
                                     </LinearLayout>
 
                                     <LinearLayout
@@ -1136,7 +990,7 @@
                                         android:orientation="vertical">
 
                                         <EditText
-                                            android:id="@+id/client_observationfield"
+                                            android:id="@+id/fill_two_clientObs_text"
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
                                             android:backgroundTint="@color/grey"
@@ -1152,7 +1006,7 @@
                                             tools:ignore="DuplicateSpeakableTextCheck,TextContrastCheck,VisualLintTextFieldSize" />
 
                                         <EditText
-                                            android:id="@+id/emp_observationfield"
+                                            android:id="@+id/fill_two_ourObs_text"
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
                                             android:backgroundTint="@color/grey"
@@ -1168,7 +1022,7 @@
                                             tools:ignore="DuplicateSpeakableTextCheck,TextContrastCheck,VisualLintTextFieldSize" />
 
                                         <EditText
-                                            android:id="@+id/lastfault_observationfield"
+                                            android:id="@+id/fill_two_lastFault_text"
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
                                             android:backgroundTint="@color/grey"
@@ -1182,16 +1036,14 @@
                                             android:textColor="@color/black"
                                             android:textColorHint="@color/grey"
                                             tools:ignore="DuplicateSpeakableTextCheck,TextContrastCheck,VisualLintTextFieldSize" />
-
                                     </LinearLayout>
                                 </LinearLayout>
                             </RelativeLayout>
                         </LinearLayout>
-
-
                     </RelativeLayout>
                 </RelativeLayout>
-                <!--                fragmnet3-->
+
+                <!-- FRAGMENT 3 -->
                 <RelativeLayout
                     android:id="@+id/frag_3"
                     android:layout_width="match_parent"
@@ -1200,11 +1052,9 @@
                     tools:ignore="NotSibling">
 
                     <RelativeLayout
-
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:textAlignment="gravity"
-
                         tools:ignore="UselessParent">
 
                         <LinearLayout
@@ -1222,7 +1072,6 @@
                                 android:layout_height="wrap_content"
                                 android:orientation="vertical"
                                 tools:ignore="UselessParent">
-
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -1281,7 +1130,6 @@
                                         android:text="POS: "
                                         tools:ignore="HardcodedText,TooDeepLayout" />
 
-
                                     <LinearLayout
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
@@ -1294,7 +1142,6 @@
                                             android:gravity="center"
                                             tools:ignore="UselessParent">
 
-
                                             <RelativeLayout
                                                 android:layout_width="wrap_content"
                                                 android:layout_height="match_parent"
@@ -1303,7 +1150,7 @@
                                                 android:orientation="vertical">
 
                                                 <CheckBox
-                                                    android:id="@+id/CB_Capasitor"
+                                                    android:id="@+id/fill_three_checkboxCapasitor"
                                                     android:layout_width="wrap_content"
                                                     android:layout_height="50sp"
                                                     android:buttonTint="@color/blue"
@@ -1315,10 +1162,10 @@
                                                     tools:ignore="DuplicateSpeakableTextCheck,HardcodedText,TouchTargetSizeCheck" />
 
                                                 <CheckBox
-                                                    android:id="@+id/CB_Display"
+                                                    android:id="@+id/fill_three_checkboxDisplay"
                                                     android:layout_width="wrap_content"
                                                     android:layout_height="50sp"
-                                                    android:layout_below="@id/CB_Capasitor"
+                                                    android:layout_below="@id/fill_three_checkboxCapasitor"
                                                     android:buttonTint="@color/blue"
                                                     android:fontFamily="@font/poppins_regular"
                                                     android:padding="12sp"
@@ -1326,7 +1173,6 @@
                                                     android:textColor="@color/lightblack"
                                                     android:textSize="18sp"
                                                     tools:ignore="DuplicateSpeakableTextCheck,HardcodedText,TouchTargetSizeCheck" />
-
                                             </RelativeLayout>
 
                                             <RelativeLayout
@@ -1337,7 +1183,7 @@
                                                 android:orientation="vertical">
 
                                                 <CheckBox
-                                                    android:id="@+id/CB_FAN"
+                                                    android:id="@+id/fill_three_checkboxFAN"
                                                     android:layout_width="wrap_content"
                                                     android:layout_height="50sp"
                                                     android:buttonTint="@color/blue"
@@ -1349,10 +1195,10 @@
                                                     tools:ignore="DuplicateSpeakableTextCheck,HardcodedText,TouchTargetSizeCheck" />
 
                                                 <CheckBox
-                                                    android:id="@+id/CB_CC"
+                                                    android:id="@+id/fill_three_checkboxCC"
                                                     android:layout_width="wrap_content"
                                                     android:layout_height="50sp"
-                                                    android:layout_below="@+id/CB_FAN"
+                                                    android:layout_below="@+id/fill_three_checkboxFAN"
                                                     android:buttonTint="@color/blue"
                                                     android:fontFamily="@font/poppins_regular"
                                                     android:padding="12sp"
@@ -1360,7 +1206,6 @@
                                                     android:textColor="@color/lightblack"
                                                     android:textSize="18sp"
                                                     tools:ignore="DuplicateSpeakableTextCheck,HardcodedText,TouchTargetSizeCheck" />
-
                                             </RelativeLayout>
                                         </RelativeLayout>
                                     </LinearLayout>
@@ -1385,7 +1230,7 @@
                                         tools:ignore="HardcodedText,TooDeepLayout" />
 
                                     <TextView
-                                        android:id="@+id/detail_entertext"
+                                        android:id="@+id/fill_three_firstRemarks"
                                         android:layout_width="match_parent"
                                         android:layout_height="78sp"
                                         android:background="@drawable/round_textfield"
@@ -1400,17 +1245,14 @@
                                         android:textColorHint="@color/grey"
                                         android:textSize="14sp"
                                         tools:ignore="DuplicateSpeakableTextCheck,LabelFor,SpeakableTextPresentCheck,TextContrastCheck,TextViewEdits,VisualLintTextFieldSize" />
-
                                 </LinearLayout>
                             </LinearLayout>
 
-
+                            <!-- Repair -->
                             <LinearLayout
-
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="vertical">
-
 
                                 <TextView
                                     android:layout_width="match_parent"
@@ -1428,13 +1270,11 @@
                                     android:orientation="horizontal">
 
                                     <RelativeLayout
-
                                         android:layout_width="match_parent"
                                         android:layout_height="match_parent"
                                         android:background="@drawable/rectangle_checkbox"
                                         android:gravity="center"
                                         tools:ignore="UselessParent">
-
 
                                         <RelativeLayout
                                             android:layout_width="wrap_content"
@@ -1444,7 +1284,7 @@
                                             android:orientation="vertical">
 
                                             <CheckBox
-                                                android:id="@+id/CB_SMPS"
+                                                android:id="@+id/fill_three_Repair_checkboxOne"
                                                 android:layout_width="wrap_content"
                                                 android:layout_height="50sp"
                                                 android:buttonTint="@color/blue"
@@ -1454,16 +1294,14 @@
                                                 tools:ignore="DuplicateSpeakableTextCheck,HardcodedText,TouchTargetSizeCheck" />
 
                                             <CheckBox
-                                                android:id="@+id/CB_CtStation"
+                                                android:id="@+id/fill_three_Repair_checkboxTwo"
                                                 android:layout_width="wrap_content"
                                                 android:layout_height="50sp"
-                                                android:layout_below="@id/CB_SMPS"
+                                                android:layout_below="@id/fill_three_Repair_checkboxOne"
                                                 android:buttonTint="@color/blue"
                                                 android:fontFamily="@font/poppins_regular"
                                                 android:text="CTStation"
-                                                android:textColor="@color/lightblack"
-                                                tools:ignore="DuplicateSpeakableTextCheck,HardcodedText,TouchTargetSizeCheck" />
-
+                                                android:textColor="@color/lightblack" />
                                         </RelativeLayout>
 
                                         <RelativeLayout
@@ -1473,7 +1311,7 @@
                                             android:orientation="vertical">
 
                                             <CheckBox
-                                                android:id="@+id/CB_Firing"
+                                                android:id="@+id/fill_three_Repair_checkboxThree"
                                                 android:layout_width="wrap_content"
                                                 android:layout_height="50sp"
                                                 android:buttonTint="@color/blue"
@@ -1483,18 +1321,16 @@
                                                 tools:ignore="DuplicateSpeakableTextCheck,HardcodedText,TouchTargetSizeCheck" />
 
                                             <CheckBox
-                                                android:id="@+id/CB_ControlCard"
+                                                android:id="@+id/fill_three_Repair_checkboxFour"
                                                 android:layout_width="wrap_content"
                                                 android:layout_height="50sp"
-                                                android:layout_below="@id/CB_Firing"
+                                                android:layout_below="@id/fill_three_Repair_checkboxThree"
                                                 android:buttonTint="@color/blue"
                                                 android:fontFamily="@font/poppins_regular"
                                                 android:text="Controlcard"
                                                 android:textColor="@color/lightblack"
                                                 tools:ignore="DuplicateSpeakableTextCheck,HardcodedText,TouchTargetSizeCheck" />
-
                                         </RelativeLayout>
-
 
                                         <RelativeLayout
                                             android:layout_width="wrap_content"
@@ -1504,7 +1340,7 @@
                                             android:orientation="vertical">
 
                                             <CheckBox
-                                                android:id="@+id/CB_DCstation"
+                                                android:id="@+id/fill_three_Repair_checkboxFive"
                                                 android:layout_width="wrap_content"
                                                 android:layout_height="50sp"
                                                 android:buttonTint="@color/blue"
@@ -1514,24 +1350,22 @@
                                                 tools:ignore="DuplicateSpeakableTextCheck,HardcodedText,TouchTargetSizeCheck" />
 
                                             <CheckBox
-                                                android:id="@+id/CB_Other"
+                                                android:id="@+id/fill_three_Repair_checkboxSix"
                                                 android:layout_width="wrap_content"
                                                 android:layout_height="50sp"
-                                                android:layout_below="@id/CB_DCstation"
+                                                android:layout_below="@id/fill_three_Repair_checkboxFive"
                                                 android:buttonTint="@color/blue"
                                                 android:fontFamily="@font/poppins_regular"
                                                 android:text="Other"
                                                 android:textColor="@color/lightblack"
                                                 tools:ignore="DuplicateSpeakableTextCheck,HardcodedText,TouchTargetSizeCheck" />
-
                                         </RelativeLayout>
-
                                     </RelativeLayout>
                                 </LinearLayout>
                             </LinearLayout>
 
+                            <!-- Replace -->
                             <LinearLayout
-
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="5sp"
@@ -1560,7 +1394,6 @@
                                         android:gravity="center"
                                         tools:ignore="UselessParent">
 
-
                                         <RelativeLayout
                                             android:layout_width="wrap_content"
                                             android:layout_height="match_parent"
@@ -1569,7 +1402,7 @@
                                             android:orientation="vertical">
 
                                             <CheckBox
-                                                android:id="@+id/CB_IGBT_Replace"
+                                                android:id="@+id/fill_three_Replace_checkboxOne"
                                                 android:layout_width="wrap_content"
                                                 android:layout_height="50sp"
                                                 android:buttonTint="@color/blue"
@@ -1579,10 +1412,10 @@
                                                 tools:ignore="DuplicateSpeakableTextCheck,HardcodedText,TouchTargetSizeCheck" />
 
                                             <CheckBox
-                                                android:id="@+id/CB_CT_Replace"
+                                                android:id="@+id/fill_three_Replace_checkboxTwo"
                                                 android:layout_width="wrap_content"
                                                 android:layout_height="50sp"
-                                                android:layout_below="@id/CB_IGBT_Replace"
+                                                android:layout_below="@id/fill_three_Replace_checkboxOne"
                                                 android:buttonTint="@color/blue"
                                                 android:fontFamily="@font/poppins_regular"
                                                 android:text="CT"
@@ -1590,16 +1423,15 @@
                                                 tools:ignore="DuplicateSpeakableTextCheck,HardcodedText,TouchTargetSizeCheck" />
 
                                             <CheckBox
-                                                android:id="@+id/CB_Display_Replace"
+                                                android:id="@+id/fill_three_Replace_checkboxThree"
                                                 android:layout_width="wrap_content"
                                                 android:layout_height="50sp"
-                                                android:layout_below="@id/CB_CT_Replace"
+                                                android:layout_below="@id/fill_three_Replace_checkboxTwo"
                                                 android:buttonTint="@color/blue"
                                                 android:fontFamily="@font/poppins_regular"
                                                 android:text="Display"
                                                 android:textColor="@color/lightblack"
                                                 tools:ignore="DuplicateSpeakableTextCheck,HardcodedText,TouchTargetSizeCheck" />
-
                                         </RelativeLayout>
 
                                         <RelativeLayout
@@ -1609,7 +1441,7 @@
                                             android:orientation="vertical">
 
                                             <CheckBox
-                                                android:id="@+id/CB_Rectifier_Replace"
+                                                android:id="@+id/fill_three_Replace_checkboxFour"
                                                 android:layout_width="wrap_content"
                                                 android:layout_height="50sp"
                                                 android:buttonTint="@color/blue"
@@ -1619,10 +1451,10 @@
                                                 tools:ignore="DuplicateSpeakableTextCheck,HardcodedText,TouchTargetSizeCheck" />
 
                                             <CheckBox
-                                                android:id="@+id/CB_Controlcard_Replace"
+                                                android:id="@+id/fill_three_Replace_checkboxFive"
                                                 android:layout_width="wrap_content"
                                                 android:layout_height="50sp"
-                                                android:layout_below="@id/CB_Rectifier_Replace"
+                                                android:layout_below="@id/fill_three_Replace_checkboxFour"
                                                 android:buttonTint="@color/blue"
                                                 android:fontFamily="@font/poppins_regular"
                                                 android:text="Controlcard"
@@ -1630,18 +1462,16 @@
                                                 tools:ignore="DuplicateSpeakableTextCheck,HardcodedText,TouchTargetSizeCheck" />
 
                                             <CheckBox
-                                                android:id="@+id/CB_fAN_Replace"
+                                                android:id="@+id/fill_three_Replace_checkboxSix"
                                                 android:layout_width="wrap_content"
                                                 android:layout_height="50sp"
-                                                android:layout_below="@id/CB_Controlcard_Replace"
+                                                android:layout_below="@id/fill_three_Replace_checkboxFive"
                                                 android:buttonTint="@color/blue"
                                                 android:fontFamily="@font/poppins_regular"
                                                 android:text="FAN"
                                                 android:textColor="@color/lightblack"
                                                 tools:ignore="DuplicateSpeakableTextCheck,HardcodedText,TouchTargetSizeCheck" />
-
                                         </RelativeLayout>
-
 
                                         <RelativeLayout
                                             android:layout_width="wrap_content"
@@ -1651,7 +1481,7 @@
                                             android:orientation="vertical">
 
                                             <CheckBox
-                                                android:id="@+id/CB_Fuse_Replace"
+                                                android:id="@+id/fill_three_Replace_checkboxSeven"
                                                 android:layout_width="wrap_content"
                                                 android:layout_height="50sp"
                                                 android:buttonTint="@color/blue"
@@ -1661,10 +1491,10 @@
                                                 tools:ignore="DuplicateSpeakableTextCheck,HardcodedText,TouchTargetSizeCheck" />
 
                                             <CheckBox
-                                                android:id="@+id/CB_Powercard_Replace"
+                                                android:id="@+id/fill_three_Replace_checkboxEight"
                                                 android:layout_width="wrap_content"
                                                 android:layout_height="50sp"
-                                                android:layout_below="@id/CB_Fuse_Replace"
+                                                android:layout_below="@id/fill_three_Replace_checkboxSeven"
                                                 android:buttonTint="@color/blue"
                                                 android:fontFamily="@font/poppins_regular"
                                                 android:text="Power card"
@@ -1672,22 +1502,21 @@
                                                 tools:ignore="DuplicateSpeakableTextCheck,HardcodedText,TouchTargetSizeCheck" />
 
                                             <CheckBox
-                                                android:id="@+id/CB_Other_Replace"
+                                                android:id="@+id/fill_three_Replace_checkboxNine"
                                                 android:layout_width="wrap_content"
                                                 android:layout_height="50sp"
-                                                android:layout_below="@id/CB_Powercard_Replace"
+                                                android:layout_below="@id/fill_three_Replace_checkboxEight"
                                                 android:buttonTint="@color/blue"
                                                 android:fontFamily="@font/poppins_regular"
                                                 android:text="Other"
                                                 android:textColor="@color/lightblack"
                                                 tools:ignore="DuplicateSpeakableTextCheck,HardcodedText,TouchTargetSizeCheck" />
-
                                         </RelativeLayout>
-
                                     </RelativeLayout>
                                 </LinearLayout>
                             </LinearLayout>
 
+                            <!-- Trial Check -->
                             <LinearLayout
                                 android:id="@+id/fourthBlock"
                                 android:layout_width="match_parent"
@@ -1718,9 +1547,8 @@
                                         android:layout_height="wrap_content"
                                         android:layout_marginHorizontal="10sp">
 
-
                                         <CheckBox
-                                            android:id="@+id/CB_TRIAL1"
+                                            android:id="@+id/fill_three_checkboxTRIAL1"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:layout_alignParentStart="true"
@@ -1733,7 +1561,7 @@
                                             tools:ignore="DuplicateSpeakableTextCheck,HardcodedText,TouchTargetSizeCheck" />
 
                                         <CheckBox
-                                            android:id="@+id/CB_TRIAL2"
+                                            android:id="@+id/fill_three_checkboxTRIAL2"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:layout_alignParentEnd="true"
@@ -1744,7 +1572,6 @@
                                             android:textColor="@color/lightblack"
                                             android:textSize="20sp"
                                             tools:ignore="DuplicateSpeakableTextCheck,HardcodedText,TouchTargetSizeCheck" />
-
                                     </RelativeLayout>
                                 </LinearLayout>
 
@@ -1763,13 +1590,13 @@
                                         android:textSize="18sp"
                                         tools:ignore="HardcodedText" />
 
-                                    <EditText
-
-                                        android:layout_width="match_parent"
+                                    <TextView
+                                        android:id="@+id/textDays"
+                                        android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_marginStart="80dp"
-                                        android:ems="10"
                                         android:fontFamily="@font/poppins_medium"
+                                        android:text="1"
                                         android:textColor="@color/lightblack"
                                         android:textSize="18sp"
                                         tools:ignore="HardcodedText" />
@@ -1779,7 +1606,7 @@
                     </RelativeLayout>
                 </RelativeLayout>
 
-                <!--fragemnet 4 -->
+                <!-- FRAGMENT 4 -->
                 <RelativeLayout
                     android:id="@+id/frag_4"
                     android:layout_width="match_parent"
@@ -1787,7 +1614,6 @@
                     android:layout_below="@+id/frag_3">
 
                     <RelativeLayout
-
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:textAlignment="gravity">
@@ -1848,11 +1674,9 @@
                                     android:textColor="@color/black"
                                     android:textSize="22sp"
                                     tools:ignore="HardcodedText" />
-
                             </LinearLayout>
 
                             <LinearLayout
-
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="vertical">
@@ -1888,9 +1712,8 @@
                                             android:text="POS: "
                                             tools:ignore="HardcodedText,TooDeepLayout" />
 
-
                                         <CheckBox
-                                            android:id="@+id/CB_1HP"
+                                            android:id="@+id/fill_four_checkbox1HP"
                                             android:layout_width="wrap_content"
                                             android:layout_height="50sp"
                                             android:layout_alignParentStart="true"
@@ -1903,7 +1726,7 @@
                                             tools:ignore="DuplicateSpeakableTextCheck,HardcodedText,TouchTargetSizeCheck" />
 
                                         <CheckBox
-                                            android:id="@+id/CB_10HP"
+                                            android:id="@+id/fill_four_checkbox10HP"
                                             android:layout_width="wrap_content"
                                             android:layout_height="50sp"
                                             android:layout_centerInParent="true"
@@ -1914,7 +1737,7 @@
                                             tools:ignore="DuplicateSpeakableTextCheck,HardcodedText,TouchTargetSizeCheck" />
 
                                         <CheckBox
-                                            android:id="@+id/CB_30HP"
+                                            android:id="@+id/fill_four_checkbox30HP"
                                             android:layout_width="wrap_content"
                                             android:layout_height="50sp"
                                             android:layout_alignParentEnd="true"
@@ -1925,27 +1748,19 @@
                                             android:text="30 HP"
                                             android:textColor="@color/lightblack"
                                             tools:ignore="DuplicateSpeakableTextCheck,HardcodedText,TouchTargetSizeCheck" />
-
                                     </RelativeLayout>
                                 </LinearLayout>
 
-                                <LinearLayout
-                                    android:id="@+id/thirdBlock"
+                                <!-- AMP Details -->
+                                <TextView
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="5sp"
-                                    android:orientation="vertical">
-
-                                    <TextView
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:fontFamily="@font/poppins_regular"
-                                        android:text="AMP Details: "
-                                        android:textColor="@color/lightblack"
-                                        android:textSize="19sp"
-                                        tools:ignore="HardcodedText,TooDeepLayout" />
-
-                                </LinearLayout>
+                                    android:fontFamily="@font/poppins_regular"
+                                    android:text="AMP Details: "
+                                    android:textColor="@color/lightblack"
+                                    android:textSize="19sp"
+                                    tools:ignore="HardcodedText,TooDeepLayout" />
 
                                 <RelativeLayout
                                     android:layout_width="match_parent"
@@ -1960,7 +1775,6 @@
                                         android:padding="15sp"
                                         android:text="POS: "
                                         tools:ignore="HardcodedText,TooDeepLayout" />
-
 
                                     <LinearLayout
                                         android:id="@+id/putValues"
@@ -1997,7 +1811,6 @@
                                                 android:textColor="@color/lightblack"
                                                 android:textSize="18sp"
                                                 tools:ignore="HardcodedText" />
-
                                         </LinearLayout>
 
                                         <LinearLayout
@@ -2008,7 +1821,7 @@
                                             android:orientation="vertical">
 
                                             <EditText
-                                                android:id="@+id/OnDisplay_text"
+                                                android:id="@+id/fill_four_OnDisplay_text"
                                                 android:layout_width="match_parent"
                                                 android:layout_height="wrap_content"
                                                 android:backgroundTint="@color/grey"
@@ -2016,7 +1829,6 @@
                                                 android:ems="10"
                                                 android:fontFamily="@font/poppins_regular"
                                                 android:gravity="center"
-
                                                 android:importantForAutofill="no"
                                                 android:inputType="textPersonName"
                                                 android:textColor="@color/black"
@@ -2024,7 +1836,7 @@
                                                 tools:ignore="DuplicateSpeakableTextCheck,LabelFor,TextContrastCheck,VisualLintTextFieldSize,SpeakableTextPresentCheck" />
 
                                             <EditText
-                                                android:id="@+id/OnClamp_text"
+                                                android:id="@+id/fill_four_OnClamp_text"
                                                 android:layout_width="match_parent"
                                                 android:layout_height="wrap_content"
                                                 android:backgroundTint="@color/grey"
@@ -2032,14 +1844,12 @@
                                                 android:ems="10"
                                                 android:fontFamily="@font/poppins_regular"
                                                 android:gravity="center"
-
                                                 android:importantForAutofill="no"
                                                 android:inputType="textPersonName"
                                                 android:textColor="@color/black"
                                                 android:textColorHint="@color/hintFont"
                                                 tools:ignore="DuplicateSpeakableTextCheck,LabelFor,TextContrastCheck,TextFields,VisualLintTextFieldSize,SpeakableTextPresentCheck" />
                                         </LinearLayout>
-
                                     </LinearLayout>
 
                                     <RelativeLayout
@@ -2049,7 +1859,7 @@
                                         android:orientation="vertical">
 
                                         <CheckBox
-                                            android:id="@+id/CB_AMP_U"
+                                            android:id="@+id/fill_four_checkboxAMP_U"
                                             android:layout_width="wrap_content"
                                             android:layout_height="50sp"
                                             android:layout_alignParentStart="true"
@@ -2063,7 +1873,7 @@
                                             tools:ignore="DuplicateSpeakableTextCheck,HardcodedText,TouchTargetSizeCheck" />
 
                                         <CheckBox
-                                            android:id="@+id/CB_AMP_V"
+                                            android:id="@+id/fill_four_checkboxAMP_V"
                                             android:layout_width="wrap_content"
                                             android:layout_height="50sp"
                                             android:layout_centerInParent="true"
@@ -2075,7 +1885,7 @@
                                             tools:ignore="DuplicateSpeakableTextCheck,HardcodedText,TouchTargetSizeCheck" />
 
                                         <CheckBox
-                                            android:id="@+id/CB_AMP_W"
+                                            android:id="@+id/fill_four_checkboxAMP_W"
                                             android:layout_width="wrap_content"
                                             android:layout_height="50sp"
                                             android:layout_alignParentEnd="true"
@@ -2088,9 +1898,9 @@
                                             android:textColor="@color/lightblack"
                                             tools:ignore="DuplicateSpeakableTextCheck,HardcodedText,TouchTargetSizeCheck" />
                                     </RelativeLayout>
-
                                 </RelativeLayout>
 
+                                <!-- Voltage Details -->
                                 <TextView
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
@@ -2109,7 +1919,6 @@
                                     android:background="@drawable/rectangle_check_box_big"
                                     android:gravity="center"
                                     tools:ignore="UselessParent">
-
 
                                     <TextView
                                         android:id="@+id/voltageHeadng"
@@ -2160,7 +1969,6 @@
                                                 android:textColor="@color/lightblack"
                                                 android:textSize="18sp"
                                                 tools:ignore="HardcodedText" />
-
                                         </LinearLayout>
 
                                         <LinearLayout
@@ -2171,7 +1979,7 @@
                                             android:orientation="vertical">
 
                                             <EditText
-                                                android:id="@+id/DC_DISP_text"
+                                                android:id="@+id/fill_four_DC_DISP_text"
                                                 android:layout_width="match_parent"
                                                 android:layout_height="wrap_content"
                                                 android:backgroundTint="@color/grey"
@@ -2179,15 +1987,14 @@
                                                 android:ems="10"
                                                 android:fontFamily="@font/poppins_regular"
                                                 android:gravity="center"
-
                                                 android:importantForAutofill="no"
                                                 android:inputType="textPersonName"
                                                 android:textColor="@color/black"
                                                 android:textColorHint="@color/hintFont"
-                                                tools:ignore="DuplicateSpeakableTextCheck,LabelFor,SpeakableTextPresentCheck,SpeakableTextPresentCheck,TextContrastCheck,VisualLintTextFieldSize" />
+                                                tools:ignore="DuplicateSpeakableTextCheck,LabelFor,SpeakableTextPresentCheck,TextContrastCheck,VisualLintTextFieldSize" />
 
                                             <EditText
-                                                android:id="@+id/DC_MET_text"
+                                                android:id="@+id/fill_four_DC_MET_text"
                                                 android:layout_width="match_parent"
                                                 android:layout_height="wrap_content"
                                                 android:backgroundTint="@color/grey"
@@ -2195,14 +2002,12 @@
                                                 android:ems="10"
                                                 android:fontFamily="@font/poppins_regular"
                                                 android:gravity="center"
-
                                                 android:importantForAutofill="no"
                                                 android:inputType="textPersonName"
                                                 android:textColor="@color/black"
                                                 android:textColorHint="@color/hintFont"
-                                                tools:ignore="DuplicateSpeakableTextCheck,LabelFor,SpeakableTextPresentCheck,SpeakableTextPresentCheck,TextContrastCheck,TextFields,VisualLintTextFieldSize" />
+                                                tools:ignore="DuplicateSpeakableTextCheck,LabelFor,SpeakableTextPresentCheck, SpeakableTextPresentCheck,TextContrastCheck,TextFields,VisualLintTextFieldSize" />
                                         </LinearLayout>
-
                                     </LinearLayout>
 
                                     <TextView
@@ -2254,7 +2059,6 @@
                                                 android:textColor="@color/lightblack"
                                                 android:textSize="18sp"
                                                 tools:ignore="HardcodedText" />
-
                                         </LinearLayout>
 
                                         <LinearLayout
@@ -2264,7 +2068,7 @@
                                             android:orientation="vertical">
 
                                             <EditText
-                                                android:id="@+id/OUTPUT_DISP_text"
+                                                android:id="@+id/fill_four_OUTPUT_DISP_text"
                                                 android:layout_width="match_parent"
                                                 android:layout_height="wrap_content"
                                                 android:backgroundTint="@color/grey"
@@ -2272,7 +2076,6 @@
                                                 android:ems="10"
                                                 android:fontFamily="@font/poppins_regular"
                                                 android:gravity="center"
-
                                                 android:importantForAutofill="no"
                                                 android:inputType="textPersonName"
                                                 android:textColor="@color/black"
@@ -2280,7 +2083,7 @@
                                                 tools:ignore="DuplicateSpeakableTextCheck,LabelFor,SpeakableTextPresentCheck,TextContrastCheck,VisualLintTextFieldSize" />
 
                                             <EditText
-                                                android:id="@+id/OUTPUT_MET_text"
+                                                android:id="@+id/fill_four_OUTPUT_MET_text"
                                                 android:layout_width="match_parent"
                                                 android:layout_height="wrap_content"
                                                 android:backgroundTint="@color/grey"
@@ -2288,18 +2091,16 @@
                                                 android:ems="10"
                                                 android:fontFamily="@font/poppins_regular"
                                                 android:gravity="center"
-
                                                 android:importantForAutofill="no"
                                                 android:inputType="textPersonName"
                                                 android:textColor="@color/black"
                                                 android:textColorHint="@color/hintFont"
                                                 tools:ignore="DuplicateSpeakableTextCheck,LabelFor,SpeakableTextPresentCheck,TextContrastCheck,TextFields,VisualLintTextFieldSize" />
                                         </LinearLayout>
-
                                     </LinearLayout>
                                 </RelativeLayout>
-                                <!--            -->
 
+                                <!-- Final Fields -->
                                 <RelativeLayout
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
@@ -2314,7 +2115,6 @@
                                         android:padding="15sp"
                                         android:text="POS: "
                                         tools:ignore="DuplicateIds,HardcodedText,TooDeepLayout" />
-
 
                                     <LinearLayout
                                         android:layout_width="match_parent"
@@ -2359,7 +2159,6 @@
                                                 android:textSize="18sp"
                                                 tools:ignore="HardcodedText" />
 
-
                                             <TextView
                                                 android:layout_width="match_parent"
                                                 android:layout_height="wrap_content"
@@ -2380,7 +2179,6 @@
                                                 android:textSize="18sp"
                                                 tools:ignore="HardcodedText" />
 
-
                                             <TextView
                                                 android:layout_width="match_parent"
                                                 android:layout_height="match_parent"
@@ -2400,8 +2198,6 @@
                                                 android:textColor="@color/lightblack"
                                                 android:textSize="18sp"
                                                 tools:ignore="HardcodedText" />
-
-
                                         </LinearLayout>
 
                                         <LinearLayout
@@ -2411,7 +2207,7 @@
                                             android:orientation="vertical">
 
                                             <EditText
-                                                android:id="@+id/RH_text"
+                                                android:id="@+id/fill_four_enterRH_text"
                                                 android:layout_width="wrap_content"
                                                 android:layout_height="wrap_content"
                                                 android:backgroundTint="@color/grey"
@@ -2419,7 +2215,6 @@
                                                 android:ems="10"
                                                 android:fontFamily="@font/poppins_regular"
                                                 android:gravity="center"
-
                                                 android:importantForAutofill="no"
                                                 android:inputType="textPersonName"
                                                 android:textColor="@color/black"
@@ -2427,7 +2222,7 @@
                                                 tools:ignore="DuplicateSpeakableTextCheck,LabelFor,SpeakableTextPresentCheck,TextContrastCheck" />
 
                                             <EditText
-                                                android:id="@+id/ReplayOP_text"
+                                                android:id="@+id/fill_four_enterReplayOP_text"
                                                 android:layout_width="wrap_content"
                                                 android:layout_height="wrap_content"
                                                 android:backgroundTint="@color/grey"
@@ -2435,7 +2230,6 @@
                                                 android:ems="10"
                                                 android:fontFamily="@font/poppins_regular"
                                                 android:gravity="center"
-
                                                 android:importantForAutofill="no"
                                                 android:inputType="textPersonName"
                                                 android:textColor="@color/black"
@@ -2443,7 +2237,7 @@
                                                 tools:ignore="DuplicateSpeakableTextCheck,LabelFor,SpeakableTextPresentCheck,TextContrastCheck,TextFields" />
 
                                             <EditText
-                                                android:id="@+id/FANOpr_text"
+                                                android:id="@+id/fill_four_enterFANOpr_text"
                                                 android:layout_width="wrap_content"
                                                 android:layout_height="wrap_content"
                                                 android:backgroundTint="@color/grey"
@@ -2451,7 +2245,6 @@
                                                 android:ems="10"
                                                 android:fontFamily="@font/poppins_regular"
                                                 android:gravity="center"
-
                                                 android:importantForAutofill="no"
                                                 android:inputType="textPersonName"
                                                 android:textColor="@color/black"
@@ -2459,7 +2252,7 @@
                                                 tools:ignore="LabelFor,SpeakableTextPresentCheck,TextContrastCheck,TextFields" />
 
                                             <EditText
-                                                android:id="@+id/BODYCondition_text"
+                                                android:id="@+id/fill_four_enterBODYCondition_text"
                                                 android:layout_width="wrap_content"
                                                 android:layout_height="wrap_content"
                                                 android:backgroundTint="@color/grey"
@@ -2467,7 +2260,6 @@
                                                 android:ems="10"
                                                 android:fontFamily="@font/poppins_regular"
                                                 android:gravity="center"
-
                                                 android:importantForAutofill="no"
                                                 android:inputType="textPersonName"
                                                 android:textColor="@color/black"
@@ -2475,7 +2267,7 @@
                                                 tools:ignore="LabelFor,SpeakableTextPresentCheck,TextContrastCheck,VisualLintTextFieldSize" />
 
                                             <EditText
-                                                android:id="@+id/IOcheck_text"
+                                                android:id="@+id/fill_four_enterIOcheck_text"
                                                 android:layout_width="wrap_content"
                                                 android:layout_height="wrap_content"
                                                 android:backgroundTint="@color/grey"
@@ -2483,7 +2275,6 @@
                                                 android:ems="10"
                                                 android:fontFamily="@font/poppins_regular"
                                                 android:gravity="center"
-
                                                 android:importantForAutofill="no"
                                                 android:inputType="textPersonName"
                                                 android:textColor="@color/black"
@@ -2491,7 +2282,7 @@
                                                 tools:ignore="LabelFor,SpeakableTextPresentCheck,TextContrastCheck" />
 
                                             <EditText
-                                                android:id="@+id/Clean_Text"
+                                                android:id="@+id/fill_four_enterClean_Text"
                                                 android:layout_width="wrap_content"
                                                 android:layout_height="wrap_content"
                                                 android:backgroundTint="@color/grey"
@@ -2499,7 +2290,6 @@
                                                 android:ems="10"
                                                 android:fontFamily="@font/poppins_regular"
                                                 android:gravity="center"
-
                                                 android:importantForAutofill="no"
                                                 android:inputType="textPersonName"
                                                 android:textColor="@color/black"
@@ -2507,7 +2297,7 @@
                                                 tools:ignore="LabelFor,SpeakableTextPresentCheck,TextContrastCheck" />
 
                                             <EditText
-                                                android:id="@+id/PramCopy_Text"
+                                                android:id="@+id/fill_four_enterPramCopy_Text"
                                                 android:layout_width="wrap_content"
                                                 android:layout_height="wrap_content"
                                                 android:backgroundTint="@color/grey"
@@ -2515,16 +2305,13 @@
                                                 android:ems="10"
                                                 android:fontFamily="@font/poppins_regular"
                                                 android:gravity="center"
-
                                                 android:importantForAutofill="no"
                                                 android:inputType="textPersonName"
                                                 android:minHeight="48dp"
                                                 android:textColor="@color/black"
                                                 android:textColorHint="@color/hintFont"
                                                 tools:ignore="LabelFor,SpeakableTextPresentCheck,TextContrastCheck,TouchTargetSizeCheck" />
-
                                         </LinearLayout>
-
                                     </LinearLayout>
                                 </RelativeLayout>
 
@@ -2534,37 +2321,27 @@
                                     android:layout_gravity="center"
                                     android:layout_marginTop="20sp"
                                     android:layout_marginBottom="20sp"
-                                    android:gravity="center">
+                                    android:gravity="center" />
 
-                                </LinearLayout>
-
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content">
-
-                                    <androidx.appcompat.widget.AppCompatButton
-                                        android:id="@+id/printpdf"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginStart="80sp"
-                                        android:layout_marginEnd="50sp"
-                                        android:layout_marginBottom="50sp"
-                                        android:background="@drawable/radius_button"
-                                        android:backgroundTint="@color/blue"
-                                        android:fontFamily="@font/poppins_medium"
-                                        android:text="Print"
-                                        android:textAllCaps="true"
-                                        android:textColor="@color/white"
-                                        android:textSize="18sp" />
-                                </LinearLayout>
+                                <androidx.appcompat.widget.AppCompatButton
+                                    android:id="@+id/printpdf"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="80sp"
+                                    android:layout_marginEnd="50sp"
+                                    android:layout_marginBottom="50sp"
+                                    android:background="@drawable/radius_button"
+                                    android:backgroundTint="@color/blue"
+                                    android:fontFamily="@font/poppins_medium"
+                                    android:text="Print"
+                                    android:textAllCaps="true"
+                                    android:textColor="@color/white"
+                                    android:textSize="18sp" />
                             </LinearLayout>
-
                         </LinearLayout>
                     </RelativeLayout>
                 </RelativeLayout>
             </RelativeLayout>
-
         </ScrollView>
     </RelativeLayout>
-
 </FrameLayout>

@@ -1,238 +1,230 @@
 package com.example.hi_tech_controls;
 
-import android.annotation.SuppressLint;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
-import android.widget.TextView;
+import android.widget.Toast;
 
-import androidx.annotation.RequiresApi;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.hi_tech_controls.adapter.AddDetailsAdp;
 import com.example.hi_tech_controls.adapter.DetailsModel;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.ListenerRegistration;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static String clientIdValue;
-    public static TextView statusText1;
-    private static ProgressBar progressBar;
-    // Define your BroadcastReceiver
-    private final BroadcastReceiver progressUpdateReceiver = new BroadcastReceiver() {
-        @SuppressLint("SetTextI18n")
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (intent.getAction() != null && intent.getAction().equals("com.example.hi_tech_controls.PROGRESS_UPDATE")) {
-                int progress = intent.getIntExtra("progress", 0);
-                progressBar.setProgress(progress);
+    private RecyclerView recyclerViewDiscovery1;
+    private AddDetailsAdp addDetailsAdapter;
+    private ArrayList<DetailsModel> detailsDataList = new ArrayList<>();
+    private FirebaseFirestore db;
+    private CollectionReference collectionRef;
+    private ListenerRegistration realtimeListener;
 
-                // Check if the progress is 100% and update the text accordingly
-                if (progress == 100) {
-                    statusText1.setText("Completed");
-
-                    // Send a broadcast to inform MainActivity
-                    Intent broadcastIntent = new Intent("com.example.hi_tech_controls.PROGRESS_UPDATE").setPackage(/* TODO: provide the application ID. For example: */ getPackageName());
-                    broadcastIntent.putExtra("progress", progress);
-                    sendBroadcast(broadcastIntent);
-                }
-            }
-        }
-    };
-    RecyclerView recyclerViewDiscovery1;
-    TextView showId;
-    Button addClientBtn1;
-    Button viewClientBtn1;
-    SharedPrefHelper sharedPref;
+    private Button addClientBtn1;
+    private Button viewClientBtn1;
     private ImageView logout_btn_layout;
-    private CardView cardView_1;
-
-    // Register your BroadcastReceiver in onResume
-    @RequiresApi(api = Build.VERSION_CODES.TIRAMISU)
-    @Override
-    protected void onResume() {
-        super.onResume();
-        IntentFilter intentFilter = new IntentFilter("com.example.hi_tech_controls.PROGRESS_UPDATE");
-        registerReceiver(progressUpdateReceiver, intentFilter, Context.RECEIVER_NOT_EXPORTED);
-    }
-
-    // Unregister your BroadcastReceiver in onPause to avoid leaks
-    @Override
-    protected void onPause() {
-        super.onPause();
-        unregisterReceiver(progressUpdateReceiver);
-    }
+    private ImageView refreshButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Initialize UI
         addClientBtn1 = findViewById(R.id.addClientBtn);
         viewClientBtn1 = findViewById(R.id.viewClientBtn);
-
-
-        sharedPref = new SharedPrefHelper(this);
-
-
         logout_btn_layout = findViewById(R.id.logout_btn);
-        logout_btn_layout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showExitConfirmationDialog();
-            }
-        });
-
-
-        addClientBtn1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, AddDetailsActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        viewClientBtn1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, ViewDetailsActivity.class);
-                startActivity(intent);
-            }
-        });
+        refreshButton = findViewById(R.id.refreshButton);
 
         recyclerViewDiscovery1 = findViewById(R.id.recyclerViewDiscovery);
-
-        ArrayList<DetailsModel> DetailsData = new ArrayList<>();
-
-        DetailsModel details = new DetailsModel();
-        details.setUId(2009);
-        details.setuName("Dev Dave");
-        details.setProgress(80);
-
-
-        DetailsModel details1 = new DetailsModel();
-        details1.setUId(2006);
-        details1.setuName("Arshad ali Bhorania");
-        details1.setProgress(60);
-
-        DetailsModel details2 = new DetailsModel();
-        details2.setUId(2004);
-        details2.setuName("Martin Elliott");
-        details2.setProgress(80);
-
-        DetailsModel details3 = new DetailsModel();
-        details3.setUId(2003);
-        details3.setuName("John Brush");
-        details3.setProgress(60);
-
-        DetailsModel details4 = new DetailsModel();
-        details4.setUId(2010);
-        details4.setuName("Stark Hally");
-        details4.setProgress(20);
-
-
-        DetailsData.add(details);
-        DetailsData.add(details1);
-        DetailsData.add(details2);
-        DetailsData.add(details3);
-        DetailsData.add(details4);
-
-        AddDetailsAdp obj = new AddDetailsAdp(this, DetailsData);
-
         recyclerViewDiscovery1.setLayoutManager(new LinearLayoutManager(this));
-        recyclerViewDiscovery1.setAdapter(obj);
 
-        //setProgressBarStatus();
+        // Initialize adapter
+        addDetailsAdapter = new AddDetailsAdp(this, detailsDataList);
+        recyclerViewDiscovery1.setAdapter(addDetailsAdapter);
+
+        // Firebase
+        db = FirebaseFirestore.getInstance();
+        collectionRef = db.collection("hi_tech_controls_dataset_JUNE");
+
+        // Buttons
+        addClientBtn1.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, AddDetailsActivity.class);
+            // Don't pass clientId for new client
+            startActivity(intent);
+        });
+
+        viewClientBtn1.setOnClickListener(v -> {
+//            Toast.makeText(MainActivity.this, "You are already on dashboard",
+//                    Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(MainActivity.this, ViewDetailsActivity.class);
+            // Don't pass clientId for new client
+            startActivity(intent);
+
+        });
+
+        refreshButton.setOnClickListener(v -> {
+            refreshData();
+        });
+
+        logout_btn_layout.setOnClickListener(v -> showExitConfirmationDialog());
+
+        // Start real-time listener
+        startRealtimeListener();
     }
 
-    @Override
-    public void onBackPressed() {
-        //check if the user is logged in
-        SharedPreferences preferences = getSharedPreferences("Login", MODE_PRIVATE);
-        boolean isLoggedIn = preferences.getBoolean("flag", false);
-        if (isLoggedIn) {
-            showExitConfirmationDialog(); // if logged in , show the confirmation dialog
-        } else {
-            super.onBackPressed();
-        }
+    private void startRealtimeListener() {
+        realtimeListener = collectionRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot snapshots,
+                                @Nullable FirebaseFirestoreException e) {
+                if (e != null) {
+                    Toast.makeText(MainActivity.this, "Listen failed: " + e.getMessage(),
+                            Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (snapshots == null) return;
+
+                // Rebuild list from snapshot
+                ArrayList<DetailsModel> newList = new ArrayList<>();
+                for (DocumentSnapshot doc : snapshots.getDocuments()) {
+                    String docId = doc.getId();
+
+                    // Skip control documents
+                    if (docId.equals("last_id") || docId.equals("initialDoc")) continue;
+
+                    DetailsModel model = new DetailsModel();
+
+                    // Parse client ID
+                    try {
+                        model.setUId(Integer.parseInt(docId));
+                    } catch (Exception ex) {
+                        Long maybeId = doc.getLong("clientId");
+                        if (maybeId != null) model.setUId(maybeId.intValue());
+                        else continue; // Skip invalid entries
+                    }
+
+                    // Get name
+                    String name = doc.getString("name");
+                    model.setuName(name != null ? name : "No Name");
+
+                    // Get progress
+                    Long p = doc.getLong("progress");
+                    model.setProgress(p != null ? p.intValue() : 0);
+
+                    newList.add(model);
+                }
+
+                // Sort by ID descending (newest first)
+                Collections.sort(newList, new Comparator<DetailsModel>() {
+                    @Override
+                    public int compare(DetailsModel o1, DetailsModel o2) {
+                        return Integer.compare(o2.getUId(), o1.getUId());
+                    }
+                });
+
+                // Update adapter
+                detailsDataList.clear();
+                detailsDataList.addAll(newList);
+                addDetailsAdapter.notifyDataSetChanged();
+            }
+        });
     }
 
-    private void setProgressBarStatus() {
-        progressBar = findViewById(R.id.progressStatusBar);
+    // ... (same as you sent, but with one small fix in refreshData)
+    private void refreshData() {
+        Toast.makeText(this, "Refreshing...", Toast.LENGTH_SHORT).show();
+        collectionRef.get().addOnSuccessListener(query -> {
+            ArrayList<DetailsModel> newList = new ArrayList<>();
+            for (DocumentSnapshot doc : query.getDocuments()) {
+                String id = doc.getId();
+                if (id.equals("last_id") || id.equals("initialDoc")) continue;
 
-        // Retrieve the progress index from SharedPreferences
-        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
-        int progressIndex = sharedPreferences.getInt("progressIndex", 0);
+                DetailsModel m = new DetailsModel();
+                try { m.setUId(Integer.parseInt(id)); }
+                catch (Exception e) { continue; }
 
-        // Set the progress on the progress bar based on the index
-        progressBar.setProgress(AddDetailsActivity.progressValues[progressIndex]);
+                m.setuName(doc.getString("name"));
+                Long p = doc.getLong("progress");
+                m.setProgress(p != null ? p.intValue() : 0);
+                newList.add(m);
+            }
+
+            Collections.sort(newList, (a, b) -> Integer.compare(b.getUId(), a.getUId()));
+            detailsDataList.clear();
+            detailsDataList.addAll(newList);
+            addDetailsAdapter.notifyDataSetChanged();
+            Toast.makeText(this, "Refreshed!", Toast.LENGTH_SHORT).show();
+        });
     }
 
     private void showExitConfirmationDialog() {
         SweetAlertDialog dialog = new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE);
         dialog.setTitleText("Logout");
-        dialog.setContentText("Are you sure you want to logout the app?");
-
-        // Set custom text color for Confirm button
-        dialog.setConfirmButtonBackgroundColor(Color.parseColor("#E91E63"));
+        dialog.setContentText("Are you sure you want to logout?");
+        dialog.setConfirmButtonBackgroundColor(Color.parseColor("#FF0000"));
         dialog.setConfirmText("Logout");
-
-        // Set custom text color for Cancel button
         dialog.setCancelButtonBackgroundColor(Color.parseColor("#7C7C7C"));
         dialog.setCancelText("Cancel");
-
         dialog.showCancelButton(true);
 
-        dialog.setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
-            @Override
-            public void onClick(SweetAlertDialog sDialog) {
-                // Handle cancel button click (dismiss the dialog)
-                sDialog.dismissWithAnimation();
-            }
+        dialog.setCancelClickListener(SweetAlertDialog::dismissWithAnimation);
+
+        dialog.setConfirmClickListener(sDialog -> {
+            logout();
+            sDialog.dismissWithAnimation();
         });
 
-        dialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-            @Override
-            public void onClick(SweetAlertDialog sDialog) {
-                // Handle confirm button click (perform logout)
-                logout();
-                // Dismiss the dialog
-                sDialog.dismissWithAnimation();
-
-            }
-        });
-
-        // Show the dialog
         dialog.show();
     }
 
     private void logout() {
-        // clear the user's login state by setting "flag" to false in shared preferences
         SharedPreferences preferences = getSharedPreferences("Login", MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean("flag", false);
         editor.apply();
-        // After clearing data, you can start the LoginActivity
+
         Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK); // clear back stack
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
-        //finish the current activity (main activity)
         finish();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (realtimeListener != null) {
+            realtimeListener.remove();
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        SharedPreferences preferences = getSharedPreferences("Login", MODE_PRIVATE);
+        boolean isLoggedIn = preferences.getBoolean("flag", false);
+        if (isLoggedIn) {
+            showExitConfirmationDialog();
+        } else {
+            super.onBackPressed();
+        }
+    }
 }

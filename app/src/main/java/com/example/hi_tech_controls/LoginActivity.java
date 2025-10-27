@@ -114,12 +114,12 @@ public class LoginActivity extends AppCompatActivity {
         TextView welcomeTextView1 = findViewById(R.id.welcomeTextView);
         TextView subHeadingTextView1 = findViewById(R.id.subHeadingTextView);
         ImageView logoImageView1 = findViewById(R.id.logoImageView);
-        TextView usernameTitleTextView1 = findViewById(R.id.usernameTitleTextView);
+//        TextView usernameTitleTextView1 = findViewById(R.id.usernameTitleTextView);
         EditText emailEditText1 = findViewById(R.id.emailEditText);
-        TextView passwordTitleTextView1 = findViewById(R.id.passwordTitleTextView);
+//        TextView passwordTitleTextView1 = findViewById(R.id.passwordTitleTextView);
         EditText passwordEditText1 = findViewById(R.id.passwordEditText);
         Button loginButton1 = findViewById(R.id.loginButton);
-        FrameLayout bottomShape1 = findViewById(R.id.bottomShape);
+//        FrameLayout bottomShape1 = findViewById(R.id.bottomShape);
         TextView versionTextView1 = findViewById(R.id.versionTextView);
         ImageView passwordVisibilityToggle1 = findViewById(R.id.passwordVisibilityToggle);
 
@@ -139,9 +139,9 @@ public class LoginActivity extends AppCompatActivity {
         subHeadingTextView1.animate().alpha(1f).translationYBy(-50).setDuration(1000);
 
         //usernameTitleTextView1
-        usernameTitleTextView1.setAlpha(0f);
-        usernameTitleTextView1.setTranslationY(50);
-        usernameTitleTextView1.animate().alpha(1f).translationYBy(-50).setDuration(1000);
+//        usernameTitleTextView1.setAlpha(0f);
+//        usernameTitleTextView1.setTranslationY(50);
+//        usernameTitleTextView1.animate().alpha(1f).translationYBy(-50).setDuration(1000);
 
         //username EditText
         emailEditText1.setAlpha(0f);
@@ -149,9 +149,9 @@ public class LoginActivity extends AppCompatActivity {
         emailEditText1.animate().alpha(1f).translationYBy(-50).setDuration(1000);
 
         //passwordTitleTextView1
-        passwordTitleTextView1.setAlpha(0f);
-        passwordTitleTextView1.setTranslationY(50);
-        passwordTitleTextView1.animate().alpha(1f).translationYBy(-50).setDuration(1000);
+//        passwordTitleTextView1.setAlpha(0f);
+//        passwordTitleTextView1.setTranslationY(50);
+//        passwordTitleTextView1.animate().alpha(1f).translationYBy(-50).setDuration(1000);
 
         //password EditText
         passwordEditText1.setAlpha(0f);
@@ -164,9 +164,9 @@ public class LoginActivity extends AppCompatActivity {
         loginButton1.animate().alpha(1f).translationYBy(-50).setDuration(1000);
 
         //bottom Shape
-        bottomShape1.setAlpha(0f);
-        bottomShape1.setTranslationY(50);
-        bottomShape1.animate().alpha(1f).translationYBy(-50).setDuration(1000);
+//        bottomShape1.setAlpha(0f);
+//        bottomShape1.setTranslationY(50);
+//        bottomShape1.animate().alpha(1f).translationYBy(-50).setDuration(1000);
 
         //version TextView
         versionTextView1.setAlpha(0f);

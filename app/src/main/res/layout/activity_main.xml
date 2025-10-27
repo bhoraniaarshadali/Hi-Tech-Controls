@@ -24,11 +24,11 @@
             android:id="@+id/logout_btn_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
             android:layout_marginStart="20dp"
             android:layout_marginTop="35dp"
-            android:orientation="vertical"
             android:gravity="center"
-            android:layout_alignParentStart="true">
+            android:orientation="vertical">
 
             <ImageView
                 android:id="@+id/logout_btn"
@@ -39,10 +39,10 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_medium"
                 android:text="Logout"
                 android:textColor="@color/white"
-                android:textSize="10sp"
-                android:fontFamily="@font/poppins_medium" />
+                android:textSize="10sp" />
         </LinearLayout>
 
         <!-- Dashboard Title -->
@@ -52,10 +52,10 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="32dp"
+            android:fontFamily="@font/poppins_medium"
             android:text="Dashboard"
             android:textColor="@color/white"
-            android:textSize="24sp"
-            android:fontFamily="@font/poppins_medium" />
+            android:textSize="24sp" />
 
         <!-- Main Card -->
         <androidx.cardview.widget.CardView
@@ -64,17 +64,17 @@
             android:layout_height="120dp"
             android:layout_centerHorizontal="true"
             android:layout_marginStart="15dp"
-            android:layout_marginEnd="15dp"
             android:layout_marginTop="100dp"
+            android:layout_marginEnd="15dp"
+            android:backgroundTint="@color/white"
             app:cardCornerRadius="25dp"
-            app:cardElevation="5dp"
-            android:backgroundTint="@color/white">
+            app:cardElevation="5dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal"
                 android:gravity="center"
+                android:orientation="horizontal"
                 android:weightSum="2">
 
                 <Button
@@ -85,13 +85,13 @@
                     android:background="@null"
                     android:drawableStart="@drawable/add"
                     android:drawablePadding="8dp"
+                    android:fontFamily="@font/poppins_medium"
                     android:padding="20dp"
                     android:text="@string/add_client_details"
                     android:textAlignment="textStart"
                     android:textAllCaps="false"
                     android:textColor="@color/blue"
-                    android:textSize="15sp"
-                    android:fontFamily="@font/poppins_medium" />
+                    android:textSize="15sp" />
 
                 <View
                     android:layout_width="1dp"
@@ -106,13 +106,13 @@
                     android:background="@null"
                     android:drawableStart="@drawable/view"
                     android:drawablePadding="8dp"
+                    android:fontFamily="@font/poppins_medium"
                     android:padding="20dp"
                     android:text="@string/view_clients_details"
                     android:textAlignment="textStart"
                     android:textAllCaps="false"
                     android:textColor="@color/blue"
-                    android:textSize="15sp"
-                    android:fontFamily="@font/poppins_medium" />
+                    android:textSize="15sp" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
@@ -123,27 +123,27 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/cv_1"
             android:layout_marginTop="22dp"
-            android:paddingHorizontal="20dp"
-            android:orientation="horizontal"
             android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingHorizontal="20dp"
             tools:ignore="UseCompoundDrawables">
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:fontFamily="@font/poppins_bold"
+                android:gravity="start"
                 android:text="@string/recent_discoveries"
                 android:textColor="#4D4D4D"
-                android:textSize="15sp"
-                android:fontFamily="@font/poppins_bold"
-                android:gravity="start" />
+                android:textSize="15sp" />
 
             <ImageView
                 android:id="@+id/refreshButton"
                 android:layout_width="wrap_content"
                 android:layout_height="24dp"
-                android:src="@drawable/refreshbutton"
-                android:layout_gravity="end"/>
+                android:layout_gravity="end"
+                android:src="@drawable/refreshbutton" />
         </LinearLayout>
 
         <!-- RecyclerView -->
@@ -153,8 +153,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/recentDiscoveries"
             android:layout_marginTop="5dp"
-            android:paddingBottom="16dp"
             android:nestedScrollingEnabled="false"
+            android:paddingBottom="16dp"
             tools:listitem="@layout/add_cardview" />
     </RelativeLayout>
 </ScrollView>

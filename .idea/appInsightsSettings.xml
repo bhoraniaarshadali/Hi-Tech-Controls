@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="AppInsightsSettings">
+    <option name="selectedTabId" value="Firebase Crashlytics" />
     <option name="tabSettings">
       <map>
         <entry key="Firebase Crashlytics">
@@ -9,9 +10,9 @@
               <option name="connection">
                 <ConnectionSetting>
                   <option name="appId" value="com.example.hi_tech_controls" />
-                  <option name="mobileSdkAppId" value="1:562003682769:android:1e99050ab4bc06f5b92cf0" />
-                  <option name="projectId" value="firestore-8f112" />
-                  <option name="projectNumber" value="562003682769" />
+                  <option name="mobileSdkAppId" value="1:1017114171289:android:3df813a0b49d9e90b22508" />
+                  <option name="projectId" value="hi-tech-controls-reopen" />
+                  <option name="projectNumber" value="1017114171289" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />

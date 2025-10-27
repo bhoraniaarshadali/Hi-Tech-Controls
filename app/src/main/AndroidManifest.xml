@@ -3,14 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.hi_tech_controls">
 
+    <!-- Permissions -->
     <uses-permission android:name="android.permission.CAMERA" />
-
-    <uses-feature android:name="android.hardware.camera" />
-    <uses-feature android:name="android.hardware.camera.autofocus" />
-
-    <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
+
+    <!-- Storage: Only for Android 12 and below -->
     <uses-permission
         android:name="android.permission.READ_EXTERNAL_STORAGE"
         android:maxSdkVersion="32" />
@@ -18,9 +18,14 @@
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="32"
         tools:ignore="ScopedStorage" />
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
-    <uses-permission android:name="android.permission.VIBRATE" />
 
+    <!-- Camera features -->
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.camera.autofocus"
+        android:required="false" />
 
     <application
         android:allowBackup="true"
@@ -31,37 +36,30 @@
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.HiTechControls"
-        tools:targetApi="31">
-        <activity
-            android:name=".Print_PDF"
-            android:exported="false" />
+        tools:targetApi="33">
 
-        <activity
-            android:name=".Preview_Details"
-            android:exported="false" />
-        <activity
-            android:name=".preview.Preview_Details"
-            android:exported="false"
-            tools:ignore="MissingClass" />
-        <activity
-            android:name=".preview.Preview_details"
-            android:exported="false"
-            android:theme="@style/Theme.SplashNoTitleBar"
-            tools:ignore="MissingClass" /> <!-- Preview_Details Activity -->
+        <!-- Activities -->
+<!--        <activity-->
+<!--            android:name=".Print_PDF"-->
+<!--            android:exported="false" />-->
+        <!--        <activity android:name=".Preview_Details" android:exported="false" />-->
+        <!--        <activity android:name=".preview.Preview_Details" android:exported="false" />-->
+        <!--        <activity android:name=".preview.Preview_details"-->
+        <!--            android:exported="false"-->
+        <!--            android:theme="@style/Theme.SplashNoTitleBar" />-->
         <activity
             android:name=".MediaUpload"
             android:exported="false"
-            android:theme="@style/Theme.SplashNoTitleBar" /> <!-- Splash Activity -->
+            android:theme="@style/Theme.SplashNoTitleBar" />
         <activity
             android:name=".SplashActivity"
             android:exported="true"
             android:theme="@style/Theme.SplashNoTitleBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity> <!-- Main Activity -->
+        </activity>
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -69,30 +67,30 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
-        </activity> <!-- Login Activity -->
+        </activity>
         <activity
             android:name=".LoginActivity"
             android:exported="false"
-            android:theme="@style/Theme.MainActivityBar" /> <!-- Add Client Details Activity -->
+            android:theme="@style/Theme.MainActivityBar" />
         <activity
             android:name=".AddDetailsActivity"
             android:exported="false"
-            android:theme="@style/Theme.ViewClntsDetails" /> <!-- View Client Details Activity -->
+            android:theme="@style/Theme.ViewClntsDetails" />
         <activity
             android:name=".ViewDetailsActivity"
             android:exported="false"
             android:theme="@style/Theme.ViewClntsDetails" />
 
-
+        <!-- FileProvider -->
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="com.example.hi_tech_controls.provider"
+            android:authorities="${applicationId}.provider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
-    </application>
 
+    </application>
 </manifest>

@@ -1,108 +1,13 @@
 {
   "project_info": {
-    "project_number": "562003682769",
-    "project_id": "firestore-8f112",
-    "storage_bucket": "firestore-8f112.appspot.com"
+    "project_number": "1017114171289",
+    "project_id": "hi-tech-controls-reopen",
+    "storage_bucket": "hi-tech-controls-reopen.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:562003682769:android:ffe29489ed1a8a8ab92cf0",
-        "android_client_info": {
-          "package_name": "com.example.database"
-        }
-      },
-      "oauth_client": [],
-      "api_key": [
-        {
-          "current_key": "AIzaSyDZdzU_IPKQM7ISNmo8JlvlNccGTJ9fLQY"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": []
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:562003682769:android:05d6b54dd6749509b92cf0",
-        "android_client_info": {
-          "package_name": "com.example.fetchkey"
-        }
-      },
-      "oauth_client": [],
-      "api_key": [
-        {
-          "current_key": "AIzaSyDZdzU_IPKQM7ISNmo8JlvlNccGTJ9fLQY"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": []
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:562003682769:android:29021484e0deed1eb92cf0",
-        "android_client_info": {
-          "package_name": "com.example.firebase_firestoredatabase"
-        }
-      },
-      "oauth_client": [],
-      "api_key": [
-        {
-          "current_key": "AIzaSyDZdzU_IPKQM7ISNmo8JlvlNccGTJ9fLQY"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": []
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:562003682769:android:00dbf6eda1ca5fe4b92cf0",
-        "android_client_info": {
-          "package_name": "com.example.firebasepushclientid"
-        }
-      },
-      "oauth_client": [],
-      "api_key": [
-        {
-          "current_key": "AIzaSyDZdzU_IPKQM7ISNmo8JlvlNccGTJ9fLQY"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": []
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:562003682769:android:5dcf86accddba001b92cf0",
-        "android_client_info": {
-          "package_name": "com.example.firestorelearn22april24"
-        }
-      },
-      "oauth_client": [],
-      "api_key": [
-        {
-          "current_key": "AIzaSyDZdzU_IPKQM7ISNmo8JlvlNccGTJ9fLQY"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": []
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:562003682769:android:1e99050ab4bc06f5b92cf0",
+        "mobilesdk_app_id": "1:1017114171289:android:3df813a0b49d9e90b22508",
         "android_client_info": {
           "package_name": "com.example.hi_tech_controls"
         }
@@ -110,26 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDZdzU_IPKQM7ISNmo8JlvlNccGTJ9fLQY"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": []
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:562003682769:android:013f1d4dfcceccfbb92cf0",
-        "android_client_info": {
-          "package_name": "com.example.newdb"
-        }
-      },
-      "oauth_client": [],
-      "api_key": [
-        {
-          "current_key": "AIzaSyDZdzU_IPKQM7ISNmo8JlvlNccGTJ9fLQY"
+          "current_key": "AIzaSyCcent5wKFXtUBXH0jrck6yzNUOAP2DhZE"
         }
       ],
       "services": {

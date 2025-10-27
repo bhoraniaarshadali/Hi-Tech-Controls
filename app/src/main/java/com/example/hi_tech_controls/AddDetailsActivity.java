@@ -1,22 +1,22 @@
+// ============================================
+// AddDetailsActivity.java
+// ============================================
 package com.example.hi_tech_controls;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextSwitcher;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.hi_tech_controls.fragments.View_data_fragment;
@@ -24,245 +24,307 @@ import com.example.hi_tech_controls.fragments.fill_four_fragment;
 import com.example.hi_tech_controls.fragments.fill_one_fragment;
 import com.example.hi_tech_controls.fragments.fill_three_fragment;
 import com.example.hi_tech_controls.fragments.fill_two_fragment;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.ListenerRegistration;
+import com.google.firebase.firestore.SetOptions;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class AddDetailsActivity extends AppCompatActivity {
 
-    public static final int[] progressValues = {0, 25, 50, 75, 100};
+    private static final String COLLECTION_NAME = "hi_tech_controls_dataset_JUNE";
     private final String[] switcherValues = {
             "Inward Details",
             "Initial Observation",
             "Repairs Details",
             "Final Trial Check"
     };
-    public Fragment fillTwoFragment;
-    private Fragment fillOneFragment;
-    private Fragment fillThreeFragment;
-    private Fragment fillFourFragment;
-    private Fragment viewfragment;
+
+    private FirebaseFirestore db;
+    private String clientId;
+    private String tempClientId; // Only for display
+    private int currentProgress = 0;
     private int currentFragmentIndex = 0;
+    private boolean isExistingClient = false;
+    private boolean isIdCommitted = false;
+
     private ProgressBar progressBar;
-    private ProgressBar progressBarDUMP;
-    private ProgressBar progressBarTEXTDUMPwhite;
-    private ProgressBar progressBarTEXTDUMPblue;
-
-
-    private SharedPreferences sharedPreferences;
+    private TextSwitcher textSwitcher;
+    private ImageView backBtn, nextBtn;
+    private Button cameraButton;
+    private ListenerRegistration progressListener; // Only for existing
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_details);
 
-        Button cameraButton1 = findViewById(R.id.cameraButton);
+        db = FirebaseFirestore.getInstance();
 
+        Intent intent = getIntent();
+        clientId = intent.getStringExtra("clientId");
 
-        cameraButton1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(AddDetailsActivity.this, MediaUpload.class);
+        initializeUIElements();
+
+        if (clientId != null && !clientId.isEmpty()) {
+            // EXISTING CLIENT → Attach listener
+            isExistingClient = true;
+            isIdCommitted = true;
+            loadClientProgressAndResume();
+        } else {
+            // NEW CLIENT → No listener, just show temp ID
+            generateTempClientIdAndShow();
+        }
+
+        setupListeners();
+    }
+
+    private void initializeUIElements() {
+        progressBar = findViewById(R.id.progressBar);
+        backBtn = findViewById(R.id.addClientDtls_Back);
+        nextBtn = findViewById(R.id.addClientDtls_Next);
+        cameraButton = findViewById(R.id.cameraButton);
+
+        textSwitcher = findViewById(R.id.textSwitcher);
+        textSwitcher.setFactory(() -> {
+            TextView textView = new TextView(this);
+            textView.setTextSize(17);
+            textView.setTextColor(Color.BLACK);
+            textView.setGravity(android.view.Gravity.CENTER);
+            return textView;
+        });
+    }
+
+    private void setupListeners() {
+        backBtn.setOnClickListener(v -> goBack());
+        nextBtn.setOnClickListener(v -> loadNextFragment());
+        cameraButton.setOnClickListener(v -> {
+            if (clientId != null) {
+                Intent intent = new Intent(this, MediaUpload.class);
+                intent.putExtra("clientId", clientId);
                 startActivity(intent);
             }
         });
-
-        // PreFix-Load-Fragment
-        initializeFragments();
-        loadFragment(fillOneFragment);
-        //anim();
-
-        // PostFix-Load
-        initializeUIElements();
-        initializeSharedPreferences();
-        setInitialProgress();
-        setButtonListeners();
     }
 
-    // Initialize Fragments
-    private void initializeFragments() {
-        fillOneFragment = new fill_one_fragment();
-        fillTwoFragment = new fill_two_fragment();
-        fillThreeFragment = new fill_three_fragment();
-        fillFourFragment = new fill_four_fragment();
-        viewfragment = new View_data_fragment();
-    }
+    // NEW CLIENT: Only show temp ID (NO LISTENER)
+    private void generateTempClientIdAndShow() {
+        DocumentReference lastIdRef = db.collection(COLLECTION_NAME).document("last_id");
 
-    // Initialize UI elements
-    private void initializeUIElements() {
-        TextSwitcher textSwitcher = findViewById(R.id.textSwitcher);
-        textSwitcher.setFactory(new ViewSwitcher.ViewFactory() {
-            @Override
-            public View makeView() {
-                TextView textView = new TextView(AddDetailsActivity.this);
-                textView.setTextSize(17);
-                return textView;
+        lastIdRef.get().addOnSuccessListener(snapshot -> {
+            long lastId = 2000;
+            if (snapshot.exists() && snapshot.getLong("lastId") != null) {
+                lastId = snapshot.getLong("lastId");
             }
-        });
-        textSwitcher.setText(switcherValues[currentFragmentIndex]);
+            tempClientId = String.valueOf(lastId + 1);
 
-        progressBarDUMP = findViewById(R.id.progressBarDUMP);
-        progressBarDUMP.setEnabled(false);
-        progressBarTEXTDUMPwhite = findViewById(R.id.progressBarTEXTDUMPwhite);
-        progressBarTEXTDUMPwhite.setEnabled(false);
-        progressBarTEXTDUMPblue = findViewById(R.id.progressBarTEXTDUMPblue);
-        progressBarTEXTDUMPblue.setEnabled(false);
-        progressBar = findViewById(R.id.progressBar);
-        progressBar.setEnabled(false);
-    }
-
-    // Initialize SharedPreferences
-    private void initializeSharedPreferences() {
-        sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
-    }
-
-    // Set initial progress based on the current progress index
-    private void setInitialProgress() {
-        currentFragmentIndex = sharedPreferences.getInt("progressIndex", 0);
-        progressBar.setProgress(progressValues[currentFragmentIndex]);
-    }
-
-    // Set button click listeners
-    private void setButtonListeners() {
-        ImageView addClientDtls_Back1 = findViewById(R.id.addClientDtls_Back);
-        addClientDtls_Back1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                goBack();
-            }
-        });
-
-        ImageView addClientDtls_Next1 = findViewById(R.id.addClientDtls_Next);
-        addClientDtls_Next1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                loadNextFragment();
-            }
+            currentFragmentIndex = 0;
+            currentProgress = 0;
+            updateUI();
+            loadFragment(new fill_one_fragment(), tempClientId);
+        }).addOnFailureListener(e -> {
+            Toast.makeText(this, "Failed to load ID", Toast.LENGTH_SHORT).show();
+            finish();
         });
     }
 
-    // Load a fragment into the FrameLayout
-    private void loadFragment(Fragment fragment) {
-        FragmentManager fm = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fm.beginTransaction();
-        fragmentTransaction.replace(R.id.frameLayout, fragment);
-        fragmentTransaction.commit();
+    // EXISTING CLIENT: Attach listener
+    private void loadClientProgressAndResume() {
+        DocumentReference docRef = db.collection(COLLECTION_NAME).document(clientId);
+
+        progressListener = docRef.addSnapshotListener((snapshot, error) -> {
+            if (error != null || snapshot == null || !snapshot.exists()) return;
+
+            Long progressLong = snapshot.getLong("progress");
+            currentProgress = progressLong != null ? progressLong.intValue() : 0;
+            currentFragmentIndex = calculateFragmentIndex(currentProgress);
+            updateUI();
+            loadCurrentFragment();
+        });
     }
 
-    // Method to load the next fragment in sequence
+    private int calculateFragmentIndex(int progress) {
+        if (progress >= 100) return 3;
+        else if (progress >= 75) return 3;
+        else if (progress >= 50) return 2;
+        else if (progress >= 25) return 1;
+        else return 0;
+    }
+
+    private void updateUI() {
+        progressBar.setProgress(currentProgress);
+        if (currentFragmentIndex < switcherValues.length) {
+            textSwitcher.setText(switcherValues[currentFragmentIndex]);
+        }
+    }
+
+    private void loadCurrentFragment() {
+        Fragment fragment;
+        switch (currentFragmentIndex) {
+            case 0: fragment = new fill_one_fragment(); break;
+            case 1: fragment = new fill_two_fragment(); break;
+            case 2: fragment = new fill_three_fragment(); break;
+            case 3: fragment = new fill_four_fragment(); break;
+            default: fragment = new fill_one_fragment();
+        }
+        loadFragment(fragment, clientId);
+    }
+
     private void loadNextFragment() {
-        if (currentFragmentIndex < switcherValues.length - 1) { // Check if there's a next fragment
-            currentFragmentIndex++;
+        Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.frameLayout);
+        if (currentFragment == null) return;
 
-            // Load the corresponding fragment and update progress
-            loadFragmentByIndex(currentFragmentIndex);
+        String saveId = isIdCommitted ? clientId : tempClientId;
 
-            // Update progress bar based on progressValues array
-            updateProgressBar(progressValues[currentFragmentIndex]);
-            updateTextSwitcher();
-
-            // Save the current progress index
-            saveProgressIndex(currentFragmentIndex);
-        } else {
-            // Handle the case when the user is on the last fragment and presses "Next"
-            showCompletionPopup();
+        if (currentFragment instanceof fill_one_fragment) {
+            ((fill_one_fragment) currentFragment).saveToFirestore(saveId, success -> {
+                if (success) commitClientIdAndProceed();
+            });
+        } else if (currentFragment instanceof fill_two_fragment) {
+            ((fill_two_fragment) currentFragment).saveToFirestore(saveId, success -> {
+                if (success) updateProgressAndNavigate(50, 2);
+            });
+        } else if (currentFragment instanceof fill_three_fragment) {
+            ((fill_three_fragment) currentFragment).saveToFirestore(saveId, success -> {
+                if (success) updateProgressAndNavigate(75, 3);
+            });
+        } else if (currentFragment instanceof fill_four_fragment) {
+            ((fill_four_fragment) currentFragment).saveToFirestore(saveId, success -> {
+                if (success) {
+                    updateProgressAndNavigate(100, 4);
+                    showCompletionPopup();
+                }
+            });
         }
     }
 
-    // Show a completion pop-up and set progress to 100%
-    private void showCompletionPopup() {
-        SweetAlertDialog dialog = new SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE);
-        dialog.setTitleText("Data Stored Successfully!" + "Client Id: ");//+fill_one_fragment.clientIdValue);
-        dialog.setContentText("You completed all the steps!");
+    // COMMIT ID ONLY ON SAVE
+    private void commitClientIdAndProceed() {
+        if (isIdCommitted) {
+            updateProgressAndNavigate(25, 1);
+            return;
+        }
 
-        // Set a click listener for the confirmation button
-        dialog.setConfirmButtonBackgroundColor(Color.parseColor("#181C5C"));
-        dialog.setConfirmText("Okay");
-        dialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-            @Override
-            public void onClick(SweetAlertDialog sDialog) {
-                sDialog.dismissWithAnimation();
-                View_data_fragment();
+        DocumentReference lastIdRef = db.collection(COLLECTION_NAME).document("last_id");
+        DocumentReference clientRef = db.collection(COLLECTION_NAME).document(tempClientId);
+
+        db.runTransaction(transaction -> {
+            DocumentSnapshot snap = transaction.get(lastIdRef);
+            long currentLastId = snap.exists() && snap.getLong("lastId") != null ? snap.getLong("lastId") : 2000;
+            if (currentLastId + 1 != Long.parseLong(tempClientId)) {
+                try {
+                    throw new Exception("ID conflict");
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
             }
+            transaction.set(lastIdRef, new HashMap<String, Object>() {{ put("lastId", Long.parseLong(tempClientId)); }}, SetOptions.merge());
+            return null;
+        }).addOnSuccessListener(aVoid -> {
+            clientId = tempClientId;
+            isIdCommitted = true;
+
+            Map<String, Object> rootData = new HashMap<>();
+            rootData.put("progress", 25);
+            rootData.put("lastUpdated", System.currentTimeMillis());
+            clientRef.set(rootData, SetOptions.merge());
+
+            updateProgressAndNavigate(25, 1);
         });
-
-        dialog.show();
-        progressBar.setProgress(100);
     }
 
-
-    // Navigate to MainActivity
-    private void navigateToMainActivity() {
-        Intent intent = new Intent(AddDetailsActivity.this, MainActivity.class);
-        startActivity(intent);
-        finish();
+    private void updateProgressAndNavigate(int newProgress, int nextIndex) {
+        currentProgress = newProgress;
+        DocumentReference clientRef = db.collection(COLLECTION_NAME).document(clientId);
+        clientRef.update("progress", newProgress, "lastUpdated", System.currentTimeMillis())
+                .addOnSuccessListener(aVoid -> {
+                    if (nextIndex < 4) {
+                        currentFragmentIndex = nextIndex;
+                        updateUI();
+                        loadCurrentFragment();
+                    }
+                });
     }
 
-    private void View_data_fragment() {
-        if (viewfragment != null) {
-            currentFragmentIndex++; // Update the current fragment index
-            loadFragment(viewfragment); // Load the new fragment
-
-            //navigateToMainActivity();
-        }
-    }
-
-
-    // Navigate back to the previous fragment
     private void goBack() {
         if (currentFragmentIndex > 0) {
             currentFragmentIndex--;
-            loadFragmentByIndex(currentFragmentIndex);
-            updateProgressBar(progressValues[currentFragmentIndex]);
-            updateTextSwitcher();
-            saveProgressIndex(currentFragmentIndex);
+            updateUI();
+            loadCurrentFragment();
         } else {
-            navigateToMainActivity();
+            showExitDialog();
         }
     }
 
-    // Update the TextSwitcher's text
-    private void updateTextSwitcher() {
-        TextSwitcher textSwitcher = findViewById(R.id.textSwitcher);
-        textSwitcher.setText(switcherValues[currentFragmentIndex]);
+    private void showExitDialog() {
+        SweetAlertDialog dialog = new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE);
+        dialog.setTitleText("Exit?");
+        dialog.setContentText(isIdCommitted ? "Your progress is saved." : "No data will be saved.");
+        dialog.setConfirmText("Exit");
+        dialog.setCancelText("Stay");
+        dialog.showCancelButton(true);
+
+        dialog.setConfirmClickListener(sDialog -> {
+            sDialog.dismissWithAnimation();
+            finish();
+        });
+
+        dialog.setCancelClickListener(SweetAlertDialog::dismissWithAnimation);
+        dialog.show();
     }
 
-    // Load a fragment based on its index
-    private void loadFragmentByIndex(int index) {
-        switch (index) {
-            case 0:
-                loadFragment(fillOneFragment);
-                break;
-            case 1:
-                loadFragment(fillTwoFragment);
-                break;
-            case 2:
-                loadFragment(fillThreeFragment);
-                break;
-            case 3:
-                loadFragment(fillFourFragment);
-                break;
-            case 4:
-                showCompletionPopup();
+    private void showCompletionPopup() {
+        SweetAlertDialog dialog = new SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE);
+        dialog.setTitleText("Success!");
+        dialog.setContentText("Client ID " + clientId + " completed!");
+        dialog.setConfirmText("View Report");
+        dialog.setCancelText("Dashboard");
+        dialog.showCancelButton(true);
+
+        dialog.setConfirmClickListener(sDialog -> {
+            sDialog.dismissWithAnimation();
+            loadFragment(new View_data_fragment(), clientId);
+        });
+
+        dialog.setCancelClickListener(sDialog -> {
+            sDialog.dismissWithAnimation();
+            finish();
+        });
+
+        dialog.setCancelable(false);
+        dialog.show();
+    }
+
+    private void loadFragment(Fragment fragment, String id) {
+        Bundle bundle = new Bundle();
+        if (id != null) bundle.putString("clientId", id);
+        fragment.setArguments(bundle);
+
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.frameLayout, fragment);
+        transaction.commit();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (progressListener != null) {
+            progressListener.remove();
         }
     }
 
-    // Update the ProgressBar
-    private void updateProgressBar(int progress) {
-        progressBar.setProgress(progress);
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        showExitDialog();
     }
 
-    // Helper method to save progress index using SharedPreferences
-    private void saveProgressIndex(int index) {
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putInt("progressIndex", index);
-        editor.apply();
-    }
-
-    public void anim() {
-        FrameLayout frameLayout1 = findViewById(R.id.frameLayout);
-
-        frameLayout1.setAlpha(0f);
-        frameLayout1.setTranslationY(50);
-        frameLayout1.animate().alpha(1f).translationYBy(-50).setDuration(1000);
+    public interface SaveCallback {
+        void onSaveComplete(boolean success);
     }
 }

@@ -565,40 +565,41 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_margin="2sp"
+                android:layout_margin="10dp"
                 android:gravity="center"
                 android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/tvId"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/poppins_regular"
-                    android:text="Repair time\nDuration: "
-                    android:textColor="@color/lightblack"
-                    android:textSize="19sp"
-                    tools:ignore="HardcodedText,TooDeepLayout" />
+                <Button
+                    android:id="@+id/buttonMinus"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:backgroundTint="@color/light_blue"
+                    android:text="-"
+                    android:textSize="24sp"
+                    tools:ignore="HardcodedText" />
 
-                <NumberPicker
-                    android:id="@+id/npId"
-                    style="@style/CustomNumberPickerStyle"
-                    android:layout_width="40sp"
-                    android:layout_height="100sp"
-                    android:layout_marginStart="10sp"
-                    android:background="@drawable/rectangle_checkbox" />
+                <TextView
+                    android:id="@+id/textDays"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:gravity="center"
+                    android:text="1"
+                    android:textColor="@color/lightblack"
+                    android:textSize="20sp"
+                    tools:ignore="HardcodedText" />
 
                 <Button
-                    android:id="@+id/npButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_margin="15sp"
-                    android:backgroundTint="#C5C3C3"
-                    android:fontFamily="@font/poppins_regular"
-                    android:text="Check No."
-                    android:textColor="@color/lightblack" />
+                    android:id="@+id/buttonPlus"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:backgroundTint="@color/light_blue"
+                    android:text="+"
+                    android:textSize="24sp"
+                    tools:ignore="HardcodedText" />
 
             </LinearLayout>
+
+
         </LinearLayout>
     </RelativeLayout>
 </ScrollView>
