@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1017114171289",
+    "project_id": "hi-tech-controls-reopen",
+    "storage_bucket": "hi-tech-controls-reopen.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1017114171289:android:3df813a0b49d9e90b22508",
+        "android_client_info": {
+          "package_name": "com.example.hi_tech_controls"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCcent5wKFXtUBXH0jrck6yzNUOAP2DhZE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

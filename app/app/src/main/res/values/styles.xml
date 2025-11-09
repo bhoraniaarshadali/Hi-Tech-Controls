@@ -1,0 +1,33 @@
+<resources>
+
+    <!-- Splash-Screen -->
+    <style name="Theme.SplashNoTitleBar" parent="Theme.AppCompat.Light.NoActionBar">
+
+        <item name="android:windowBackground">@null</item>
+        <!-- Make the splash screen full screen -->
+        <item name="android:windowFullscreen">false</item>
+        <item name="android:windowTranslucentStatus">true</item>
+    </style>
+
+    <!-- Main-Screen -->
+    <style name="Theme.MainActivityBar" parent="Theme.Design.NoActionBar">
+        <!-- status bar transparent-->
+        <item name="android:windowTranslucentStatus">true</item>
+    </style>
+
+    <style name="Theme.ViewClntsDetails" parent="Theme.Design.NoActionBar">
+        <!-- status bar transparent-->
+        <item name="android:windowTranslucentStatus">true</item>
+    </style>
+
+    <style name="TextInputLayout_Hint_Small" parent="TextAppearance.MaterialComponents.Caption">
+        <item name="android:textSize">5sp</item> <!-- Adjust the text size as needed -->
+    </style>
+
+    <!--    numberPicker-->
+    <style name="CustomNumberPickerStyle">
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+
+</resources>

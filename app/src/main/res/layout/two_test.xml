@@ -1,0 +1,659 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frameLayout2"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.View_data_fragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".Detail_fragment"
+        tools:ignore="ExtraText,UselessParent">
+        <!--    ************************************        -->
+
+        <!-- FRAGMENT 2 -->
+        <RelativeLayout
+            android:id="@+id/frag_2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/main_container"
+            android:layout_marginTop="10dp"
+            android:background="@android:color/white">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <!-- Section Title -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:fontFamily="@font/poppins_semibold"
+                    android:text="Initial Observations"
+                    android:textAlignment="center"
+                    android:textColor="@color/black"
+                    android:textSize="19sp"
+                    android:textStyle="bold" />
+
+                <!-- Checked By Section -->
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp">
+
+                    <TextView
+                        android:id="@+id/checked_by"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:fontFamily="@font/poppins_regular"
+                        android:text="Checked by:"
+                        android:textColor="@color/lightblack"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/fill_two_selectEmply"
+                        android:layout_width="160dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="15dp"
+                        android:background="@drawable/round_textfield"
+                        android:fontFamily="@font/poppins_regular"
+                        android:paddingHorizontal="20dp"
+                        android:paddingVertical="8dp"
+                        android:textAlignment="center"
+                        android:textAllCaps="false"
+                        android:textColor="@color/black"
+                        android:textSize="14sp" />
+                </RelativeLayout>
+
+                <!-- Freq. Ref Section -->
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="15dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:fontFamily="@font/poppins_regular"
+                        android:text="Freq. Ref."
+                        android:textColor="@color/lightblack"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/fill_two_enterFRrate"
+                        android:layout_width="160dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="15dp"
+                        android:background="@drawable/round_textfield"
+                        android:fontFamily="@font/poppins_regular"
+                        android:paddingHorizontal="20dp"
+                        android:paddingVertical="8dp"
+                        android:textAlignment="center"
+                        android:textAllCaps="false"
+                        android:textColor="@color/black"
+                        android:textSize="14sp" />
+                </RelativeLayout>
+
+                <!-- Start CMD Section -->
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="160dp"
+                    android:layout_marginBottom="15dp"
+                    android:background="@drawable/rectangle_check_box_big"
+                    android:padding="15dp">
+
+                    <TextView
+                        android:id="@+id/start_cmd"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        android:fontFamily="@font/poppins_semibold"
+                        android:text="Start CMD:"
+                        android:textColor="@color/lightblack"
+                        android:textSize="16sp" />
+
+                    <RadioGroup
+                        android:id="@+id/radioGroupCMD"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/start_cmd"
+                        android:layout_alignParentStart="true"
+                        android:orientation="vertical">
+
+                        <RadioButton
+                            android:id="@+id/fill_two_radioButtonLocal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:buttonTint="@color/blue"
+                            android:fontFamily="@font/poppins_regular"
+                            android:paddingVertical="5dp"
+                            android:text="Local"
+                            android:textColor="@color/black"
+                            android:textSize="14sp" />
+
+                        <RadioButton
+                            android:id="@+id/fill_two_radioButtonRemote"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:buttonTint="@color/blue"
+                            android:fontFamily="@font/poppins_regular"
+                            android:paddingVertical="5dp"
+                            android:text="Remote"
+                            android:textColor="@color/black"
+                            android:textSize="14sp" />
+
+                        <RadioButton
+                            android:id="@+id/fill_two_radioButtonComm"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:buttonTint="@color/blue"
+                            android:fontFamily="@font/poppins_regular"
+                            android:paddingVertical="5dp"
+                            android:text="Communication"
+                            android:textColor="@color/black"
+                            android:textSize="14sp" />
+                    </RadioGroup>
+
+                    <EditText
+                        android:id="@+id/fill_two_localEditText"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginStart="28dp"
+                        android:layout_marginTop="26dp"
+                        android:layout_marginEnd="15dp"
+                        android:layout_marginBottom="75dp"
+                        android:background="@drawable/round_textfield"
+                        android:clickable="false"
+                        android:cursorVisible="false"
+                        android:focusable="false"
+                        android:fontFamily="@font/poppins_regular"
+                        android:gravity="center"
+                        android:importantForAutofill="no"
+                        android:padding="5dp"
+                        android:textColor="@color/black"
+                        android:textSize="14sp"
+                        android:visibility="visible" />
+
+                </RelativeLayout>
+
+                <!-- Input Supply Section -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="15dp"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:orientation="horizontal"
+                        android:weightSum="2">
+
+                        <TextView
+                            android:id="@+id/input_supply"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/poppins_regular"
+                            android:text="Input Supply:"
+                            android:textColor="@color/lightblack"
+                            android:textSize="16sp" />
+
+                        <RadioGroup
+                            android:id="@+id/radioGroupInputSply"
+                            android:layout_width="50dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginEnd="15dp"
+                            android:layout_weight="1"
+                            android:orientation="horizontal">
+
+                            <RadioButton
+                                android:id="@+id/fill_two_radioButtonDIODE"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:buttonTint="@color/blue"
+                                android:fontFamily="@font/poppins_regular"
+                                android:paddingHorizontal="10dp"
+                                android:text="DIODE"
+                                android:textColor="@color/black"
+                                android:textSize="14sp" />
+
+                            <RadioButton
+                                android:id="@+id/fill_two_radioButtonSCR"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:buttonTint="@color/blue"
+                                android:fontFamily="@font/poppins_regular"
+                                android:paddingHorizontal="10dp"
+                                android:text="SCR"
+                                android:textColor="@color/black"
+                                android:textSize="14sp" />
+                        </RadioGroup>
+                    </LinearLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="120dp"
+                        android:background="@drawable/rectangle_checkbox"
+                        android:padding="15dp">
+
+                        <!-- POS Checkboxes -->
+                        <LinearLayout
+                            android:id="@+id/layout_pos"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="15dp"
+                            android:orientation="horizontal"
+                            android:weightSum="4">
+
+                            <TextView
+                                android:id="@+id/input_pos"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/poppins_regular"
+                                android:text="POS:"
+                                android:textColor="@color/lightblack"
+                                android:textSize="14sp" />
+
+                            <CheckBox
+                                android:id="@+id/fill_two_input_POS_checkbox_U"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:buttonTint="@color/blue"
+                                android:fontFamily="@font/poppins_regular"
+                                android:text="U"
+                                android:textColor="@color/lightblack"
+                                android:textSize="14sp" />
+
+                            <CheckBox
+                                android:id="@+id/fill_two_input_POS_checkbox_V"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:buttonTint="@color/blue"
+                                android:fontFamily="@font/poppins_regular"
+                                android:text="V"
+                                android:textColor="@color/lightblack"
+                                android:textSize="14sp" />
+
+                            <CheckBox
+                                android:id="@+id/fill_two_input_POS_checkbox_W"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:buttonTint="@color/blue"
+                                android:fontFamily="@font/poppins_regular"
+                                android:text="W"
+                                android:textColor="@color/lightblack"
+                                android:textSize="14sp" />
+                        </LinearLayout>
+
+                        <!-- NEG Checkboxes (below POS layout) -->
+                        <LinearLayout
+                            android:id="@+id/layout_neg"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/layout_pos"
+                            android:orientation="horizontal"
+                            android:weightSum="4">
+
+                            <TextView
+                                android:id="@+id/input_neg"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/poppins_regular"
+                                android:text="NEG:"
+                                android:textColor="@color/lightblack"
+                                android:textSize="14sp" />
+
+                            <CheckBox
+                                android:id="@+id/fill_two_input_NEG_checkbox_U"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:buttonTint="@color/blue"
+                                android:fontFamily="@font/poppins_regular"
+                                android:text="U"
+                                android:textColor="@color/lightblack"
+                                android:textSize="14sp" />
+
+                            <CheckBox
+                                android:id="@+id/fill_two_input_NEG_checkbox_V"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:buttonTint="@color/blue"
+                                android:fontFamily="@font/poppins_regular"
+                                android:text="V"
+                                android:textColor="@color/lightblack"
+                                android:textSize="14sp" />
+
+                            <CheckBox
+                                android:id="@+id/fill_two_input_NEG_checkbox_W"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:buttonTint="@color/blue"
+                                android:fontFamily="@font/poppins_regular"
+                                android:text="W"
+                                android:textColor="@color/lightblack"
+                                android:textSize="14sp" />
+                        </LinearLayout>
+
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+                <!-- Output Supply Section -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="15dp"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:orientation="horizontal"
+                        android:weightSum="2">
+
+                        <TextView
+                            android:id="@+id/output_supply"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/poppins_regular"
+                            android:text="Output Supply:"
+                            android:textColor="@color/lightblack"
+                            android:textSize="16sp" />
+
+                        <RadioGroup
+                            android:id="@+id/radioGroupOutputSply"
+                            android:layout_width="50dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="15dp"
+                            android:layout_weight="1"
+                            android:orientation="horizontal">
+
+                            <RadioButton
+                                android:id="@+id/fill_two_radioButtonIGBT"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:buttonTint="@color/blue"
+                                android:checked="true"
+                                android:fontFamily="@font/poppins_regular"
+                                android:paddingHorizontal="10dp"
+                                android:text="IGBT"
+                                android:textColor="@color/black"
+                                android:textSize="14sp" />
+                        </RadioGroup>
+                    </LinearLayout>
+
+                    <!-- Output Checkboxes -->
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="115dp"
+                        android:background="@drawable/rectangle_checkbox"
+                        android:padding="15dp">
+
+                        <!-- POS Checkboxes -->
+                        <LinearLayout
+                            android:id="@+id/layout_output_pos"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="15dp"
+                            android:orientation="horizontal"
+                            android:weightSum="4">
+
+                            <TextView
+                                android:id="@+id/output_pos"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/poppins_regular"
+                                android:text="POS:"
+                                android:textColor="@color/lightblack"
+                                android:textSize="14sp" />
+
+                            <CheckBox
+                                android:id="@+id/fill_two_output_POS_checkbox_U"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:buttonTint="@color/blue"
+                                android:fontFamily="@font/poppins_regular"
+                                android:text="U"
+                                android:textColor="@color/lightblack"
+                                android:textSize="14sp" />
+
+                            <CheckBox
+                                android:id="@+id/fill_two_output_POS_checkbox_V"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:buttonTint="@color/blue"
+                                android:fontFamily="@font/poppins_regular"
+                                android:text="V"
+                                android:textColor="@color/lightblack"
+                                android:textSize="14sp" />
+
+                            <CheckBox
+                                android:id="@+id/fill_two_output_POS_checkbox_W"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:buttonTint="@color/blue"
+                                android:fontFamily="@font/poppins_regular"
+                                android:text="W"
+                                android:textColor="@color/lightblack"
+                                android:textSize="14sp" />
+                        </LinearLayout>
+
+                        <!-- NEG Checkboxes (below POS layout) -->
+                        <LinearLayout
+                            android:id="@+id/layout_output_neg"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/layout_output_pos"
+                            android:orientation="horizontal"
+                            android:weightSum="4">
+
+                            <TextView
+                                android:id="@+id/output_neg"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/poppins_regular"
+                                android:text="NEG:"
+                                android:textColor="@color/lightblack"
+                                android:textSize="14sp" />
+
+                            <CheckBox
+                                android:id="@+id/fill_two_output_NEG_checkbox_U"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:buttonTint="@color/blue"
+                                android:fontFamily="@font/poppins_regular"
+                                android:text="U"
+                                android:textColor="@color/lightblack"
+                                android:textSize="14sp" />
+
+                            <CheckBox
+                                android:id="@+id/fill_two_output_NEG_checkbox_V"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:buttonTint="@color/blue"
+                                android:fontFamily="@font/poppins_regular"
+                                android:text="V"
+                                android:textColor="@color/lightblack"
+                                android:textSize="14sp" />
+
+                            <CheckBox
+                                android:id="@+id/fill_two_output_NEG_checkbox_W"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:buttonTint="@color/blue"
+                                android:fontFamily="@font/poppins_regular"
+                                android:text="W"
+                                android:textColor="@color/lightblack"
+                                android:textSize="14sp" />
+                        </LinearLayout>
+
+                    </RelativeLayout>
+                </LinearLayout>
+
+                <!-- Fault Diagnosis Section -->
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:fontFamily="@font/poppins_semibold"
+                    android:text="Fault Diagnosis/ Observation"
+                    android:textAlignment="center"
+                    android:textColor="@color/black"
+                    android:textSize="19sp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="170dp"
+                    android:background="@drawable/rectangle_check_box_big"
+                    android:orientation="vertical"
+                    android:padding="15dp">
+
+                    <!-- Client Obs -->
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp">
+
+                        <TextView
+                            android:id="@+id/client_obs1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_centerVertical="true"
+                            android:fontFamily="@font/poppins_regular"
+                            android:text="Client Obs:"
+                            android:textColor="@color/lightblack"
+                            android:textSize="16sp" />
+
+                        <EditText
+                            android:id="@+id/fill_two_clientObs_text"
+                            android:layout_width="160dp"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="20dp"
+                            android:background="@drawable/round_textfield"
+                            android:fontFamily="@font/poppins_regular"
+                            android:paddingHorizontal="20dp"
+                            android:paddingVertical="8dp"
+                            android:textAlignment="center"
+                            android:textAllCaps="false"
+                            android:textColor="@color/black"
+                            android:textSize="14sp" />
+                    </RelativeLayout>
+
+                    <!-- Our Obs -->
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp">
+
+                        <TextView
+                            android:id="@+id/emp_obs"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_centerVertical="true"
+                            android:fontFamily="@font/poppins_regular"
+                            android:text="Our Obs:"
+                            android:textColor="@color/lightblack"
+                            android:textSize="16sp" />
+
+                        <EditText
+                            android:id="@+id/fill_two_ourObs_text"
+                            android:layout_width="160dp"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="20dp"
+                            android:background="@drawable/round_textfield"
+                            android:fontFamily="@font/poppins_regular"
+                            android:paddingHorizontal="20dp"
+                            android:paddingVertical="8dp"
+                            android:textAlignment="center"
+                            android:textAllCaps="false"
+                            android:textColor="@color/black"
+                            android:textSize="14sp" />
+                    </RelativeLayout>
+
+                    <!-- Last Fault -->
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/last_fault"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_centerVertical="true"
+                            android:fontFamily="@font/poppins_regular"
+                            android:text="Last Fault:"
+                            android:textColor="@color/lightblack"
+                            android:textSize="16sp" />
+
+                        <EditText
+                            android:id="@+id/fill_two_lastFault_text"
+                            android:layout_width="160dp"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="20dp"
+                            android:background="@drawable/round_textfield"
+                            android:fontFamily="@font/poppins_regular"
+                            android:paddingHorizontal="20dp"
+                            android:paddingVertical="8dp"
+                            android:textAlignment="center"
+                            android:textAllCaps="false"
+                            android:textColor="@color/black"
+                            android:textSize="14sp" />
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </RelativeLayout>
+
+
+        <!--    ************************************        -->
+    </RelativeLayout>
+</FrameLayout>

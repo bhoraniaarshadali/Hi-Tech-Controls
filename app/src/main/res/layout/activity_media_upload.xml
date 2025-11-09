@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!-- Header -->
+        <View
+            android:id="@+id/dash_vi"
+            android:layout_width="match_parent"
+            android:layout_height="193dp"
+            android:background="@drawable/flip_top" />
+
+        <ImageView
+            android:id="@+id/mediaActivity_Back"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="33dp"
+            android:src="@drawable/back_btn" />
+
+        <TextView
+            android:id="@+id/dash_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="32dp"
+            android:fontFamily="@font/poppins_medium"
+            android:text="Images &amp; Videos"
+            android:textColor="@color/white"
+            android:textSize="25sp" />
+
+        <!-- Main Card -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cv_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/dash_vi"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="-85dp"
+            android:layout_marginEnd="15dp"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="25dp"
+            app:cardElevation="5dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <!-- 9 BOXES GRID -->
+                <LinearLayout
+                    android:id="@+id/fixedBoxes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <!-- ROW 1 -->
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="12dp"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <include
+                            android:id="@+id/box1"
+                            layout="@layout/box_item" />
+
+                        <include
+                            android:id="@+id/box2"
+                            layout="@layout/box_item" />
+
+                        <include
+                            android:id="@+id/box3"
+                            layout="@layout/box_item" />
+                    </LinearLayout>
+
+                    <!-- ROW 2 -->
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="12dp"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <include
+                            android:id="@+id/box4"
+                            layout="@layout/box_item" />
+
+                        <include
+                            android:id="@+id/box5"
+                            layout="@layout/box_item" />
+
+                        <include
+                            android:id="@+id/box6"
+                            layout="@layout/box_item" />
+                    </LinearLayout>
+
+                    <!-- ROW 3 -->
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <include
+                            android:id="@+id/box7"
+                            layout="@layout/box_item" />
+
+                        <include
+                            android:id="@+id/box8"
+                            layout="@layout/box_item" />
+
+                        <include
+                            android:id="@+id/box9"
+                            layout="@layout/box_item" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <!-- Progress -->
+                <ProgressBar
+                    android:id="@+id/uploadProgress"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="20dp"
+                    android:visibility="gone" />
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+    </RelativeLayout>
+</ScrollView>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:id="@+id/includedLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="30sp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="30sp"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/boxSeven"
+                android:layout_width="75sp"
+                android:layout_height="75sp"
+                android:src="@drawable/imageview" />
+
+            <!--            <TextView-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_gravity="center"-->
+            <!--                android:fontFamily="@font/poppins_regular"-->
+            <!--                android:text="7"-->
+            <!--                android:textColor="@color/lightblack" />-->
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="30sp"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/boxEight"
+                android:layout_width="75sp"
+                android:layout_height="75sp"
+                android:src="@drawable/imageview" />
+
+            <!--            <TextView-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_gravity="center"-->
+            <!--                android:fontFamily="@font/poppins_regular"-->
+            <!--                android:text="8"-->
+            <!--                android:textColor="@color/lightblack" />-->
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/boxNine"
+                android:layout_width="75sp"
+                android:layout_height="75sp"
+                android:src="@drawable/imageview" />
+
+            <!--            <TextView-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_gravity="center"-->
+            <!--                android:fontFamily="@font/poppins_regular"-->
+            <!--                android:text="9"-->
+            <!--                android:textColor="@color/lightblack"-->
+            <!--                android:textSize="12sp" />-->
+
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

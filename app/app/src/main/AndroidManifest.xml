@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.example.hi_tech_controls">
+
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32"
+        tools:ignore="ScopedStorage" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@drawable/logowhite"
+        android:label="@string/app_name"
+        android:roundIcon="@drawable/logo"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.HiTechControls"
+        tools:targetApi="31">
+        <activity
+            android:name=".Print_PDF"
+            android:exported="false" />
+
+        <activity
+            android:name=".Preview_Details"
+            android:exported="false" />
+        <activity
+            android:name=".preview.Preview_Details"
+            android:exported="false"
+            tools:ignore="MissingClass" />
+        <activity
+            android:name=".preview.Preview_details"
+            android:exported="false"
+            android:theme="@style/Theme.SplashNoTitleBar"
+            tools:ignore="MissingClass" /> <!-- Preview_Details Activity -->
+        <activity
+            android:name=".MediaUpload"
+            android:exported="false"
+            android:theme="@style/Theme.SplashNoTitleBar" /> <!-- Splash Activity -->
+        <activity
+            android:name=".SplashActivity"
+            android:exported="true"
+            android:theme="@style/Theme.SplashNoTitleBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity> <!-- Main Activity -->
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:theme="@style/Theme.MainActivityBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity> <!-- Login Activity -->
+        <activity
+            android:name=".LoginActivity"
+            android:exported="false"
+            android:theme="@style/Theme.MainActivityBar" /> <!-- Add Client Details Activity -->
+        <activity
+            android:name=".AddDetailsActivity"
+            android:exported="false"
+            android:theme="@style/Theme.ViewClntsDetails" /> <!-- View Client Details Activity -->
+        <activity
+            android:name=".ViewDetailsActivity"
+            android:exported="false"
+            android:theme="@style/Theme.ViewClntsDetails" />
+
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.example.hi_tech_controls.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+    </application>
+
+</manifest>
