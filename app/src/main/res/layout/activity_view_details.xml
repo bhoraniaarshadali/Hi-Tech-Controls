@@ -1,149 +1,135 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
-    android:fillViewport="true">
+    android:background="@android:color/white">
 
-    <RelativeLayout
+    <!-- 🔹 Top Background -->
+    <View
+        android:id="@+id/dash_vi"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="150dp"
+        android:background="@drawable/flip_top" />
 
-        <!-- 🔹 Top Background -->
-        <View
-            android:id="@+id/dash_vi"
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:background="@drawable/flip_top" />
+    <!-- 🔹 Back Button -->
+    <ImageView
+        android:id="@+id/viewClientDtls_Back"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="33dp"
+        android:contentDescription="Back"
+        android:src="@drawable/back_btn" />
 
-        <!-- 🔹 Back Button -->
-        <ImageView
-            android:id="@+id/viewClientDtls_Back"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="33dp"
-            android:src="@drawable/back_btn"
-            android:contentDescription="Back" />
+    <!-- 🔹 Title -->
+    <TextView
+        android:id="@+id/dash_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
+        android:layout_marginBottom="10dp"
+        android:fontFamily="@font/poppins_medium"
+        android:text="Clients Details"
+        android:textColor="@color/white"
+        android:textSize="25sp" />
 
-        <!-- 🔹 Title -->
-        <TextView
-            android:id="@+id/dash_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="32dp"
-            android:fontFamily="@font/poppins_medium"
-            android:text="Clients Details"
-            android:textColor="@color/white"
-            android:textSize="25sp" />
+    <!-- 🔹 Search Card -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cv_1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="95dp"
+        android:layout_marginEnd="15dp"
+        android:backgroundTint="@color/white"
+        app:cardCornerRadius="25dp"
+        app:cardElevation="5dp"
+        tools:ignore="TextSizeCheck">
 
-        <!-- 🔹 Search Card -->
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cv_1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/dash_vi"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="-50dp"
-            android:layout_marginEnd="15dp"
-            app:cardCornerRadius="25dp"
-            app:cardElevation="8dp"
-            android:backgroundTint="@color/white">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="10dp">
-
-<!--                <TextView-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginStart="10dp"-->
-<!--                    android:layout_marginTop="10dp"-->
-<!--                    android:fontFamily="@font/poppins_bold"-->
-<!--                    android:text="Find a Client"-->
-<!--                    android:textColor="@color/grey"-->
-<!--                    android:textSize="16sp" />-->
-
-                <EditText
-                    android:id="@+id/searchField"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:background="@drawable/round_textfield"
-                    android:drawableStart="@drawable/search_icon"
-                    android:drawablePadding="10dp"
-                    android:fontFamily="@font/poppins_regular"
-                    android:hint="Name, Client-ID, Circuit No."
-                    android:importantForAutofill="no"
-                    android:inputType="text"
-                    android:paddingStart="15dp"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/hintFont"
-                    android:textSize="14sp"
-                    tools:ignore="RtlSymmetry" />
-
-<!--                <androidx.appcompat.widget.AppCompatButton-->
-<!--                    android:id="@+id/searchButton"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="48dp"-->
-<!--                    android:layout_gravity="center"-->
-<!--                    android:layout_marginTop="20dp"-->
-<!--                    android:background="@drawable/radius_button"-->
-<!--                    android:backgroundTint="@color/blue"-->
-<!--                    android:fontFamily="@font/poppins_medium"-->
-<!--                    android:text="Search"-->
-<!--                    android:textAllCaps="false"-->
-<!--                    android:textColor="@color/white"-->
-<!--                    android:textSize="16sp"-->
-<!--                    app:cornerRadius="12dp" />-->
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-
-        <!-- 🔹 Recent Clients Section -->
         <LinearLayout
-            android:id="@+id/subHeading"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/cv_1"
-            android:layout_marginTop="25dp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="10dp">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:fontFamily="@font/poppins_bold"
-                android:text="Recent Clients"
-                android:textColor="#4D4D4D"
-                android:textSize="16sp" />
-
-            <!-- 🔹 RecyclerView for Recent Clients -->
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recentClientsRecyclerView"
+            <EditText
+                android:id="@+id/searchField"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:clipToPadding="false"
+                android:layout_height="50dp"
+                android:background="@drawable/round_textfield"
+                android:drawableStart="@drawable/search_icon"
+                android:drawablePadding="10dp"
+                android:fontFamily="@font/poppins_regular"
+                android:hint="Name, Client-ID, Circuit No."
+                android:importantForAutofill="no"
+                android:inputType="text"
                 android:paddingStart="15dp"
-                android:paddingEnd="15dp"
-                tools:listitem="@layout/item_client_card" />
-
-            <!-- 🔹 ProgressBar Loader -->
-            <ProgressBar
-                android:id="@+id/loadingProgress"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp"
-                android:indeterminate="true"
-                android:indeterminateTint="@color/blue"
-                android:visibility="gone" />
+                android:textColor="@color/black"
+                android:textColorHint="@color/hintFont"
+                android:textSize="14sp"
+                tools:ignore="RtlSymmetry" />
         </LinearLayout>
+    </androidx.cardview.widget.CardView>
 
-    </RelativeLayout>
-</ScrollView>
+    <!-- 🔹 Subheading -->
+    <TextView
+        android:id="@+id/recentLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/cv_1"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="25dp"
+        android:fontFamily="@font/poppins_bold"
+        android:text="Recent Clients"
+        android:textColor="#4D4D4D"
+        android:textSize="16sp" />
+
+    <!-- ✅ SwipeRefreshLayout Wraps RecyclerView -->
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/recentLabel"
+        android:layout_marginTop="10dp">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recentClientsRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingStart="15dp"
+            android:paddingEnd="15dp"
+            android:paddingBottom="100dp"
+            tools:listitem="@layout/item_client_card" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <!-- 🔹 Empty State Text -->
+    <TextView
+        android:id="@+id/emptyStateText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:fontFamily="@font/poppins_regular"
+        android:text="No completed clients yet"
+        android:textColor="#999999"
+        android:textSize="16sp"
+        android:visibility="gone" />
+
+    <!-- 🔹 Bottom Loader (For pagination) -->
+    <ProgressBar
+        android:id="@+id/footerProgress"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"
+        android:indeterminate="true"
+        android:indeterminateTint="@color/blue"
+        android:visibility="gone" />
+
+
+</RelativeLayout>

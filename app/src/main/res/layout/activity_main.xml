@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
-    tools:context=".MainActivity">
+    tools:context=".ui.activity.MainActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -51,11 +51,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginBottom="10dp"
             android:fontFamily="@font/poppins_medium"
             android:text="Dashboard"
             android:textColor="@color/white"
-            android:textSize="24sp" />
+            android:textSize="25sp" />
 
         <!-- Main Card -->
         <androidx.cardview.widget.CardView
@@ -64,11 +65,12 @@
             android:layout_height="120dp"
             android:layout_centerHorizontal="true"
             android:layout_marginStart="15dp"
-            android:layout_marginTop="100dp"
+            android:layout_marginTop="95dp"
             android:layout_marginEnd="15dp"
             android:backgroundTint="@color/white"
             app:cardCornerRadius="25dp"
-            app:cardElevation="5dp">
+            app:cardElevation="5dp"
+            tools:ignore="TextSizeCheck">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -146,15 +148,41 @@
                 android:src="@drawable/refreshbutton" />
         </LinearLayout>
 
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/shimmerLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/recentDiscoveries"
+            app:shimmer_auto_start="true"
+            app:shimmer_duration="1200">
+
+            <include layout="@layout/shimmer_card_layout" />
+
+        </com.facebook.shimmer.ShimmerFrameLayout>
+
+
         <!-- RecyclerView -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewDiscovery"
             android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/recentDiscoveries"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="5dp"
+            android:nestedScrollingEnabled="true"
+            tools:listitem="@layout/add_cardview" />
+
+        <TextView
+            android:id="@+id/emptyView"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/recentDiscoveries"
-            android:layout_marginTop="5dp"
-            android:nestedScrollingEnabled="false"
-            android:paddingBottom="16dp"
-            tools:listitem="@layout/add_cardview" />
+            android:gravity="center"
+            android:padding="24dp"
+            android:text="No clients found"
+            android:textColor="#9E9E9E"
+            android:textSize="16sp"
+            android:visibility="gone" />
+
     </RelativeLayout>
-</ScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

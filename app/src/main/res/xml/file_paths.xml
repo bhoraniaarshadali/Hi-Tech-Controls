@@ -1,12 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <paths>
-    <!-- Save in Downloads/HiTech Reports/ -->
     <external-path
-        name="downloads"
-        path="Download/HiTech Reports/" />
-
-    <!-- Optional: Full external storage access (for older devices) -->
+        name="external_downloads"
+        path="Download/" />
     <external-path
         name="external_files"
         path="." />
+    <files-path
+        name="internal_files"
+        path="." />
+    <cache-path
+        name="internal_cache"
+        path="." />
+    <!-- Add this for Glide cache directory -->
+    <cache-path
+        name="glide_cache"
+        path="image_manager_disk_cache/" />
 </paths>

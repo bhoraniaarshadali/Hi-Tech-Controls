@@ -1,18 +1,51 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/relativeLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    android:orientation="vertical"
-    tools:context=".SplashActivity">
+    android:background="@color/white">
 
+    <!-- Logo -->
     <ImageView
-        android:id="@+id/SplashLogo"
-        android:layout_width="170dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:importantForAccessibility="no"
-        android:src="@drawable/logo" />
+        android:id="@+id/logoImage"
+        android:layout_width="wrap_content"
+        android:layout_height="150dp"
+        android:adjustViewBounds="true"
+        android:src="@drawable/logo"
 
-</LinearLayout>
+        app:layout_constraintBottom_toTopOf="@+id/splashAnim"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.5" />
+
+    <!-- Lottie Loading Bar -->
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/splashAnim"
+        android:layout_width="260dp"
+        android:layout_height="60dp"
+        app:layout_constraintBottom_toTopOf="@+id/devCredit"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:lottie_autoPlay="true"
+        app:lottie_fileName="splash/splash2.json"
+        app:lottie_loop="false"
+        app:lottie_rawRes="@null" />
+
+    <!-- ★ Developer Credit Line (Bottom) -->
+    <TextView
+        android:id="@+id/devCredit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:fontFamily="@font/poppins_medium"
+        android:text="Developed by: Arshadali Bhorania"
+        android:textColor="#666666"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,27 @@
+<!-- app/src/main/res/layout/offline_banner.xml -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/offlineBanner"
+    android:layout_width="match_parent"
+    android:layout_height="40dp"
+    android:background="#FF9800"
+    android:gravity="center"
+    android:orientation="horizontal"
+    android:visibility="visible">
+
+    <ImageView
+        android:id="@+id/bannerIcon"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginEnd="8dp"
+        android:backgroundTint="@color/white"
+        android:src="@drawable/ic_offline" />
+
+    <TextView
+        android:id="@+id/offlineText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/poppins_medium"
+        android:text="Offline"
+        android:textColor="@android:color/white"
+        android:textSize="15sp" />
+</LinearLayout>

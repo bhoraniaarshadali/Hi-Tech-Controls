@@ -1,4 +1,3 @@
 <resources>
     <!-- Used for loading dialog progress bar padding -->
-    <dimen name="loading_padding">24dp</dimen>
 </resources>

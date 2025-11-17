@@ -1,9 +1,11 @@
 package com.example.hi_tech_controls.adapter;
 
 public class InwardClient {
+
+    // fill_one
+    public String clientId;
     public String name, client_number, gp_number, gp_date;
     public String make_name, model_name, hp_rate, serial_number;
-    public String select_emp_fill_one;  // Add this
 
     // fill_two
     public String select_emp_fill_two, fr_rate, localEditText;
@@ -16,8 +18,7 @@ public class InwardClient {
     public boolean output_neg_checkbox_U, output_neg_checkbox_V, output_neg_checkbox_W;
 
     // fill_three
-
-    public String select_emp_fill_three;  // Add this
+    public String select_emp_fill_three;
     public String enter_first_remarks;
     public boolean checkboxCapacitor, checkboxDisplay, checkboxFAN, checkboxCC;
     public boolean repair_checkboxOne, repair_checkboxTwo, repair_checkboxThree;
@@ -29,8 +30,7 @@ public class InwardClient {
     public int number_picker_value;
 
     // fill_four
-
-    public String select_emp_fill_four;  // Add this
+    public String select_emp_fill_four;
     public boolean checkbox_1HP, checkbox_10HP, checkbox_30HP;
     public String On_Display, On_Clamp;
     public boolean checkbox_u, checkbox_v, checkbox_w;

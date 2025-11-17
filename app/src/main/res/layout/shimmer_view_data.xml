@@ -1,0 +1,607 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <!-- Shimmer for Fragment 1 - Inward Client Details -->
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="3dp"
+        app:shimmer_auto_start="true"
+        app:shimmer_duration="1000">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="3dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="15dp">
+
+                <!-- Title Shimmer -->
+                <View
+                    android:layout_width="200dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="16dp"
+                    android:background="@drawable/shimmer_placeholder_bg" />
+
+                <!-- Client Details Fields -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <!-- Field 1 -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="12dp"
+                        android:orientation="horizontal">
+
+                        <View
+                            android:layout_width="130dp"
+                            android:layout_height="30dp"
+                            android:background="@drawable/shimmer_placeholder_bg" />
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="30dp"
+                            android:layout_marginStart="10dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/shimmer_placeholder_bg" />
+                    </LinearLayout>
+
+                    <!-- Field 2 -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="12dp"
+                        android:orientation="horizontal">
+
+                        <View
+                            android:layout_width="130dp"
+                            android:layout_height="30dp"
+                            android:background="@drawable/shimmer_placeholder_bg" />
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="30dp"
+                            android:layout_marginStart="10dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/shimmer_placeholder_bg" />
+                    </LinearLayout>
+
+                    <!-- Field 3 -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="12dp"
+                        android:orientation="horizontal">
+
+                        <View
+                            android:layout_width="130dp"
+                            android:layout_height="30dp"
+                            android:background="@drawable/shimmer_placeholder_bg" />
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="30dp"
+                            android:layout_marginStart="10dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/shimmer_placeholder_bg" />
+                    </LinearLayout>
+
+                    <!-- Field 4 -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="12dp"
+                        android:orientation="horizontal">
+
+                        <View
+                            android:layout_width="130dp"
+                            android:layout_height="30dp"
+                            android:background="@drawable/shimmer_placeholder_bg" />
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="30dp"
+                            android:layout_marginStart="10dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/shimmer_placeholder_bg" />
+                    </LinearLayout>
+
+                    <!-- Field 5 -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="12dp"
+                        android:orientation="horizontal">
+
+                        <View
+                            android:layout_width="130dp"
+                            android:layout_height="30dp"
+                            android:background="@drawable/shimmer_placeholder_bg" />
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="30dp"
+                            android:layout_marginStart="10dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/shimmer_placeholder_bg" />
+                    </LinearLayout>
+
+                    <!-- Field 6 -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="12dp"
+                        android:orientation="horizontal">
+
+                        <View
+                            android:layout_width="130dp"
+                            android:layout_height="30dp"
+                            android:background="@drawable/shimmer_placeholder_bg" />
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="30dp"
+                            android:layout_marginStart="10dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/shimmer_placeholder_bg" />
+                    </LinearLayout>
+
+                    <!-- Field 7 -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="12dp"
+                        android:orientation="horizontal">
+
+                        <View
+                            android:layout_width="130dp"
+                            android:layout_height="30dp"
+                            android:background="@drawable/shimmer_placeholder_bg" />
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="30dp"
+                            android:layout_marginStart="10dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/shimmer_placeholder_bg" />
+                    </LinearLayout>
+
+                    <!-- Field 8 -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <View
+                            android:layout_width="130dp"
+                            android:layout_height="30dp"
+                            android:background="@drawable/shimmer_placeholder_bg" />
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="30dp"
+                            android:layout_marginStart="10dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/shimmer_placeholder_bg" />
+                    </LinearLayout>
+
+                </LinearLayout>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
+    <!-- Shimmer for Fragment 2 - Initial Observations -->
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        app:shimmer_auto_start="true"
+        app:shimmer_duration="1000">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="3dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="15dp">
+
+                <!-- Title -->
+                <View
+                    android:layout_width="200dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="16dp"
+                    android:background="@drawable/shimmer_placeholder_bg" />
+
+                <!-- Checked By Field -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    android:orientation="horizontal">
+
+                    <View
+                        android:layout_width="130dp"
+                        android:layout_height="30dp"
+                        android:background="@drawable/shimmer_placeholder_bg" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="30dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/shimmer_placeholder_bg" />
+                </LinearLayout>
+
+                <!-- Frequency Reference Field -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:orientation="horizontal">
+
+                    <View
+                        android:layout_width="130dp"
+                        android:layout_height="30dp"
+                        android:background="@drawable/shimmer_placeholder_bg" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="30dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/shimmer_placeholder_bg" />
+                </LinearLayout>
+
+                <!-- Sections with proper structure -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginBottom="12dp"
+                    android:background="#EEEEEE" />
+
+                <!-- Start CMD Section -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/shimmer_placeholder_bg" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:layout_marginBottom="16dp"
+                    android:background="@drawable/shimmer_placeholder_bg" />
+
+                <!-- Input Supply Section -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/shimmer_placeholder_bg" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:layout_marginBottom="16dp"
+                    android:background="@drawable/shimmer_placeholder_bg" />
+
+                <!-- Output Supply Section -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/shimmer_placeholder_bg" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="75dp"
+                    android:layout_marginBottom="16dp"
+                    android:background="@drawable/shimmer_placeholder_bg" />
+
+                <!-- Fault Diagnosis Section -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/shimmer_placeholder_bg" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="130dp"
+                    android:background="@drawable/shimmer_placeholder_bg" />
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
+    <!-- Shimmer for Fragment 3 - Repair Details -->
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        app:shimmer_auto_start="true"
+        app:shimmer_duration="1000">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="3dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:padding="15dp">
+
+                <!-- Title -->
+                <View
+                    android:layout_width="200dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="16dp"
+                    android:background="@drawable/shimmer_placeholder_bg" />
+
+                <!-- Checked By Field -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    android:orientation="horizontal">
+
+                    <View
+                        android:layout_width="100dp"
+                        android:layout_height="30dp"
+                        android:background="@drawable/shimmer_placeholder_bg" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="30dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/shimmer_placeholder_bg" />
+                </LinearLayout>
+
+                <!-- Sections -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginBottom="12dp"
+                    android:background="#EEEEEE" />
+
+                <!-- Initial Check Section -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/shimmer_placeholder_bg" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_marginBottom="16dp"
+                    android:background="@drawable/shimmer_placeholder_bg" />
+
+                <!-- Remarks Field -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:orientation="horizontal">
+
+                    <View
+                        android:layout_width="80dp"
+                        android:layout_height="30dp"
+                        android:background="@drawable/shimmer_placeholder_bg" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="30dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/shimmer_placeholder_bg" />
+                </LinearLayout>
+
+                <!-- Repair Section -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/shimmer_placeholder_bg" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_marginBottom="16dp"
+                    android:background="@drawable/shimmer_placeholder_bg" />
+
+                <!-- Replace Section -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/shimmer_placeholder_bg" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_marginBottom="16dp"
+                    android:background="@drawable/shimmer_placeholder_bg" />
+
+                <!-- Trial Check Section -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/shimmer_placeholder_bg" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginBottom="16dp"
+                    android:background="@drawable/shimmer_placeholder_bg" />
+
+                <!-- Repair Time Field -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <View
+                        android:layout_width="100dp"
+                        android:layout_height="30dp"
+                        android:background="@drawable/shimmer_placeholder_bg" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="30dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/shimmer_placeholder_bg" />
+                </LinearLayout>
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
+    <!-- Shimmer for Fragment 4 - Final Trial Check -->
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:shimmer_auto_start="true"
+        app:shimmer_duration="1000">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="3dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:padding="15dp">
+
+                <!-- Title -->
+                <View
+                    android:layout_width="200dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="16dp"
+                    android:background="@drawable/shimmer_placeholder_bg" />
+
+                <!-- Checked By Field -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    android:orientation="horizontal">
+
+                    <View
+                        android:layout_width="100dp"
+                        android:layout_height="30dp"
+                        android:background="@drawable/shimmer_placeholder_bg" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="30dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/shimmer_placeholder_bg" />
+                </LinearLayout>
+
+                <!-- Sections -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginBottom="12dp"
+                    android:background="#EEEEEE" />
+
+                <!-- Motor Details -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/shimmer_placeholder_bg" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="36dp"
+                    android:layout_marginBottom="16dp"
+                    android:background="@drawable/shimmer_placeholder_bg" />
+
+                <!-- AMP Details -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/shimmer_placeholder_bg" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:layout_marginBottom="16dp"
+                    android:background="@drawable/shimmer_placeholder_bg" />
+
+                <!-- Voltage Details -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/shimmer_placeholder_bg" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="220dp"
+                    android:layout_marginBottom="16dp"
+                    android:background="@drawable/shimmer_placeholder_bg" />
+
+                <!-- Final Check -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/shimmer_placeholder_bg" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="320dp"
+                    android:layout_marginBottom="16dp"
+                    android:background="@drawable/shimmer_placeholder_bg" />
+
+                <!-- Print Button -->
+                <View
+                    android:layout_width="200dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/shimmer_placeholder_bg" />
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
+</LinearLayout>

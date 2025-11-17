@@ -3,23 +3,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.hi_tech_controls">
 
+
     <!-- Permissions -->
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
-
-
-    <!-- Storage: Only for Android 12 and below -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- For Android 12 and below -->
     <uses-permission
         android:name="android.permission.READ_EXTERNAL_STORAGE"
         android:maxSdkVersion="32" />
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="32"
-        tools:ignore="ScopedStorage" />
-
-    <!-- Camera features -->
+        tools:ignore="ScopedStorage" /> <!-- Camera features -->
     <uses-feature
         android:name="android.hardware.camera"
         android:required="false" />
@@ -27,41 +24,53 @@
         android:name="android.hardware.camera.autofocus"
         android:required="false" />
 
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+
+            <data android:mimeType="application/pdf" />
+        </intent>
+    </queries>
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@drawable/logowhite"
+        android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/logo"
+        android:roundIcon="@mipmap/ic_launcher"
+
         android:supportsRtl="true"
         android:theme="@style/Theme.HiTechControls"
         tools:targetApi="33">
 
-        <!-- Activities -->
-<!--        <activity-->
-<!--            android:name=".Print_PDF"-->
-<!--            android:exported="false" />-->
-        <!--        <activity android:name=".Preview_Details" android:exported="false" />-->
-        <!--        <activity android:name=".preview.Preview_Details" android:exported="false" />-->
-        <!--        <activity android:name=".preview.Preview_details"-->
-        <!--            android:exported="false"-->
-        <!--            android:theme="@style/Theme.SplashNoTitleBar" />-->
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-3109062304947815~6765782571" />
+
         <activity
-            android:name=".MediaUpload"
+            android:name=".ui.activity.ClientDetailsActivity"
             android:exported="false"
-            android:theme="@style/Theme.SplashNoTitleBar" />
+            android:theme="@style/Theme.MainActivityBar" />
+        <!-- Your existing activities and providers -->
         <activity
-            android:name=".SplashActivity"
+            android:name=".ui.activity.MediaUploadActivity"
+            android:exported="false"
+            android:theme="@style/Theme.MainActivityBar" />
+
+        <activity
+            android:name=".ui.activity.SplashActivity"
             android:exported="true"
-            android:theme="@style/Theme.SplashNoTitleBar">
+            android:theme="@style/Theme.MainActivityBar">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.activity.MainActivity"
             android:exported="true"
             android:theme="@style/Theme.MainActivityBar">
             <intent-filter>
@@ -69,19 +78,17 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".LoginActivity"
+            android:name=".ui.activity.LoginActivity"
             android:exported="false"
             android:theme="@style/Theme.MainActivityBar" />
         <activity
-            android:name=".AddDetailsActivity"
+            android:name=".ui.activity.AddDetailsActivity"
             android:exported="false"
-            android:theme="@style/Theme.ViewClntsDetails" />
+            android:theme="@style/Theme.MainActivityBar" />
         <activity
-            android:name=".ViewDetailsActivity"
+            android:name=".ui.activity.ViewDetailsActivity"
             android:exported="false"
-            android:theme="@style/Theme.ViewClntsDetails" />
-
-        <!-- FileProvider -->
+            android:theme="@style/Theme.MainActivityBar" /> <!-- FileProvider -->
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"
@@ -91,6 +98,6 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
-
     </application>
+    <!--at home all latest 15-11-2025 -->
 </manifest>

@@ -15,7 +15,6 @@
         android:layout_width="match_parent"
         android:layout_height="193dp"
         android:background="@drawable/flip_top"
-        tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="-20dp"
         tools:layout_editor_absoluteY="0dp" />
 
@@ -27,7 +26,7 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="33dp"
+        android:layout_marginTop="40dp"
         android:background="@drawable/back_btn"
         android:importantForAccessibility="no"
         tools:ignore="MissingConstraints"
@@ -35,12 +34,12 @@
         tools:layout_editor_absoluteY="37dp" />
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="32dp"
-        android:layout_marginBottom="25dp"
+        android:layout_marginTop="40dp"
         android:orientation="vertical"
         tools:ignore="RelativeOverlap">
 
@@ -69,7 +68,7 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="33dp"
+        android:layout_marginTop="40dp"
         android:layout_marginEnd="20sp"
         android:background="@drawable/next_btn"
         android:importantForAccessibility="no"
@@ -79,12 +78,12 @@
 
     <!-- Card view for proper layout -->
     <androidx.cardview.widget.CardView
-        android:id="@+id/cv_1"
+        android:id="@+id/progressContainer"
         android:layout_width="match_parent"
         android:layout_height="120dp"
         android:layout_centerHorizontal="true"
         android:layout_marginStart="15dp"
-        android:layout_marginTop="95dp"
+        android:layout_marginTop="100dp"
         android:layout_marginEnd="15dp"
         android:backgroundTint="@color/white"
         app:cardCornerRadius="25dp"
@@ -139,7 +138,6 @@
                 android:progressDrawable="@drawable/text_number_white"
                 android:thumb="@null" />
 
-
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -187,8 +185,8 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/cv_1">
-
+        android:layout_alignTop="@+id/linearLayout"
+        android:layout_marginTop="50dp">
 
         <FrameLayout
             android:id="@+id/frameLayout"
@@ -211,8 +209,8 @@
                 android:id="@+id/cameraButton"
                 android:layout_width="60sp"
                 android:layout_height="60sp"
-                android:layout_marginEnd="10sp"
-                android:layout_marginBottom="10sp"
+                android:layout_marginEnd="05sp"
+                android:layout_marginBottom="05sp"
                 android:background="@drawable/camera_icon"
                 tools:ignore="SpeakableTextPresentCheck" />
         </LinearLayout>

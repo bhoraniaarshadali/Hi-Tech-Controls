@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginTop="120dp"
     android:background="@android:color/white"
     android:fillViewport="true"
     android:scrollbars="none">
@@ -26,7 +27,7 @@
                 android:fontFamily="@font/poppins_regular"
                 android:text="Final Checked by: "
                 android:textColor="@color/lightblack"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 tools:ignore="HardcodedText" />
 
             <Spinner
