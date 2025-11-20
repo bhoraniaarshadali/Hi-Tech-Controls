@@ -9,6 +9,8 @@
         android:id="@+id/boxImage"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@drawable/rounded_image_bg"
+        android:clipToOutline="true"
         android:scaleType="centerCrop"
         android:src="@drawable/imageview" />
 
@@ -16,6 +18,8 @@
         android:id="@+id/checkMark"
         android:layout_width="24dp"
         android:layout_height="24dp"
+        android:background="@drawable/rounded_image_bg"
+        android:clipToOutline="true"
         android:layout_gravity="top|end"
         android:layout_margin="4dp"
         android:src="@drawable/ic_check_circle"
@@ -25,9 +29,10 @@
         android:id="@+id/deleteBtn"
         android:layout_width="24dp"
         android:layout_height="24dp"
+        android:background="@drawable/rounded_image_bg"
+        android:clipToOutline="true"
         android:layout_gravity="top|start"
         android:layout_margin="4dp"
-        android:background="?attr/selectableItemBackgroundBorderless"
         android:src="@drawable/ic_delete"
         android:visibility="gone" />
 

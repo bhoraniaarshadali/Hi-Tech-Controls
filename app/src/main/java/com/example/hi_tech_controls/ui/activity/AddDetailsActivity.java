@@ -616,7 +616,7 @@ public class AddDetailsActivity extends BaseActivity {
         if (!isFinishing() && !isDestroyed()) {
             transaction.setReorderingAllowed(true);
             transaction.replace(R.id.frameLayout, fragment);
-            transaction.commit();
+                transaction.commit();
             Log.d(TAG, "Fragment committed: " + fragment.getClass().getSimpleName() + " for id=" + id);
         } else {
             Log.w(TAG, "Skipping fragment commit because activity is finishing/destroyed.");

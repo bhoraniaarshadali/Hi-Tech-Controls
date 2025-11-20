@@ -124,7 +124,7 @@
                             android:layout_height="match_parent"
                             android:layout_gravity="center"
                             ads:adSize="BANNER"
-                            ads:adUnitId="ca-app-pub-3940256099942544/9214589741" />
+                            ads:adUnitId="ca-app-pub-3109062304947815/1709214246" />
 
                         <!-- Header Title -->
                         <TextView
