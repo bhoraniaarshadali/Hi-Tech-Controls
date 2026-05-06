@@ -24,8 +24,6 @@ import com.example.hi_tech_controls.helper.OfflineSyncManager;
 import com.example.hi_tech_controls.helper.PermissionUtils;
 import com.example.hi_tech_controls.model.DetailsModel;
 import com.facebook.shimmer.ShimmerFrameLayout;
-import com.google.android.gms.tasks.Task;
-import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -171,7 +169,7 @@ public class MainActivity extends BaseActivity {
 
     private void initFirestore() {
         Log.d(TAG, "Initializing Firestore Reference");
-        collectionRef = FirebaseFirestore.getInstance().collection("clientDetails");
+        collectionRef = FirebaseFirestore.getInstance().collection("hi_tech_controls_dataset_JUNE");
     }
 
     private void navigateTo(Class<?> cls) {
@@ -302,27 +300,12 @@ public class MainActivity extends BaseActivity {
         Log.d(TAG, "applySnapshot() count=" + docs.size() + " realtime=" + fromRealtime);
 
         ArrayList<DetailsModel> temp = new ArrayList<>();
-        ArrayList<Task<DocumentSnapshot>> tasks = new ArrayList<>();
-
         for (DocumentSnapshot doc : docs) {
-            if (!isValidDoc(doc)) {
-                Log.d(TAG, "Skipping invalid doc: " + doc.getId());
-                continue;
-            }
-
-            DetailsModel model = parseDocument(doc);
-            // Local filter removed as it is now handled by the Firestore query
-            temp.add(model);
-            tasks.add(fetchNameAsync(doc, model));
+            if (!isValidDoc(doc)) continue;
+            temp.add(parseDocument(doc));
         }
 
-        if (tasks.isEmpty()) {
-            updateList(temp);
-            return;
-        }
-
-        Tasks.whenAllComplete(tasks)
-                .addOnCompleteListener(done -> updateList(temp));
+        updateList(temp);
     }
 
     private boolean isValidDoc(DocumentSnapshot doc) {
@@ -340,27 +323,13 @@ public class MainActivity extends BaseActivity {
         m.setUId(uid);
         Long p = doc.getLong("progress");
         m.setProgress(p != null ? p.intValue() : 0);
-        m.setuName("…");
 
-        Log.d(TAG, "Parsed model → ID=" + uid + " progress=" + m.getProgress());
+        // DIRECT NAME: Read from main document (Optimization: No subcollection read)
+        String name = doc.getString("name");
+        m.setuName(name != null ? name : "Unknown");
+
+        Log.d(TAG, "Parsed model — ID=" + uid + " name=" + m.getuName());
         return m;
-    }
-
-    private Task<DocumentSnapshot> fetchNameAsync(DocumentSnapshot doc, DetailsModel model) {
-        Log.d(TAG, "Fetching name for doc " + doc.getId());
-
-        return collectionRef.document(doc.getId())
-                .collection("pages").document("fill_one")
-                .get()
-                .addOnSuccessListener(d -> {
-                    String name = d.getString("name");
-                    model.setuName(name != null ? name : "Unknown");
-                    Log.d(TAG, "Name set for " + doc.getId() + " = " + model.getuName());
-                })
-                .addOnFailureListener(err -> {
-                    Log.e(TAG, "Name fetch failed for " + doc.getId());
-                    model.setuName("Unknown");
-                });
     }
 
     // ---------------------------------------------------------------------
