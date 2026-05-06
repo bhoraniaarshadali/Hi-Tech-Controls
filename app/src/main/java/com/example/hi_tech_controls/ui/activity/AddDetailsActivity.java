@@ -58,12 +58,12 @@ public class AddDetailsActivity extends BaseActivity {
 
     // --- State & Firestore ---
     private FirebaseFirestore db;
-    private String clientId;          // committed client id (document id)
-    private String tempClientId;      // temporary id shown to user until commit
-    private int currentProgress = 0;  // 0..100
+    private String clientId; // committed client id (document id)
+    private String tempClientId; // temporary id shown to user until commit
+    private int currentProgress = 0; // 0..100
     private int currentFragmentIndex = 0;
     private boolean isExistingClient = false; // true when clientId is provided
-    private boolean isIdCommitted = false;    // true once tempClientId is committed to last_id
+    private boolean isIdCommitted = false; // true once tempClientId is committed to last_id
 
     // --- UI ---
     private ProgressBar progressBar;
@@ -75,6 +75,7 @@ public class AddDetailsActivity extends BaseActivity {
 
     // Firestore snapshot listener handle — must remove in onDestroy/onPause
     private ListenerRegistration progressListener;
+    private ListenerRegistration lastIdListener;
 
     // Re-usable dialog ref — dismiss on lifecycle end to avoid leaks
     private SweetAlertDialog exitDialog;
@@ -95,8 +96,8 @@ public class AddDetailsActivity extends BaseActivity {
         initFirestore();
         readIntentExtras();
         initializeUIElements();
-        setupListeners();                 // sets button listeners (back/next/camera)
-        attachBackPressedHandler();       // hardware back behaviour
+        setupListeners(); // sets button listeners (back/next/camera)
+        attachBackPressedHandler(); // hardware back behaviour
 
         // Determine flow (existing or new client)
         decideFlow();
@@ -192,7 +193,8 @@ public class AddDetailsActivity extends BaseActivity {
             @Override
             public void handleOnBackPressed() {
                 Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.frameLayout);
-                Log.d(TAG, "Hardware back pressed. currentFragment=" + (currentFragment != null ? currentFragment.getClass().getSimpleName() : "null"));
+                Log.d(TAG, "Hardware back pressed. currentFragment="
+                        + (currentFragment != null ? currentFragment.getClass().getSimpleName() : "null"));
                 if (currentFragment instanceof View_data_fragment) {
                     navigateToMainActivity();
                 } else {
@@ -215,27 +217,51 @@ public class AddDetailsActivity extends BaseActivity {
         }
 
         DocumentReference lastIdRef = db.collection(COLLECTION_NAME).document("last_id");
-        Log.d(TAG, "Reading last_id to generate tempClientId");
+        Log.d(TAG, "Attaching realtime listener for last_id to generate tempClientId");
 
-        lastIdRef.get().addOnSuccessListener(snapshot -> {
+        lastIdListener = lastIdRef.addSnapshotListener((snapshot, error) -> {
+            if (error != null) {
+                Log.e(TAG, "last_id listener error", error);
+                return;
+            }
+            if (snapshot == null || !snapshot.exists()) {
+                Log.w(TAG, "last_id snapshot missing");
+                return;
+            }
+
             long lastId = FirestoreUtils.getLongSafe(snapshot, "lastId");
-            if (lastId == 0) lastId = 2000; // fallback if missing
-            tempClientId = String.valueOf(lastId + 1);
-            Log.d(TAG, "Generated tempClientId=" + tempClientId);
+            if (lastId == 0)
+                lastId = 2000; // fallback if missing
+            tempClientId = "temp" + (lastId + 1);
+            Log.d(TAG, "Realtime tempClientId update: " + tempClientId);
 
-            if (dash_tv != null) dash_tv.setText("Client ID: " + tempClientId);
+            runOnUiThread(() -> {
+                if (dash_tv != null && !isIdCommitted) {
+                    dash_tv.setText(String.format("Client ID: %s", tempClientId.replace("temp", "")));
+                }
 
-            currentFragmentIndex = 0;
-            currentProgress = 0;
-            updateUI();
-            loadFragment(new fill_one_fragment(), tempClientId);
-        }).addOnFailureListener(e -> {
-            Log.e(TAG, "Failed to read last_id", e);
-            new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
-                    .setTitleText("Oops!")
-                    .setContentText("Unable to fetch client ID. Please try again.")
-                    .show();
-            finish();
+                // Notify active fragment if it's the first one
+                Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.frameLayout);
+                if (currentFragment != null) {
+                    // Update arguments so the ID persists across recreation
+                    Bundle args = currentFragment.getArguments();
+                    if (args != null) {
+                        args.putString("clientId", tempClientId);
+                    }
+
+                    if (currentFragment instanceof fill_one_fragment) {
+                        ((fill_one_fragment) currentFragment).updateClientId(tempClientId);
+                    }
+                }
+            });
+
+            // If no fragment is loaded yet, load it once
+            if (getSupportFragmentManager().findFragmentById(R.id.frameLayout) == null) {
+                currentFragmentIndex = 0;
+                currentProgress = 0;
+                updateUI();
+                loadFragment(new fill_one_fragment(), tempClientId);
+            }
         });
     }
 
@@ -299,7 +325,8 @@ public class AddDetailsActivity extends BaseActivity {
             Log.d(TAG, "Realtime update: progress=" + currentProgress);
 
             runOnUiThread(() -> {
-                if (dash_tv != null) dash_tv.setText("Client ID: " + clientId);
+                if (dash_tv != null)
+                    dash_tv.setText("Client ID: " + clientId);
             });
 
             if (currentProgress >= 100) {
@@ -321,12 +348,18 @@ public class AddDetailsActivity extends BaseActivity {
     // -------------------------------------------------------------------------
     private void setViewModeUI() {
         Log.d(TAG, "setViewModeUI()");
-        if (dash_tv != null) dash_tv.setText("Client ID: " + clientId);
-        if (progressContainer != null) progressContainer.setVisibility(View.GONE);
-        if (nextBtn != null) nextBtn.setVisibility(View.GONE);
-        if (backBtn != null) backBtn.setVisibility(View.VISIBLE);
-        if (progressBar != null) progressBar.setProgress(100);
-        if (textSwitcher != null) textSwitcher.setText("View Report");
+        if (dash_tv != null)
+            dash_tv.setText("Client ID: " + clientId);
+        if (progressContainer != null)
+            progressContainer.setVisibility(View.GONE);
+        if (nextBtn != null)
+            nextBtn.setVisibility(View.GONE);
+        if (backBtn != null)
+            backBtn.setVisibility(View.VISIBLE);
+        if (progressBar != null)
+            progressBar.setProgress(100);
+        if (textSwitcher != null)
+            textSwitcher.setText("View Report");
     }
 
     @SuppressLint("SetTextI18n")
@@ -341,24 +374,34 @@ public class AddDetailsActivity extends BaseActivity {
                 dash_tv.setText("Add Client Details");
             }
         }
-        if (progressContainer != null) progressContainer.setVisibility(View.VISIBLE);
-        if (nextBtn != null) nextBtn.setVisibility(View.VISIBLE);
-        if (backBtn != null) backBtn.setVisibility(View.VISIBLE);
+        if (progressContainer != null)
+            progressContainer.setVisibility(View.VISIBLE);
+        if (nextBtn != null)
+            nextBtn.setVisibility(View.VISIBLE);
+        if (backBtn != null)
+            backBtn.setVisibility(View.VISIBLE);
     }
 
     private int calculateFragmentIndex(int progress) {
-        if (progress >= 100) return 3;
-        else if (progress >= 75) return 3;
-        else if (progress >= 50) return 2;
-        else if (progress >= 25) return 1;
-        else return 0;
+        if (progress >= 100)
+            return 3;
+        else if (progress >= 75)
+            return 3;
+        else if (progress >= 50)
+            return 2;
+        else if (progress >= 25)
+            return 1;
+        else
+            return 0;
     }
 
     private void updateUI() {
         try {
-            if (progressBar != null) progressBar.setProgress(currentProgress, true);
+            if (progressBar != null)
+                progressBar.setProgress(currentProgress, true);
         } catch (NoSuchMethodError | Exception ignored) {
-            if (progressBar != null) progressBar.setProgress(currentProgress);
+            if (progressBar != null)
+                progressBar.setProgress(currentProgress);
         }
 
         if (currentFragmentIndex < switcherValues.length && textSwitcher != null) {
@@ -396,19 +439,23 @@ public class AddDetailsActivity extends BaseActivity {
         }
 
         String saveId = isIdCommitted ? clientId : tempClientId;
-        Log.d(TAG, "loadNextFragment saving to id=" + saveId + " fragment=" + currentFragment.getClass().getSimpleName());
+        Log.d(TAG,
+                "loadNextFragment saving to id=" + saveId + " fragment=" + currentFragment.getClass().getSimpleName());
 
         if (currentFragment instanceof fill_one_fragment) {
             ((fill_one_fragment) currentFragment).saveToFirestore(saveId, success -> {
-                if (success) commitClientIdAndProceed();
+                if (success)
+                    commitClientIdAndProceed();
             });
         } else if (currentFragment instanceof fill_two_fragment) {
             ((fill_two_fragment) currentFragment).saveToFirestore(saveId, success -> {
-                if (success) updateProgressAndNavigate(50, 2);
+                if (success)
+                    updateProgressAndNavigate(50, 2);
             });
         } else if (currentFragment instanceof fill_three_fragment) {
             ((fill_three_fragment) currentFragment).saveToFirestore(saveId, success -> {
-                if (success) updateProgressAndNavigate(75, 3);
+                if (success)
+                    updateProgressAndNavigate(75, 3);
             });
         } else if (currentFragment instanceof fill_four_fragment) {
             ((fill_four_fragment) currentFragment).saveToFirestore(saveId, success -> {
@@ -434,7 +481,6 @@ public class AddDetailsActivity extends BaseActivity {
         loadFragment(new View_data_fragment(), clientId);
     }
 
-
     // -------------------------------------------------------------------------
     // ID commit & progress update
     // -------------------------------------------------------------------------
@@ -452,32 +498,43 @@ public class AddDetailsActivity extends BaseActivity {
         }
 
         DocumentReference lastIdRef = db.collection(COLLECTION_NAME).document("last_id");
-        DocumentReference clientRef = db.collection(COLLECTION_NAME).document(tempClientId);
-        Log.d(TAG, "Attempting transaction to commit tempClientId=" + tempClientId);
+        String numericId = tempClientId.replace("temp", "");
+        DocumentReference clientRef = db.collection(COLLECTION_NAME).document(numericId);
+        Log.d(TAG, "Attempting transaction to commit numericId=" + numericId);
 
         db.runTransaction(transaction -> {
             DocumentSnapshot snap = transaction.get(lastIdRef);
             long currentLastId = FirestoreUtils.getLongSafe(snap, "lastId");
-            if (currentLastId == 0) currentLastId = 2000;
+            if (currentLastId == 0)
+                currentLastId = 2000;
 
-            if (currentLastId + 1 != Long.parseLong(tempClientId)) {
-                Log.e(TAG, "ID conflict during commit. expected=" + (currentLastId + 1) + " got=" + tempClientId);
+            if (currentLastId + 1 != Long.parseLong(numericId)) {
+                Log.e(TAG, "ID conflict during commit. expected=" + (currentLastId + 1) + " got=" + numericId);
                 throw new RuntimeException("ID conflict during commit");
             }
 
-            transaction.set(lastIdRef, new HashMap<String, Object>() {{
-                put("lastId", Long.parseLong(tempClientId));
-            }}, SetOptions.merge());
+            transaction.set(lastIdRef, new HashMap<String, Object>() {
+                {
+                    put("lastId", Long.parseLong(numericId));
+                }
+            }, SetOptions.merge());
 
             return null;
         }).addOnSuccessListener(aVoid -> {
-            clientId = tempClientId;
+            clientId = numericId;
             isIdCommitted = true;
             Map<String, Object> rootData = new HashMap<>();
             rootData.put("progress", 25);
             rootData.put("lastUpdated", System.currentTimeMillis());
             clientRef.set(rootData, SetOptions.merge());
             Log.d(TAG, "ID commit successful. clientId=" + clientId);
+
+            // Cleanup lastIdListener as ID is now fixed
+            if (lastIdListener != null) {
+                lastIdListener.remove();
+                lastIdListener = null;
+            }
+
             updateProgressAndNavigate(25, 1);
         }).addOnFailureListener(e -> {
             Log.e(TAG, "ID commit failed", e);
@@ -501,15 +558,15 @@ public class AddDetailsActivity extends BaseActivity {
             Log.e(TAG, logPrefix + ": db null, queue offline");
             OfflineSyncManager.getInstance().queuePendingUpdate(
                     COLLECTION_NAME, clientId,
-                    Map.of("progress", newProgress, "lastUpdated", System.currentTimeMillis())
-            );
+                    Map.of("progress", newProgress, "lastUpdated", System.currentTimeMillis()));
             return;
         }
 
         db.collection(COLLECTION_NAME)
                 .document(clientId)
                 .update("progress", newProgress, "lastUpdated", System.currentTimeMillis())
-                .addOnSuccessListener(aVoid -> Log.d(TAG, logPrefix + ": progress updated successfully for " + clientId))
+                .addOnSuccessListener(
+                        aVoid -> Log.d(TAG, logPrefix + ": progress updated successfully for " + clientId))
                 .addOnFailureListener(e -> {
                     Log.e(TAG, logPrefix + ": failed to update progress, queuing", e);
                     new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
@@ -520,8 +577,7 @@ public class AddDetailsActivity extends BaseActivity {
 
                     OfflineSyncManager.getInstance().queuePendingUpdate(
                             COLLECTION_NAME, clientId,
-                            Map.of("progress", newProgress, "lastUpdated", System.currentTimeMillis())
-                    );
+                            Map.of("progress", newProgress, "lastUpdated", System.currentTimeMillis()));
                 });
     }
 
@@ -575,7 +631,8 @@ public class AddDetailsActivity extends BaseActivity {
     }
 
     private void showCompletionPopup() {
-        if (isFinishing() || isDestroyed()) return;
+        if (isFinishing() || isDestroyed())
+            return;
 
         SweetAlertDialog dialog = new SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE);
         dialog.setTitleText("Success!");
@@ -601,7 +658,11 @@ public class AddDetailsActivity extends BaseActivity {
 
     private void loadFragment(Fragment fragment, String id) {
         Bundle bundle = new Bundle();
-        if (id != null) bundle.putString("clientId", id);
+        if (id != null) {
+            // If it's a new client, ensure "temp" prefix is passed for logic but hidden in UI
+            String passId = isIdCommitted ? id : (id.startsWith("temp") ? id : "temp" + id);
+            bundle.putString("clientId", passId);
+        }
         fragment.setArguments(bundle);
 
         if (fragment instanceof View_data_fragment) {
@@ -614,7 +675,7 @@ public class AddDetailsActivity extends BaseActivity {
         if (!isFinishing() && !isDestroyed()) {
             transaction.setReorderingAllowed(true);
             transaction.replace(R.id.frameLayout, fragment);
-                transaction.commit();
+            transaction.commit();
             Log.d(TAG, "Fragment committed: " + fragment.getClass().getSimpleName() + " for id=" + id);
         } else {
             Log.w(TAG, "Skipping fragment commit because activity is finishing/destroyed.");
@@ -629,7 +690,8 @@ public class AddDetailsActivity extends BaseActivity {
         Log.d(TAG, "onDestroy() cleaning up");
         if (exitDialog != null) {
             try {
-                if (exitDialog.isShowing()) exitDialog.dismiss();
+                if (exitDialog.isShowing())
+                    exitDialog.dismiss();
             } catch (Exception ignored) {
             }
             exitDialog = null;
@@ -641,7 +703,16 @@ public class AddDetailsActivity extends BaseActivity {
             } catch (Exception ignored) {
             }
             progressListener = null;
-            Log.d(TAG, "Realtime listener removed");
+            Log.d(TAG, "Realtime progress listener removed");
+        }
+
+        if (lastIdListener != null) {
+            try {
+                lastIdListener.remove();
+            } catch (Exception ignored) {
+            }
+            lastIdListener = null;
+            Log.d(TAG, "Realtime lastId listener removed");
         }
 
         if (currentToast != null) {
@@ -664,7 +735,8 @@ public class AddDetailsActivity extends BaseActivity {
     }
 
     private void showToast(String msg) {
-        if (currentToast != null) currentToast.cancel();
+        if (currentToast != null)
+            currentToast.cancel();
         currentToast = Toast.makeText(this, msg, Toast.LENGTH_SHORT);
         currentToast.show();
     }

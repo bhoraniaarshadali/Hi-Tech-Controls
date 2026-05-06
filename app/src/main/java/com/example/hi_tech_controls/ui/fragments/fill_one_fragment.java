@@ -43,7 +43,6 @@ public class fill_one_fragment extends Fragment implements DatePickerDialog.OnDa
     private DatePickerDialog datePickerDialog;
     private Toast activeToast;
 
-
     // -------------------------------------------------------------------
     // LIFECYCLE
     // -------------------------------------------------------------------
@@ -62,7 +61,6 @@ public class fill_one_fragment extends Fragment implements DatePickerDialog.OnDa
 
         return rootView;
     }
-
 
     // -------------------------------------------------------------------
     // INITIAL SETUP METHODS
@@ -93,11 +91,20 @@ public class fill_one_fragment extends Fragment implements DatePickerDialog.OnDa
     }
 
     private void populateClientId() {
-        if (clientId != null) clientIdTv.setText(clientId);
+        if (clientId != null)
+            clientIdTv.setText(clientId.replace("temp", ""));
+    }
+
+    public void updateClientId(String newId) {
+        this.clientId = newId;
+        if (clientIdTv != null && isAdded()) {
+            clientIdTv.setText(newId.replace("temp", ""));
+        }
     }
 
     private void loadExistingIfRequired() {
-        if (isValidClientId()) loadExistingData();
+        if (isValidClientId())
+            loadExistingData();
     }
 
     private boolean isValidClientId() {
@@ -105,7 +112,6 @@ public class fill_one_fragment extends Fragment implements DatePickerDialog.OnDa
                 && !clientId.isEmpty()
                 && !clientId.startsWith("temp");
     }
-
 
     // -------------------------------------------------------------------
     // DATE PICKER
@@ -116,8 +122,7 @@ public class fill_one_fragment extends Fragment implements DatePickerDialog.OnDa
                 requireContext(), this,
                 c.get(Calendar.YEAR),
                 c.get(Calendar.MONTH),
-                c.get(Calendar.DAY_OF_MONTH)
-        );
+                c.get(Calendar.DAY_OF_MONTH));
         enterDate.setOnClickListener(v -> datePickerDialog.show());
     }
 
@@ -125,7 +130,6 @@ public class fill_one_fragment extends Fragment implements DatePickerDialog.OnDa
     public void onDateSet(android.widget.DatePicker view, int y, int m, int d) {
         enterDate.setText(d + "/" + (m + 1) + "/" + y);
     }
-
 
     // -------------------------------------------------------------------
     // INPUT NAVIGATION FLOW
@@ -145,7 +149,6 @@ public class fill_one_fragment extends Fragment implements DatePickerDialog.OnDa
         });
     }
 
-
     // -------------------------------------------------------------------
     // LOAD EXISTING FIRESTORE DATA
     // -------------------------------------------------------------------
@@ -160,6 +163,7 @@ public class fill_one_fragment extends Fragment implements DatePickerDialog.OnDa
                 .get()
                 .addOnSuccessListener(doc -> {
                     hideLoading();
+                    safeSetHint(enterName, "Enter name");
                     if (doc.exists()) {
                         populateFields(doc);
                         showToastSafe("Data loaded!");
@@ -183,7 +187,6 @@ public class fill_one_fragment extends Fragment implements DatePickerDialog.OnDa
         safeSetText(enterSerialNumber, FirestoreUtils.getStringSafe(doc, "serial_number"));
     }
 
-
     // -------------------------------------------------------------------
     // VALIDATION
     // -------------------------------------------------------------------
@@ -198,7 +201,6 @@ public class fill_one_fragment extends Fragment implements DatePickerDialog.OnDa
         }
         return true;
     }
-
 
     // -------------------------------------------------------------------
     // SAVE FIRESTORE DATA
@@ -215,7 +217,9 @@ public class fill_one_fragment extends Fragment implements DatePickerDialog.OnDa
 
         Map<String, Object> pageData = preparePageData();
 
-        savePageData(clientId, pageData, callback);
+        // Strip temp prefix for real document name
+        String realId = clientId.replace("temp", "");
+        savePageData(realId, pageData, callback);
     }
 
     private boolean validatePreSave(String clientId) {
@@ -264,7 +268,7 @@ public class fill_one_fragment extends Fragment implements DatePickerDialog.OnDa
     }
 
     private void handlePageSaveFailure(String clientId, Map<String, Object> pageData,
-                                       AddDetailsActivity.SaveCallback callback) {
+            AddDetailsActivity.SaveCallback callback) {
 
         hideLoading();
         queueOffline(pageData, "pages", "fill_one");
@@ -273,7 +277,7 @@ public class fill_one_fragment extends Fragment implements DatePickerDialog.OnDa
     }
 
     private void handleRootSaveFailure(String clientId, Map<String, Object> rootData,
-                                       AddDetailsActivity.SaveCallback callback) {
+            AddDetailsActivity.SaveCallback callback) {
 
         hideLoading();
         queueOffline(rootData);
@@ -288,7 +292,6 @@ public class fill_one_fragment extends Fragment implements DatePickerDialog.OnDa
         callback.onSaveComplete(true);
     }
 
-
     // -------------------------------------------------------------------
     // OFFLINE SAVE QUEUE
     // -------------------------------------------------------------------
@@ -296,18 +299,15 @@ public class fill_one_fragment extends Fragment implements DatePickerDialog.OnDa
         OfflineSyncManager.getInstance().queuePendingUpdate(
                 COLLECTION_NAME,
                 clientId,
-                data
-        );
+                data);
     }
 
     private void queueOffline(Map<String, Object> data, String subCollection, String docId) {
         OfflineSyncManager.getInstance().queuePendingUpdate(
                 COLLECTION_NAME + "/" + clientId + "/" + subCollection,
                 docId,
-                data
-        );
+                data);
     }
-
 
     // -------------------------------------------------------------------
     // SMALL UTILITIES
@@ -323,11 +323,13 @@ public class fill_one_fragment extends Fragment implements DatePickerDialog.OnDa
     }
 
     private void safeSetText(EditText et, String text) {
-        if (et != null && isAdded()) et.setText(text != null ? text : "");
+        if (et != null && isAdded())
+            et.setText(text != null ? text : "");
     }
 
     private void safeSetHint(EditText et, String hint) {
-        if (et != null && isAdded()) et.setHint(hint);
+        if (et != null && isAdded())
+            et.setHint(hint);
     }
 
     private String getText(EditText et) {
@@ -338,27 +340,30 @@ public class fill_one_fragment extends Fragment implements DatePickerDialog.OnDa
         return et == null || et.getText().toString().trim().isEmpty();
     }
 
-
     private void showLoading() {
-        if (isAdded()) LoadingDialog.getInstance().show(requireContext());
+        if (isAdded())
+            LoadingDialog.getInstance().show(requireContext());
     }
 
     private void hideLoading() {
-        if (isAdded()) LoadingDialog.getInstance().hide();
+        if (isAdded())
+            LoadingDialog.getInstance().hide();
     }
 
     private void showToastSafe(String msg) {
-        if (!isAdded() || getContext() == null) return;
-        if (activeToast != null) activeToast.cancel();
+        if (!isAdded() || getContext() == null)
+            return;
+        if (activeToast != null)
+            activeToast.cancel();
         activeToast = Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT);
         activeToast.show();
     }
 
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if (activeToast != null) activeToast.cancel();
+        if (activeToast != null)
+            activeToast.cancel();
         try {
             LoadingDialog.getInstance().dismiss();
         } catch (Exception ignored) {

@@ -187,7 +187,7 @@ public class MainActivity extends BaseActivity {
         // Server-side filter to optimize performance and reduce reads
         // Note: Removed 'clientId' orderBy as it might not be a field in all documents
         Query q = collectionRef.whereLessThan("progress", 100)
-                .orderBy("progress") 
+                .orderBy("progress")
                 .limit(PAGE_LIMIT);
 
         loadCache(q);
@@ -249,7 +249,8 @@ public class MainActivity extends BaseActivity {
                 .limit(PAGE_LIMIT);
 
         realtimeListener = q.addSnapshotListener((snapshots, e) -> {
-            if (!isListenerActive) return;
+            if (!isListenerActive)
+                return;
 
             if (e != null) {
                 Log.e(TAG, "Realtime error: " + e.getMessage());
@@ -301,7 +302,8 @@ public class MainActivity extends BaseActivity {
 
         ArrayList<DetailsModel> temp = new ArrayList<>();
         for (DocumentSnapshot doc : docs) {
-            if (!isValidDoc(doc)) continue;
+            if (!isValidDoc(doc))
+                continue;
             temp.add(parseDocument(doc));
         }
 
@@ -336,7 +338,8 @@ public class MainActivity extends BaseActivity {
     // ---------------------------------------------------------------------
     private void updateList(ArrayList<DetailsModel> temp) {
         Log.d(TAG, "Updating list, count=" + temp.size());
-        // Firestore already provides sorted data, so manual sorting is removed to save CPU
+        // Firestore already provides sorted data, so manual sorting is removed to save
+        // CPU
         addDetailsAdapter.submitList(temp);
         toggleEmptyState(temp.isEmpty());
     }
@@ -389,7 +392,8 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onNetworkStateChanged(boolean isOnline) {
         Log.d(TAG, "Network changed isOnline=" + isOnline);
-        if (isOnline) OfflineSyncManager.getInstance().syncNow(this);
+        if (isOnline)
+            OfflineSyncManager.getInstance().syncNow(this);
     }
 
     private void showExitConfirmationDialog() {
@@ -417,7 +421,8 @@ public class MainActivity extends BaseActivity {
     private void showCleanToast(String msg) {
         Log.d(TAG, "Toast: " + msg);
 
-        if (currentToast != null) currentToast.cancel();
+        if (currentToast != null)
+            currentToast.cancel();
         currentToast = Toast.makeText(this, msg, Toast.LENGTH_SHORT);
         currentToast.show();
     }

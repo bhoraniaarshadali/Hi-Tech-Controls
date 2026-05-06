@@ -25,17 +25,17 @@ import java.util.Map;
  * AdminManager — Central Firebase admin config handler.
  *
  * Firestore structure:
- *   admin/
- *     config  (document)
- *       - username: "admin"
- *       - password: "1234"
- *       - maintenance: false
- *       devices/  (sub-collection)
- *         {deviceId}  (document)
- *           - deviceId: "..."
- *           - deviceName: "..."
- *           - lastLogin: timestamp (long)
- *           - blocked: false
+ * admin/
+ * config (document)
+ * - username: "admin"
+ * - password: "1234"
+ * - maintenance: false
+ * devices/ (sub-collection)
+ * {deviceId} (document)
+ * - deviceId: "..."
+ * - deviceName: "..."
+ * - lastLogin: timestamp (long)
+ * - blocked: false
  */
 public class AdminManager {
 
@@ -50,6 +50,7 @@ public class AdminManager {
 
     public interface ConfigCallback {
         void onResult(String username, String password, boolean maintenance);
+
         void onError(String error);
     }
 
@@ -59,11 +60,13 @@ public class AdminManager {
 
     public interface DeviceStatusCallback {
         void onResult(boolean isBlocked);
+
         void onError(String error);
     }
 
     public interface EmployeeListCallback {
         void onResult(List<String> employees);
+
         void onError(String error);
     }
 
@@ -227,12 +230,12 @@ public class AdminManager {
                 if (list == null || list.isEmpty()) {
                     Log.d(TAG, "Employee list missing/empty, creating defaults");
                     List<String> defaults = Arrays.asList(
-                            "Sahil fb", "Ali fb", "Vishal fb", "Hasnain fb"
-                    );
+                            "Sahil fb", "Ali fb", "Vishal fb", "Hasnain fb");
 
                     configRef.set(Collections.singletonMap("employee_list", defaults), SetOptions.merge())
                             .addOnSuccessListener(v -> Log.d(TAG, "Default employee list created"))
-                            .addOnFailureListener(err -> Log.e(TAG, "Failed to create default employees: " + err.getMessage()));
+                            .addOnFailureListener(
+                                    err -> Log.e(TAG, "Failed to create default employees: " + err.getMessage()));
 
                     callback.onResult(defaults);
                 } else {
