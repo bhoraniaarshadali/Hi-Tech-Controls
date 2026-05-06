@@ -19,8 +19,6 @@ import com.daimajia.androidanimations.library.YoYo;
 import com.example.hi_tech_controls.R;
 import com.example.hi_tech_controls.helper.AdminManager;
 import com.example.hi_tech_controls.helper.LoadingDialog;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -52,8 +50,6 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         Log.d(TAG, "Login layout loaded");
 
-        loadAd();
-
         emailEditText = findViewById(R.id.emailEditText);
         passwordEditText = findViewById(R.id.passwordEditText);
         loginButton = findViewById(R.id.loginButton);
@@ -76,18 +72,7 @@ public class LoginActivity extends AppCompatActivity {
         runEntryAnimation();
     }
 
-    // ------------------------------------------------------------------
-    // AD LOADER
-    // ------------------------------------------------------------------
-    void loadAd() {
-        try {
-            AdView adView = findViewById(R.id.adView);
-            AdRequest adRequest = new AdRequest.Builder().build();
-            adView.loadAd(adRequest);
-        } catch (Exception e) {
-            Log.e(TAG, "Ad load failed: " + e.getMessage());
-        }
-    }
+
 
     // ------------------------------------------------------------------
     // LOGIN FLOW

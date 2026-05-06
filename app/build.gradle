@@ -40,8 +40,6 @@ android {
 
 dependencies {
 
-    //adsMob
-    implementation 'com.google.android.gms:play-services-ads:24.0.0'
 
     //splash screen
     implementation 'androidx.core:core-splashscreen:1.2.0'

@@ -23,8 +23,6 @@ import androidx.core.content.FileProvider;
 import com.example.hi_tech_controls.R;
 import com.example.hi_tech_controls.adapter.InwardClient;
 import com.example.hi_tech_controls.mediaControl.PdfGenerator;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -86,12 +84,6 @@ public class ClientDetailsActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_client_details);
 
-        //load ads
-//        AdView adView = findViewById(R.id.adView);
-//        AdRequest adRequest = new AdRequest.Builder().build();
-//        adView.loadAd(adRequest);
-
-        loadAd();
         AppCompatImageButton editBtn = findViewById(R.id.editBtn);
         AppCompatImageButton saveBtn = findViewById(R.id.saveBtn);
         AppCompatImageButton backBtn = findViewById(R.id.backBtn);
@@ -147,11 +139,7 @@ public class ClientDetailsActivity extends BaseActivity {
         Log.d(TAG, "Activity onCreate completed in " + (endTime - startTime) + "ms");
     }
 
-    void loadAd() {
-        AdView adView = findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        adView.loadAd(adRequest);
-    }
+
 
     private void initViews() {
         Log.d(TAG, "Initializing views");
