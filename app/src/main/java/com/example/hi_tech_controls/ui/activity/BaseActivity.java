@@ -103,12 +103,20 @@ public abstract class BaseActivity extends AppCompatActivity {
         });
 
         // 2. Listen for device blocking
-        deviceBlockListener = AdminManager.listenDeviceBlock(this, isBlocked -> {
-            if (isBlocked) {
-                runOnUiThread(() -> {
-                    Toast.makeText(this, "🚫 Your device has been blocked. Contact admin.", Toast.LENGTH_LONG).show();
-                    baseLogout();
-                });
+        deviceBlockListener = AdminManager.listenDeviceBlock(this, new AdminManager.DeviceStatusCallback() {
+            @Override
+            public void onResult(boolean isBlocked) {
+                if (isBlocked) {
+                    runOnUiThread(() -> {
+                        Toast.makeText(BaseActivity.this, "🚫 Your device has been blocked. Contact admin.", Toast.LENGTH_LONG).show();
+                        baseLogout();
+                    });
+                }
+            }
+
+            @Override
+            public void onError(String error) {
+                Log.e(TAG, "Device block listener error: " + error);
             }
         });
     }
