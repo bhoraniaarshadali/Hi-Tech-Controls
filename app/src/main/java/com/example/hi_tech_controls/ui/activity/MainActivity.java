@@ -45,7 +45,7 @@ import com.example.hi_tech_controls.helper.AdminManager;
 public class MainActivity extends BaseActivity {
 
     private static final String TAG = "MainActivity";
-    private static final int PAGE_LIMIT = 150;
+    private static final int PAGE_LIMIT = 100;
     private final Handler slowNetHandler = new Handler();
     private RecyclerView recyclerViewDiscovery1;
     private AddDetailsAdp addDetailsAdapter;
@@ -81,16 +81,10 @@ public class MainActivity extends BaseActivity {
         Log.d(TAG, "Main layout loaded");
 
         requestPermissionsIfNeeded();
-        bindViews();
-        setupRecyclerView();
-        setupFirestoreReference();
-        setupClickListeners();
-
-        showShimmer();
-        Log.d(TAG, "Shimmer started, loading initial data");
+        initUI();
+        initFirestore();
         loadInitialData();
-
-        setupScrollPagination();
+        startRealtimeListener();
     }
 
     @Override
@@ -144,32 +138,21 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    private void bindViews() {
-        Log.d(TAG, "Binding views");
+    private void initUI() {
+        Log.d(TAG, "Initializing UI Components");
         addClientBtn1 = findViewById(R.id.addClientBtn);
         viewClientBtn1 = findViewById(R.id.viewClientBtn);
         logoutBtn = findViewById(R.id.logout_btn);
         recyclerViewDiscovery1 = findViewById(R.id.recyclerViewDiscovery);
         shimmerLayout = findViewById(R.id.shimmerLayout);
         emptyView = findViewById(R.id.emptyView);
-    }
 
-    private void setupRecyclerView() {
-        Log.d(TAG, "Setting up RecyclerView");
+        // Setup RecyclerView
         recyclerViewDiscovery1.setLayoutManager(new LinearLayoutManager(this));
         addDetailsAdapter = new AddDetailsAdp(this, new ArrayList<>());
         recyclerViewDiscovery1.setAdapter(addDetailsAdapter);
-    }
 
-    private void setupFirestoreReference() {
-        Log.d(TAG, "Initializing Firestore reference");
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        collectionRef = db.collection("hi_tech_controls_dataset_JUNE");
-    }
-
-    private void setupClickListeners() {
-        Log.d(TAG, "Setting click listeners");
-
+        // Setup Click Listeners
         addClientBtn1.setOnClickListener(v -> {
             Log.d(TAG, "Add Client clicked");
             navigateTo(AddDetailsActivity.class);
@@ -184,6 +167,11 @@ public class MainActivity extends BaseActivity {
             Log.d(TAG, "Logout clicked");
             showExitConfirmationDialog();
         });
+    }
+
+    private void initFirestore() {
+        Log.d(TAG, "Initializing Firestore Reference");
+        collectionRef = FirebaseFirestore.getInstance().collection("clientDetails");
     }
 
     private void navigateTo(Class<?> cls) {
@@ -380,19 +368,9 @@ public class MainActivity extends BaseActivity {
     // ---------------------------------------------------------------------
     private void updateList(ArrayList<DetailsModel> temp) {
         Log.d(TAG, "Updating list, count=" + temp.size());
-        sortList(temp);
+        // Firestore already provides sorted data, so manual sorting is removed to save CPU
         addDetailsAdapter.submitList(temp);
         toggleEmptyState(temp.isEmpty());
-    }
-
-    private void sortList(ArrayList<DetailsModel> list) {
-        // We keep local sort consistent with query order
-        Log.d(TAG, "Sorting list locally (Progress ASC, UId DESC)");
-        Collections.sort(list, (a, b) -> {
-            int progCompare = Integer.compare(a.getProgress(), b.getProgress());
-            if (progCompare != 0) return progCompare;
-            return Integer.compare(b.getUId(), a.getUId());
-        });
     }
 
     private void toggleEmptyState(boolean empty) {
@@ -401,81 +379,7 @@ public class MainActivity extends BaseActivity {
         recyclerViewDiscovery1.setVisibility(empty ? View.GONE : View.VISIBLE);
     }
 
-    // ---------------------------------------------------------------------
-    // PAGINATION
-    // ---------------------------------------------------------------------
-    private void setupScrollPagination() {
-        Log.d(TAG, "Setting up pagination listener");
-
-        recyclerViewDiscovery1.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(@NonNull RecyclerView rv, int dx, int dy) {
-                if (!rv.canScrollVertically(1)) {
-                    Log.d(TAG, "Reached bottom → loading more");
-                    loadMore();
-                }
-            }
-        });
-    }
-
-    private void loadMore() {
-        if (isLoadingMore || lastDoc == null) {
-            Log.d(TAG, "loadMore() blocked isLoadingMore=" + isLoadingMore + " lastDoc=" + (lastDoc != null));
-            return;
-        }
-
-        Log.d(TAG, "Loading more items…");
-        isLoadingMore = true;
-
-        collectionRef.whereLessThan("progress", 100)
-                .orderBy("progress")
-                .orderBy("clientId", Query.Direction.DESCENDING)
-                .startAfter(lastDoc)
-                .limit(PAGE_LIMIT)
-                .get()
-                .addOnSuccessListener(this::appendMoreData)
-                .addOnFailureListener(e -> {
-                    Log.e(TAG, "Load more failed: " + e.getMessage());
-                    isLoadingMore = false;
-                });
-    }
-
-    private void appendMoreData(QuerySnapshot snap) {
-        Log.d(TAG, "appendMoreData() count=" + snap.size());
-
-        if (snap.isEmpty()) {
-            isLoadingMore = false;
-            return;
-        }
-
-        lastDoc = snap.getDocuments().get(snap.size() - 1);
-        Log.d(TAG, "New lastDoc=" + lastDoc.getId());
-
-        ArrayList<DetailsModel> base = new ArrayList<>(addDetailsAdapter.getCurrentItems());
-        applySnapshotForAppend(snap.getDocuments(), base);
-    }
-
-    private void applySnapshotForAppend(List<DocumentSnapshot> docs, ArrayList<DetailsModel> base) {
-        Log.d(TAG, "applySnapshotForAppend() new count=" + docs.size());
-
-        ArrayList<DetailsModel> tempNew = new ArrayList<>();
-        ArrayList<Task<DocumentSnapshot>> tasks = new ArrayList<>();
-
-        for (DocumentSnapshot doc : docs) {
-            if (!isValidDoc(doc)) continue;
-
-            DetailsModel model = parseDocument(doc);
-            // Local filter removed as it is now handled by the Firestore query
-            tempNew.add(model);
-            tasks.add(fetchNameAsync(doc, model));
-        }
-
-        Tasks.whenAllComplete(tasks).addOnCompleteListener(done -> {
-            base.addAll(tempNew);
-            updateList(base);
-            isLoadingMore = false;
-        });
-    }
+    // Pagination removed as per user request (Realtime listener handles top items)
 
     // ---------------------------------------------------------------------
     // UTILITIES
