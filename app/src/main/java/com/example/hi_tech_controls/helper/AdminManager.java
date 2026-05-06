@@ -6,6 +6,7 @@ import android.provider.Settings;
 import android.util.Log;
 
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.SetOptions;
@@ -61,46 +62,43 @@ public class AdminManager {
     // 1. FETCH CONFIG ONCE (used at login time)
     // ------------------------------------------------------------------
     public static void fetchConfig(ConfigCallback callback) {
-        Log.d(TAG, "fetchConfig() called");
-        DocumentReference configRef = FirebaseFirestore.getInstance()
-                .collection(COL_ADMIN)
-                .document(DOC_CONFIG);
+        Log.d(TAG, "fetchConfig() called via transaction");
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference configRef = db.collection(COL_ADMIN).document(DOC_CONFIG);
 
-        configRef.get()
-                .addOnSuccessListener(doc -> {
-                    if (doc.exists()) {
-                        String username = doc.getString("username");
-                        String password = doc.getString("password");
-                        Boolean maintenance = doc.getBoolean("maintenance");
-                        Log.d(TAG, "Config fetched. maintenance=" + maintenance);
-                        callback.onResult(
-                                username != null ? username : "",
-                                password != null ? password : "",
-                                maintenance != null && maintenance
-                        );
-                    } else {
-                        // AUTO-SETUP: Document doesn't exist, create with defaults
-                        Log.d(TAG, "Config document missing. Initializing default structure...");
-                        Map<String, Object> defaults = new HashMap<>();
-                        defaults.put("username", "admin");
-                        defaults.put("password", "1234");
-                        defaults.put("maintenance", false);
+        db.runTransaction(transaction -> {
+            DocumentSnapshot doc = transaction.get(configRef);
+            if (!doc.exists()) {
+                Log.d(TAG, "Atomic init: Config missing, creating defaults");
+                Map<String, Object> defaults = new HashMap<>();
+                defaults.put("username", "admin");
+                defaults.put("password", "1234");
+                defaults.put("maintenance", false);
+                transaction.set(configRef, defaults);
+                return defaults;
+            }
+            return doc.getData();
+        }).addOnSuccessListener(data -> {
+            if (data != null) {
+                String username = (String) data.get("username");
+                String password = (String) data.get("password");
+                Boolean maintenance = (Boolean) data.get("maintenance");
 
-                        configRef.set(defaults)
-                                .addOnSuccessListener(v -> {
-                                    Log.d(TAG, "Default config created successfully");
-                                    callback.onResult("admin", "1234", false);
-                                })
-                                .addOnFailureListener(e -> {
-                                    Log.e(TAG, "Failed to create default config: " + e.getMessage());
-                                    callback.onError("Initialization failed: " + e.getMessage());
-                                });
-                    }
-                })
-                .addOnFailureListener(e -> {
-                    Log.e(TAG, "fetchConfig failed: " + e.getMessage());
-                    callback.onError(e.getMessage());
-                });
+                if (username == null || password == null) {
+                    Log.e(TAG, "Config data corrupted: username or password missing");
+                    callback.onError("Invalid config data in database");
+                    return;
+                }
+
+                Log.d(TAG, "Config loaded atomically. maintenance=" + maintenance);
+                callback.onResult(username, password, maintenance != null && maintenance);
+            } else {
+                callback.onError("Failed to load config data");
+            }
+        }).addOnFailureListener(e -> {
+            Log.e(TAG, "fetchConfig transaction failed: " + e.getMessage());
+            callback.onError(e.getMessage());
+        });
     }
 
     // ------------------------------------------------------------------
@@ -141,8 +139,8 @@ public class AdminManager {
             data.put("deviceId", deviceId);
             data.put("deviceName", deviceName);
 
-            // Format current time into readable string
-            String readableTime = new SimpleDateFormat("dd MMM yyyy, hh:mm a", Locale.getDefault()).format(new Date());
+            // Format current time into readable string (Use Locale.US for consistency)
+            String readableTime = new SimpleDateFormat("dd MMM yyyy, hh:mm a", Locale.US).format(new Date());
             data.put("lastLogin", readableTime);
 
             if (!doc.exists()) {

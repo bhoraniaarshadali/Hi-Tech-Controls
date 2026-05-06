@@ -24,7 +24,7 @@
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/splashAnim"
         android:layout_width="260dp"
-        android:layout_height="60dp"
+        android:layout_height="30dp"
         app:layout_constraintBottom_toTopOf="@+id/devCredit"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -166,7 +166,7 @@ public class LoginActivity extends AppCompatActivity {
                         setUIEnabled(true);
                         loginButton.setText("Login");
                         Log.w(TAG, "Device is blocked by admin");
-                        showCleanToast("🚫 Your device has been blocked. Contact admin.");
+                        showCleanToast("Your device has been blocked. Contact admin.");
                         YoYo.with(Techniques.Shake).duration(300).repeat(2).playOn(loginButton);
                     } else {
                         // Step 5 — All clear: save login + register device + open app
