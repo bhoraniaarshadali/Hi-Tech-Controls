@@ -32,6 +32,7 @@ import com.example.hi_tech_controls.mediaControl.PdfGenerator;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
+import com.example.hi_tech_controls.helper.FirestoreUtils;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -249,103 +250,103 @@ public class View_data_fragment extends Fragment {
 
     // === FILL MAPPERS ===
     private void fillOne(InwardClient c, DocumentSnapshot d) {
-        c.name = d.getString("name");
-        c.client_number = d.getString("client_number");
-        c.gp_number = d.getString("gp_number");
-        c.gp_date = d.getString("gp_date");
-        c.make_name = d.getString("make_name");
-        c.model_name = d.getString("model_name");
-        c.hp_rate = d.getString("hp_rate");
-        c.serial_number = d.getString("serial_number");
+        c.name = FirestoreUtils.getStringSafe(d, "name");
+        c.client_number = FirestoreUtils.getStringSafe(d, "client_number");
+        c.gp_number = FirestoreUtils.getStringSafe(d, "gp_number");
+        c.gp_date = FirestoreUtils.getStringSafe(d, "gp_date");
+        c.make_name = FirestoreUtils.getStringSafe(d, "make_name");
+        c.model_name = FirestoreUtils.getStringSafe(d, "model_name");
+        c.hp_rate = FirestoreUtils.getStringSafe(d, "hp_rate");
+        c.serial_number = FirestoreUtils.getStringSafe(d, "serial_number");
     }
 
     private void fillTwo(InwardClient c, DocumentSnapshot d) {
-        c.select_emp_fill_two = d.getString("select_emp");
-        c.fr_rate = d.getString("fr_rate");
-        c.localEditText = d.getString("localEditText");
-        c.client_obs = d.getString("client_obs");
-        c.our_obs = d.getString("our_obs");
-        c.last_fault = d.getString("last_fault");
+        c.select_emp_fill_two = FirestoreUtils.getStringSafe(d, "select_emp");
+        c.fr_rate = FirestoreUtils.getStringSafe(d, "fr_rate");
+        c.localEditText = FirestoreUtils.getStringSafe(d, "localEditText");
+        c.client_obs = FirestoreUtils.getStringSafe(d, "client_obs");
+        c.our_obs = FirestoreUtils.getStringSafe(d, "our_obs");
+        c.last_fault = FirestoreUtils.getStringSafe(d, "last_fault");
 
-        c.local_radio_checked = b(d, "local_radio_checked");
-        c.remote_radio_checked = b(d, "remote_radio_checked");
-        c.comm_radio_checked = b(d, "comm_radio_checked");
-        c.diode_radio_checked = b(d, "diode_radio_checked");
-        c.scr_radio_checked = b(d, "scr_radio_checked");
+        c.local_radio_checked = FirestoreUtils.getBooleanSafe(d, "local_radio_checked");
+        c.remote_radio_checked = FirestoreUtils.getBooleanSafe(d, "remote_radio_checked");
+        c.comm_radio_checked = FirestoreUtils.getBooleanSafe(d, "comm_radio_checked");
+        c.diode_radio_checked = FirestoreUtils.getBooleanSafe(d, "diode_radio_checked");
+        c.scr_radio_checked = FirestoreUtils.getBooleanSafe(d, "scr_radio_checked");
 
-        c.input_pos_checkbox_U = b(d, "input_pos_checkbox_U");
-        c.input_pos_checkbox_V = b(d, "input_pos_checkbox_V");
-        c.input_pos_checkbox_W = b(d, "input_pos_checkbox_W");
-        c.input_neg_checkbox_U = b(d, "input_neg_checkbox_U");
-        c.input_neg_checkbox_V = b(d, "input_neg_checkbox_V");
-        c.input_neg_checkbox_W = b(d, "input_neg_checkbox_W");
+        c.input_pos_checkbox_U = FirestoreUtils.getBooleanSafe(d, "input_pos_checkbox_U");
+        c.input_pos_checkbox_V = FirestoreUtils.getBooleanSafe(d, "input_pos_checkbox_V");
+        c.input_pos_checkbox_W = FirestoreUtils.getBooleanSafe(d, "input_pos_checkbox_W");
+        c.input_neg_checkbox_U = FirestoreUtils.getBooleanSafe(d, "input_neg_checkbox_U");
+        c.input_neg_checkbox_V = FirestoreUtils.getBooleanSafe(d, "input_neg_checkbox_V");
+        c.input_neg_checkbox_W = FirestoreUtils.getBooleanSafe(d, "input_neg_checkbox_W");
 
-        c.output_pos_checkbox_U = b(d, "output_pos_checkbox_U");
-        c.output_pos_checkbox_V = b(d, "output_pos_checkbox_V");
-        c.output_pos_checkbox_W = b(d, "output_pos_checkbox_W");
-        c.output_neg_checkbox_U = b(d, "output_neg_checkbox_U");
-        c.output_neg_checkbox_V = b(d, "output_neg_checkbox_V");
-        c.output_neg_checkbox_W = b(d, "output_neg_checkbox_W");
+        c.output_pos_checkbox_U = FirestoreUtils.getBooleanSafe(d, "output_pos_checkbox_U");
+        c.output_pos_checkbox_V = FirestoreUtils.getBooleanSafe(d, "output_pos_checkbox_V");
+        c.output_pos_checkbox_W = FirestoreUtils.getBooleanSafe(d, "output_pos_checkbox_W");
+        c.output_neg_checkbox_U = FirestoreUtils.getBooleanSafe(d, "output_neg_checkbox_U");
+        c.output_neg_checkbox_V = FirestoreUtils.getBooleanSafe(d, "output_neg_checkbox_V");
+        c.output_neg_checkbox_W = FirestoreUtils.getBooleanSafe(d, "output_neg_checkbox_W");
     }
 
     private void fillThree(InwardClient c, DocumentSnapshot d) {
-        c.select_emp_fill_three = d.getString("select_emp");
-        c.enter_first_remarks = d.getString("enter_first_remarks");
+        c.select_emp_fill_three = FirestoreUtils.getStringSafe(d, "select_emp");
+        c.enter_first_remarks = FirestoreUtils.getStringSafe(d, "enter_first_remarks");
 
-        c.checkboxCapacitor = b(d, "checkboxCapacitor");
-        c.checkboxDisplay = b(d, "checkboxDisplay");
-        c.checkboxFAN = b(d, "checkboxFAN");
-        c.checkboxCC = b(d, "checkboxCC");
+        c.checkboxCapacitor = FirestoreUtils.getBooleanSafe(d, "checkboxCapacitor");
+        c.checkboxDisplay = FirestoreUtils.getBooleanSafe(d, "checkboxDisplay");
+        c.checkboxFAN = FirestoreUtils.getBooleanSafe(d, "checkboxFAN");
+        c.checkboxCC = FirestoreUtils.getBooleanSafe(d, "checkboxCC");
 
-        c.repair_checkboxOne = b(d, "repair_checkboxOne");
-        c.repair_checkboxTwo = b(d, "repair_checkboxTwo");
-        c.repair_checkboxThree = b(d, "repair_checkboxThree");
-        c.repair_checkboxFour = b(d, "repair_checkboxFour");
-        c.repair_checkboxFive = b(d, "repair_checkboxFive");
-        c.repair_checkboxSix = b(d, "repair_checkboxSix");
+        c.repair_checkboxOne = FirestoreUtils.getBooleanSafe(d, "repair_checkboxOne");
+        c.repair_checkboxTwo = FirestoreUtils.getBooleanSafe(d, "repair_checkboxTwo");
+        c.repair_checkboxThree = FirestoreUtils.getBooleanSafe(d, "repair_checkboxThree");
+        c.repair_checkboxFour = FirestoreUtils.getBooleanSafe(d, "repair_checkboxFour");
+        c.repair_checkboxFive = FirestoreUtils.getBooleanSafe(d, "repair_checkboxFive");
+        c.repair_checkboxSix = FirestoreUtils.getBooleanSafe(d, "repair_checkboxSix");
 
-        c.replace_checkboxOne = b(d, "replace_checkboxOne");
-        c.replace_checkboxTwo = b(d, "replace_checkboxTwo");
-        c.replace_checkboxThree = b(d, "replace_checkboxThree");
-        c.replace_checkboxFour = b(d, "replace_checkboxFour");
-        c.replace_checkboxFive = b(d, "replace_checkboxFive");
-        c.replace_checkboxSix = b(d, "replace_checkboxSix");
-        c.replace_checkboxSeven = b(d, "replace_checkboxSeven");
-        c.replace_checkboxEight = b(d, "replace_checkboxEight");
-        c.replace_checkboxNine = b(d, "replace_checkboxNine");
+        c.replace_checkboxOne = FirestoreUtils.getBooleanSafe(d, "replace_checkboxOne");
+        c.replace_checkboxTwo = FirestoreUtils.getBooleanSafe(d, "replace_checkboxTwo");
+        c.replace_checkboxThree = FirestoreUtils.getBooleanSafe(d, "replace_checkboxThree");
+        c.replace_checkboxFour = FirestoreUtils.getBooleanSafe(d, "replace_checkboxFour");
+        c.replace_checkboxFive = FirestoreUtils.getBooleanSafe(d, "replace_checkboxFive");
+        c.replace_checkboxSix = FirestoreUtils.getBooleanSafe(d, "replace_checkboxSix");
+        c.replace_checkboxSeven = FirestoreUtils.getBooleanSafe(d, "replace_checkboxSeven");
+        c.replace_checkboxEight = FirestoreUtils.getBooleanSafe(d, "replace_checkboxEight");
+        c.replace_checkboxNine = FirestoreUtils.getBooleanSafe(d, "replace_checkboxNine");
 
-        c.checkboxTrial1 = b(d, "checkboxTrial1");
-        c.checkboxTrial2 = b(d, "checkboxTrial2");
+        c.checkboxTrial1 = FirestoreUtils.getBooleanSafe(d, "checkboxTrial1");
+        c.checkboxTrial2 = FirestoreUtils.getBooleanSafe(d, "checkboxTrial2");
 
-        Long v = d.getLong("number_picker_value");
-        c.number_picker_value = v != null ? v.intValue() : 1;
+        c.number_picker_value = (int) FirestoreUtils.getLongSafe(d, "number_picker_value");
+        if (c.number_picker_value == 0) c.number_picker_value = 1;
     }
 
     private void fillFour(InwardClient c, DocumentSnapshot d) {
-        c.select_emp_fill_four = d.getString("select_emp");
-        c.checkbox_1HP = b(d, "checkbox_1HP");
-        c.checkbox_10HP = b(d, "checkbox_10HP");
-        c.checkbox_30HP = b(d, "checkbox_30HP");
+        c.select_emp_fill_four = FirestoreUtils.getStringSafe(d, "select_emp");
+        c.checkbox_1HP = FirestoreUtils.getBooleanSafe(d, "checkbox_1HP");
+        c.checkbox_10HP = FirestoreUtils.getBooleanSafe(d, "checkbox_10HP");
+        c.checkbox_30HP = FirestoreUtils.getBooleanSafe(d, "checkbox_30HP");
 
-        c.On_Display = d.getString("On_Display");
-        c.On_Clamp = d.getString("On_Clamp");
+        c.On_Display = FirestoreUtils.getStringSafe(d, "On_Display");
+        c.On_Clamp = FirestoreUtils.getStringSafe(d, "On_Clamp");
 
-        c.checkbox_u = b(d, "checkbox_u");
-        c.checkbox_v = b(d, "checkbox_v");
-        c.checkbox_w = b(d, "checkbox_w");
+        c.checkbox_u = FirestoreUtils.getBooleanSafe(d, "checkbox_u");
+        c.checkbox_v = FirestoreUtils.getBooleanSafe(d, "checkbox_v");
+        c.checkbox_w = FirestoreUtils.getBooleanSafe(d, "checkbox_w");
 
-        c.dc_dsp = d.getString("dc_dsp");
-        c.dc_met = d.getString("dc_met");
-        c.output_dsp = d.getString("output_dsp");
-        c.output_met = d.getString("output_met");
+        c.dc_dsp = FirestoreUtils.getStringSafe(d, "dc_dsp");
+        c.dc_met = FirestoreUtils.getStringSafe(d, "dc_met");
+        c.output_dsp = FirestoreUtils.getStringSafe(d, "output_dsp");
+        c.output_met = FirestoreUtils.getStringSafe(d, "output_met");
 
-        c.enter_RH = d.getString("enter_RH");
-        c.enterReplayOP = d.getString("enterReplayOP");
-        c.enter_FANOpr = d.getString("enter_FANOpr");
-        c.enter_BODY_Condition = d.getString("enter_BODY_Condition");
-        c.enter_io_check = d.getString("enter_io_check");
-        c.enterClean = d.getString("enterClean");
-        c.enterPramCopy = d.getString("enterPramCopy");
+        c.enter_RH = FirestoreUtils.getStringSafe(d, "enter_RH");
+        c.enterReplayOP = FirestoreUtils.getStringSafe(d, "enterReplayOP");
+        c.enter_FANOpr = FirestoreUtils.getStringSafe(d, "enter_FANOpr");
+        c.enter_BODY_Condition = FirestoreUtils.getStringSafe(d, "enter_BODY_Condition");
+        c.enter_io_check = FirestoreUtils.getStringSafe(d, "enter_io_check");
+        c.enterClean = FirestoreUtils.getStringSafe(d, "enterClean");
+        c.enterPramCopy = FirestoreUtils.getStringSafe(d, "enterPramCopy");
     }
 
     // === UI population (moderate cleanup: grouped blocks but explicit setters) ===
@@ -524,15 +525,6 @@ public class View_data_fragment extends Fragment {
     // === HELPERS ===
     private String g(String s) {
         return s != null ? s : "";
-    }
-
-    private boolean b(DocumentSnapshot d, String f) {
-        Object v = d.get(f);
-        if (v instanceof Boolean) return (Boolean) v;
-        if (v instanceof String) return "true".equalsIgnoreCase((String) v);
-        if (v instanceof Long) return ((Long) v) == 1L;
-        if (v instanceof Integer) return ((Integer) v) == 1;
-        return false;
     }
 
     private void setText(int id, String t) {

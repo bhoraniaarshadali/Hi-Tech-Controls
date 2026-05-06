@@ -19,6 +19,7 @@ import androidx.fragment.app.Fragment;
 import com.example.hi_tech_controls.R;
 import com.example.hi_tech_controls.helper.LoadingDialog;
 import com.example.hi_tech_controls.helper.OfflineSyncManager;
+import com.example.hi_tech_controls.helper.FirestoreUtils;
 import com.example.hi_tech_controls.ui.activity.AddDetailsActivity;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
@@ -172,14 +173,14 @@ public class fill_one_fragment extends Fragment implements DatePickerDialog.OnDa
     }
 
     private void populateFields(com.google.firebase.firestore.DocumentSnapshot doc) {
-        safeSetText(enterName, doc.getString("name"));
-        safeSetText(enterNumber, doc.getString("client_number"));
-        safeSetText(enterGPNumber, doc.getString("gp_number"));
-        safeSetText(enterDate, doc.getString("gp_date"));
-        safeSetText(enterMakeName, doc.getString("make_name"));
-        safeSetText(enterModelName, doc.getString("model_name"));
-        safeSetText(enterHPrate, doc.getString("hp_rate"));
-        safeSetText(enterSerialNumber, doc.getString("serial_number"));
+        safeSetText(enterName, FirestoreUtils.getStringSafe(doc, "name"));
+        safeSetText(enterNumber, FirestoreUtils.getStringSafe(doc, "client_number"));
+        safeSetText(enterGPNumber, FirestoreUtils.getStringSafe(doc, "gp_number"));
+        safeSetText(enterDate, FirestoreUtils.getStringSafe(doc, "gp_date"));
+        safeSetText(enterMakeName, FirestoreUtils.getStringSafe(doc, "make_name"));
+        safeSetText(enterModelName, FirestoreUtils.getStringSafe(doc, "model_name"));
+        safeSetText(enterHPrate, FirestoreUtils.getStringSafe(doc, "hp_rate"));
+        safeSetText(enterSerialNumber, FirestoreUtils.getStringSafe(doc, "serial_number"));
     }
 
 

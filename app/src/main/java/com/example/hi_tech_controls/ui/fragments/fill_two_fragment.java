@@ -27,6 +27,7 @@ import com.example.hi_tech_controls.ui.activity.AddDetailsActivity;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.WriteBatch;
+import com.example.hi_tech_controls.helper.FirestoreUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -152,42 +153,42 @@ public class fill_two_fragment extends Fragment {
             if (!doc.exists()) return;
 
             // Restore Spinner
-            String emp = doc.getString("select_emp");
-            if (emp != null) {
+            String emp = FirestoreUtils.getStringSafe(doc, "select_emp");
+            if (!emp.isEmpty()) {
                 ArrayAdapter<String> adapter = (ArrayAdapter<String>) selectEmply.getAdapter();
                 int pos = adapter.getPosition(emp);
                 if (pos >= 0) selectEmply.setSelection(pos);
             }
 
             // Restore text fields
-            enterFRrate.setText(doc.getString("fr_rate"));
-            localEditText.setText(doc.getString("localEditText"));
-            clientObsText.setText(doc.getString("client_obs"));
-            ourObsText.setText(doc.getString("our_obs"));
-            lastFaultText.setText(doc.getString("last_fault"));
+            enterFRrate.setText(FirestoreUtils.getStringSafe(doc, "fr_rate"));
+            localEditText.setText(FirestoreUtils.getStringSafe(doc, "localEditText"));
+            clientObsText.setText(FirestoreUtils.getStringSafe(doc, "client_obs"));
+            ourObsText.setText(FirestoreUtils.getStringSafe(doc, "our_obs"));
+            lastFaultText.setText(FirestoreUtils.getStringSafe(doc, "last_fault"));
 
             // Restore radio buttons
-            radioButtonLocal.setChecked(getBoolean(doc, "local_radio_checked"));
-            radioButtonRemote.setChecked(getBoolean(doc, "remote_radio_checked"));
-            radioButtonComm.setChecked(getBoolean(doc, "comm_radio_checked"));
-            radioButtonDIODE.setChecked(getBoolean(doc, "diode_radio_checked"));
-            radioButtonSCR.setChecked(getBoolean(doc, "scr_radio_checked"));
+            radioButtonLocal.setChecked(FirestoreUtils.getBooleanSafe(doc, "local_radio_checked"));
+            radioButtonRemote.setChecked(FirestoreUtils.getBooleanSafe(doc, "remote_radio_checked"));
+            radioButtonComm.setChecked(FirestoreUtils.getBooleanSafe(doc, "comm_radio_checked"));
+            radioButtonDIODE.setChecked(FirestoreUtils.getBooleanSafe(doc, "diode_radio_checked"));
+            radioButtonSCR.setChecked(FirestoreUtils.getBooleanSafe(doc, "scr_radio_checked"));
 
             localEditText.setVisibility(radioButtonLocal.isChecked() ? View.VISIBLE : View.GONE);
 
             // Restore checkboxes
-            input_POS_checkbox_U.setChecked(getBoolean(doc, "input_pos_checkbox_U"));
-            input_POS_checkbox_V.setChecked(getBoolean(doc, "input_pos_checkbox_V"));
-            input_POS_checkbox_W.setChecked(getBoolean(doc, "input_pos_checkbox_W"));
-            input_NEG_checkbox_U.setChecked(getBoolean(doc, "input_neg_checkbox_U"));
-            input_NEG_checkbox_V.setChecked(getBoolean(doc, "input_neg_checkbox_V"));
-            input_NEG_checkbox_W.setChecked(getBoolean(doc, "input_neg_checkbox_W"));
-            output_POS_checkbox_U.setChecked(getBoolean(doc, "output_pos_checkbox_U"));
-            output_POS_checkbox_V.setChecked(getBoolean(doc, "output_pos_checkbox_V"));
-            output_POS_checkbox_W.setChecked(getBoolean(doc, "output_pos_checkbox_W"));
-            output_NEG_checkbox_U.setChecked(getBoolean(doc, "output_neg_checkbox_U"));
-            output_NEG_checkbox_V.setChecked(getBoolean(doc, "output_neg_checkbox_V"));
-            output_NEG_checkbox_W.setChecked(getBoolean(doc, "output_neg_checkbox_W"));
+            input_POS_checkbox_U.setChecked(FirestoreUtils.getBooleanSafe(doc, "input_pos_checkbox_U"));
+            input_POS_checkbox_V.setChecked(FirestoreUtils.getBooleanSafe(doc, "input_pos_checkbox_V"));
+            input_POS_checkbox_W.setChecked(FirestoreUtils.getBooleanSafe(doc, "input_pos_checkbox_W"));
+            input_NEG_checkbox_U.setChecked(FirestoreUtils.getBooleanSafe(doc, "input_neg_checkbox_U"));
+            input_NEG_checkbox_V.setChecked(FirestoreUtils.getBooleanSafe(doc, "input_neg_checkbox_V"));
+            input_NEG_checkbox_W.setChecked(FirestoreUtils.getBooleanSafe(doc, "input_neg_checkbox_W"));
+            output_POS_checkbox_U.setChecked(FirestoreUtils.getBooleanSafe(doc, "output_pos_checkbox_U"));
+            output_POS_checkbox_V.setChecked(FirestoreUtils.getBooleanSafe(doc, "output_pos_checkbox_V"));
+            output_POS_checkbox_W.setChecked(FirestoreUtils.getBooleanSafe(doc, "output_pos_checkbox_W"));
+            output_NEG_checkbox_U.setChecked(FirestoreUtils.getBooleanSafe(doc, "output_neg_checkbox_U"));
+            output_NEG_checkbox_V.setChecked(FirestoreUtils.getBooleanSafe(doc, "output_neg_checkbox_V"));
+            output_NEG_checkbox_W.setChecked(FirestoreUtils.getBooleanSafe(doc, "output_neg_checkbox_W"));
 
             showToastSafe("Data loaded");
 
@@ -354,13 +355,6 @@ public class fill_two_fragment extends Fragment {
     private boolean isRealClientId() {
         return clientId != null && !clientId.isEmpty()
                 && !clientId.startsWith("temp");
-    }
-
-    private boolean getBoolean(com.google.firebase.firestore.DocumentSnapshot doc, String key) {
-        Boolean b = doc.getBoolean(key);
-        if (b != null) return b;
-        String s = doc.getString(key);
-        return s != null && s.equalsIgnoreCase("true");
     }
 
     private void showToastSafe(String msg) {

@@ -25,6 +25,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.WriteBatch;
+import com.example.hi_tech_controls.helper.FirestoreUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -217,45 +218,45 @@ public class fill_three_fragment extends Fragment {
                     if (!doc.exists()) return;
 
                     // Spinner
-                    String emp = doc.getString("select_emp");
-                    if (emp != null && selectEmply.getAdapter() != null) {
+                    String emp = FirestoreUtils.getStringSafe(doc, "select_emp");
+                    if (!emp.isEmpty() && selectEmply.getAdapter() != null) {
                         selectEmply.setSelection(getSpinnerIndex(selectEmply, emp));
                     }
 
                     // Checkboxes & Text
-                    checkboxCapacitor.setChecked(getBoolean(doc, "checkboxCapacitor"));
-                    checkboxDisplay.setChecked(getBoolean(doc, "checkboxDisplay"));
-                    checkboxFAN.setChecked(getBoolean(doc, "checkboxFAN"));
-                    checkboxCC.setChecked(getBoolean(doc, "checkboxCC"));
+                    checkboxCapacitor.setChecked(FirestoreUtils.getBooleanSafe(doc, "checkboxCapacitor"));
+                    checkboxDisplay.setChecked(FirestoreUtils.getBooleanSafe(doc, "checkboxDisplay"));
+                    checkboxFAN.setChecked(FirestoreUtils.getBooleanSafe(doc, "checkboxFAN"));
+                    checkboxCC.setChecked(FirestoreUtils.getBooleanSafe(doc, "checkboxCC"));
 
-                    firstRemarks.setText(doc.getString("enter_first_remarks"));
+                    firstRemarks.setText(FirestoreUtils.getStringSafe(doc, "enter_first_remarks"));
 
                     // Repair
-                    Repair_checkboxOne.setChecked(getBoolean(doc, "repair_checkboxOne"));
-                    Repair_checkboxTwo.setChecked(getBoolean(doc, "repair_checkboxTwo"));
-                    Repair_checkboxThree.setChecked(getBoolean(doc, "repair_checkboxThree"));
-                    Repair_checkboxFour.setChecked(getBoolean(doc, "repair_checkboxFour"));
-                    Repair_checkboxFive.setChecked(getBoolean(doc, "repair_checkboxFive"));
-                    Repair_checkboxSix.setChecked(getBoolean(doc, "repair_checkboxSix"));
+                    Repair_checkboxOne.setChecked(FirestoreUtils.getBooleanSafe(doc, "repair_checkboxOne"));
+                    Repair_checkboxTwo.setChecked(FirestoreUtils.getBooleanSafe(doc, "repair_checkboxTwo"));
+                    Repair_checkboxThree.setChecked(FirestoreUtils.getBooleanSafe(doc, "repair_checkboxThree"));
+                    Repair_checkboxFour.setChecked(FirestoreUtils.getBooleanSafe(doc, "repair_checkboxFour"));
+                    Repair_checkboxFive.setChecked(FirestoreUtils.getBooleanSafe(doc, "repair_checkboxFive"));
+                    Repair_checkboxSix.setChecked(FirestoreUtils.getBooleanSafe(doc, "repair_checkboxSix"));
 
                     // Replace
-                    Replace_checkboxOne.setChecked(getBoolean(doc, "replace_checkboxOne"));
-                    Replace_checkboxTwo.setChecked(getBoolean(doc, "replace_checkboxTwo"));
-                    Replace_checkboxThree.setChecked(getBoolean(doc, "replace_checkboxThree"));
-                    Replace_checkboxFour.setChecked(getBoolean(doc, "replace_checkboxFour"));
-                    Replace_checkboxFive.setChecked(getBoolean(doc, "replace_checkboxFive"));
-                    Replace_checkboxSix.setChecked(getBoolean(doc, "replace_checkboxSix"));
-                    Replace_checkboxSeven.setChecked(getBoolean(doc, "replace_checkboxSeven"));
-                    Replace_checkboxEight.setChecked(getBoolean(doc, "replace_checkboxEight"));
-                    Replace_checkboxNine.setChecked(getBoolean(doc, "replace_checkboxNine"));
+                    Replace_checkboxOne.setChecked(FirestoreUtils.getBooleanSafe(doc, "replace_checkboxOne"));
+                    Replace_checkboxTwo.setChecked(FirestoreUtils.getBooleanSafe(doc, "replace_checkboxTwo"));
+                    Replace_checkboxThree.setChecked(FirestoreUtils.getBooleanSafe(doc, "replace_checkboxThree"));
+                    Replace_checkboxFour.setChecked(FirestoreUtils.getBooleanSafe(doc, "replace_checkboxFour"));
+                    Replace_checkboxFive.setChecked(FirestoreUtils.getBooleanSafe(doc, "replace_checkboxFive"));
+                    Replace_checkboxSix.setChecked(FirestoreUtils.getBooleanSafe(doc, "replace_checkboxSix"));
+                    Replace_checkboxSeven.setChecked(FirestoreUtils.getBooleanSafe(doc, "replace_checkboxSeven"));
+                    Replace_checkboxEight.setChecked(FirestoreUtils.getBooleanSafe(doc, "replace_checkboxEight"));
+                    Replace_checkboxNine.setChecked(FirestoreUtils.getBooleanSafe(doc, "replace_checkboxNine"));
 
                     // Trials
-                    checkboxTRIAL1.setChecked(getBoolean(doc, "checkboxTrial1"));
-                    checkboxTRIAL2.setChecked(getBoolean(doc, "checkboxTrial2"));
+                    checkboxTRIAL1.setChecked(FirestoreUtils.getBooleanSafe(doc, "checkboxTrial1"));
+                    checkboxTRIAL2.setChecked(FirestoreUtils.getBooleanSafe(doc, "checkboxTrial2"));
 
                     // Days
-                    Long savedDays = doc.getLong("number_picker_value");
-                    daysCount = savedDays != null ? savedDays.intValue() : 1;
+                    daysCount = (int) FirestoreUtils.getLongSafe(doc, "number_picker_value");
+                    if (daysCount == 0) daysCount = 1;
                     textDays.setText(String.valueOf(daysCount));
 
                     showToastSafe("Data loaded 3");
@@ -272,18 +273,6 @@ public class fill_three_fragment extends Fragment {
                 return i;
         }
         return 0;
-    }
-
-    private boolean getBoolean(DocumentSnapshot doc, String field) {
-        Object obj = doc.get(field);
-        if (obj == null) return false;
-
-        if (obj instanceof Boolean) return (Boolean) obj;
-        if (obj instanceof String) return "true".equalsIgnoreCase((String) obj);
-        if (obj instanceof Long) return ((Long) obj) == 1L;
-        if (obj instanceof Integer) return ((Integer) obj) == 1;
-
-        return false;
     }
 
     // ----------------------------------------------------

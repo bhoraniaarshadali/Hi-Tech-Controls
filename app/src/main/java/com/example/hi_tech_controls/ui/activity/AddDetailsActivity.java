@@ -30,6 +30,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.SetOptions;
+import com.example.hi_tech_controls.helper.FirestoreUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -217,10 +218,8 @@ public class AddDetailsActivity extends BaseActivity {
         Log.d(TAG, "Reading last_id to generate tempClientId");
 
         lastIdRef.get().addOnSuccessListener(snapshot -> {
-            long lastId = 2000; // default base if missing
-            if (snapshot.exists() && snapshot.getLong("lastId") != null) {
-                lastId = snapshot.getLong("lastId");
-            }
+            long lastId = FirestoreUtils.getLongSafe(snapshot, "lastId");
+            if (lastId == 0) lastId = 2000; // fallback if missing
             tempClientId = String.valueOf(lastId + 1);
             Log.d(TAG, "Generated tempClientId=" + tempClientId);
 
@@ -254,8 +253,7 @@ public class AddDetailsActivity extends BaseActivity {
 
         docRef.get().addOnSuccessListener(snapshot -> {
             if (snapshot.exists()) {
-                Long progressLong = snapshot.getLong("progress");
-                int initialProgress = progressLong != null ? progressLong.intValue() : 0;
+                int initialProgress = (int) FirestoreUtils.getLongSafe(snapshot, "progress");
                 Log.d(TAG, "Initial progress=" + initialProgress + " for clientId=" + clientId);
 
                 if (initialProgress >= 100) {
@@ -297,8 +295,7 @@ public class AddDetailsActivity extends BaseActivity {
                 return;
             }
 
-            Long progressLong = snapshot.getLong("progress");
-            currentProgress = progressLong != null ? progressLong.intValue() : 0;
+            currentProgress = (int) FirestoreUtils.getLongSafe(snapshot, "progress");
             Log.d(TAG, "Realtime update: progress=" + currentProgress);
 
             runOnUiThread(() -> {
@@ -460,7 +457,8 @@ public class AddDetailsActivity extends BaseActivity {
 
         db.runTransaction(transaction -> {
             DocumentSnapshot snap = transaction.get(lastIdRef);
-            long currentLastId = snap.exists() && snap.getLong("lastId") != null ? snap.getLong("lastId") : 2000;
+            long currentLastId = FirestoreUtils.getLongSafe(snap, "lastId");
+            if (currentLastId == 0) currentLastId = 2000;
 
             if (currentLastId + 1 != Long.parseLong(tempClientId)) {
                 Log.e(TAG, "ID conflict during commit. expected=" + (currentLastId + 1) + " got=" + tempClientId);

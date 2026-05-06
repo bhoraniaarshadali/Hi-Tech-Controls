@@ -10,6 +10,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.SetOptions;
+import com.example.hi_tech_controls.helper.FirestoreUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -80,18 +81,18 @@ public class AdminManager {
             return doc.getData();
         }).addOnSuccessListener(data -> {
             if (data != null) {
-                String username = (String) data.get("username");
-                String password = (String) data.get("password");
-                Boolean maintenance = (Boolean) data.get("maintenance");
+                String username = FirestoreUtils.getStringSafe(data, "username");
+                String password = FirestoreUtils.getStringSafe(data, "password");
+                boolean isMaintenance = FirestoreUtils.getBooleanSafe(data, "maintenance");
 
-                if (username == null || password == null) {
+                if (username.isEmpty() || password.isEmpty()) {
                     Log.e(TAG, "Config data corrupted: username or password missing");
                     callback.onError("Invalid config data in database");
                     return;
                 }
 
-                Log.d(TAG, "Config loaded atomically. maintenance=" + maintenance);
-                callback.onResult(username, password, maintenance != null && maintenance);
+                Log.d(TAG, "Config loaded atomically. maintenance=" + isMaintenance);
+                callback.onResult(username, password, isMaintenance);
             } else {
                 callback.onError("Failed to load config data");
             }
@@ -115,8 +116,7 @@ public class AdminManager {
                         return;
                     }
                     if (doc != null && doc.exists()) {
-                        Boolean maintenance = doc.getBoolean("maintenance");
-                        boolean isMaintenance = maintenance != null && maintenance;
+                        boolean isMaintenance = FirestoreUtils.getBooleanSafe(doc, "maintenance");
                         Log.d(TAG, "Maintenance state changed: " + isMaintenance);
                         callback.onChange(isMaintenance);
                     }
@@ -167,8 +167,7 @@ public class AdminManager {
                 .get()
                 .addOnSuccessListener(doc -> {
                     if (doc.exists()) {
-                        Boolean blocked = doc.getBoolean("blocked");
-                        boolean isBlocked = blocked != null && blocked;
+                        boolean isBlocked = FirestoreUtils.getBooleanSafe(doc, "blocked");
                         Log.d(TAG, "Device blocked=" + isBlocked);
                         callback.onResult(isBlocked);
                     } else {
@@ -195,8 +194,7 @@ public class AdminManager {
                         return;
                     }
                     if (doc != null && doc.exists()) {
-                        Boolean blocked = doc.getBoolean("blocked");
-                        boolean isBlocked = blocked != null && blocked;
+                        boolean isBlocked = FirestoreUtils.getBooleanSafe(doc, "blocked");
                         Log.d(TAG, "Device block state changed: " + isBlocked);
                         callback.onResult(isBlocked);
                     }

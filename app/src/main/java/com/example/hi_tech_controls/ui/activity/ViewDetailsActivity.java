@@ -20,10 +20,11 @@ import com.example.hi_tech_controls.R;
 import com.example.hi_tech_controls.adapter.ClientAdapter;
 import com.example.hi_tech_controls.helper.OfflineSyncManager;
 import com.example.hi_tech_controls.model.ClientModel;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.example.hi_tech_controls.helper.FirestoreUtils;
+import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -340,9 +341,9 @@ public class ViewDetailsActivity extends BaseActivity {
                 .get()
                 .addOnSuccessListener(fillDoc -> {
                     try {
-                        String name = fillDoc.getString("name");
-                        String gpDate = fillDoc.getString("gp_date");
-                        String makeName = fillDoc.getString("make_name");
+                        String name = FirestoreUtils.getStringSafe(fillDoc, "name");
+                        String gpDate = FirestoreUtils.getStringSafe(fillDoc, "gp_date");
+                        String makeName = FirestoreUtils.getStringSafe(fillDoc, "make_name");
 
                         if (name == null || name.isEmpty()) {
                             // fallback to root doc
@@ -350,9 +351,9 @@ public class ViewDetailsActivity extends BaseActivity {
                                     .document(clientId)
                                     .get()
                                     .addOnSuccessListener(mainDoc -> {
-                                        String fallbackName = mainDoc.getString("name");
+                                        String fallbackName = FirestoreUtils.getStringSafe(mainDoc, "name");
                                         ClientModel model = new ClientModel(
-                                                fallbackName != null ? fallbackName : "Unknown",
+                                                fallbackName.isEmpty() ? "Unknown" : fallbackName,
                                                 clientId,
                                                 gpDate != null ? formatDate(gpDate) : "N/A",
                                                 makeName != null ? makeName : "N/A"
@@ -367,8 +368,8 @@ public class ViewDetailsActivity extends BaseActivity {
                             ClientModel model = new ClientModel(
                                     name,
                                     clientId,
-                                    gpDate != null ? formatDate(gpDate) : "N/A",
-                                    makeName != null ? makeName : "N/A"
+                                    gpDate.isEmpty() ? "N/A" : formatDate(gpDate),
+                                    makeName.isEmpty() ? "N/A" : makeName
                             );
                             callback.onFetched(model);
                         }
@@ -480,9 +481,9 @@ public class ViewDetailsActivity extends BaseActivity {
                 .get()
                 .addOnSuccessListener(doc -> {
                     if (doc.exists()) {
-                        String name = doc.getString("name");
-                        String gpDateRaw = doc.getString("gp_date");
-                        String makeName = doc.getString("make_name");
+                        String name = FirestoreUtils.getStringSafe(doc, "name");
+                        String gpDateRaw = FirestoreUtils.getStringSafe(doc, "gp_date");
+                        String makeName = FirestoreUtils.getStringSafe(doc, "make_name");
                         String formattedDate = formatDate(gpDateRaw);
                         callback.onFetched(new ClientModel(name, clientId, formattedDate, makeName));
                     } else {

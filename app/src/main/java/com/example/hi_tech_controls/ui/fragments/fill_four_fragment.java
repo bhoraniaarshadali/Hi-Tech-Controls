@@ -23,6 +23,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.WriteBatch;
+import com.example.hi_tech_controls.helper.FirestoreUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -192,39 +193,39 @@ public class fill_four_fragment extends Fragment {
             if (!isAdded() || !doc.exists()) return;
 
             // Spinner
-            String emp = doc.getString("select_emp");
-            if (emp != null) {
+            String emp = FirestoreUtils.getStringSafe(doc, "select_emp");
+            if (!emp.isEmpty()) {
                 selectEmply.setSelection(getSpinnerIndex(selectEmply, emp));
             }
 
             // Checkboxes
-            checkbox1HP.setChecked(getBoolean(doc, "checkbox_1HP"));
-            checkbox10HP.setChecked(getBoolean(doc, "checkbox_10HP"));
-            checkbox30HP.setChecked(getBoolean(doc, "checkbox_30HP"));
+            checkbox1HP.setChecked(FirestoreUtils.getBooleanSafe(doc, "checkbox_1HP"));
+            checkbox10HP.setChecked(FirestoreUtils.getBooleanSafe(doc, "checkbox_10HP"));
+            checkbox30HP.setChecked(FirestoreUtils.getBooleanSafe(doc, "checkbox_30HP"));
 
-            checkboxAMP_U.setChecked(getBoolean(doc, "checkbox_u"));
-            checkboxAMP_V.setChecked(getBoolean(doc, "checkbox_v"));
-            checkboxAMP_W.setChecked(getBoolean(doc, "checkbox_w"));
+            checkboxAMP_U.setChecked(FirestoreUtils.getBooleanSafe(doc, "checkbox_u"));
+            checkboxAMP_V.setChecked(FirestoreUtils.getBooleanSafe(doc, "checkbox_v"));
+            checkboxAMP_W.setChecked(FirestoreUtils.getBooleanSafe(doc, "checkbox_w"));
 
             // EditTexts
-            OnDisplay_text.setText(doc.getString("On_Display"));
-            OnClamp_text.setText(doc.getString("On_Clamp"));
+            OnDisplay_text.setText(FirestoreUtils.getStringSafe(doc, "On_Display"));
+            OnClamp_text.setText(FirestoreUtils.getStringSafe(doc, "On_Clamp"));
 
-            DC_DISP_text.setText(doc.getString("dc_dsp"));
-            DC_MET_text.setText(doc.getString("dc_met"));
+            DC_DISP_text.setText(FirestoreUtils.getStringSafe(doc, "dc_dsp"));
+            DC_MET_text.setText(FirestoreUtils.getStringSafe(doc, "dc_met"));
 
-            OUTPUT_DISP_text.setText(doc.getString("output_dsp"));
-            OUTPUT_MET_text.setText(doc.getString("output_met"));
+            OUTPUT_DISP_text.setText(FirestoreUtils.getStringSafe(doc, "output_dsp"));
+            OUTPUT_MET_text.setText(FirestoreUtils.getStringSafe(doc, "output_met"));
 
-            enterRH_text.setText(doc.getString("enter_RH"));
-            enterReplayOP_text.setText(doc.getString("enterReplayOP"));
-            enterFANOpr_text.setText(doc.getString("enter_FANOpr"));
+            enterRH_text.setText(FirestoreUtils.getStringSafe(doc, "enter_RH"));
+            enterReplayOP_text.setText(FirestoreUtils.getStringSafe(doc, "enterReplayOP"));
+            enterFANOpr_text.setText(FirestoreUtils.getStringSafe(doc, "enter_FANOpr"));
 
-            enterBODYCondition_text.setText(doc.getString("enter_BODY_Condition"));
-            enterIOcheck_text.setText(doc.getString("enter_io_check"));
+            enterBODYCondition_text.setText(FirestoreUtils.getStringSafe(doc, "enter_BODY_Condition"));
+            enterIOcheck_text.setText(FirestoreUtils.getStringSafe(doc, "enter_io_check"));
 
-            enterClean_Text.setText(doc.getString("enterClean"));
-            enterPramCopy_Text.setText(doc.getString("enterPramCopy"));
+            enterClean_Text.setText(FirestoreUtils.getStringSafe(doc, "enterClean"));
+            enterPramCopy_Text.setText(FirestoreUtils.getStringSafe(doc, "enterPramCopy"));
 
             showToastSafe("Data loaded 4");
 
@@ -232,11 +233,6 @@ public class fill_four_fragment extends Fragment {
             LoadingDialog.getInstance().hide();
             showToastSafe("Load failed");
         });
-    }
-
-    private boolean getBoolean(DocumentSnapshot doc, String key) {
-        Boolean b = doc.getBoolean(key);
-        return b != null && b;
     }
 
     private int getSpinnerIndex(Spinner spinner, String value) {

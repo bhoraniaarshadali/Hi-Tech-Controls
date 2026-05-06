@@ -42,6 +42,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
+import com.example.hi_tech_controls.helper.FirestoreUtils;
 
 public class ClientDetailsActivity extends BaseActivity {
 
@@ -368,14 +369,14 @@ public class ClientDetailsActivity extends BaseActivity {
     private void fillOne(DocumentSnapshot doc) {
         Log.d(TAG, "Filling fill_one data");
 
-        client.name = getStringSafe(doc, "name");
-        client.client_number = getStringSafe(doc, "client_number");
-        client.gp_number = getStringSafe(doc, "gp_number");
-        client.gp_date = getStringSafe(doc, "gp_date");
-        client.make_name = getStringSafe(doc, "make_name");
-        client.model_name = getStringSafe(doc, "model_name");
-        client.hp_rate = getStringSafe(doc, "hp_rate");
-        client.serial_number = getStringSafe(doc, "serial_number");
+        client.name = FirestoreUtils.getStringSafe(doc, "name");
+        client.client_number = FirestoreUtils.getStringSafe(doc, "client_number");
+        client.gp_number = FirestoreUtils.getStringSafe(doc, "gp_number");
+        client.gp_date = FirestoreUtils.getStringSafe(doc, "gp_date");
+        client.make_name = FirestoreUtils.getStringSafe(doc, "make_name");
+        client.model_name = FirestoreUtils.getStringSafe(doc, "model_name");
+        client.hp_rate = FirestoreUtils.getStringSafe(doc, "hp_rate");
+        client.serial_number = FirestoreUtils.getStringSafe(doc, "serial_number");
 
         etName.setText(client.name);
         etNumber.setText(client.client_number);
@@ -390,33 +391,33 @@ public class ClientDetailsActivity extends BaseActivity {
     private void fillTwo(DocumentSnapshot doc) {
         Log.d(TAG, "Filling fill_two data");
 
-        client.select_emp_fill_two = getStringSafe(doc, "select_emp");
-        client.fr_rate = getStringSafe(doc, "fr_rate");
-        client.localEditText = getStringSafe(doc, "localEditText");
-        client.client_obs = getStringSafe(doc, "client_obs");
-        client.our_obs = getStringSafe(doc, "our_obs");
-        client.last_fault = getStringSafe(doc, "last_fault");
+        client.select_emp_fill_two = FirestoreUtils.getStringSafe(doc, "select_emp");
+        client.fr_rate = FirestoreUtils.getStringSafe(doc, "fr_rate");
+        client.localEditText = FirestoreUtils.getStringSafe(doc, "localEditText");
+        client.client_obs = FirestoreUtils.getStringSafe(doc, "client_obs");
+        client.our_obs = FirestoreUtils.getStringSafe(doc, "our_obs");
+        client.last_fault = FirestoreUtils.getStringSafe(doc, "last_fault");
 
         // Radio buttons
-        client.local_radio_checked = getBooleanSafe(doc, "local_radio_checked");
-        client.remote_radio_checked = getBooleanSafe(doc, "remote_radio_checked");
-        client.comm_radio_checked = getBooleanSafe(doc, "comm_radio_checked");
-        client.diode_radio_checked = getBooleanSafe(doc, "diode_radio_checked");
-        client.scr_radio_checked = getBooleanSafe(doc, "scr_radio_checked");
+        client.local_radio_checked = FirestoreUtils.getBooleanSafe(doc, "local_radio_checked");
+        client.remote_radio_checked = FirestoreUtils.getBooleanSafe(doc, "remote_radio_checked");
+        client.comm_radio_checked = FirestoreUtils.getBooleanSafe(doc, "comm_radio_checked");
+        client.diode_radio_checked = FirestoreUtils.getBooleanSafe(doc, "diode_radio_checked");
+        client.scr_radio_checked = FirestoreUtils.getBooleanSafe(doc, "scr_radio_checked");
 
         // Checkboxes
-        client.input_pos_checkbox_U = getBooleanSafe(doc, "input_pos_checkbox_U");
-        client.input_pos_checkbox_V = getBooleanSafe(doc, "input_pos_checkbox_V");
-        client.input_pos_checkbox_W = getBooleanSafe(doc, "input_pos_checkbox_W");
-        client.input_neg_checkbox_U = getBooleanSafe(doc, "input_neg_checkbox_U");
-        client.input_neg_checkbox_V = getBooleanSafe(doc, "input_neg_checkbox_V");
-        client.input_neg_checkbox_W = getBooleanSafe(doc, "input_neg_checkbox_W");
-        client.output_pos_checkbox_U = getBooleanSafe(doc, "output_pos_checkbox_U");
-        client.output_pos_checkbox_V = getBooleanSafe(doc, "output_pos_checkbox_V");
-        client.output_pos_checkbox_W = getBooleanSafe(doc, "output_pos_checkbox_W");
-        client.output_neg_checkbox_U = getBooleanSafe(doc, "output_neg_checkbox_U");
-        client.output_neg_checkbox_V = getBooleanSafe(doc, "output_neg_checkbox_V");
-        client.output_neg_checkbox_W = getBooleanSafe(doc, "output_neg_checkbox_W");
+        client.input_pos_checkbox_U = FirestoreUtils.getBooleanSafe(doc, "input_pos_checkbox_U");
+        client.input_pos_checkbox_V = FirestoreUtils.getBooleanSafe(doc, "input_pos_checkbox_V");
+        client.input_pos_checkbox_W = FirestoreUtils.getBooleanSafe(doc, "input_pos_checkbox_W");
+        client.input_neg_checkbox_U = FirestoreUtils.getBooleanSafe(doc, "input_neg_checkbox_U");
+        client.input_neg_checkbox_V = FirestoreUtils.getBooleanSafe(doc, "input_neg_checkbox_V");
+        client.input_neg_checkbox_W = FirestoreUtils.getBooleanSafe(doc, "input_neg_checkbox_W");
+        client.output_pos_checkbox_U = FirestoreUtils.getBooleanSafe(doc, "output_pos_checkbox_U");
+        client.output_pos_checkbox_V = FirestoreUtils.getBooleanSafe(doc, "output_pos_checkbox_V");
+        client.output_pos_checkbox_W = FirestoreUtils.getBooleanSafe(doc, "output_pos_checkbox_W");
+        client.output_neg_checkbox_U = FirestoreUtils.getBooleanSafe(doc, "output_neg_checkbox_U");
+        client.output_neg_checkbox_V = FirestoreUtils.getBooleanSafe(doc, "output_neg_checkbox_V");
+        client.output_neg_checkbox_W = FirestoreUtils.getBooleanSafe(doc, "output_neg_checkbox_W");
 
         // Update UI
         tvSelectEmpTwo.setText(client.select_emp_fill_two);
@@ -449,38 +450,37 @@ public class ClientDetailsActivity extends BaseActivity {
     private void fillThree(DocumentSnapshot doc) {
         Log.d(TAG, "Filling fill_three data");
 
-        client.select_emp_fill_three = getStringSafe(doc, "select_emp");
-        client.enter_first_remarks = getStringSafe(doc, "enter_first_remarks");
+        client.select_emp_fill_three = FirestoreUtils.getStringSafe(doc, "select_emp");
+        client.enter_first_remarks = FirestoreUtils.getStringSafe(doc, "enter_first_remarks");
 
         // Checkboxes
-        client.checkboxCapacitor = getBooleanSafe(doc, "checkboxCapacitor");
-        client.checkboxDisplay = getBooleanSafe(doc, "checkboxDisplay");
-        client.checkboxFAN = getBooleanSafe(doc, "checkboxFAN");
-        client.checkboxCC = getBooleanSafe(doc, "checkboxCC");
+        client.checkboxCapacitor = FirestoreUtils.getBooleanSafe(doc, "checkboxCapacitor");
+        client.checkboxDisplay = FirestoreUtils.getBooleanSafe(doc, "checkboxDisplay");
+        client.checkboxFAN = FirestoreUtils.getBooleanSafe(doc, "checkboxFAN");
+        client.checkboxCC = FirestoreUtils.getBooleanSafe(doc, "checkboxCC");
 
-        client.repair_checkboxOne = getBooleanSafe(doc, "repair_checkboxOne");
-        client.repair_checkboxTwo = getBooleanSafe(doc, "repair_checkboxTwo");
-        client.repair_checkboxThree = getBooleanSafe(doc, "repair_checkboxThree");
-        client.repair_checkboxFour = getBooleanSafe(doc, "repair_checkboxFour");
-        client.repair_checkboxFive = getBooleanSafe(doc, "repair_checkboxFive");
-        client.repair_checkboxSix = getBooleanSafe(doc, "repair_checkboxSix");
+        client.repair_checkboxOne = FirestoreUtils.getBooleanSafe(doc, "repair_checkboxOne");
+        client.repair_checkboxTwo = FirestoreUtils.getBooleanSafe(doc, "repair_checkboxTwo");
+        client.repair_checkboxThree = FirestoreUtils.getBooleanSafe(doc, "repair_checkboxThree");
+        client.repair_checkboxFour = FirestoreUtils.getBooleanSafe(doc, "repair_checkboxFour");
+        client.repair_checkboxFive = FirestoreUtils.getBooleanSafe(doc, "repair_checkboxFive");
+        client.repair_checkboxSix = FirestoreUtils.getBooleanSafe(doc, "repair_checkboxSix");
 
-        client.replace_checkboxOne = getBooleanSafe(doc, "replace_checkboxOne");
-        client.replace_checkboxTwo = getBooleanSafe(doc, "replace_checkboxTwo");
-        client.replace_checkboxThree = getBooleanSafe(doc, "replace_checkboxThree");
-        client.replace_checkboxFour = getBooleanSafe(doc, "replace_checkboxFour");
-        client.replace_checkboxFive = getBooleanSafe(doc, "replace_checkboxFive");
-        client.replace_checkboxSix = getBooleanSafe(doc, "replace_checkboxSix");
-        client.replace_checkboxSeven = getBooleanSafe(doc, "replace_checkboxSeven");
-        client.replace_checkboxEight = getBooleanSafe(doc, "replace_checkboxEight");
-        client.replace_checkboxNine = getBooleanSafe(doc, "replace_checkboxNine");
+        client.replace_checkboxOne = FirestoreUtils.getBooleanSafe(doc, "replace_checkboxOne");
+        client.replace_checkboxTwo = FirestoreUtils.getBooleanSafe(doc, "replace_checkboxTwo");
+        client.replace_checkboxThree = FirestoreUtils.getBooleanSafe(doc, "replace_checkboxThree");
+        client.replace_checkboxFour = FirestoreUtils.getBooleanSafe(doc, "replace_checkboxFour");
+        client.replace_checkboxFive = FirestoreUtils.getBooleanSafe(doc, "replace_checkboxFive");
+        client.replace_checkboxSix = FirestoreUtils.getBooleanSafe(doc, "replace_checkboxSix");
+        client.replace_checkboxSeven = FirestoreUtils.getBooleanSafe(doc, "replace_checkboxSeven");
+        client.replace_checkboxEight = FirestoreUtils.getBooleanSafe(doc, "replace_checkboxEight");
+        client.replace_checkboxNine = FirestoreUtils.getBooleanSafe(doc, "replace_checkboxNine");
 
-        client.checkboxTrial1 = getBooleanSafe(doc, "checkboxTrial1");
-        client.checkboxTrial2 = getBooleanSafe(doc, "checkboxTrial2");
+        client.checkboxTrial1 = FirestoreUtils.getBooleanSafe(doc, "checkboxTrial1");
+        client.checkboxTrial2 = FirestoreUtils.getBooleanSafe(doc, "checkboxTrial2");
 
         // Number picker
-        Long numberValue = doc.getLong("number_picker_value");
-        client.number_picker_value = numberValue != null ? numberValue.intValue() : 0;
+        client.number_picker_value = (int) FirestoreUtils.getLongSafe(doc, "number_picker_value");
 
         // Update UI
         tvSelectEmpThree.setText(client.select_emp_fill_three);
@@ -516,32 +516,32 @@ public class ClientDetailsActivity extends BaseActivity {
     private void fillFour(DocumentSnapshot doc) {
         Log.d(TAG, "Filling fill_four data");
 
-        client.select_emp_fill_four = getStringSafe(doc, "select_emp");
+        client.select_emp_fill_four = FirestoreUtils.getStringSafe(doc, "select_emp");
 
         // Checkboxes
-        client.checkbox_1HP = getBooleanSafe(doc, "checkbox_1HP");
-        client.checkbox_10HP = getBooleanSafe(doc, "checkbox_10HP");
-        client.checkbox_30HP = getBooleanSafe(doc, "checkbox_30HP");
+        client.checkbox_1HP = FirestoreUtils.getBooleanSafe(doc, "checkbox_1HP");
+        client.checkbox_10HP = FirestoreUtils.getBooleanSafe(doc, "checkbox_10HP");
+        client.checkbox_30HP = FirestoreUtils.getBooleanSafe(doc, "checkbox_30HP");
 
-        client.On_Display = getStringSafe(doc, "On_Display");
-        client.On_Clamp = getStringSafe(doc, "On_Clamp");
+        client.On_Display = FirestoreUtils.getStringSafe(doc, "On_Display");
+        client.On_Clamp = FirestoreUtils.getStringSafe(doc, "On_Clamp");
 
-        client.checkbox_u = getBooleanSafe(doc, "checkbox_u");
-        client.checkbox_v = getBooleanSafe(doc, "checkbox_v");
-        client.checkbox_w = getBooleanSafe(doc, "checkbox_w");
+        client.checkbox_u = FirestoreUtils.getBooleanSafe(doc, "checkbox_u");
+        client.checkbox_v = FirestoreUtils.getBooleanSafe(doc, "checkbox_v");
+        client.checkbox_w = FirestoreUtils.getBooleanSafe(doc, "checkbox_w");
 
-        client.dc_dsp = getStringSafe(doc, "dc_dsp");
-        client.dc_met = getStringSafe(doc, "dc_met");
-        client.output_dsp = getStringSafe(doc, "output_dsp");
-        client.output_met = getStringSafe(doc, "output_met");
+        client.dc_dsp = FirestoreUtils.getStringSafe(doc, "dc_dsp");
+        client.dc_met = FirestoreUtils.getStringSafe(doc, "dc_met");
+        client.output_dsp = FirestoreUtils.getStringSafe(doc, "output_dsp");
+        client.output_met = FirestoreUtils.getStringSafe(doc, "output_met");
 
-        client.enter_RH = getStringSafe(doc, "enter_RH");
-        client.enterReplayOP = getStringSafe(doc, "enterReplayOP");
-        client.enter_FANOpr = getStringSafe(doc, "enter_FANOpr");
-        client.enter_BODY_Condition = getStringSafe(doc, "enter_BODY_Condition");
-        client.enter_io_check = getStringSafe(doc, "enter_io_check");
-        client.enterClean = getStringSafe(doc, "enterClean");
-        client.enterPramCopy = getStringSafe(doc, "enterPramCopy");
+        client.enter_RH = FirestoreUtils.getStringSafe(doc, "enter_RH");
+        client.enterReplayOP = FirestoreUtils.getStringSafe(doc, "enterReplayOP");
+        client.enter_FANOpr = FirestoreUtils.getStringSafe(doc, "enter_FANOpr");
+        client.enter_BODY_Condition = FirestoreUtils.getStringSafe(doc, "enter_BODY_Condition");
+        client.enter_io_check = FirestoreUtils.getStringSafe(doc, "enter_io_check");
+        client.enterClean = FirestoreUtils.getStringSafe(doc, "enterClean");
+        client.enterPramCopy = FirestoreUtils.getStringSafe(doc, "enterPramCopy");
 
         // Update UI
         tvSelectEmpFour.setText(client.select_emp_fill_four);
@@ -572,15 +572,6 @@ public class ClientDetailsActivity extends BaseActivity {
     }
 
     // Helper methods
-    private String getStringSafe(DocumentSnapshot doc, String field) {
-        String value = doc.getString(field);
-        return value != null ? value : "";
-    }
-
-    private boolean getBooleanSafe(DocumentSnapshot doc, String field) {
-        Boolean value = doc.getBoolean(field);
-        return value != null && value;
-    }
 
 //    private String formatDate(String dateStr) {
 //        if (dateStr == null || dateStr.isEmpty()) return "N/A";

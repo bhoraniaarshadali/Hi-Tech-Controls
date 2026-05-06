@@ -38,6 +38,7 @@ import java.util.List;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
+import com.example.hi_tech_controls.helper.FirestoreUtils;
 import com.example.hi_tech_controls.helper.AdminManager;
 
 public class MainActivity extends BaseActivity {
@@ -316,16 +317,15 @@ public class MainActivity extends BaseActivity {
     }
 
     private DetailsModel parseDocument(DocumentSnapshot doc) {
-        Integer uid = safeParse(doc.getId(), doc.getLong("clientId"));
+        Integer uid = safeParse(doc.getId(), FirestoreUtils.getLongSafe(doc, "clientId"));
 
         DetailsModel m = new DetailsModel();
         m.setUId(uid);
-        Long p = doc.getLong("progress");
-        m.setProgress(p != null ? p.intValue() : 0);
+        m.setProgress((int) FirestoreUtils.getLongSafe(doc, "progress"));
 
         // DIRECT NAME: Read from main document (Optimization: No subcollection read)
-        String name = doc.getString("name");
-        m.setuName(name != null ? name : "Unknown");
+        String name = FirestoreUtils.getStringSafe(doc, "name");
+        m.setuName(name.isEmpty() ? "Unknown" : name);
 
         Log.d(TAG, "Parsed model — ID=" + uid + " name=" + m.getuName());
         return m;
