@@ -184,9 +184,9 @@ public class MainActivity extends BaseActivity {
         Log.d(TAG, "loadInitialData() started with server-side filtering");
 
         // Server-side filter to optimize performance and reduce reads
+        // Note: Removed 'clientId' orderBy as it might not be a field in all documents
         Query q = collectionRef.whereLessThan("progress", 100)
-                .orderBy("progress") // Must be first for inequality filter
-                .orderBy("clientId", Query.Direction.DESCENDING)
+                .orderBy("progress") 
                 .limit(PAGE_LIMIT);
 
         loadCache(q);
@@ -245,7 +245,6 @@ public class MainActivity extends BaseActivity {
 
         Query q = collectionRef.whereLessThan("progress", 100)
                 .orderBy("progress")
-                .orderBy("clientId", Query.Direction.DESCENDING)
                 .limit(PAGE_LIMIT);
 
         realtimeListener = q.addSnapshotListener((snapshots, e) -> {
