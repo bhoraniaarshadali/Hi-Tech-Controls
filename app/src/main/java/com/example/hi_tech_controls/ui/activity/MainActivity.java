@@ -324,6 +324,7 @@ public class MainActivity extends BaseActivity {
         DetailsModel m = new DetailsModel();
         m.setUId(uid);
         m.setProgress((int) FirestoreUtils.getLongSafe(doc, "progress"));
+        m.setLastUpdated(FirestoreUtils.getLongSafe(doc, "lastUpdated"));
 
         // DIRECT NAME: Read from main document (Optimization: No subcollection read)
         String name = FirestoreUtils.getStringSafe(doc, "name");
@@ -338,9 +339,17 @@ public class MainActivity extends BaseActivity {
     // ---------------------------------------------------------------------
     private void updateList(ArrayList<DetailsModel> temp) {
         Log.d(TAG, "Updating list, count=" + temp.size());
-        // Firestore already provides sorted data, so manual sorting is removed to save
-        // CPU
+
+        // Sort by lastUpdated descending (Newest first)
+        Collections.sort(temp, (a, b) -> Long.compare(b.getLastUpdated(), a.getLastUpdated()));
+
         addDetailsAdapter.submitList(temp);
+
+        // Auto-scroll to top so the newest items are always visible
+        if (!temp.isEmpty() && recyclerViewDiscovery1 != null) {
+            recyclerViewDiscovery1.scrollToPosition(0);
+        }
+
         toggleEmptyState(temp.isEmpty());
     }
 

@@ -5,6 +5,7 @@ public class DetailsModel {
     private int progress;
     private String uName;
     private int uId;
+    private long lastUpdated;
 
     // ----------------------------------------------------
     // Constructors
@@ -44,6 +45,14 @@ public class DetailsModel {
 
     public void setUId(int uId) {
         this.uId = uId;
+    }
+
+    public long getLastUpdated() {
+        return lastUpdated;
+    }
+
+    public void setLastUpdated(long lastUpdated) {
+        this.lastUpdated = lastUpdated;
     }
 
     // ----------------------------------------------------
