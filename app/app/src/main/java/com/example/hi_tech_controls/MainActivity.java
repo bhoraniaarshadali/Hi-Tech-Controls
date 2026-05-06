@@ -19,7 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.hi_tech_controls.adapter.AddDetailsAdp;
-import com.example.hi_tech_controls.adapter.DetailsModel;
+import com.example.hi_tech_controls.adpter.DetailsModel;
 
 import java.util.ArrayList;
 

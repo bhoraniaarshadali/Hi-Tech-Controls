@@ -139,13 +139,6 @@
                 android:text="@string/recent_discoveries"
                 android:textColor="#4D4D4D"
                 android:textSize="15sp" />
-
-            <ImageView
-                android:id="@+id/refreshButton"
-                android:layout_width="wrap_content"
-                android:layout_height="24dp"
-                android:layout_gravity="end"
-                android:src="@drawable/refreshbutton" />
         </LinearLayout>
 
         <com.facebook.shimmer.ShimmerFrameLayout

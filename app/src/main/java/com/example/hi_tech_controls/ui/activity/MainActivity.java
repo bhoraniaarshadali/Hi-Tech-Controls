@@ -54,7 +54,7 @@ public class MainActivity extends BaseActivity {
     private ShimmerFrameLayout shimmerLayout;
     private TextView emptyView;
     private Button addClientBtn1, viewClientBtn1;
-    private ImageView logoutBtn, refreshButton;
+    private ImageView logoutBtn;
     private boolean isListenerActive = false;
     private boolean slowToastShown = false;
     private DocumentSnapshot lastDoc = null;
@@ -149,7 +149,6 @@ public class MainActivity extends BaseActivity {
         addClientBtn1 = findViewById(R.id.addClientBtn);
         viewClientBtn1 = findViewById(R.id.viewClientBtn);
         logoutBtn = findViewById(R.id.logout_btn);
-        refreshButton = findViewById(R.id.refreshButton);
         recyclerViewDiscovery1 = findViewById(R.id.recyclerViewDiscovery);
         shimmerLayout = findViewById(R.id.shimmerLayout);
         emptyView = findViewById(R.id.emptyView);
@@ -179,11 +178,6 @@ public class MainActivity extends BaseActivity {
         viewClientBtn1.setOnClickListener(v -> {
             Log.d(TAG, "View Client clicked");
             navigateTo(ViewDetailsActivity.class);
-        });
-
-        refreshButton.setOnClickListener(v -> {
-            Log.d(TAG, "Refresh clicked");
-            refreshData();
         });
 
         logoutBtn.setOnClickListener(v -> {
@@ -321,8 +315,14 @@ public class MainActivity extends BaseActivity {
             }
 
             DetailsModel model = parseDocument(doc);
-            temp.add(model);
 
+            // USER REQUIREMENT: Filter out completed items (100%) from MainActivity
+            if (model.getProgress() == 100) {
+                Log.d(TAG, "Skipping completed item: " + doc.getId());
+                continue;
+            }
+
+            temp.add(model);
             tasks.add(fetchNameAsync(doc, model));
         }
 
@@ -384,15 +384,8 @@ public class MainActivity extends BaseActivity {
     }
 
     private void sortList(ArrayList<DetailsModel> list) {
-        Log.d(TAG, "Sorting list");
-        Collections.sort(list, (a, b) -> {
-            boolean aDone = a.getProgress() == 100;
-            boolean bDone = b.getProgress() == 100;
-
-            if (aDone && !bDone) return 1;
-            if (!aDone && bDone) return -1;
-            return Integer.compare(b.getUId(), a.getUId());
-        });
+        Log.d(TAG, "Sorting list (Descending by UId)");
+        Collections.sort(list, (a, b) -> Integer.compare(b.getUId(), a.getUId()));
     }
 
     private void toggleEmptyState(boolean empty) {
@@ -463,8 +456,14 @@ public class MainActivity extends BaseActivity {
             if (!isValidDoc(doc)) continue;
 
             DetailsModel model = parseDocument(doc);
-            tempNew.add(model);
 
+            // USER REQUIREMENT: Filter out completed items (100%) from MainActivity
+            if (model.getProgress() == 100) {
+                Log.d(TAG, "Skipping completed item in loadMore: " + doc.getId());
+                continue;
+            }
+
+            tempNew.add(model);
             tasks.add(fetchNameAsync(doc, model));
         }
 
@@ -487,14 +486,8 @@ public class MainActivity extends BaseActivity {
     }
 
     private void refreshData() {
-        Log.d(TAG, "Refreshing data…");
-
-        stopRealtimeListener();
-        lastDoc = null;
-
-        addDetailsAdapter.submitList(new ArrayList<>());
-        showShimmer();
-        loadInitialData();
+        // Redundant as per user request (realtime should handle it)
+        Log.d(TAG, "refreshData() called but skipped due to user request");
     }
 
     private void showShimmer() {
