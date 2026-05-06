@@ -195,9 +195,12 @@ public class MainActivity extends BaseActivity {
     // LOADING FLOW (cache → server → realtime)
     // ---------------------------------------------------------------------
     private void loadInitialData() {
-        Log.d(TAG, "loadInitialData() started");
+        Log.d(TAG, "loadInitialData() started with server-side filtering");
 
-        Query q = collectionRef.orderBy("clientId", Query.Direction.DESCENDING)
+        // Server-side filter to optimize performance and reduce reads
+        Query q = collectionRef.whereLessThan("progress", 100)
+                .orderBy("progress") // Must be first for inequality filter
+                .orderBy("clientId", Query.Direction.DESCENDING)
                 .limit(PAGE_LIMIT);
 
         loadCache(q);
@@ -249,12 +252,17 @@ public class MainActivity extends BaseActivity {
             return;
         }
 
-        Log.d(TAG, "Starting realtime listener");
+        Log.d(TAG, "Starting realtime listener with filtered query");
         isListenerActive = true;
 
         handleSlowNetworkNotice();
 
-        realtimeListener = collectionRef.addSnapshotListener((snapshots, e) -> {
+        Query q = collectionRef.whereLessThan("progress", 100)
+                .orderBy("progress")
+                .orderBy("clientId", Query.Direction.DESCENDING)
+                .limit(PAGE_LIMIT);
+
+        realtimeListener = q.addSnapshotListener((snapshots, e) -> {
             if (!isListenerActive) return;
 
             if (e != null) {
@@ -315,13 +323,7 @@ public class MainActivity extends BaseActivity {
             }
 
             DetailsModel model = parseDocument(doc);
-
-            // USER REQUIREMENT: Filter out completed items (100%) from MainActivity
-            if (model.getProgress() == 100) {
-                Log.d(TAG, "Skipping completed item: " + doc.getId());
-                continue;
-            }
-
+            // Local filter removed as it is now handled by the Firestore query
             temp.add(model);
             tasks.add(fetchNameAsync(doc, model));
         }
@@ -384,8 +386,13 @@ public class MainActivity extends BaseActivity {
     }
 
     private void sortList(ArrayList<DetailsModel> list) {
-        Log.d(TAG, "Sorting list (Descending by UId)");
-        Collections.sort(list, (a, b) -> Integer.compare(b.getUId(), a.getUId()));
+        // We keep local sort consistent with query order
+        Log.d(TAG, "Sorting list locally (Progress ASC, UId DESC)");
+        Collections.sort(list, (a, b) -> {
+            int progCompare = Integer.compare(a.getProgress(), b.getProgress());
+            if (progCompare != 0) return progCompare;
+            return Integer.compare(b.getUId(), a.getUId());
+        });
     }
 
     private void toggleEmptyState(boolean empty) {
@@ -420,7 +427,9 @@ public class MainActivity extends BaseActivity {
         Log.d(TAG, "Loading more items…");
         isLoadingMore = true;
 
-        collectionRef.orderBy("clientId", Query.Direction.DESCENDING)
+        collectionRef.whereLessThan("progress", 100)
+                .orderBy("progress")
+                .orderBy("clientId", Query.Direction.DESCENDING)
                 .startAfter(lastDoc)
                 .limit(PAGE_LIMIT)
                 .get()
@@ -456,13 +465,7 @@ public class MainActivity extends BaseActivity {
             if (!isValidDoc(doc)) continue;
 
             DetailsModel model = parseDocument(doc);
-
-            // USER REQUIREMENT: Filter out completed items (100%) from MainActivity
-            if (model.getProgress() == 100) {
-                Log.d(TAG, "Skipping completed item in loadMore: " + doc.getId());
-                continue;
-            }
-
+            // Local filter removed as it is now handled by the Firestore query
             tempNew.add(model);
             tasks.add(fetchNameAsync(doc, model));
         }
