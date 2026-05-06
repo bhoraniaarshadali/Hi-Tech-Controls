@@ -62,10 +62,11 @@ public class AdminManager {
     // ------------------------------------------------------------------
     public static void fetchConfig(ConfigCallback callback) {
         Log.d(TAG, "fetchConfig() called");
-        FirebaseFirestore.getInstance()
+        DocumentReference configRef = FirebaseFirestore.getInstance()
                 .collection(COL_ADMIN)
-                .document(DOC_CONFIG)
-                .get()
+                .document(DOC_CONFIG);
+
+        configRef.get()
                 .addOnSuccessListener(doc -> {
                     if (doc.exists()) {
                         String username = doc.getString("username");
@@ -78,8 +79,22 @@ public class AdminManager {
                                 maintenance != null && maintenance
                         );
                     } else {
-                        Log.e(TAG, "Config document not found in Firestore");
-                        callback.onError("Config not found");
+                        // AUTO-SETUP: Document doesn't exist, create with defaults
+                        Log.d(TAG, "Config document missing. Initializing default structure...");
+                        Map<String, Object> defaults = new HashMap<>();
+                        defaults.put("username", "admin");
+                        defaults.put("password", "1234");
+                        defaults.put("maintenance", false);
+
+                        configRef.set(defaults)
+                                .addOnSuccessListener(v -> {
+                                    Log.d(TAG, "Default config created successfully");
+                                    callback.onResult("admin", "1234", false);
+                                })
+                                .addOnFailureListener(e -> {
+                                    Log.e(TAG, "Failed to create default config: " + e.getMessage());
+                                    callback.onError("Initialization failed: " + e.getMessage());
+                                });
                     }
                 })
                 .addOnFailureListener(e -> {

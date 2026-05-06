@@ -108,8 +108,8 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         hideKeyboard();
-        loginButton.setEnabled(false);
-        LoadingDialog.getInstance().show(this);
+        setUIEnabled(false);
+        loginButton.setText("Verifying...");
 
         Log.d(TAG, "Fetching config from Firebase...");
 
@@ -120,8 +120,8 @@ public class LoginActivity extends AppCompatActivity {
                 runOnUiThread(() -> {
                     // Step 2 — Check maintenance
                     if (maintenance) {
-                        LoadingDialog.getInstance().hide();
-                        loginButton.setEnabled(true);
+                        setUIEnabled(true);
+                        loginButton.setText("Login");
                         Log.w(TAG, "App is under maintenance");
                         showCleanToast("⚠️ App is under maintenance. Please try again later.");
                         return;
@@ -132,8 +132,8 @@ public class LoginActivity extends AppCompatActivity {
                         Log.d(TAG, "Credentials valid → checking device block...");
                         checkDeviceAndProceed();
                     } else {
-                        LoadingDialog.getInstance().hide();
-                        loginButton.setEnabled(true);
+                        setUIEnabled(true);
+                        loginButton.setText("Login");
                         Log.w(TAG, "Wrong credentials");
                         showCleanToast("Wrong username or password");
                         emailEditText.setText("");
@@ -147,8 +147,8 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onError(String error) {
                 runOnUiThread(() -> {
-                    LoadingDialog.getInstance().hide();
-                    loginButton.setEnabled(true);
+                    setUIEnabled(true);
+                    loginButton.setText("Login");
                     Log.e(TAG, "Config fetch error: " + error);
                     showCleanToast("Network error. Please check your connection.");
                 });
@@ -162,10 +162,9 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onResult(boolean isBlocked) {
                 runOnUiThread(() -> {
-                    LoadingDialog.getInstance().hide();
-                    loginButton.setEnabled(true);
-
                     if (isBlocked) {
+                        setUIEnabled(true);
+                        loginButton.setText("Login");
                         Log.w(TAG, "Device is blocked by admin");
                         showCleanToast("🚫 Your device has been blocked. Contact admin.");
                         YoYo.with(Techniques.Shake).duration(300).repeat(2).playOn(loginButton);
@@ -187,8 +186,8 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onError(String error) {
                 runOnUiThread(() -> {
-                    LoadingDialog.getInstance().hide();
-                    loginButton.setEnabled(true);
+                    setUIEnabled(true);
+                    loginButton.setText("Login");
                     Log.e(TAG, "Device check error: " + error);
                     showCleanToast("Network error. Please try again.");
                 });
@@ -218,6 +217,19 @@ public class LoginActivity extends AppCompatActivity {
     // ------------------------------------------------------------------
     // HELPERS
     // ------------------------------------------------------------------
+    private void setUIEnabled(boolean enabled) {
+        emailEditText.setEnabled(enabled);
+        passwordEditText.setEnabled(enabled);
+        loginButton.setEnabled(enabled);
+        passwordVisibilityToggle.setEnabled(enabled);
+
+        // Visual feedback
+        float alpha = enabled ? 1.0f : 0.6f;
+        emailEditText.setAlpha(alpha);
+        passwordEditText.setAlpha(alpha);
+        loginButton.setAlpha(alpha);
+    }
+
     private void hideKeyboard() {
         InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(loginButton.getWindowToken(), 0);
