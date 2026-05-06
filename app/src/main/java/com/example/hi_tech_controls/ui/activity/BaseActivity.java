@@ -13,10 +13,14 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.hi_tech_controls.R;
+import com.example.hi_tech_controls.helper.AdminManager;
 import com.example.hi_tech_controls.helper.NetworkUtils;
+import com.google.firebase.firestore.ListenerRegistration;
 
 public abstract class BaseActivity extends AppCompatActivity {
 
@@ -29,6 +33,9 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     private BroadcastReceiver networkReceiver;
     private boolean wasOffline = false;
+
+    private ListenerRegistration maintenanceListener;
+    private ListenerRegistration deviceBlockListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,16 +77,62 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        Log.d(TAG, "onResume() - Registering network receiver");
+        Log.d(TAG, "onResume() - Registering network receiver and admin listeners");
         registerNetworkReceiver();
         updateOfflineStatus();
+        startAdminListeners();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        Log.d(TAG, "onPause() - Unregistering network receiver");
+        Log.d(TAG, "onPause() - Unregistering network receiver and admin listeners");
         unregisterNetworkReceiver();
+        stopAdminListeners();
+    }
+
+    private void startAdminListeners() {
+        // 1. Listen for maintenance mode
+        maintenanceListener = AdminManager.listenMaintenance(isMaintenance -> {
+            if (isMaintenance) {
+                runOnUiThread(() -> {
+                    Toast.makeText(this, "⚠️ App is under maintenance. Please try again later.", Toast.LENGTH_LONG).show();
+                    baseLogout();
+                });
+            }
+        });
+
+        // 2. Listen for device blocking
+        deviceBlockListener = AdminManager.listenDeviceBlock(this, isBlocked -> {
+            if (isBlocked) {
+                runOnUiThread(() -> {
+                    Toast.makeText(this, "🚫 Your device has been blocked. Contact admin.", Toast.LENGTH_LONG).show();
+                    baseLogout();
+                });
+            }
+        });
+    }
+
+    private void stopAdminListeners() {
+        if (maintenanceListener != null) {
+            maintenanceListener.remove();
+            maintenanceListener = null;
+        }
+        if (deviceBlockListener != null) {
+            deviceBlockListener.remove();
+            deviceBlockListener = null;
+        }
+    }
+
+    protected void baseLogout() {
+        Log.d(TAG, "baseLogout() called");
+        getSharedPreferences("Login", MODE_PRIVATE)
+                .edit().putBoolean("flag", false).apply();
+
+        Intent i = new Intent(this, LoginActivity.class);
+        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(i);
+        finish();
     }
 
     // -----------------------------------------------------------

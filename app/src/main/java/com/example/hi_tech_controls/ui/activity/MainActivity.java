@@ -40,6 +40,8 @@ import java.util.List;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
+import com.example.hi_tech_controls.helper.AdminManager;
+
 public class MainActivity extends BaseActivity {
 
     private static final String TAG = "MainActivity";
@@ -94,21 +96,21 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        Log.d(TAG, "onResume → starting realtime listener");
+        Log.d(TAG, "onResume → starting realtime data listener");
         startRealtimeListener();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        Log.d(TAG, "onPause → stopping realtime listener");
+        Log.d(TAG, "onPause → stopping realtime data listener");
         stopRealtimeListener();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.d(TAG, "onDestroy → cleaning up listeners");
+        Log.d(TAG, "onDestroy → cleaning up");
         stopRealtimeListener();
     }
 
@@ -541,16 +543,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void logout() {
-        Log.d(TAG, "Logging out…");
-
-        SharedPreferences preferences = getSharedPreferences("Login", MODE_PRIVATE);
-        preferences.edit().putBoolean("flag", false).apply();
-
-        Intent i = new Intent(this, LoginActivity.class);
-        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(i);
-
-        finish();
+        baseLogout();
     }
 
     private void showCleanToast(String msg) {

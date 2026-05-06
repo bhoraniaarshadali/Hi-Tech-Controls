@@ -17,15 +17,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.example.hi_tech_controls.R;
+import com.example.hi_tech_controls.helper.AdminManager;
+import com.example.hi_tech_controls.helper.LoadingDialog;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
 public class LoginActivity extends AppCompatActivity {
 
     private static final String TAG = "LoginActivity";
+
     EditText emailEditText, passwordEditText;
     Button loginButton;
     ImageView passwordVisibilityToggle;
+    private boolean isPasswordVisible = false;
 
     private Toast currentToast;
 
@@ -34,13 +38,12 @@ public class LoginActivity extends AppCompatActivity {
         Log.d(TAG, "onCreate() started");
         super.onCreate(savedInstanceState);
 
+        // If already logged in, check device/maintenance then open main
         boolean isLoggedIn = getSharedPreferences("Login", MODE_PRIVATE)
                 .getBoolean("flag", false);
 
-        Log.d(TAG, "Stored login flag = " + isLoggedIn);
-
         if (isLoggedIn) {
-            Log.d(TAG, "User already logged in → Opening MainActivity");
+            Log.d(TAG, "Already logged in → going to MainActivity");
             startActivity(new Intent(this, MainActivity.class));
             finish();
             return;
@@ -56,69 +59,49 @@ public class LoginActivity extends AppCompatActivity {
         loginButton = findViewById(R.id.loginButton);
         passwordVisibilityToggle = findViewById(R.id.passwordVisibilityToggle);
 
-        Log.d(TAG, "UI elements initialized");
-
         emailEditText.requestFocus();
 
         passwordEditText.setOnEditorActionListener((v, actionId, event) -> {
-            Log.d(TAG, "EditorAction: actionId=" + actionId);
-
             if (actionId == EditorInfo.IME_ACTION_DONE ||
                     (event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
-
-                Log.d(TAG, "Enter key pressed → Triggering Login");
                 loginButton.performClick();
                 return true;
             }
             return false;
         });
 
-        passwordVisibilityToggle.setOnClickListener(v -> {
-            Log.d(TAG, "Password visibility toggle clicked");
-            togglePasswordVisibility();
-        });
-
-        loginButton.setOnClickListener(v -> {
-            Log.d(TAG, "Login button clicked");
-            handleLogin();
-        });
+        passwordVisibilityToggle.setOnClickListener(v -> togglePasswordVisibility());
+        loginButton.setOnClickListener(v -> handleLogin());
 
         runEntryAnimation();
-        Log.d(TAG, "Entry animation started");
     }
 
-
+    // ------------------------------------------------------------------
+    // AD LOADER
+    // ------------------------------------------------------------------
     void loadAd() {
         try {
-            Log.d(TAG, "Loading AdMob banner...");
             AdView adView = findViewById(R.id.adView);
             AdRequest adRequest = new AdRequest.Builder().build();
             adView.loadAd(adRequest);
-            Log.d(TAG, "Ad requested successfully");
         } catch (Exception e) {
             Log.e(TAG, "Ad load failed: " + e.getMessage());
         }
     }
 
-
+    // ------------------------------------------------------------------
+    // LOGIN FLOW
+    // ------------------------------------------------------------------
     private void handleLogin() {
-        Log.d(TAG, "handleLogin() called");
-
         String username = emailEditText.getText().toString().trim();
         String password = passwordEditText.getText().toString().trim();
 
-        Log.d(TAG, "Entered username: " + username);
-        Log.d(TAG, "Entered password length: " + password.length());
-
         if (username.isEmpty()) {
-            Log.w(TAG, "Username empty");
             emailEditText.setError("Enter username");
             YoYo.with(Techniques.Shake).duration(200).repeat(1).playOn(emailEditText);
             return;
         }
-
         if (password.isEmpty()) {
-            Log.w(TAG, "Password empty");
             passwordEditText.setError("Enter password");
             YoYo.with(Techniques.Shake).duration(200).repeat(1).playOn(passwordEditText);
             return;
@@ -126,83 +109,129 @@ public class LoginActivity extends AppCompatActivity {
 
         hideKeyboard();
         loginButton.setEnabled(false);
-        Log.d(TAG, "Login button temporarily disabled to prevent double click");
+        LoadingDialog.getInstance().show(this);
 
-        loginButton.postDelayed(() -> loginButton.setEnabled(true), 1000);
+        Log.d(TAG, "Fetching config from Firebase...");
 
-        if (username.equals("Admin") && password.equals("Admin")) {
-            Log.d(TAG, "Credentials valid → Logging in");
+        // Step 1 — Fetch credentials + maintenance from Firebase
+        AdminManager.fetchConfig(new AdminManager.ConfigCallback() {
+            @Override
+            public void onResult(String fbUsername, String fbPassword, boolean maintenance) {
+                runOnUiThread(() -> {
+                    // Step 2 — Check maintenance
+                    if (maintenance) {
+                        LoadingDialog.getInstance().hide();
+                        loginButton.setEnabled(true);
+                        Log.w(TAG, "App is under maintenance");
+                        showCleanToast("⚠️ App is under maintenance. Please try again later.");
+                        return;
+                    }
 
-            SharedPreferences preferences = getSharedPreferences("Login", MODE_PRIVATE);
-            preferences.edit().putBoolean("flag", true).apply();
-            Log.d(TAG, "Login flag saved to SharedPreferences");
+                    // Step 3 — Compare credentials
+                    if (username.equals(fbUsername) && password.equals(fbPassword)) {
+                        Log.d(TAG, "Credentials valid → checking device block...");
+                        checkDeviceAndProceed();
+                    } else {
+                        LoadingDialog.getInstance().hide();
+                        loginButton.setEnabled(true);
+                        Log.w(TAG, "Wrong credentials");
+                        showCleanToast("Wrong username or password");
+                        emailEditText.setText("");
+                        passwordEditText.setText("");
+                        YoYo.with(Techniques.Shake).duration(250).repeat(1).playOn(emailEditText);
+                        YoYo.with(Techniques.Shake).duration(250).repeat(1).playOn(passwordEditText);
+                    }
+                });
+            }
 
-            showCleanToast("Welcome");
-
-            startActivity(new Intent(this, MainActivity.class));
-            finish();
-        } else {
-            Log.w(TAG, "Invalid credentials entered");
-
-            showCleanToast("Wrong credentials");
-
-            emailEditText.setText("");
-            passwordEditText.setText("");
-
-            YoYo.with(Techniques.Shake).duration(250).repeat(1).playOn(emailEditText);
-            YoYo.with(Techniques.Shake).duration(250).repeat(1).playOn(passwordEditText);
-        }
+            @Override
+            public void onError(String error) {
+                runOnUiThread(() -> {
+                    LoadingDialog.getInstance().hide();
+                    loginButton.setEnabled(true);
+                    Log.e(TAG, "Config fetch error: " + error);
+                    showCleanToast("Network error. Please check your connection.");
+                });
+            }
+        });
     }
 
+    // Step 4 — Check if this device is blocked
+    private void checkDeviceAndProceed() {
+        AdminManager.checkDeviceBlocked(this, new AdminManager.DeviceStatusCallback() {
+            @Override
+            public void onResult(boolean isBlocked) {
+                runOnUiThread(() -> {
+                    LoadingDialog.getInstance().hide();
+                    loginButton.setEnabled(true);
+
+                    if (isBlocked) {
+                        Log.w(TAG, "Device is blocked by admin");
+                        showCleanToast("🚫 Your device has been blocked. Contact admin.");
+                        YoYo.with(Techniques.Shake).duration(300).repeat(2).playOn(loginButton);
+                    } else {
+                        // Step 5 — All clear: save login + register device + open app
+                        getSharedPreferences("Login", MODE_PRIVATE)
+                                .edit().putBoolean("flag", true).apply();
+
+                        AdminManager.registerDevice(LoginActivity.this);
+
+                        Log.d(TAG, "Login successful → opening MainActivity");
+                        showCleanToast("Welcome!");
+                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                        finish();
+                    }
+                });
+            }
+
+            @Override
+            public void onError(String error) {
+                runOnUiThread(() -> {
+                    LoadingDialog.getInstance().hide();
+                    loginButton.setEnabled(true);
+                    Log.e(TAG, "Device check error: " + error);
+                    showCleanToast("Network error. Please try again.");
+                });
+            }
+        });
+    }
+
+    // ------------------------------------------------------------------
+    // PASSWORD TOGGLE
+    // ------------------------------------------------------------------
     private void togglePasswordVisibility() {
-        Log.d(TAG, "togglePasswordVisibility() called");
-
-        if (passwordEditText.getInputType() ==
-                (android.text.InputType.TYPE_CLASS_TEXT |
-                        android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD)) {
-
-            Log.d(TAG, "Switching to visible password");
+        isPasswordVisible = !isPasswordVisible;
+        if (isPasswordVisible) {
             passwordEditText.setInputType(
                     android.text.InputType.TYPE_CLASS_TEXT |
-                            android.text.InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
-            );
+                            android.text.InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
             passwordVisibilityToggle.setImageResource(R.drawable.ic_password_visibility_on);
-
         } else {
-            Log.d(TAG, "Switching to hidden password");
             passwordEditText.setInputType(
                     android.text.InputType.TYPE_CLASS_TEXT |
-                            android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD
-            );
+                            android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD);
             passwordVisibilityToggle.setImageResource(R.drawable.ic_password_visibility_off);
         }
-
         passwordEditText.setSelection(passwordEditText.getText().length());
     }
 
+    // ------------------------------------------------------------------
+    // HELPERS
+    // ------------------------------------------------------------------
     private void hideKeyboard() {
-        Log.d(TAG, "Hiding keyboard");
         InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(loginButton.getWindowToken(), 0);
     }
 
-
     private void runEntryAnimation() {
-        Log.d(TAG, "Starting entry animation");
-
         int[] ids = {
                 R.id.logoImageView, R.id.welcomeTextView, R.id.subHeadingTextView,
                 R.id.emailEditText, R.id.passwordEditText, R.id.loginButton,
                 R.id.versionTextView, R.id.passwordVisibilityToggle
         };
-
         for (int id : ids) {
             android.view.View v = findViewById(id);
-            if (v == null) {
-                Log.w(TAG, "Missing view for animation: ID=" + id);
-                continue;
-            }
-
+            if (v == null) continue;
             v.setAlpha(0f);
             v.setTranslationY(50);
             v.animate().alpha(1f).translationYBy(-50).setDuration(900);
@@ -210,10 +239,14 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void showCleanToast(String msg) {
-        Log.d(TAG, "Toast: " + msg);
         if (currentToast != null) currentToast.cancel();
-        currentToast = Toast.makeText(this, msg, Toast.LENGTH_SHORT);
+        currentToast = Toast.makeText(this, msg, Toast.LENGTH_LONG);
         currentToast.show();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        LoadingDialog.getInstance().dismiss();
+    }
 }
