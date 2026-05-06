@@ -27,13 +27,18 @@ import com.example.hi_tech_controls.ui.activity.AddDetailsActivity;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.WriteBatch;
+import com.example.hi_tech_controls.helper.AdminManager;
 import com.example.hi_tech_controls.helper.FirestoreUtils;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+
+import com.google.firebase.firestore.ListenerRegistration;
 
 public class fill_two_fragment extends Fragment {
 
@@ -69,6 +74,9 @@ public class fill_two_fragment extends Fragment {
     private ScrollView scrollView;
     private Toast activeToast;
 
+    private ListenerRegistration employeeListener;
+    private String restoredEmpName = "";
+
     // ----------------------------------------------------
     // Lifecycle
     // ----------------------------------------------------
@@ -91,7 +99,7 @@ public class fill_two_fragment extends Fragment {
         }
 
         initializeUI(root);
-        setUpSpinner();
+        setupSpinnerRealtime();
         setUpRadioButtons();
 
         if (isRealClientId()) {
@@ -155,9 +163,12 @@ public class fill_two_fragment extends Fragment {
             // Restore Spinner
             String emp = FirestoreUtils.getStringSafe(doc, "select_emp");
             if (!emp.isEmpty()) {
-                ArrayAdapter<String> adapter = (ArrayAdapter<String>) selectEmply.getAdapter();
-                int pos = adapter.getPosition(emp);
-                if (pos >= 0) selectEmply.setSelection(pos);
+                restoredEmpName = emp;
+                if (selectEmply.getAdapter() != null) {
+                    ArrayAdapter<String> adapter = (ArrayAdapter<String>) selectEmply.getAdapter();
+                    int pos = adapter.getPosition(emp);
+                    if (pos >= 0) selectEmply.setSelection(pos);
+                }
             }
 
             // Restore text fields
@@ -220,23 +231,52 @@ public class fill_two_fragment extends Fragment {
     }
 
     // ----------------------------------------------------
-    // Spinner Logic
+    // Spinner Logic (Realtime)
     // ----------------------------------------------------
-    private void setUpSpinner() {
+    private void setupSpinnerRealtime() {
+        employeeListener = AdminManager.listenEmployees(new AdminManager.EmployeeListCallback() {
+            @Override
+            public void onResult(List<String> employees) {
+                if (!isAdded()) return;
 
-        String[] employees = {"Select Employee", "Arshad", "Samir", "Akhil", "Vishal"};
+                List<String> finalEmployees = new ArrayList<>();
+                finalEmployees.add("Select Employee");
+                finalEmployees.addAll(employees);
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(),
-                R.layout.spinner_item, employees);
+                requireActivity().runOnUiThread(() -> {
+                    ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                            requireContext(),
+                            R.layout.spinner_item,
+                            finalEmployees
+                    );
 
-        adapter.setDropDownViewResource(androidx.appcompat.R.layout.support_simple_spinner_dropdown_item);
-        selectEmply.setAdapter(adapter);
+                    adapter.setDropDownViewResource(
+                            androidx.appcompat.R.layout.support_simple_spinner_dropdown_item
+                    );
 
-        SharedPreferences prefs = requireContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
-        String lastEmp = prefs.getString(KEY_LAST_EMP, "Select Employee");
+                    selectEmply.setAdapter(adapter);
 
-        int pos = adapter.getPosition(lastEmp);
-        if (pos >= 0) selectEmply.setSelection(pos);
+                    // 1. Check if we have a restored name from Firestore
+                    if (!restoredEmpName.isEmpty()) {
+                        int pos = adapter.getPosition(restoredEmpName);
+                        if (pos >= 0) selectEmply.setSelection(pos);
+                    } else {
+                        // 2. Fallback to SharedPreferences
+                        SharedPreferences prefs = requireContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+                        String lastEmp = prefs.getString(KEY_LAST_EMP, "Select Employee");
+                        int pos = adapter.getPosition(lastEmp);
+                        if (pos >= 0) selectEmply.setSelection(pos);
+                    }
+                });
+            }
+
+            @Override
+            public void onError(String error) {
+                if (isAdded()) {
+                    showToastSafe("Employee load failed: " + error);
+                }
+            }
+        });
 
         selectEmply.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -244,8 +284,8 @@ public class fill_two_fragment extends Fragment {
                 if (i == 0) return; // ignore "Select Employee"
 
                 String selected = parent.getItemAtPosition(i).toString();
-                prefs.edit().putString(KEY_LAST_EMP, selected).apply();
-                showToastSafe("Selected: " + selected);
+                requireContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+                        .edit().putString(KEY_LAST_EMP, selected).apply();
             }
 
             @Override
@@ -370,6 +410,10 @@ public class fill_two_fragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        if (employeeListener != null) {
+            employeeListener.remove();
+            employeeListener = null;
+        }
         if (activeToast != null) {
             activeToast.cancel();
             activeToast = null;

@@ -13,8 +13,11 @@ import com.google.firebase.firestore.SetOptions;
 import com.example.hi_tech_controls.helper.FirestoreUtils;
 
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -56,6 +59,11 @@ public class AdminManager {
 
     public interface DeviceStatusCallback {
         void onResult(boolean isBlocked);
+        void onError(String error);
+    }
+
+    public interface EmployeeListCallback {
+        void onResult(List<String> employees);
         void onError(String error);
     }
 
@@ -182,9 +190,6 @@ public class AdminManager {
                 });
     }
 
-    // ------------------------------------------------------------------
-    // 5. REAL-TIME DEVICE BLOCK LISTENER (attach in MainActivity)
-    // ------------------------------------------------------------------
     public static ListenerRegistration listenDeviceBlock(Context context, DeviceStatusCallback callback) {
         Log.d(TAG, "Attaching device block real-time listener");
         return getDeviceRef(context)
@@ -199,6 +204,43 @@ public class AdminManager {
                         callback.onResult(isBlocked);
                     }
                 });
+    }
+
+    // ------------------------------------------------------------------
+    // 6. REAL-TIME EMPLOYEE LIST LISTENER
+    // ------------------------------------------------------------------
+    public static ListenerRegistration listenEmployees(EmployeeListCallback callback) {
+        Log.d(TAG, "Attaching employee list real-time listener");
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference configRef = db.collection(COL_ADMIN).document(DOC_CONFIG);
+
+        return configRef.addSnapshotListener((doc, e) -> {
+            if (e != null) {
+                Log.e(TAG, "Employee listener error: " + e.getMessage());
+                callback.onError(e.getMessage());
+                return;
+            }
+
+            if (doc != null && doc.exists()) {
+                List<String> list = (List<String>) doc.get("employee_list");
+
+                if (list == null || list.isEmpty()) {
+                    Log.d(TAG, "Employee list missing/empty, creating defaults");
+                    List<String> defaults = Arrays.asList(
+                            "Sahil fb", "Ali fb", "Vishal fb", "Hasnain fb"
+                    );
+
+                    configRef.set(Collections.singletonMap("employee_list", defaults), SetOptions.merge())
+                            .addOnSuccessListener(v -> Log.d(TAG, "Default employee list created"))
+                            .addOnFailureListener(err -> Log.e(TAG, "Failed to create default employees: " + err.getMessage()));
+
+                    callback.onResult(defaults);
+                } else {
+                    Log.d(TAG, "Employee list loaded: " + list.size() + " items");
+                    callback.onResult(list);
+                }
+            }
+        });
     }
 
     // ------------------------------------------------------------------

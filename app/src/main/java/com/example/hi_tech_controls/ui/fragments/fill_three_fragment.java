@@ -25,10 +25,15 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.WriteBatch;
+import com.example.hi_tech_controls.helper.AdminManager;
 import com.example.hi_tech_controls.helper.FirestoreUtils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import com.google.firebase.firestore.ListenerRegistration;
 
 public class fill_three_fragment extends Fragment {
 
@@ -67,6 +72,9 @@ public class fill_three_fragment extends Fragment {
     private int daysCount = 1;
     private Toast activeToast;
 
+    private ListenerRegistration employeeListener;
+    private String restoredEmpName = "";
+
     // ----------------------------------------------------
     // Lifecycle
     // ----------------------------------------------------
@@ -89,7 +97,7 @@ public class fill_three_fragment extends Fragment {
         }
 
         initializeUIElements(root);
-        setupSpinner();
+        setupSpinnerRealtime();
         setupStepperButtons();
 
         if (isRealClientId()) loadExistingData();
@@ -167,29 +175,45 @@ public class fill_three_fragment extends Fragment {
     }
 
     // ----------------------------------------------------
-    // Spinner
+    // Spinner (Realtime)
     // ----------------------------------------------------
-    private void setupSpinner() {
+    private void setupSpinnerRealtime() {
+        employeeListener = AdminManager.listenEmployees(new AdminManager.EmployeeListCallback() {
+            @Override
+            public void onResult(List<String> employees) {
+                if (!isAdded()) return;
 
-        String[] employees = {
-                "Select Employee",
-                "Arshad",
-                "Samir",
-                "Akhil",
-                "Vishal"
-        };
+                List<String> finalEmployees = new ArrayList<>();
+                finalEmployees.add("Select Employee");
+                finalEmployees.addAll(employees);
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(
-                requireContext(),
-                R.layout.spinner_item,
-                employees
-        );
+                requireActivity().runOnUiThread(() -> {
+                    ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                            requireContext(),
+                            R.layout.spinner_item,
+                            finalEmployees
+                    );
 
-        adapter.setDropDownViewResource(
-                androidx.appcompat.R.layout.support_simple_spinner_dropdown_item
-        );
+                    adapter.setDropDownViewResource(
+                            androidx.appcompat.R.layout.support_simple_spinner_dropdown_item
+                    );
 
-        selectEmply.setAdapter(adapter);
+                    selectEmply.setAdapter(adapter);
+
+                    if (!restoredEmpName.isEmpty()) {
+                        int pos = adapter.getPosition(restoredEmpName);
+                        if (pos >= 0) selectEmply.setSelection(pos);
+                    }
+                });
+            }
+
+            @Override
+            public void onError(String error) {
+                if (isAdded()) {
+                    showToastSafe("Employee load failed: " + error);
+                }
+            }
+        });
 
         selectEmply.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -219,8 +243,11 @@ public class fill_three_fragment extends Fragment {
 
                     // Spinner
                     String emp = FirestoreUtils.getStringSafe(doc, "select_emp");
-                    if (!emp.isEmpty() && selectEmply.getAdapter() != null) {
-                        selectEmply.setSelection(getSpinnerIndex(selectEmply, emp));
+                    if (!emp.isEmpty()) {
+                        restoredEmpName = emp;
+                        if (selectEmply.getAdapter() != null) {
+                            selectEmply.setSelection(getSpinnerIndex(selectEmply, emp));
+                        }
                     }
 
                     // Checkboxes & Text
@@ -363,6 +390,10 @@ public class fill_three_fragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        if (employeeListener != null) {
+            employeeListener.remove();
+            employeeListener = null;
+        }
         if (activeToast != null) {
             activeToast.cancel();
             activeToast = null;
