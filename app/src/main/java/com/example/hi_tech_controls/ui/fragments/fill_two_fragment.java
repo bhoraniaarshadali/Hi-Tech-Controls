@@ -6,6 +6,7 @@ package com.example.hi_tech_controls.ui.fragments;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -73,6 +74,7 @@ public class fill_two_fragment extends Fragment {
 
     private ScrollView scrollView;
     private Toast activeToast;
+    private Map<String, Object> lastSavedData = new HashMap<>();
 
     private ListenerRegistration employeeListener;
     private String restoredEmpName = "";
@@ -201,6 +203,7 @@ public class fill_two_fragment extends Fragment {
             output_NEG_checkbox_V.setChecked(FirestoreUtils.getBooleanSafe(doc, "output_neg_checkbox_V"));
             output_NEG_checkbox_W.setChecked(FirestoreUtils.getBooleanSafe(doc, "output_neg_checkbox_W"));
 
+            lastSavedData = buildFirestoreData(); // Cache initial state
             showToastSafe("Data loaded");
 
         }).addOnFailureListener(e -> {
@@ -316,9 +319,15 @@ public class fill_two_fragment extends Fragment {
             return;
         }
 
-        LoadingDialog.getInstance().show(requireContext());
-
         Map<String, Object> data = buildFirestoreData();
+
+        if (lastSavedData != null && !lastSavedData.isEmpty() && !isDataChanged(data)) {
+            Log.d("fill_two", "No changes in fill_two, skipping save");
+            callback.onSaveComplete(true);
+            return;
+        }
+
+        LoadingDialog.getInstance().show(requireContext());
 
         DocumentReference pageRef = db.collection(COLLECTION_NAME)
                 .document(clientId)
@@ -333,6 +342,7 @@ public class fill_two_fragment extends Fragment {
 
         batch.commit().addOnSuccessListener(unused -> {
             LoadingDialog.getInstance().hide();
+            lastSavedData = new HashMap<>(data); // Update cache
             showToastSafe("Step 2 saved successfully");
             callback.onSaveComplete(true);
 
@@ -387,6 +397,29 @@ public class fill_two_fragment extends Fragment {
                 new SimpleDateFormat("dd MMM yyyy, hh:mm a", Locale.getDefault()).format(new Date()));
 
         return data;
+    }
+
+    private boolean isDataChanged(Map<String, Object> newData) {
+        if (lastSavedData == null || lastSavedData.isEmpty())
+            return true;
+
+        for (Map.Entry<String, Object> entry : newData.entrySet()) {
+            String key = entry.getKey();
+            // Skip volatile metadata
+            if (key.equals("timestamp") || key.equals("timestamp_human") || key.equals("lastUpdated"))
+                continue;
+
+            Object oldVal = lastSavedData.get(key);
+            Object newVal = entry.getValue();
+
+            if (oldVal == null && newVal == null)
+                continue;
+            if (oldVal == null || !oldVal.equals(newVal)) {
+                Log.d("fill_two", "Change detected in: " + key + " (old=" + oldVal + " new=" + newVal + ")");
+                return true;
+            }
+        }
+        return false;
     }
 
     // ----------------------------------------------------

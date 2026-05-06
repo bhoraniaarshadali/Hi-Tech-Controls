@@ -1,7 +1,9 @@
 package com.example.hi_tech_controls.adapter;
 
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
+import android.view.animation.DecelerateInterpolator;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -80,7 +82,19 @@ public class AddDetailsAdp extends RecyclerView.Adapter<AddDetailsAdp.ViewHolder
     private void bindBasicInfo(ViewHolder holder, DetailsModel item) {
         holder.userName1.setText(item.getuName());
         holder.userId1.setText(String.valueOf(item.getUId()));
-        holder.progress1.setProgress(item.getProgress());
+
+        // Smoothly animate the progress bar
+        int targetProgress = item.getProgress();
+        int currentProgress = holder.progress1.getProgress();
+
+        if (currentProgress != targetProgress) {
+            ObjectAnimator animator = ObjectAnimator.ofInt(holder.progress1, "progress", currentProgress, targetProgress);
+            animator.setDuration(800); // 0.8 seconds for a smooth feel
+            animator.setInterpolator(new DecelerateInterpolator());
+            animator.start();
+        } else {
+            holder.progress1.setProgress(targetProgress);
+        }
     }
 
     private void bindStatus(ViewHolder holder, DetailsModel item) {

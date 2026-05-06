@@ -42,6 +42,7 @@ public class fill_one_fragment extends Fragment implements DatePickerDialog.OnDa
 
     private DatePickerDialog datePickerDialog;
     private Toast activeToast;
+    private Map<String, Object> lastSavedData = new HashMap<>();
 
     // -------------------------------------------------------------------
     // LIFECYCLE
@@ -166,6 +167,7 @@ public class fill_one_fragment extends Fragment implements DatePickerDialog.OnDa
                     safeSetHint(enterName, "Enter name");
                     if (doc.exists()) {
                         populateFields(doc);
+                        lastSavedData = preparePageData(); // Cache initial state
                         showToastSafe("Data loaded!");
                     }
                 })
@@ -212,14 +214,47 @@ public class fill_one_fragment extends Fragment implements DatePickerDialog.OnDa
             return;
         }
 
+        Map<String, Object> pageData = preparePageData();
+
+        if (lastSavedData != null && !lastSavedData.isEmpty() && !isDataChanged(pageData)) {
+            Log.d(TAG, "No changes in fill_one, skipping save");
+            callback.onSaveComplete(true);
+            return;
+        }
+
         showLoading();
         showToastSafe("Saving...");
 
-        Map<String, Object> pageData = preparePageData();
-
         // Strip temp prefix for real document name
         String realId = clientId.replace("temp", "");
-        savePageData(realId, pageData, callback);
+        savePageData(realId, pageData, success -> {
+            if (success) {
+                lastSavedData = new HashMap<>(pageData); // Update cache on success
+            }
+            callback.onSaveComplete(success);
+        });
+    }
+
+    private boolean isDataChanged(Map<String, Object> newData) {
+        if (lastSavedData == null || lastSavedData.isEmpty())
+            return true;
+
+        for (Map.Entry<String, Object> entry : newData.entrySet()) {
+            String key = entry.getKey();
+            if (key.equals("timestamp") || key.equals("lastUpdated"))
+                continue;
+
+            Object oldVal = lastSavedData.get(key);
+            Object newVal = entry.getValue();
+
+            if (oldVal == null && newVal == null)
+                continue;
+            if (oldVal == null || !oldVal.equals(newVal)) {
+                Log.d(TAG, "Change detected in key: " + key + " (old=" + oldVal + " new=" + newVal + ")");
+                return true;
+            }
+        }
+        return false;
     }
 
     private boolean validatePreSave(String clientId) {

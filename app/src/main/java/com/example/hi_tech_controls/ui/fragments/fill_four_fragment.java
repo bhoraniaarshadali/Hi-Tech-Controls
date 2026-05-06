@@ -4,6 +4,7 @@
 package com.example.hi_tech_controls.ui.fragments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,6 +67,7 @@ public class fill_four_fragment extends Fragment {
     private EditText enterClean_Text, enterPramCopy_Text;
 
     private Toast activeToast;
+    private Map<String, Object> lastSavedData = new HashMap<>();
 
     private ListenerRegistration employeeListener;
     private String restoredEmpName = "";
@@ -251,9 +253,9 @@ public class fill_four_fragment extends Fragment {
             enterBODYCondition_text.setText(FirestoreUtils.getStringSafe(doc, "enter_BODY_Condition"));
             enterIOcheck_text.setText(FirestoreUtils.getStringSafe(doc, "enter_io_check"));
 
-            enterClean_Text.setText(FirestoreUtils.getStringSafe(doc, "enterClean"));
             enterPramCopy_Text.setText(FirestoreUtils.getStringSafe(doc, "enterPramCopy"));
 
+            lastSavedData = buildFirestoreData(); // Cache initial state
             showToastSafe("Data loaded 4");
 
         }).addOnFailureListener(e -> {
@@ -286,9 +288,15 @@ public class fill_four_fragment extends Fragment {
                 .collection("pages")
                 .document("fill_four");
 
-        LoadingDialog.getInstance().show(requireContext());
-
         Map<String, Object> data = buildFirestoreData();
+
+        if (lastSavedData != null && !lastSavedData.isEmpty() && !isDataChanged(data)) {
+            Log.d("fill_four", "No changes in fill_four, skipping save");
+            callback.onSaveComplete(true);
+            return;
+        }
+
+        LoadingDialog.getInstance().show(requireContext());
 
         WriteBatch batch = db.batch();
         batch.set(pageRef, data);
@@ -299,6 +307,7 @@ public class fill_four_fragment extends Fragment {
         batch.commit()
                 .addOnSuccessListener(aVoid -> {
                     LoadingDialog.getInstance().hide();
+                    lastSavedData = new HashMap<>(data); // Update cache
                     showToastSafe("All steps completed!");
                     callback.onSaveComplete(true);
                 })
@@ -346,6 +355,28 @@ public class fill_four_fragment extends Fragment {
         data.put("timestamp", System.currentTimeMillis());
 
         return data;
+    }
+
+    private boolean isDataChanged(Map<String, Object> newData) {
+        if (lastSavedData == null || lastSavedData.isEmpty())
+            return true;
+
+        for (Map.Entry<String, Object> entry : newData.entrySet()) {
+            String key = entry.getKey();
+            if (key.equals("timestamp") || key.equals("lastUpdated"))
+                continue;
+
+            Object oldVal = lastSavedData.get(key);
+            Object newVal = entry.getValue();
+
+            if (oldVal == null && newVal == null)
+                continue;
+            if (oldVal == null || !oldVal.equals(newVal)) {
+                Log.d("fill_four", "Change detected in: " + key + " (old=" + oldVal + " new=" + newVal + ")");
+                return true;
+            }
+        }
+        return false;
     }
 
     // ----------------------------------------------------

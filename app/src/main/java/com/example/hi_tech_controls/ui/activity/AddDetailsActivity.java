@@ -1,7 +1,9 @@
 package com.example.hi_tech_controls.ui.activity;
 
+import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.view.animation.DecelerateInterpolator;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -232,36 +234,20 @@ public class AddDetailsActivity extends BaseActivity {
             long lastId = FirestoreUtils.getLongSafe(snapshot, "lastId");
             if (lastId == 0)
                 lastId = 2000; // fallback if missing
-            tempClientId = "temp" + (lastId + 1);
-            Log.d(TAG, "Realtime tempClientId update: " + tempClientId);
+            tempClientId = String.valueOf(lastId + 1);
+            Log.d(TAG, "Realtime predicted ID update: " + tempClientId);
 
             runOnUiThread(() -> {
                 if (dash_tv != null && !isIdCommitted) {
-                    dash_tv.setText(String.format("Client ID: %s", tempClientId.replace("temp", "")));
+                    dash_tv.setText(String.format("Client ID: %s", tempClientId));
                 }
 
-                // Notify active fragment if it's the first one
-                Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.frameLayout);
-                if (currentFragment != null) {
-                    // Update arguments so the ID persists across recreation
-                    Bundle args = currentFragment.getArguments();
-                    if (args != null) {
-                        args.putString("clientId", tempClientId);
-                    }
-
-                    if (currentFragment instanceof fill_one_fragment) {
-                        ((fill_one_fragment) currentFragment).updateClientId(tempClientId);
-                    }
+                // Switch to the predicted ID for real-time tracking
+                if (clientId == null || clientId.isEmpty()) {
+                    clientId = tempClientId;
+                    checkInitialProgressAndLoad();
                 }
             });
-
-            // If no fragment is loaded yet, load it once
-            if (getSupportFragmentManager().findFragmentById(R.id.frameLayout) == null) {
-                currentFragmentIndex = 0;
-                currentProgress = 0;
-                updateUI();
-                loadFragment(new fill_one_fragment(), tempClientId);
-            }
         });
     }
 
@@ -269,32 +255,32 @@ public class AddDetailsActivity extends BaseActivity {
     // Existing client flow: check progress then attach listener/resume
     // -------------------------------------------------------------------------
     private void checkInitialProgressAndLoad() {
-        if (db == null) {
-            Log.e(TAG, "checkInitialProgressAndLoad: db is null");
-            loadClientProgressAndResume(); // attempt to continue defensively
+        if (db == null || clientId == null) {
+            Log.e(TAG, "checkInitialProgressAndLoad: db or clientId null");
             return;
         }
         DocumentReference docRef = db.collection(COLLECTION_NAME).document(clientId);
         Log.d(TAG, "Checking initial progress for clientId=" + clientId);
 
         docRef.get().addOnSuccessListener(snapshot -> {
-            if (snapshot.exists()) {
-                int initialProgress = (int) FirestoreUtils.getLongSafe(snapshot, "progress");
-                Log.d(TAG, "Initial progress=" + initialProgress + " for clientId=" + clientId);
+            if (isFinishing() || isDestroyed()) return;
 
-                if (initialProgress >= 100) {
-                    Log.d(TAG, "Client already completed — loading view mode");
-                    setViewModeUI();
-                    loadFragment(new View_data_fragment(), clientId);
-                } else {
-                    loadClientProgressAndResume();
-                }
+            if (snapshot.exists()) {
+                Log.d(TAG, "Client document exists — resuming progress");
+                isIdCommitted = true;
+                loadClientProgressAndResume();
             } else {
-                Log.d(TAG, "Client document does not exist — continuing normal flow");
+                Log.d(TAG, "Client document does not exist yet — showing Step 1");
+                isIdCommitted = false;
+                currentProgress = 0;
+                currentFragmentIndex = 0;
+                updateUI();
+                loadCurrentFragment();
+                // Attach listener anyway to catch when someone else commits it
                 loadClientProgressAndResume();
             }
         }).addOnFailureListener(e -> {
-            Log.e(TAG, "Failed to read initial progress — continuing normal flow", e);
+            Log.e(TAG, "Failed to read initial progress", e);
             loadClientProgressAndResume();
         });
     }
@@ -317,16 +303,21 @@ public class AddDetailsActivity extends BaseActivity {
                 return;
             }
             if (!snapshot.exists()) {
-                Log.w(TAG, "Realtime snapshot does not exist for id=" + clientId);
+                // If it doesn't exist, it means it's a new client or not yet committed.
+                // We keep the current fragment (likely fill_one) but don't force a jump.
+                Log.d(TAG, "Realtime update: Document doesn't exist yet for " + clientId);
                 return;
             }
 
             currentProgress = (int) FirestoreUtils.getLongSafe(snapshot, "progress");
-            Log.d(TAG, "Realtime update: progress=" + currentProgress);
+            Log.d(TAG, "Realtime update: progress=" + currentProgress + " (committed=" + snapshot.exists() + ")");
+            
+            // If document exists, it's definitely committed
+            isIdCommitted = true;
 
             runOnUiThread(() -> {
-                if (dash_tv != null)
-                    dash_tv.setText("Client ID: " + clientId);
+                if (dash_tv != null && clientId != null)
+                    dash_tv.setText("Client ID: " + clientId.replace("temp", ""));
             });
 
             if (currentProgress >= 100) {
@@ -367,9 +358,9 @@ public class AddDetailsActivity extends BaseActivity {
         Log.d(TAG, "setFormModeUI()");
         if (dash_tv != null) {
             if (clientId != null && !clientId.isEmpty()) {
-                dash_tv.setText(String.format("Client ID: %s", clientId));
+                dash_tv.setText(String.format("Client ID: %s", clientId.replace("temp", "")));
             } else if (tempClientId != null && !tempClientId.isEmpty()) {
-                dash_tv.setText(String.format("Client ID: %s", tempClientId));
+                dash_tv.setText(String.format("Client ID: %s", tempClientId.replace("temp", "")));
             } else {
                 dash_tv.setText("Add Client Details");
             }
@@ -396,12 +387,18 @@ public class AddDetailsActivity extends BaseActivity {
     }
 
     private void updateUI() {
-        try {
-            if (progressBar != null)
-                progressBar.setProgress(currentProgress, true);
-        } catch (NoSuchMethodError | Exception ignored) {
-            if (progressBar != null)
-                progressBar.setProgress(currentProgress);
+        if (progressBar != null) {
+            int targetProgress = currentProgress;
+            int currentPos = progressBar.getProgress();
+
+            if (currentPos != targetProgress) {
+                ObjectAnimator animator = ObjectAnimator.ofInt(progressBar, "progress", currentPos, targetProgress);
+                animator.setDuration(1000); // 1 second for a smooth, premium feel
+                animator.setInterpolator(new DecelerateInterpolator());
+                animator.start();
+            } else {
+                progressBar.setProgress(targetProgress);
+            }
         }
 
         if (currentFragmentIndex < switcherValues.length && textSwitcher != null) {
@@ -549,36 +546,49 @@ public class AddDetailsActivity extends BaseActivity {
         String logPrefix = "updateProgressAndNavigate";
         Log.d(TAG, logPrefix + ": newProgress=" + newProgress + " nextIndex=" + nextIndex + " clientId=" + clientId);
 
+        // Update local state immediately for UI responsiveness
         currentProgress = newProgress;
         currentFragmentIndex = nextIndex;
         updateUI();
         loadCurrentFragment();
 
-        if (db == null) {
-            Log.e(TAG, logPrefix + ": db null, queue offline");
-            OfflineSyncManager.getInstance().queuePendingUpdate(
-                    COLLECTION_NAME, clientId,
-                    Map.of("progress", newProgress, "lastUpdated", System.currentTimeMillis()));
+        if (db == null || clientId == null) {
+            Log.d(TAG, logPrefix + ": db or clientId null, local update only");
             return;
         }
 
-        db.collection(COLLECTION_NAME)
-                .document(clientId)
-                .update("progress", newProgress, "lastUpdated", System.currentTimeMillis())
-                .addOnSuccessListener(
-                        aVoid -> Log.d(TAG, logPrefix + ": progress updated successfully for " + clientId))
-                .addOnFailureListener(e -> {
-                    Log.e(TAG, logPrefix + ": failed to update progress, queuing", e);
-                    new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
-                            .setTitleText("Sync Delayed")
-                            .setContentText("Changes saved locally. Will sync once you're online.")
-                            .setConfirmText("Okay")
-                            .show();
+        DocumentReference clientRef = db.collection(COLLECTION_NAME).document(clientId);
 
-                    OfflineSyncManager.getInstance().queuePendingUpdate(
-                            COLLECTION_NAME, clientId,
-                            Map.of("progress", newProgress, "lastUpdated", System.currentTimeMillis()));
-                });
+        // Use a transaction to ensure we only update progress if it's actually an advancement.
+        // This prevents "rolling back" progress if one device is at Step 3 and another 
+        // device just finished/viewed Step 1.
+        db.runTransaction(transaction -> {
+            DocumentSnapshot snapshot = transaction.get(clientRef);
+            if (snapshot.exists()) {
+                long existingProgress = FirestoreUtils.getLongSafe(snapshot, "progress");
+                if (newProgress > existingProgress) {
+                    transaction.update(clientRef, "progress", newProgress, "lastUpdated", System.currentTimeMillis());
+                    Log.d(TAG, "Transaction: Progress advanced to " + newProgress);
+                } else {
+                    // Just update the timestamp to show activity, but keep the higher progress
+                    transaction.update(clientRef, "lastUpdated", System.currentTimeMillis());
+                    Log.d(TAG, "Transaction: Keeping higher progress " + existingProgress + " (new was " + newProgress + ")");
+                }
+            } else {
+                // Should not happen for existing committed clients
+                Map<String, Object> data = new HashMap<>();
+                data.put("progress", newProgress);
+                data.put("lastUpdated", System.currentTimeMillis());
+                transaction.set(clientRef, data, SetOptions.merge());
+            }
+            return null;
+        }).addOnFailureListener(e -> {
+            Log.e(TAG, "Progress transaction failed, queuing offline", e);
+            Map<String, Object> offlineData = new HashMap<>();
+            offlineData.put("progress", newProgress);
+            offlineData.put("lastUpdated", System.currentTimeMillis());
+            OfflineSyncManager.getInstance().queuePendingUpdate(COLLECTION_NAME, clientId, offlineData);
+        });
     }
 
     // -------------------------------------------------------------------------

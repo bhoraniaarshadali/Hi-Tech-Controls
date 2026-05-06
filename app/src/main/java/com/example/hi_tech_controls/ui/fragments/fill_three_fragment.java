@@ -4,6 +4,7 @@
 package com.example.hi_tech_controls.ui.fragments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -71,6 +72,7 @@ public class fill_three_fragment extends Fragment {
 
     private int daysCount = 1;
     private Toast activeToast;
+    private Map<String, Object> lastSavedData = new HashMap<>();
 
     private ListenerRegistration employeeListener;
     private String restoredEmpName = "";
@@ -282,10 +284,9 @@ public class fill_three_fragment extends Fragment {
                     checkboxTRIAL2.setChecked(FirestoreUtils.getBooleanSafe(doc, "checkboxTrial2"));
 
                     // Days
-                    daysCount = (int) FirestoreUtils.getLongSafe(doc, "number_picker_value");
-                    if (daysCount == 0) daysCount = 1;
                     textDays.setText(String.valueOf(daysCount));
 
+                    lastSavedData = buildFirestoreData(); // Cache initial state
                     showToastSafe("Data loaded 3");
                 })
                 .addOnFailureListener(e -> {
@@ -316,9 +317,15 @@ public class fill_three_fragment extends Fragment {
                 .collection("pages")
                 .document("fill_three");
 
-        LoadingDialog.getInstance().show(requireContext());
-
         Map<String, Object> data = buildFirestoreData();
+
+        if (lastSavedData != null && !lastSavedData.isEmpty() && !isDataChanged(data)) {
+            Log.d("fill_three", "No changes in fill_three, skipping save");
+            callback.onSaveComplete(true);
+            return;
+        }
+
+        LoadingDialog.getInstance().show(requireContext());
 
         WriteBatch batch = db.batch();
         batch.set(pageRef, data);
@@ -331,6 +338,7 @@ public class fill_three_fragment extends Fragment {
         batch.commit()
                 .addOnSuccessListener(aVoid -> {
                     LoadingDialog.getInstance().hide();
+                    lastSavedData = new HashMap<>(data); // Update cache
                     showToastSafe("Step 3 saved!");
                     callback.onSaveComplete(true);
                 })
@@ -382,6 +390,28 @@ public class fill_three_fragment extends Fragment {
         data.put("timestamp", System.currentTimeMillis());
 
         return data;
+    }
+
+    private boolean isDataChanged(Map<String, Object> newData) {
+        if (lastSavedData == null || lastSavedData.isEmpty())
+            return true;
+
+        for (Map.Entry<String, Object> entry : newData.entrySet()) {
+            String key = entry.getKey();
+            if (key.equals("timestamp") || key.equals("lastUpdated"))
+                continue;
+
+            Object oldVal = lastSavedData.get(key);
+            Object newVal = entry.getValue();
+
+            if (oldVal == null && newVal == null)
+                continue;
+            if (oldVal == null || !oldVal.equals(newVal)) {
+                Log.d("fill_three", "Change detected in: " + key + " (old=" + oldVal + " new=" + newVal + ")");
+                return true;
+            }
+        }
+        return false;
     }
 
     // ----------------------------------------------------
