@@ -204,7 +204,7 @@ public class fill_two_fragment extends Fragment {
             output_NEG_checkbox_W.setChecked(FirestoreUtils.getBooleanSafe(doc, "output_neg_checkbox_W"));
 
             lastSavedData = buildFirestoreData(); // Cache initial state
-            showToastSafe("Data loaded");
+            //showToastSafe("Data loaded");
 
         }).addOnFailureListener(e -> {
             LoadingDialog.getInstance().hide();

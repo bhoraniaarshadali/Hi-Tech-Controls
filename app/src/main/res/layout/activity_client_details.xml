@@ -8,8 +8,10 @@
     <View
         android:id="@+id/dash_vi"
         android:layout_width="match_parent"
-        android:layout_height="193dp"
+        android:layout_height="140dp"
         android:background="@drawable/flip_top" />
+
+
 
     <!-- Back -->
     <androidx.appcompat.widget.AppCompatImageButton
@@ -24,17 +26,34 @@
         tools:layout_editor_absoluteX="23dp"
         tools:layout_editor_absoluteY="37dp" />
 
-    <!-- Title -->
-    <TextView
-        android:id="@+id/dash_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="40dp"
-        android:fontFamily="@font/poppins_medium"
-        android:text="View Details"
-        android:textColor="@android:color/white"
-        android:textSize="25sp" />
+            <LinearLayout
+                android:id="@+id/header_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="25dp"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/dash_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_medium"
+                    android:text="View Details"
+                    android:textColor="@android:color/white"
+                    android:textSize="22sp" />
+
+                <TextView
+                    android:id="@+id/clientId_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_regular"
+                    android:text="ID: 0000"
+                    android:textColor="@android:color/white"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
 
     <!-- Edit -->
     <androidx.appcompat.widget.AppCompatImageButton
@@ -65,14 +84,47 @@
         tools:layout_editor_absoluteX="23dp"
         tools:layout_editor_absoluteY="37dp" />
 
+    <!-- STICKY BUTTONS BAR -->
+    <LinearLayout
+        android:id="@+id/sticky_buttons_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/dash_vi"
+        android:layout_marginTop="-40dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingBottom="10dp">
+
+
+        <ImageView
+            android:id="@+id/viewMediaBtn"
+            android:layout_width="165dp"
+            android:layout_height="50dp"
+            android:layout_marginEnd="8dp"
+            android:src="@drawable/view_media"
+            android:adjustViewBounds="true"
+            android:clickable="true"
+            android:focusable="true"
+            android:contentDescription="View Media" />
+
+        <ImageView
+            android:id="@+id/generatePdfBtn"
+            android:layout_width="165dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="8dp"
+            android:src="@drawable/generate_pdf"
+            android:adjustViewBounds="true"
+            android:clickable="true"
+            android:focusable="true"
+            android:contentDescription="Generate PDF" />
+    </LinearLayout>
+
     <!-- SCROLL PART -->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/dash_tv"
-        android:layout_marginTop="10dp"
+        android:layout_below="@id/sticky_buttons_bar"
         android:fillViewport="true">
-
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -80,20 +132,9 @@
             android:background="@color/white"
             android:orientation="vertical">
 
-            <!-- save pdf button -->
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/generatePdfBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="end"
-                android:layout_marginEnd="20dp"
-                android:background="@android:color/transparent"
-                android:drawableEnd="@drawable/ic_download"
-                android:fontFamily="@font/poppins_medium"
-                android:text="Download Pdf"
-                android:textAllCaps="false"
-                android:textColor="@color/grey"
-                android:textSize="16sp" />
+
+
+
 
             <!-- Put your frag_1 and rest UI inside here -->
             <RelativeLayout

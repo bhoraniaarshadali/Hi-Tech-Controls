@@ -287,7 +287,7 @@ public class fill_three_fragment extends Fragment {
                     textDays.setText(String.valueOf(daysCount));
 
                     lastSavedData = buildFirestoreData(); // Cache initial state
-                    showToastSafe("Data loaded 3");
+//                    showToastSafe("Data loaded 3");
                 })
                 .addOnFailureListener(e -> {
                     LoadingDialog.getInstance().hide();

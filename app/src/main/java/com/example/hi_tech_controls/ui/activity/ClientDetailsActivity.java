@@ -87,10 +87,23 @@ public class ClientDetailsActivity extends BaseActivity {
         AppCompatImageButton editBtn = findViewById(R.id.editBtn);
         AppCompatImageButton saveBtn = findViewById(R.id.saveBtn);
         AppCompatImageButton backBtn = findViewById(R.id.backBtn);
-        androidx.appcompat.widget.AppCompatButton generatePdfBtn = findViewById(R.id.generatePdfBtn);
+        View generatePdfBtn = findViewById(R.id.generatePdfBtn);
         generatePdfBtn.setOnClickListener(v -> generateAndDownloadPdf());
 
+        View viewMediaBtn = findViewById(R.id.viewMediaBtn);
+        viewMediaBtn.setOnClickListener(v -> {
+            if (clientId != null && !clientId.isEmpty()) {
+                Intent intent = new Intent(this, MediaUploadActivity.class);
+                intent.putExtra("clientId", clientId);
+                startActivity(intent);
+            } else {
+                Toast.makeText(this, "Client ID not available", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
         backBtn.setOnClickListener(v -> {
+
             if (isEditMode) {
                 showCancelConfirmation();
             } else {
@@ -123,8 +136,18 @@ public class ClientDetailsActivity extends BaseActivity {
         if (clientId == null) clientId = getIntent().getStringExtra("id");
 
         Log.d(TAG, "Client ID received: " + clientId);
+        TextView dashTv = findViewById(R.id.dash_tv);
+        TextView clientIdTv = findViewById(R.id.clientId_tv);
+        if (dashTv != null) {
+            dashTv.setText("View Details");
+        }
+        if (clientIdTv != null && clientId != null) {
+            clientIdTv.setText("Client ID: " + clientId);
+        }
+
 
         if (clientId == null || clientId.isEmpty()) {
+
             Log.e(TAG, "Client ID is null or empty");
             Toast.makeText(this, "Client not found!", Toast.LENGTH_LONG).show();
             finish();
@@ -997,27 +1020,12 @@ public class ClientDetailsActivity extends BaseActivity {
 
     private void handlePdfSuccess(File pdfFile) {
         Log.d(TAG, "PDF generated successfully: " + pdfFile.getAbsolutePath());
-
-        new SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE)
-                .setTitleText("PDF Generated Successfully!")
-                .setContentText("Your service report has been saved to:\n" +
-                        pdfFile.getParentFile().getName() + "/" + pdfFile.getName())
-                .setConfirmText("Open PDF")
-                .setCancelText("Share")
-                .showCancelButton(true)
-                .setConfirmClickListener(sDialog -> {
-                    sDialog.dismissWithAnimation();
-                    openPdfFile(pdfFile);
-                })
-                .setCancelClickListener(sDialog -> {
-                    sDialog.dismissWithAnimation();
-                    sharePdfFile(pdfFile);
-                })
-                .show();
-
+//        Toast.makeText(this, "Opening PDF...", Toast.LENGTH_SHORT).show();
+        openPdfFile(pdfFile);
         // Add to gallery
         addPdfToGallery(pdfFile);
     }
+
 
     private void handlePdfError(Exception e) {
         Log.e(TAG, "PDF generation error: " + e.getMessage(), e);

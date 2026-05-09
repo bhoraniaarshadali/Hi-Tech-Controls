@@ -256,7 +256,7 @@ public class fill_four_fragment extends Fragment {
             enterPramCopy_Text.setText(FirestoreUtils.getStringSafe(doc, "enterPramCopy"));
 
             lastSavedData = buildFirestoreData(); // Cache initial state
-            showToastSafe("Data loaded 4");
+//            showToastSafe("Data loaded 4");
 
         }).addOnFailureListener(e -> {
             LoadingDialog.getInstance().hide();

@@ -24,6 +24,40 @@
 
             <!-- Header Title -->
 
+            <!-- Buttons Container -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="10dp"
+                android:paddingHorizontal="15dp">
+
+                <ImageView
+                    android:id="@+id/viewMediaBtn"
+                    android:layout_width="165dp"
+                    android:layout_height="50dp"
+                    android:layout_marginEnd="8dp"
+                    android:src="@drawable/view_media"
+                    android:adjustViewBounds="true"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:contentDescription="View Media" />
+
+                <ImageView
+                    android:id="@+id/printpdf"
+                    android:layout_width="165dp"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="8dp"
+                    android:src="@drawable/generate_pdf"
+                    android:adjustViewBounds="true"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:contentDescription="Generate PDF" />
+
+            </LinearLayout>
+
             <!-- Content Container with Background -->
             <TextView
                 android:layout_width="match_parent"
@@ -35,6 +69,7 @@
                 android:textColor="@color/black"
                 android:textSize="19sp"
                 android:textStyle="bold" />
+
 
             <LinearLayout
                 android:id="@+id/out"
@@ -2206,22 +2241,7 @@
 
             </LinearLayout>
 
-            <!-- Print Button -->
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/printpdf"
-                android:layout_width="200dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="30dp"
-                android:background="@drawable/radius_button"
-                android:backgroundTint="@color/blue"
-                android:fontFamily="@font/poppins_semibold"
-                android:text="Genrate PDF"
-                android:textAllCaps="true"
-                android:textColor="@color/white"
-                android:textSize="16sp" />
         </LinearLayout>
     </RelativeLayout>
-
 </RelativeLayout>
+

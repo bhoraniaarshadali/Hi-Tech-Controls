@@ -35,6 +35,7 @@ import com.google.android.gms.tasks.Tasks;
 import com.example.hi_tech_controls.helper.FirestoreUtils;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.example.hi_tech_controls.ui.activity.MediaUploadActivity;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -98,7 +99,21 @@ public class View_data_fragment extends Fragment {
                 if (client != null) generatePDF(client);
             });
         }
+
+        View viewMediaBtn = safeFindView(R.id.viewMediaBtn);
+        if (viewMediaBtn != null) {
+            viewMediaBtn.setOnClickListener(v -> {
+                if (currentClientId != null && !currentClientId.isEmpty()) {
+                    Intent intent = new Intent(requireContext(), MediaUploadActivity.class);
+                    intent.putExtra("clientId", currentClientId);
+                    startActivity(intent);
+                } else {
+                    showToastSafe("Client ID not available");
+                }
+            });
+        }
     }
+
 
     private <T extends View> T safeFindView(int id) {
         if (rootView == null) return null;
@@ -494,11 +509,10 @@ public class View_data_fragment extends Fragment {
 
                 requireActivity().runOnUiThread(() -> {
                     LoadingDialog.getInstance().hide();
-                    String message = "✅ PDF Saved Successfully! File: " + pdfFile.getName()
-                            + "\nLocation:\n" + pdfFile.getAbsolutePath();
-                    showToastSafe(message);
+                    showToastSafe("✅ PDF Generated! Opening...");
                     openPdfFile(pdfFile);
                 });
+
             } catch (Exception e) {
                 Log.e("PDF_ERROR", "PDF generation failed: " + e.getMessage(), e);
                 requireActivity().runOnUiThread(() -> {

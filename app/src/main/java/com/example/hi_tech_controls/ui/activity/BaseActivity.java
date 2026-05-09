@@ -207,8 +207,8 @@ public abstract class BaseActivity extends AppCompatActivity {
         if (wasOffline) {
             Log.d(TAG, "Device is back online – showing green banner");
 
-            offlineText.setText("Back Online!");
-            bannerIcon.setImageResource(R.drawable.ic_online);
+            offlineText.setText("You are online now");
+            bannerIcon.setImageResource(R.drawable.ic_wifi_online);
             offlineBanner.setBackgroundColor(0xFF4CAF50); // Green
             offlineBanner.setVisibility(View.VISIBLE);
 
@@ -233,8 +233,10 @@ public abstract class BaseActivity extends AppCompatActivity {
 
         Log.d(TAG, "Device OFFLINE → showing orange banner");
 
-        offlineText.setText("Offline – Changes will sync when online");
+        offlineText.setText("You are Offline");
         bannerIcon.setImageResource(R.drawable.ic_offline);
+
+
         offlineBanner.setBackgroundColor(0xFFFF9800); // Orange
         offlineBanner.setVisibility(View.VISIBLE);
         wasOffline = true;

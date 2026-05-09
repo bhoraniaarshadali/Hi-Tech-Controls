@@ -168,7 +168,7 @@ public class fill_one_fragment extends Fragment implements DatePickerDialog.OnDa
                     if (doc.exists()) {
                         populateFields(doc);
                         lastSavedData = preparePageData(); // Cache initial state
-                        showToastSafe("Data loaded!");
+//                        showToastSafe("Data loaded!");
                     }
                 })
                 .addOnFailureListener(e -> {

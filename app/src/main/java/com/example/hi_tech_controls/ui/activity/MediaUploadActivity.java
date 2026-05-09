@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -89,6 +90,18 @@ public class MediaUploadActivity extends BaseActivity {
             finish();
             return;
         }
+
+        TextView dashTv = findViewById(R.id.dash_tv);
+        TextView clientIdTv = findViewById(R.id.clientId_tv);
+
+        if (dashTv != null) {
+            dashTv.setText("Images & Videos");
+        }
+        if (clientIdTv != null) {
+            clientIdTv.setText("Client ID: " + clientId);
+        }
+
+
 
         Log.d(TAG, "clientId=" + clientId);
         setup9Boxes();
