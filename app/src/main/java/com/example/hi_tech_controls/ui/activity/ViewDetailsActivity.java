@@ -36,7 +36,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class ViewDetailsActivity extends BaseActivity {
 
     private static final String TAG = "ViewDetailsActivity";
-    private static final String COLLECTION = "hi_tech_controls_dataset_JUNE";
+    private static final String COLLECTION_NAME = "hi_tech_controls_dataset_JUNE";
 
     ImageView backBtn;
     EditText searchField;
@@ -203,7 +203,7 @@ public class ViewDetailsActivity extends BaseActivity {
         emptyStateText.setVisibility(View.GONE);
         isLoadingMore = false;
 
-        Query query = db.collection(COLLECTION)
+        Query query = db.collection(COLLECTION_NAME)
                 .whereEqualTo("progress", 100)
                 .orderBy("lastUpdated", Query.Direction.DESCENDING)
                 .limit(5);
@@ -233,11 +233,11 @@ public class ViewDetailsActivity extends BaseActivity {
         isLoadingMore = true;
         footerProgress.setVisibility(View.VISIBLE);
 
-        Query query = db.collection(COLLECTION)
+        Query query = db.collection(COLLECTION_NAME)
                 .whereEqualTo("progress", 100)
                 .orderBy("lastUpdated", Query.Direction.DESCENDING)
                 .startAfter(lastVisible)
-                .limit(5);
+                .limit(10);
 
         query.get()
                 .addOnSuccessListener(this::handleClientBatch)
@@ -271,54 +271,81 @@ public class ViewDetailsActivity extends BaseActivity {
             return;
         }
 
-        List<ClientModel> tempList = new ArrayList<>();
+        List<ClientModel> immediateList = new ArrayList<>();
+        List<DocumentSnapshot> missingDetailsDocs = new ArrayList<>();
         List<DocumentSnapshot> documents = querySnapshot.getDocuments();
-        int total = documents.size();
-        AtomicInteger completedCount = new AtomicInteger(0);
 
-        // mark lastVisible for pagination BEFORE async fetches
+        // mark lastVisible for pagination
         lastVisible = documents.get(documents.size() - 1);
-        Log.d(TAG, "lastVisible updated. docCount=" + total + " lastId=" + lastVisible.getId());
+        Log.d(TAG, "lastVisible updated. docCount=" + documents.size() + " lastId=" + lastVisible.getId());
 
         for (DocumentSnapshot doc : documents) {
+            String clientId = doc.getId();
+            String name = FirestoreUtils.getStringSafe(doc, "name");
+            String gpDate = FirestoreUtils.getStringSafe(doc, "gp_date");
+            String makeName = FirestoreUtils.getStringSafe(doc, "make_name");
+
+            // If we have all preview fields in root, add immediately
+            if (!name.isEmpty() && !gpDate.isEmpty() && !makeName.isEmpty()) {
+                immediateList.add(new ClientModel(name, clientId, formatDate(gpDate), makeName));
+            } else {
+                // Legacy document: missing denormalized fields
+                missingDetailsDocs.add(doc);
+            }
+        }
+
+        if (missingDetailsDocs.isEmpty()) {
+            // BEST CASE: All data was in root documents. No extra calls!
+            updateAdapterWithBatch(immediateList, clearOld);
+        } else {
+            // WORST CASE: Some documents are old and need extra fetches
+            Log.d(TAG, "Some docs missing root details: " + missingDetailsDocs.size());
+            fetchMissingDetails(missingDetailsDocs, immediateList, clearOld);
+        }
+    }
+
+    private void updateAdapterWithBatch(List<ClientModel> batch, boolean clearOld) {
+        runOnUiThread(() -> {
+            batch.sort((a, b) -> b.gpDate.compareTo(a.gpDate));
+            if (clearOld) {
+                adapter.hideShimmer(batch);
+            } else {
+                adapter.addMore(batch);
+            }
+            swipeRefreshLayout.setRefreshing(false);
+            footerProgress.setVisibility(View.GONE);
+            isLoadingMore = false;
+
+            if (adapter.getItemCount() == 0) {
+                emptyStateText.setVisibility(View.VISIBLE);
+            } else {
+                emptyStateText.setVisibility(View.GONE);
+            }
+        });
+    }
+
+    private void fetchMissingDetails(List<DocumentSnapshot> missingDocs, List<ClientModel> alreadyFetched, boolean clearOld) {
+        int total = missingDocs.size();
+        AtomicInteger completedCount = new AtomicInteger(0);
+        List<ClientModel> fetchedList = new ArrayList<>(alreadyFetched);
+
+        for (DocumentSnapshot doc : missingDocs) {
             final String clientId = doc.getId();
             fetchClientDetails(clientId, new OnClientDetailsFetched() {
                 @Override
                 public void onFetched(ClientModel model) {
-                    synchronized (tempList) {
-                        tempList.add(model);
+                    synchronized (fetchedList) {
+                        fetchedList.add(model);
                         if (completedCount.incrementAndGet() == total) {
-                            Log.d(TAG, "All details fetched for batch. total=" + total);
-                            runOnUiThread(() -> {
-                                tempList.sort((a, b) -> b.gpDate.compareTo(a.gpDate));
-                                if (clearOld) {
-                                    adapter.hideShimmer(tempList);
-                                } else {
-                                    adapter.addMore(tempList);
-                                }
-                                swipeRefreshLayout.setRefreshing(false);
-                                footerProgress.setVisibility(View.GONE);
-                                isLoadingMore = false;
-
-                                if (tempList.isEmpty()) {
-                                    emptyStateText.setVisibility(View.VISIBLE);
-                                } else {
-                                    emptyStateText.setVisibility(View.GONE);
-                                }
-                            });
+                            updateAdapterWithBatch(fetchedList, clearOld);
                         }
                     }
                 }
 
                 @Override
                 public void onFailed() {
-                    Log.w(TAG, "fetchClientDetails failed for id=" + clientId);
                     if (completedCount.incrementAndGet() == total) {
-                        runOnUiThread(() -> {
-                            swipeRefreshLayout.setRefreshing(false);
-                            footerProgress.setVisibility(View.GONE);
-                            isLoadingMore = false;
-                        });
+                        updateAdapterWithBatch(fetchedList, clearOld);
                     }
                 }
             });
@@ -334,7 +361,7 @@ public class ViewDetailsActivity extends BaseActivity {
             return;
         }
 
-        db.collection(COLLECTION)
+        db.collection(COLLECTION_NAME)
                 .document(clientId)
                 .collection("pages")
                 .document("fill_one")
@@ -347,7 +374,7 @@ public class ViewDetailsActivity extends BaseActivity {
 
                         if (name == null || name.isEmpty()) {
                             // fallback to root doc
-                            db.collection(COLLECTION)
+                            db.collection(COLLECTION_NAME)
                                     .document(clientId)
                                     .get()
                                     .addOnSuccessListener(mainDoc -> {
@@ -398,13 +425,13 @@ public class ViewDetailsActivity extends BaseActivity {
         emptyStateText.setVisibility(View.GONE);
         String q = query.toLowerCase().trim();
 
-        db.collection(COLLECTION)
+        db.collection(COLLECTION_NAME)
                 .whereEqualTo("progress", 100)
                 .get()
                 .addOnSuccessListener(querySnapshot -> {
                     List<ClientModel> searchResults = new ArrayList<>();
+                    List<DocumentSnapshot> missingDetailsDocs = new ArrayList<>();
                     List<DocumentSnapshot> documents = querySnapshot.getDocuments();
-                    AtomicInteger completedCount = new AtomicInteger(0);
 
                     if (documents.isEmpty()) {
                         adapter.hideShimmer(new ArrayList<>());
@@ -415,43 +442,25 @@ public class ViewDetailsActivity extends BaseActivity {
 
                     for (DocumentSnapshot doc : documents) {
                         String clientId = doc.getId();
-                        fetchClientDetails(clientId, new OnClientDetailsFetched() {
-                            @Override
-                            public void onFetched(ClientModel model) {
-                                synchronized (searchResults) {
-                                    try {
-                                        if ((model.name != null && model.name.toLowerCase().contains(q)) ||
-                                                (model.clientId != null && model.clientId.toLowerCase().contains(q)) ||
-                                                (model.gpDate != null && model.gpDate.toLowerCase().contains(q))) {
-                                            searchResults.add(model);
-                                        }
-                                    } catch (Exception ex) {
-                                        Log.w(TAG, "search matching error", ex);
-                                    }
+                        String name = FirestoreUtils.getStringSafe(doc, "name");
+                        String gpDate = FirestoreUtils.getStringSafe(doc, "gp_date");
+                        String makeName = FirestoreUtils.getStringSafe(doc, "make_name");
 
-                                    if (completedCount.incrementAndGet() == documents.size()) {
-                                        runOnUiThread(() -> {
-                                            searchResults.sort((a, b) -> b.gpDate.compareTo(a.gpDate));
-                                            adapter.hideShimmer(searchResults);
-
-                                            if (searchResults.isEmpty()) {
-                                                emptyStateText.setVisibility(View.VISIBLE);
-                                                emptyStateText.setText("No match found");
-                                            } else {
-                                                emptyStateText.setVisibility(View.GONE);
-                                            }
-                                        });
-                                    }
-                                }
+                        // Check if it matches locally (from root data)
+                        if (name.toLowerCase().contains(q) || clientId.toLowerCase().contains(q) || gpDate.toLowerCase().contains(q)) {
+                            if (!name.isEmpty() && !gpDate.isEmpty() && !makeName.isEmpty()) {
+                                searchResults.add(new ClientModel(name, clientId, formatDate(gpDate), makeName));
+                            } else {
+                                // Match found but details missing in root
+                                missingDetailsDocs.add(doc);
                             }
+                        }
+                    }
 
-                            @Override
-                            public void onFailed() {
-                                if (completedCount.incrementAndGet() == documents.size()) {
-                                    runOnUiThread(() -> adapter.hideShimmer(searchResults));
-                                }
-                            }
-                        });
+                    if (missingDetailsDocs.isEmpty()) {
+                        updateSearchAdapter(searchResults);
+                    } else {
+                        fetchMissingSearchDetails(missingDetailsDocs, searchResults);
                     }
                 })
                 .addOnFailureListener(e -> {
@@ -465,6 +474,47 @@ public class ViewDetailsActivity extends BaseActivity {
                 });
     }
 
+    private void updateSearchAdapter(List<ClientModel> results) {
+        runOnUiThread(() -> {
+            results.sort((a, b) -> b.gpDate.compareTo(a.gpDate));
+            adapter.hideShimmer(results);
+
+            if (results.isEmpty()) {
+                emptyStateText.setVisibility(View.VISIBLE);
+                emptyStateText.setText("No match found");
+            } else {
+                emptyStateText.setVisibility(View.GONE);
+            }
+        });
+    }
+
+    private void fetchMissingSearchDetails(List<DocumentSnapshot> missingDocs, List<ClientModel> alreadyMatched) {
+        int total = missingDocs.size();
+        AtomicInteger completedCount = new AtomicInteger(0);
+        List<ClientModel> finalResults = new ArrayList<>(alreadyMatched);
+
+        for (DocumentSnapshot doc : missingDocs) {
+            fetchClientDetails(doc.getId(), new OnClientDetailsFetched() {
+                @Override
+                public void onFetched(ClientModel model) {
+                    synchronized (finalResults) {
+                        finalResults.add(model);
+                        if (completedCount.incrementAndGet() == total) {
+                            updateSearchAdapter(finalResults);
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailed() {
+                    if (completedCount.incrementAndGet() == total) {
+                        updateSearchAdapter(finalResults);
+                    }
+                }
+            });
+        }
+    }
+
     // ---------------------------
     // Utility fetch for fill_one (kept for compatibility)
     // ---------------------------
@@ -474,7 +524,7 @@ public class ViewDetailsActivity extends BaseActivity {
             return;
         }
 
-        db.collection(COLLECTION)
+        db.collection(COLLECTION_NAME)
                 .document(clientId)
                 .collection("pages")
                 .document("fill_one")

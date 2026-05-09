@@ -292,6 +292,8 @@ public class fill_one_fragment extends Fragment implements DatePickerDialog.OnDa
     private void saveRootData(String clientId, Map<String, Object> pageData, AddDetailsActivity.SaveCallback callback) {
         Map<String, Object> rootData = new HashMap<>();
         rootData.put("name", getText(enterName));
+        rootData.put("gp_date", getText(enterDate));
+        rootData.put("make_name", getText(enterMakeName));
         rootData.put("progress", 25);
         rootData.put("lastUpdated", System.currentTimeMillis());
 

@@ -245,9 +245,16 @@ public class AddDetailsActivity extends BaseActivity {
                 // Switch to the predicted ID for real-time tracking
                 if (clientId == null || clientId.isEmpty()) {
                     clientId = tempClientId;
-                    checkInitialProgressAndLoad();
+                    // For NEW clients, we always start at Step 1 (0% progress).
+                    // We DO NOT checkInitialProgressAndLoad() here because that might
+                    // accidentally resume an existing client if there's an ID conflict.
+                    currentProgress = 0;
+                    currentFragmentIndex = 0;
+                    updateUI();
+                    loadCurrentFragment();
                 }
             });
+
         });
     }
 

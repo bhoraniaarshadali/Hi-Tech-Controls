@@ -1114,7 +1114,6 @@ public class ClientDetailsActivity extends BaseActivity {
         }
     }
 
-
     private void showProgressDialog(String title, String message) {
         runOnUiThread(() -> {
             if (progressDialog != null && progressDialog.isShowing()) {

@@ -57,9 +57,25 @@ public class SplashActivity extends AppCompatActivity {
      * 4. If not logged in → go to Login
      */
     private void checkAndNavigate() {
+        // Safety Timeout: If Firebase takes > 5 seconds, proceed anyway
+        final boolean[] isResponded = {false};
+        android.os.Handler timeoutHandler = new android.os.Handler(android.os.Looper.getMainLooper());
+        Runnable timeoutRunnable = () -> {
+            if (!isResponded[0]) {
+                isResponded[0] = true;
+                Log.w(TAG, "Config fetch timed out → proceeding with local state");
+                proceedWithLocalState();
+            }
+        };
+        timeoutHandler.postDelayed(timeoutRunnable, 5000);
+
         AdminManager.fetchConfig(new AdminManager.ConfigCallback() {
             @Override
             public void onResult(String username, String password, boolean maintenance) {
+                if (isResponded[0]) return;
+                isResponded[0] = true;
+                timeoutHandler.removeCallbacks(timeoutRunnable);
+
                 runOnUiThread(() -> {
                     if (maintenance) {
                         Log.w(TAG, "App under maintenance → sending to LoginActivity");
@@ -97,9 +113,8 @@ public class SplashActivity extends AppCompatActivity {
 
                                 @Override
                                 public void onError(String error) {
-                                    // On error: be safe, still open MainActivity
                                     runOnUiThread(() -> {
-                                        Log.e(TAG, "Device check error on splash: " + error);
+                                        Log.e(TAG, "Device check error: " + error);
                                         goToMain();
                                     });
                                 }
@@ -109,16 +124,23 @@ public class SplashActivity extends AppCompatActivity {
 
             @Override
             public void onError(String error) {
-                // Firebase unreachable — fall back to normal local flow
+                if (isResponded[0]) return;
+                isResponded[0] = true;
+                timeoutHandler.removeCallbacks(timeoutRunnable);
+
                 runOnUiThread(() -> {
-                    Log.e(TAG, "Config fetch failed on splash: " + error);
-                    boolean isLoggedIn = getSharedPreferences("Login", MODE_PRIVATE)
-                            .getBoolean("flag", false);
-                    if (isLoggedIn) goToMain();
-                    else goToLogin();
+                    Log.e(TAG, "Config fetch failed: " + error);
+                    proceedWithLocalState();
                 });
             }
         });
+    }
+
+    private void proceedWithLocalState() {
+        boolean isLoggedIn = getSharedPreferences("Login", MODE_PRIVATE)
+                .getBoolean("flag", false);
+        if (isLoggedIn) goToMain();
+        else goToLogin();
     }
 
     private void forceLogout() {

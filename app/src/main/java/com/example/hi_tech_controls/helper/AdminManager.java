@@ -74,41 +74,40 @@ public class AdminManager {
     // 1. FETCH CONFIG ONCE (used at login time)
     // ------------------------------------------------------------------
     public static void fetchConfig(ConfigCallback callback) {
-        Log.d(TAG, "fetchConfig() called via transaction");
+        Log.d(TAG, "fetchConfig() called via simple get()");
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference configRef = db.collection(COL_ADMIN).document(DOC_CONFIG);
 
-        db.runTransaction(transaction -> {
-            DocumentSnapshot doc = transaction.get(configRef);
-            if (!doc.exists()) {
-                Log.d(TAG, "Atomic init: Config missing, creating defaults");
+        configRef.get().addOnSuccessListener(doc -> {
+            if (doc.exists()) {
+                Map<String, Object> data = doc.getData();
+                if (data != null) {
+                    String username = FirestoreUtils.getStringSafe(data, "username");
+                    String password = FirestoreUtils.getStringSafe(data, "password");
+                    boolean isMaintenance = FirestoreUtils.getBooleanSafe(data, "maintenance");
+
+                    if (username.isEmpty() || password.isEmpty()) {
+                        Log.e(TAG, "Config data corrupted: username or password missing");
+                        callback.onError("Invalid config data in database");
+                        return;
+                    }
+
+                    Log.d(TAG, "Config loaded successfully. maintenance=" + isMaintenance);
+                    callback.onResult(username, password, isMaintenance);
+                } else {
+                    callback.onError("Data is null");
+                }
+            } else {
+                Log.d(TAG, "Config document missing, creating defaults");
                 Map<String, Object> defaults = new HashMap<>();
                 defaults.put("username", "admin");
                 defaults.put("password", "1234");
                 defaults.put("maintenance", false);
-                transaction.set(configRef, defaults);
-                return defaults;
-            }
-            return doc.getData();
-        }).addOnSuccessListener(data -> {
-            if (data != null) {
-                String username = FirestoreUtils.getStringSafe(data, "username");
-                String password = FirestoreUtils.getStringSafe(data, "password");
-                boolean isMaintenance = FirestoreUtils.getBooleanSafe(data, "maintenance");
-
-                if (username.isEmpty() || password.isEmpty()) {
-                    Log.e(TAG, "Config data corrupted: username or password missing");
-                    callback.onError("Invalid config data in database");
-                    return;
-                }
-
-                Log.d(TAG, "Config loaded atomically. maintenance=" + isMaintenance);
-                callback.onResult(username, password, isMaintenance);
-            } else {
-                callback.onError("Failed to load config data");
+                configRef.set(defaults, SetOptions.merge());
+                callback.onResult("admin", "1234", false);
             }
         }).addOnFailureListener(e -> {
-            Log.e(TAG, "fetchConfig transaction failed: " + e.getMessage());
+            Log.e(TAG, "fetchConfig get() failed: " + e.getMessage());
             callback.onError(e.getMessage());
         });
     }
