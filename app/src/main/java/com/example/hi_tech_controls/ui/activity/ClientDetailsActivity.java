@@ -66,7 +66,8 @@ public class ClientDetailsActivity extends BaseActivity {
     private TextView tvSelectEmpThree, tvFirstRemarks, tvDays; // TextView for display (NON-EDITABLE)
     private CheckBox cbCapacitor, cbDisplay, cbFan, cbCC;
     private CheckBox cbRepair1, cbRepair2, cbRepair3, cbRepair4, cbRepair5, cbRepair6;
-    private CheckBox cbReplace1, cbReplace2, cbReplace3, cbReplace4, cbReplace5, cbReplace6, cbReplace7, cbReplace8, cbReplace9;
+    private CheckBox cbReplace1, cbReplace2, cbReplace3, cbReplace4, cbReplace5, cbReplace6, cbReplace7, cbReplace8,
+            cbReplace9;
     private CheckBox cbTrial1, cbTrial2;
 
     // Fill Four – EDITABLE
@@ -76,7 +77,7 @@ public class ClientDetailsActivity extends BaseActivity {
     private CheckBox cbAmpU, cbAmpV, cbAmpW;
     private EditText etDcDisp, etDcMet, etOutDisp, etOutMet;
     private EditText etRH, etReplay, etFan, etBody, etIO, etClean, etParam;
-    //private android.app.ProgressDialog progressDialog;
+    // private android.app.ProgressDialog progressDialog;
     private SweetAlertDialog progressDialog;
 
     @Override
@@ -101,7 +102,6 @@ public class ClientDetailsActivity extends BaseActivity {
             }
         });
 
-
         backBtn.setOnClickListener(v -> {
 
             if (isEditMode) {
@@ -110,7 +110,6 @@ public class ClientDetailsActivity extends BaseActivity {
                 finish();
             }
         });
-
 
         editBtn.setOnClickListener(v -> {
             Log.d(TAG, "Edit clicked");
@@ -122,7 +121,6 @@ public class ClientDetailsActivity extends BaseActivity {
             saveAllData();
         });
 
-
         Log.d(TAG, "Activity onCreate started");
         long startTime = System.currentTimeMillis();
 
@@ -131,9 +129,12 @@ public class ClientDetailsActivity extends BaseActivity {
 
         // Fix: Try all possible keys
         clientId = getIntent().getStringExtra("CLIENT_ID");
-        if (clientId == null) clientId = getIntent().getStringExtra("clientId");
-        if (clientId == null) clientId = getIntent().getStringExtra("client_id");
-        if (clientId == null) clientId = getIntent().getStringExtra("id");
+        if (clientId == null)
+            clientId = getIntent().getStringExtra("clientId");
+        if (clientId == null)
+            clientId = getIntent().getStringExtra("client_id");
+        if (clientId == null)
+            clientId = getIntent().getStringExtra("id");
 
         Log.d(TAG, "Client ID received: " + clientId);
         TextView dashTv = findViewById(R.id.dash_tv);
@@ -144,7 +145,6 @@ public class ClientDetailsActivity extends BaseActivity {
         if (clientIdTv != null && clientId != null) {
             clientIdTv.setText("Client ID: " + clientId);
         }
-
 
         if (clientId == null || clientId.isEmpty()) {
 
@@ -161,8 +161,6 @@ public class ClientDetailsActivity extends BaseActivity {
         long endTime = System.currentTimeMillis();
         Log.d(TAG, "Activity onCreate completed in " + (endTime - startTime) + "ms");
     }
-
-
 
     private void initViews() {
         Log.d(TAG, "Initializing views");
@@ -584,19 +582,22 @@ public class ClientDetailsActivity extends BaseActivity {
 
     // Helper methods
 
-//    private String formatDate(String dateStr) {
-//        if (dateStr == null || dateStr.isEmpty()) return "N/A";
-//        try {
-//            SimpleDateFormat inputFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-//            SimpleDateFormat outputFormat = new SimpleDateFormat("dd MMM yyyy", Locale.getDefault());
-//            return outputFormat.format(inputFormat.parse(dateStr));
-//        } catch (Exception e) {
-//            return dateStr;
-//        }
-//    }
+    // private String formatDate(String dateStr) {
+    // if (dateStr == null || dateStr.isEmpty()) return "N/A";
+    // try {
+    // SimpleDateFormat inputFormat = new SimpleDateFormat("dd/MM/yyyy",
+    // Locale.getDefault());
+    // SimpleDateFormat outputFormat = new SimpleDateFormat("dd MMM yyyy",
+    // Locale.getDefault());
+    // return outputFormat.format(inputFormat.parse(dateStr));
+    // } catch (Exception e) {
+    // return dateStr;
+    // }
+    // }
 
     private String formatDateForEdit(String dateStr) {
-        if (dateStr == null || dateStr.isEmpty()) return "";
+        if (dateStr == null || dateStr.isEmpty())
+            return "";
         try {
             SimpleDateFormat inputFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
             SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
@@ -617,7 +618,6 @@ public class ClientDetailsActivity extends BaseActivity {
         findViewById(R.id.editBtn).setVisibility(editMode ? View.GONE : View.VISIBLE);
         findViewById(R.id.saveBtn).setVisibility(editMode ? View.VISIBLE : View.GONE);
     }
-
 
     private void setFieldsEnabled(boolean enabled) {
         Log.d(TAG, "Setting fields enabled: " + enabled);
@@ -973,7 +973,8 @@ public class ClientDetailsActivity extends BaseActivity {
         // Commit the batch
         batch.commit().addOnSuccessListener(aVoid -> {
             long firestoreEndTime = System.currentTimeMillis();
-            Log.d(TAG, "Firestore batch write completed successfully in " + (firestoreEndTime - firestoreStartTime) + "ms");
+            Log.d(TAG, "Firestore batch write completed successfully in " + (firestoreEndTime - firestoreStartTime)
+                    + "ms");
         }).addOnFailureListener(e -> {
             Log.e(TAG, "Firestore batch write failed: " + e.getMessage(), e);
             Toast.makeText(this, "Error saving data: " + e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -1020,12 +1021,11 @@ public class ClientDetailsActivity extends BaseActivity {
 
     private void handlePdfSuccess(File pdfFile) {
         Log.d(TAG, "PDF generated successfully: " + pdfFile.getAbsolutePath());
-//        Toast.makeText(this, "Opening PDF...", Toast.LENGTH_SHORT).show();
+        // Toast.makeText(this, "Opening PDF...", Toast.LENGTH_SHORT).show();
         openPdfFile(pdfFile);
         // Add to gallery
         addPdfToGallery(pdfFile);
     }
-
 
     private void handlePdfError(Exception e) {
         Log.e(TAG, "PDF generation error: " + e.getMessage(), e);
@@ -1072,7 +1072,8 @@ public class ClientDetailsActivity extends BaseActivity {
                                 startActivity(marketIntent);
                             } catch (Exception e) {
                                 Intent browserIntent = new Intent(Intent.ACTION_VIEW);
-                                browserIntent.setData(Uri.parse("https://play.google.com/store/apps/details?id=com.adobe.reader"));
+                                browserIntent.setData(
+                                        Uri.parse("https://play.google.com/store/apps/details?id=com.adobe.reader"));
                                 startActivity(browserIntent);
                             }
                         })
@@ -1146,11 +1147,12 @@ public class ClientDetailsActivity extends BaseActivity {
                         .showCancelButton(true)
                         .setConfirmClickListener(sDialog -> {
                             sDialog.dismissWithAnimation();
-                            requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1001);
+                            requestPermissions(new String[] { Manifest.permission.WRITE_EXTERNAL_STORAGE }, 1001);
                         })
                         .setCancelClickListener(sDialog -> {
                             sDialog.dismissWithAnimation();
-                            Toast.makeText(ClientDetailsActivity.this, "PDF download cancelled", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ClientDetailsActivity.this, "PDF download cancelled", Toast.LENGTH_SHORT)
+                                    .show();
                         })
                         .show();
                 return false;
@@ -1160,7 +1162,8 @@ public class ClientDetailsActivity extends BaseActivity {
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+            @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == 1001) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -1179,6 +1182,5 @@ public class ClientDetailsActivity extends BaseActivity {
             super.onBackPressed();
         }
     }
-
 
 }

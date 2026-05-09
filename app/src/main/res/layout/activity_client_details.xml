@@ -90,7 +90,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/dash_vi"
-        android:layout_marginTop="-40dp"
+        android:layout_marginTop="-30dp"
         android:gravity="center"
         android:orientation="horizontal"
         android:paddingBottom="10dp">
@@ -150,7 +150,7 @@
                     android:background="@android:color/white"
                     android:paddingLeft="20dp"
                     android:paddingRight="20dp"
-                    android:paddingBottom="20dp"
+                    android:paddingBottom="10dp"
                     android:textAlignment="gravity">
 
                     <LinearLayout
