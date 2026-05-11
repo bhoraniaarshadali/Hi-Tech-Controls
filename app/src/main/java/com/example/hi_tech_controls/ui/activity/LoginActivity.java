@@ -115,7 +115,7 @@ public class LoginActivity extends AppCompatActivity {
                     // Step 3 — Compare credentials
                     if (username.equals(fbUsername) && password.equals(fbPassword)) {
                         Log.d(TAG, "Credentials valid → checking device block...");
-                        checkDeviceAndProceed();
+                        checkDeviceAndProceed(username);
                     } else {
                         setUIEnabled(true);
                         loginButton.setText("Login");
@@ -142,7 +142,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     // Step 4 — Check if this device is blocked
-    private void checkDeviceAndProceed() {
+    private void checkDeviceAndProceed(String currentUsername) {
         AdminManager.checkDeviceBlocked(this, new AdminManager.DeviceStatusCallback() {
             @Override
             public void onResult(boolean isBlocked) {
@@ -159,6 +159,8 @@ public class LoginActivity extends AppCompatActivity {
                                 .edit().putBoolean("flag", true).apply();
 
                         AdminManager.registerDevice(LoginActivity.this);
+                        com.example.hi_tech_controls.helper.AnalyticsManager.logEvent(LoginActivity.this, "login_success");
+                        com.example.hi_tech_controls.helper.AnalyticsManager.setUserId(LoginActivity.this, currentUsername);
 
                         Log.d(TAG, "Login successful → opening MainActivity");
                         showCleanToast("Welcome!");

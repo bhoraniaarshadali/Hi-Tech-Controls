@@ -14,6 +14,8 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.facebook.shimmer.ShimmerFrameLayout;
+
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -95,6 +97,10 @@ public class MediaUploadActivity extends BaseActivity {
     private FirebaseFirestore db;
     private boolean isDestroyed = false;
 
+    private ShimmerFrameLayout shimmerLayout;
+    private View contentContainer;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -104,6 +110,13 @@ public class MediaUploadActivity extends BaseActivity {
         supabase = new SupabaseClient(this);
         db = FirebaseFirestore.getInstance();
         pageProgress = findViewById(R.id.uploadProgress);
+        shimmerLayout = findViewById(R.id.shimmer_layout);
+        contentContainer = findViewById(R.id.content_container);
+
+        // Explicitly ensure shimmer is active at start
+        showShimmer();
+
+
 
         // Keep CPU awake during media processing
         android.os.PowerManager pm = (android.os.PowerManager) getSystemService(Context.POWER_SERVICE);
@@ -173,8 +186,12 @@ public class MediaUploadActivity extends BaseActivity {
         }
         activeCompressors.clear();
 
+        if (shimmerLayout != null) {
+            shimmerLayout.stopShimmer();
+        }
         ioPool.shutdownNow();
         super.onDestroy();
+
     }
 
     private final List<Integer> selectedIndices = new ArrayList<>();
@@ -563,6 +580,7 @@ public class MediaUploadActivity extends BaseActivity {
                             activeTasks.decrementAndGet();
                         }, 400);
                         Toast.makeText(MediaUploadActivity.this, "Uploaded", Toast.LENGTH_SHORT).show();
+                        com.example.hi_tech_controls.helper.AnalyticsManager.logEvent(MediaUploadActivity.this, "media_upload_success");
                     }));
                 });
             }
@@ -617,26 +635,54 @@ public class MediaUploadActivity extends BaseActivity {
                 .document("storage")
                 .get()
                 .addOnSuccessListener(d -> {
-                    showPageProgress(false);
-                    if (d.exists() && d.get("urls") instanceof List) {
-                        List<String> urls = (List<String>) d.get("urls");
-                        Log.d(TAG, "Found existing urls count=" + urls.size());
-                        // Clear current state and rebuild from Firestore
-                        uploadedUrls.clear();
-                        uploadedUrls.addAll(urls);
-                        for (int i = 0; i < Math.min(urls.size(), MAX_BOXES); i++) {
-                            fullMediaUrls.set(i, urls.get(i));
-                            displayThumb(i, urls.get(i));
-                        }
-                        updateEditIconVisibility();
-                    } else {
-                        Log.d(TAG, "No storage doc or urls empty");
-                    }
+                    // Use a small delay to ensure shimmer is visible and smooth
+                    new android.os.Handler(android.os.Looper.getMainLooper()).postDelayed(() -> {
+                        showPageProgress(false);
+                        processMediaResults(d);
+                    }, 800);
                 })
                 .addOnFailureListener(e -> {
                     Log.e(TAG, "loadExistingMedia failed: " + e.getMessage(), e);
-                    showPageProgress(false);
+                    new android.os.Handler(android.os.Looper.getMainLooper()).postDelayed(() -> {
+                        showPageProgress(false);
+                    }, 800);
                 });
+    }
+
+    private void processMediaResults(com.google.firebase.firestore.DocumentSnapshot d) {
+        if (d.exists() && d.get("urls") instanceof List) {
+            List<String> rawUrls = (List<String>) d.get("urls");
+            Log.d(TAG, "Found existing urls count=" + rawUrls.size());
+            
+            // Filter and compact the list
+            List<String> validUrls = new ArrayList<>();
+            for (String u : rawUrls) {
+                if (u != null && !u.trim().isEmpty()) {
+                    validUrls.add(u);
+                }
+            }
+
+            // Clear and rebuild state
+            uploadedUrls.clear();
+            uploadedUrls.addAll(validUrls);
+
+            for (int i = 0; i < MAX_BOXES; i++) {
+                if (i < validUrls.size()) {
+                    fullMediaUrls.set(i, validUrls.get(i));
+                    displayThumb(i, validUrls.get(i));
+                } else {
+                    fullMediaUrls.set(i, null);
+                    resetBox(i);
+                }
+            }
+            updateEditIconVisibility();
+        } else {
+            Log.d(TAG, "No storage doc or urls empty");
+            for (int i = 0; i < MAX_BOXES; i++) {
+                fullMediaUrls.set(i, null);
+                resetBox(i);
+            }
+        }
     }
 
     private void syncUploadedUrlsWithFullMediaUrls() {
@@ -649,12 +695,22 @@ public class MediaUploadActivity extends BaseActivity {
     }
 
     private void displayThumb(int i, String url) {
+        if (url == null || url.trim().isEmpty()) {
+            resetBox(i);
+            fullMediaUrls.set(i, null);
+            return;
+        }
+
         Log.d(TAG, "displayThumb index=" + i + " url=" + url);
         ImageView iv = allImageViews.get(i);
         ImageView check = allCheckViews.get(i);
         ImageView play = allPlayIcons.get(i);
 
-        RequestOptions o = new RequestOptions().diskCacheStrategy(DiskCacheStrategy.AUTOMATIC).override(220, 220)
+        RequestOptions o = new RequestOptions()
+                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                .placeholder(R.drawable.imageview)
+                .error(R.drawable.imageview)
+                .override(220, 220)
                 .centerCrop();
 
         boolean isVideo = url.toLowerCase().contains(".mp4");
@@ -667,6 +723,7 @@ public class MediaUploadActivity extends BaseActivity {
                 Glide.with(this).load(url).apply(o).thumbnail(.25f).into(iv);
         } catch (Exception e) {
             Log.w(TAG, "Glide displayThumb failed for url=" + url + " : " + e.getMessage());
+            resetBox(i);
         }
 
         check.setVisibility(View.GONE);
@@ -725,7 +782,37 @@ public class MediaUploadActivity extends BaseActivity {
 
     private void showPageProgress(boolean s) {
         pageProgress.setVisibility(s ? View.VISIBLE : View.GONE);
+        if (s) {
+            showShimmer();
+        } else {
+            hideShimmer();
+        }
     }
+
+    private void showShimmer() {
+        Log.d(TAG, "showShimmer() called");
+        if (shimmerLayout != null) {
+            shimmerLayout.setVisibility(View.VISIBLE);
+            shimmerLayout.startShimmer();
+        }
+        if (contentContainer != null) {
+            contentContainer.setVisibility(View.GONE);
+        }
+    }
+
+    private void hideShimmer() {
+        Log.d(TAG, "hideShimmer() called");
+        if (shimmerLayout != null) {
+            shimmerLayout.stopShimmer();
+            shimmerLayout.setVisibility(View.GONE);
+        }
+        if (contentContainer != null) {
+            contentContainer.setVisibility(View.VISIBLE);
+        }
+    }
+
+
+
 
     private boolean checkPerm() {
         Log.d(TAG, "checkPerm()");
@@ -749,7 +836,14 @@ public class MediaUploadActivity extends BaseActivity {
 
     private void resetBox(int idx) {
         Log.d(TAG, "resetBox idx=" + idx);
-        allImageViews.get(idx).setImageResource(R.drawable.imageview);
+        ImageView iv = allImageViews.get(idx);
+        
+        // Clear Glide to prevent it from overriding the manual image
+        try {
+            Glide.with(this).clear(iv);
+        } catch (Exception ignored) {}
+
+        iv.setImageResource(R.drawable.imageview);
         allCheckViews.get(idx).setVisibility(View.GONE);
         allPlayIcons.get(idx).setVisibility(View.GONE);
         allDeleteButtons.get(idx).setVisibility(View.GONE);

@@ -21,6 +21,7 @@ import com.example.hi_tech_controls.helper.LoadingDialog;
 import com.example.hi_tech_controls.helper.OfflineSyncManager;
 import com.example.hi_tech_controls.helper.FirestoreUtils;
 import com.example.hi_tech_controls.ui.activity.AddDetailsActivity;
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
 
@@ -42,6 +43,8 @@ public class fill_one_fragment extends Fragment implements DatePickerDialog.OnDa
 
     private DatePickerDialog datePickerDialog;
     private Toast activeToast;
+    private ShimmerFrameLayout shimmerLayout;
+    private View contentContainer;
     private Map<String, Object> lastSavedData = new HashMap<>();
 
     // -------------------------------------------------------------------
@@ -84,6 +87,8 @@ public class fill_one_fragment extends Fragment implements DatePickerDialog.OnDa
         enterModelName = root.findViewById(R.id.fill_one_enterModelName);
         enterHPrate = root.findViewById(R.id.fill_one_enterHPrate);
         enterSerialNumber = root.findViewById(R.id.fill_one_enterSerialNumber);
+        shimmerLayout = root.findViewById(R.id.shimmer_layout);
+        contentContainer = root.findViewById(R.id.content_container);
     }
 
     private void setupAnimations(View rootView) {
@@ -154,7 +159,7 @@ public class fill_one_fragment extends Fragment implements DatePickerDialog.OnDa
     // LOAD EXISTING FIRESTORE DATA
     // -------------------------------------------------------------------
     private void loadExistingData() {
-        showLoading();
+        showShimmer();
         safeSetHint(enterName, "Loading...");
 
         db.collection(COLLECTION_NAME)
@@ -163,7 +168,7 @@ public class fill_one_fragment extends Fragment implements DatePickerDialog.OnDa
                 .document("fill_one")
                 .get()
                 .addOnSuccessListener(doc -> {
-                    hideLoading();
+                    hideShimmer();
                     safeSetHint(enterName, "Enter name");
                     if (doc.exists()) {
                         populateFields(doc);
@@ -172,7 +177,7 @@ public class fill_one_fragment extends Fragment implements DatePickerDialog.OnDa
                     }
                 })
                 .addOnFailureListener(e -> {
-                    hideLoading();
+                    hideShimmer();
                     showToastSafe("Load failed: " + e.getMessage());
                     Log.e(TAG, "Firestore load error", e);
                 });
@@ -387,6 +392,26 @@ public class fill_one_fragment extends Fragment implements DatePickerDialog.OnDa
             LoadingDialog.getInstance().hide();
     }
 
+    private void showShimmer() {
+        if (shimmerLayout != null && isAdded()) {
+            shimmerLayout.setVisibility(View.VISIBLE);
+            shimmerLayout.startShimmer();
+        }
+        if (contentContainer != null && isAdded()) {
+            contentContainer.setVisibility(View.GONE);
+        }
+    }
+
+    private void hideShimmer() {
+        if (shimmerLayout != null && isAdded()) {
+            shimmerLayout.stopShimmer();
+            shimmerLayout.setVisibility(View.GONE);
+        }
+        if (contentContainer != null && isAdded()) {
+            contentContainer.setVisibility(View.VISIBLE);
+        }
+    }
+
     private void showToastSafe(String msg) {
         if (!isAdded() || getContext() == null)
             return;
@@ -399,6 +424,9 @@ public class fill_one_fragment extends Fragment implements DatePickerDialog.OnDa
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        if (shimmerLayout != null) {
+            shimmerLayout.stopShimmer();
+        }
         if (activeToast != null)
             activeToast.cancel();
         try {

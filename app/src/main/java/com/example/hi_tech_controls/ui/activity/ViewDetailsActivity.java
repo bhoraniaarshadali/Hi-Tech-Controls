@@ -67,6 +67,8 @@ public class ViewDetailsActivity extends BaseActivity {
         resetPagination();
         loadRecentClients();
 
+        com.example.hi_tech_controls.helper.AnalyticsManager.logEvent(this, "view_clients_list");
+
         Log.d(TAG, "onCreate - end");
     }
 
@@ -146,6 +148,7 @@ public class ViewDetailsActivity extends BaseActivity {
                 String text = s.toString().trim();
                 if (text.length() > 2) {
                     Log.d(TAG, "Searching clients for: " + text);
+                    com.example.hi_tech_controls.helper.AnalyticsManager.logEvent(ViewDetailsActivity.this, "client_search");
                     searchClients(text);
                 } else {
                     Log.d(TAG, "Search cleared or too short, reloading recents");

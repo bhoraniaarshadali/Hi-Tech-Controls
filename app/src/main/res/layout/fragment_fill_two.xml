@@ -15,6 +15,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:id="@+id/content_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
         <RelativeLayout
             android:id="@+id/firstLine"
             android:layout_width="match_parent"
@@ -822,6 +832,16 @@
                     </LinearLayout>
                 </LinearLayout>
             </RelativeLayout>
-        </LinearLayout>
+            </LinearLayout>
+            </LinearLayout>
+
+            <include
+                android:id="@+id/shimmer_layout"
+                layout="@layout/shimmer_fill_two"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone" />
+
+        </FrameLayout>
     </RelativeLayout>
 </ScrollView>

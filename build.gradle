@@ -6,6 +6,7 @@ buildscript {
 
     dependencies {
         classpath 'com.google.gms:google-services:4.4.4'
+        classpath 'com.google.firebase:firebase-crashlytics-gradle:3.0.3'
     }
 }
 
@@ -14,4 +15,5 @@ plugins {
     id 'com.android.application' version '8.13.0' apply false
     id 'com.android.library' version '8.13.0' apply false
     id 'com.google.gms.google-services' version '4.4.4' apply false
+    id 'com.google.firebase.crashlytics' version '3.0.3' apply false
 }

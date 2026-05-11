@@ -24,16 +24,22 @@ public class FirestoreUtils {
     }
 
     private static boolean parseBoolean(Object value, String key) {
-        if (value instanceof Boolean) return (Boolean) value;
-        
-        if (value instanceof String) {
-            String s = ((String) value).trim();
-            // Handle both "true" and "1" as boolean true
-            return s.equalsIgnoreCase("true") || s.equals("1");
-        }
-        
-        if (value instanceof Number) {
-            return ((Number) value).intValue() == 1;
+        try {
+            if (value == null) return false;
+            
+            if (value instanceof Boolean) return (Boolean) value;
+            
+            if (value instanceof String) {
+                String s = ((String) value).trim();
+                // Handle both "true" and "1" as boolean true
+                return s.equalsIgnoreCase("true") || s.equals("1");
+            }
+            
+            if (value instanceof Number) {
+                return ((Number) value).intValue() == 1;
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "Error parsing boolean for key: " + key, e);
         }
 
         return false;

@@ -44,6 +44,7 @@ public class SplashActivity extends AppCompatActivity {
             @Override
             public void onAnimationEnd(Animator animation) {
                 Log.d(TAG, "Splash animation ended → checking maintenance & device status");
+                com.example.hi_tech_controls.helper.AnalyticsManager.logEvent(SplashActivity.this, "app_open");
                 checkAndNavigate();
             }
         });

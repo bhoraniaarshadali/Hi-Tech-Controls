@@ -86,94 +86,111 @@
                 app:cardCornerRadius="25dp"
                 app:cardElevation="5dp">
 
-                <LinearLayout
+                <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
                     android:padding="16dp">
 
-                    <!-- 9 BOX GRID -->
                     <LinearLayout
-                        android:id="@+id/fixedBoxes"
+                        android:id="@+id/content_container"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:visibility="gone">
 
-                        <!-- ROW 1 -->
+
+                        <!-- 9 BOX GRID -->
                         <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="12dp"
-                            android:gravity="center"
-                            android:orientation="horizontal">
-
-                            <include
-                                android:id="@+id/box1"
-                                layout="@layout/box_item" />
-
-                            <include
-                                android:id="@+id/box2"
-                                layout="@layout/box_item" />
-
-                            <include
-                                android:id="@+id/box3"
-                                layout="@layout/box_item" />
-                        </LinearLayout>
-
-                        <!-- ROW 2 -->
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="12dp"
-                            android:gravity="center"
-                            android:orientation="horizontal">
-
-                            <include
-                                android:id="@+id/box4"
-                                layout="@layout/box_item" />
-
-                            <include
-                                android:id="@+id/box5"
-                                layout="@layout/box_item" />
-
-                            <include
-                                android:id="@+id/box6"
-                                layout="@layout/box_item" />
-                        </LinearLayout>
-
-                        <!-- ROW 3 -->
-                        <LinearLayout
-                            android:layout_width="wrap_content"
+                            android:id="@+id/fixedBoxes"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center"
-                            android:orientation="horizontal">
+                            android:orientation="vertical">
 
-                            <include
-                                android:id="@+id/box7"
-                                layout="@layout/box_item" />
+                            <!-- ROW 1 -->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="12dp"
+                                android:gravity="center"
+                                android:orientation="horizontal">
 
-                            <include
-                                android:id="@+id/box8"
-                                layout="@layout/box_item" />
+                                <include
+                                    android:id="@+id/box1"
+                                    layout="@layout/box_item" />
 
-                            <include
-                                android:id="@+id/box9"
-                                layout="@layout/box_item" />
+                                <include
+                                    android:id="@+id/box2"
+                                    layout="@layout/box_item" />
+
+                                <include
+                                    android:id="@+id/box3"
+                                    layout="@layout/box_item" />
+                            </LinearLayout>
+
+                            <!-- ROW 2 -->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="12dp"
+                                android:gravity="center"
+                                android:orientation="horizontal">
+
+                                <include
+                                    android:id="@+id/box4"
+                                    layout="@layout/box_item" />
+
+                                <include
+                                    android:id="@+id/box5"
+                                    layout="@layout/box_item" />
+
+                                <include
+                                    android:id="@+id/box6"
+                                    layout="@layout/box_item" />
+                            </LinearLayout>
+
+                            <!-- ROW 3 -->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:orientation="horizontal">
+
+                                <include
+                                    android:id="@+id/box7"
+                                    layout="@layout/box_item" />
+
+                                <include
+                                    android:id="@+id/box8"
+                                    layout="@layout/box_item" />
+
+                                <include
+                                    android:id="@+id/box9"
+                                    layout="@layout/box_item" />
+                            </LinearLayout>
+
                         </LinearLayout>
+
+                        <!-- PROGRESS -->
+                        <ProgressBar
+                            android:id="@+id/uploadProgress"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="20dp"
+                            android:visibility="gone" />
 
                     </LinearLayout>
 
-                    <!-- PROGRESS -->
-                    <ProgressBar
-                        android:id="@+id/uploadProgress"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="20dp"
-                        android:visibility="gone" />
+                    <include
+                        android:id="@+id/shimmer_layout"
+                        layout="@layout/shimmer_media_upload"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="visible" />
 
-                </LinearLayout>
+
+                </FrameLayout>
             </androidx.cardview.widget.CardView>
 
         </LinearLayout>

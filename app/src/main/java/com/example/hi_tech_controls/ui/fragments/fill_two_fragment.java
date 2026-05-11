@@ -30,6 +30,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.WriteBatch;
 import com.example.hi_tech_controls.helper.AdminManager;
 import com.example.hi_tech_controls.helper.FirestoreUtils;
+import com.facebook.shimmer.ShimmerFrameLayout;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -73,6 +74,8 @@ public class fill_two_fragment extends Fragment {
     private CheckBox output_NEG_checkbox_U, output_NEG_checkbox_V, output_NEG_checkbox_W;
 
     private ScrollView scrollView;
+    private ShimmerFrameLayout shimmerLayout;
+    private View contentContainer;
     private Toast activeToast;
     private Map<String, Object> lastSavedData = new HashMap<>();
 
@@ -148,6 +151,8 @@ public class fill_two_fragment extends Fragment {
         clientObsText = root.findViewById(R.id.fill_two_clientObs_text);
         ourObsText = root.findViewById(R.id.fill_two_ourObs_text);
         lastFaultText = root.findViewById(R.id.fill_two_lastFault_text);
+        shimmerLayout = root.findViewById(R.id.shimmer_layout);
+        contentContainer = root.findViewById(R.id.content_container);
     }
 
     // ----------------------------------------------------
@@ -156,10 +161,10 @@ public class fill_two_fragment extends Fragment {
     private void loadExistingData() {
         if (fillTwoRef == null) return;
 
-        LoadingDialog.getInstance().show(requireContext());
-
+        showShimmer();
         fillTwoRef.get().addOnSuccessListener(doc -> {
-            LoadingDialog.getInstance().hide();
+            if (!isAdded()) return;
+            hideShimmer();
             if (!doc.exists()) return;
 
             // Restore Spinner
@@ -207,8 +212,10 @@ public class fill_two_fragment extends Fragment {
             //showToastSafe("Data loaded");
 
         }).addOnFailureListener(e -> {
-            LoadingDialog.getInstance().hide();
-            showToastSafe("Failed to load data");
+            if (isAdded()) {
+                hideShimmer();
+                showToastSafe("Failed to load data");
+            }
         });
     }
 
@@ -327,7 +334,9 @@ public class fill_two_fragment extends Fragment {
             return;
         }
 
-        LoadingDialog.getInstance().show(requireContext());
+        if (isAdded()) {
+            LoadingDialog.getInstance().show(requireContext());
+        }
 
         DocumentReference pageRef = db.collection(COLLECTION_NAME)
                 .document(clientId)
@@ -341,15 +350,21 @@ public class fill_two_fragment extends Fragment {
                 "lastUpdated", System.currentTimeMillis());
 
         batch.commit().addOnSuccessListener(unused -> {
-            LoadingDialog.getInstance().hide();
-            lastSavedData = new HashMap<>(data); // Update cache
-            showToastSafe("Step 2 saved successfully");
+            if (isAdded()) {
+                LoadingDialog.getInstance().hide();
+                lastSavedData = new HashMap<>(data); // Update cache
+                showToastSafe("Step 2 saved successfully");
+            }
             callback.onSaveComplete(true);
 
         }).addOnFailureListener(e -> {
-            LoadingDialog.getInstance().hide();
+            if (isAdded()) {
+                LoadingDialog.getInstance().hide();
+            }
             OfflineSyncManager.getInstance().queuePendingUpdate(COLLECTION_NAME, clientId, data);
-            showToastSafe("Saved offline - will sync later");
+            if (isAdded()) {
+                showToastSafe("Saved offline - will sync later");
+            }
             callback.onSaveComplete(true);
         });
     }
@@ -437,6 +452,26 @@ public class fill_two_fragment extends Fragment {
         activeToast.show();
     }
 
+    private void showShimmer() {
+        if (shimmerLayout != null && isAdded()) {
+            shimmerLayout.setVisibility(View.VISIBLE);
+            shimmerLayout.startShimmer();
+        }
+        if (contentContainer != null && isAdded()) {
+            contentContainer.setVisibility(View.GONE);
+        }
+    }
+
+    private void hideShimmer() {
+        if (shimmerLayout != null && isAdded()) {
+            shimmerLayout.stopShimmer();
+            shimmerLayout.setVisibility(View.GONE);
+        }
+        if (contentContainer != null && isAdded()) {
+            contentContainer.setVisibility(View.VISIBLE);
+        }
+    }
+
     // ----------------------------------------------------
     // Lifecycle cleanup
     // ----------------------------------------------------
@@ -450,6 +485,9 @@ public class fill_two_fragment extends Fragment {
         if (activeToast != null) {
             activeToast.cancel();
             activeToast = null;
+        }
+        if (shimmerLayout != null) {
+            shimmerLayout.stopShimmer();
         }
         LoadingDialog.getInstance().dismiss();
     }

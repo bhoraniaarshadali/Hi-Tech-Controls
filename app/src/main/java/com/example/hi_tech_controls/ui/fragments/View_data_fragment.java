@@ -104,9 +104,11 @@ public class View_data_fragment extends Fragment {
         if (viewMediaBtn != null) {
             viewMediaBtn.setOnClickListener(v -> {
                 if (currentClientId != null && !currentClientId.isEmpty()) {
-                    Intent intent = new Intent(requireContext(), MediaUploadActivity.class);
-                    intent.putExtra("clientId", currentClientId);
-                    startActivity(intent);
+                    if (isAdded()) {
+                        Intent intent = new Intent(requireContext(), MediaUploadActivity.class);
+                        intent.putExtra("clientId", currentClientId);
+                        startActivity(intent);
+                    }
                 } else {
                     showToastSafe("Client ID not available");
                 }
@@ -246,20 +248,26 @@ public class View_data_fragment extends Fragment {
 
                     } catch (Exception e) {
                         Log.e("DataProcessError", "Error mapping data: ", e);
-                        requireActivity().runOnUiThread(() -> {
-                            hideShimmer();
-                            if (swipeRefreshLayout != null) swipeRefreshLayout.setRefreshing(false);
-                            showToastSafe("Error processing data");
-                        });
+                        if (isAdded()) {
+                            requireActivity().runOnUiThread(() -> {
+                                if (!isAdded()) return;
+                                hideShimmer();
+                                if (swipeRefreshLayout != null) swipeRefreshLayout.setRefreshing(false);
+                                showToastSafe("Error processing data");
+                            });
+                        }
                     }
                 })
                 .addOnFailureListener(e -> {
                     Log.e("FirestoreFail", "Data fetch failed: ", e);
-                    requireActivity().runOnUiThread(() -> {
-                        hideShimmer();
-                        if (swipeRefreshLayout != null) swipeRefreshLayout.setRefreshing(false);
-                        showToastSafe("Error fetching data: " + e.getMessage());
-                    });
+                    if (isAdded()) {
+                        requireActivity().runOnUiThread(() -> {
+                            if (!isAdded()) return;
+                            hideShimmer();
+                            if (swipeRefreshLayout != null) swipeRefreshLayout.setRefreshing(false);
+                            showToastSafe("Error fetching data: " + e.getMessage());
+                        });
+                    }
                 });
     }
 
@@ -501,24 +509,34 @@ public class View_data_fragment extends Fragment {
 
     // ================================= PDF Generation =================================
     private void generatePDF(InwardClient c) {
+        if (!isAdded()) return;
         LoadingDialog.getInstance().show(requireContext());
         Executors.newSingleThreadExecutor().execute(() -> {
             try {
+                if (!isAdded()) return;
                 PdfGenerator pdfGenerator = new PdfGenerator(requireContext(), client, currentClientId);
                 File pdfFile = pdfGenerator.generate(); // internally saves in app folder
 
-                requireActivity().runOnUiThread(() -> {
-                    LoadingDialog.getInstance().hide();
-                    showToastSafe("✅ PDF Generated! Opening...");
-                    openPdfFile(pdfFile);
-                });
+                if (isAdded()) {
+                    requireActivity().runOnUiThread(() -> {
+                        if (isAdded()) {
+                            LoadingDialog.getInstance().hide();
+                            showToastSafe("PDF Generated");
+                            openPdfFile(pdfFile);
+                        }
+                    });
+                }
 
             } catch (Exception e) {
                 Log.e("PDF_ERROR", "PDF generation failed: " + e.getMessage(), e);
-                requireActivity().runOnUiThread(() -> {
-                    LoadingDialog.getInstance().hide();
-                    showToastSafe("❌ PDF generation failed: " + e.getMessage());
-                });
+                if (isAdded()) {
+                    requireActivity().runOnUiThread(() -> {
+                        if (isAdded()) {
+                            LoadingDialog.getInstance().hide();
+                            showToastSafe("❌ PDF generation failed: " + e.getMessage());
+                        }
+                    });
+                }
             }
         });
     }

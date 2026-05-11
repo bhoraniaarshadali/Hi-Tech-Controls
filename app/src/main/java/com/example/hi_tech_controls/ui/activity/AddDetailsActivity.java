@@ -98,6 +98,7 @@ public class AddDetailsActivity extends BaseActivity {
         initFirestore();
         readIntentExtras();
         initializeUIElements();
+        com.example.hi_tech_controls.helper.AnalyticsManager.logEvent(this, "intake_start");
         setupListeners(); // sets button listeners (back/next/camera)
         attachBackPressedHandler(); // hardware back behaviour
 

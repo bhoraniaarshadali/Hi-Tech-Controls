@@ -28,6 +28,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.WriteBatch;
 import com.example.hi_tech_controls.helper.AdminManager;
 import com.example.hi_tech_controls.helper.FirestoreUtils;
+import com.facebook.shimmer.ShimmerFrameLayout;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -71,6 +72,8 @@ public class fill_three_fragment extends Fragment {
     private TextView textDays;
 
     private int daysCount = 1;
+    private ShimmerFrameLayout shimmerLayout;
+    private View contentContainer;
     private Toast activeToast;
     private Map<String, Object> lastSavedData = new HashMap<>();
 
@@ -153,6 +156,8 @@ public class fill_three_fragment extends Fragment {
         buttonPlus = root.findViewById(R.id.buttonPlus);
         buttonMinus = root.findViewById(R.id.buttonMinus);
         textDays = root.findViewById(R.id.textDays);
+        shimmerLayout = root.findViewById(R.id.shimmer_layout);
+        contentContainer = root.findViewById(R.id.content_container);
     }
 
     // ----------------------------------------------------
@@ -237,10 +242,10 @@ public class fill_three_fragment extends Fragment {
     private void loadExistingData() {
         if (fillThreeRef == null) return;
 
-        LoadingDialog.getInstance().show(requireContext());
-
+        showShimmer();
         fillThreeRef.get().addOnSuccessListener(doc -> {
-                    LoadingDialog.getInstance().hide();
+                    if (!isAdded()) return;
+                    hideShimmer();
                     if (!doc.exists()) return;
 
                     // Spinner
@@ -290,8 +295,10 @@ public class fill_three_fragment extends Fragment {
 //                    showToastSafe("Data loaded 3");
                 })
                 .addOnFailureListener(e -> {
-                    LoadingDialog.getInstance().hide();
-                    showToastSafe("Load failed");
+                    if (isAdded()) {
+                        hideShimmer();
+                        showToastSafe("Load failed");
+                    }
                 });
     }
 
@@ -325,7 +332,9 @@ public class fill_three_fragment extends Fragment {
             return;
         }
 
-        LoadingDialog.getInstance().show(requireContext());
+        if (isAdded()) {
+            LoadingDialog.getInstance().show(requireContext());
+        }
 
         WriteBatch batch = db.batch();
         batch.set(pageRef, data);
@@ -337,14 +346,18 @@ public class fill_three_fragment extends Fragment {
 
         batch.commit()
                 .addOnSuccessListener(aVoid -> {
-                    LoadingDialog.getInstance().hide();
-                    lastSavedData = new HashMap<>(data); // Update cache
-                    showToastSafe("Step 3 saved!");
+                    if (isAdded()) {
+                        LoadingDialog.getInstance().hide();
+                        lastSavedData = new HashMap<>(data); // Update cache
+                        showToastSafe("Step 3 saved!");
+                    }
                     callback.onSaveComplete(true);
                 })
                 .addOnFailureListener(e -> {
-                    LoadingDialog.getInstance().hide();
-                    showToastSafe("Save failed");
+                    if (isAdded()) {
+                        LoadingDialog.getInstance().hide();
+                        showToastSafe("Save failed");
+                    }
                     callback.onSaveComplete(false);
                 });
     }
@@ -428,7 +441,30 @@ public class fill_three_fragment extends Fragment {
             activeToast.cancel();
             activeToast = null;
         }
+        if (shimmerLayout != null) {
+            shimmerLayout.stopShimmer();
+        }
         LoadingDialog.getInstance().dismiss();
+    }
+
+    private void showShimmer() {
+        if (shimmerLayout != null && isAdded()) {
+            shimmerLayout.setVisibility(View.VISIBLE);
+            shimmerLayout.startShimmer();
+        }
+        if (contentContainer != null && isAdded()) {
+            contentContainer.setVisibility(View.GONE);
+        }
+    }
+
+    private void hideShimmer() {
+        if (shimmerLayout != null && isAdded()) {
+            shimmerLayout.stopShimmer();
+            shimmerLayout.setVisibility(View.GONE);
+        }
+        if (contentContainer != null && isAdded()) {
+            contentContainer.setVisibility(View.VISIBLE);
+        }
     }
 
     private void showToastSafe(String message) {
