@@ -81,6 +81,22 @@ public class WebPCompressor {
         return outFile;
     }
 
+    public static File compressBitmapToWebP(Context context, Bitmap bmp, int quality, String prefix) throws Exception {
+        File outFile = new File(
+                context.getCacheDir(),
+                prefix + "_" + System.currentTimeMillis() + ".webp"
+        );
+        FileOutputStream out = new FileOutputStream(outFile);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            bmp.compress(Bitmap.CompressFormat.WEBP_LOSSY, quality, out);
+        } else {
+            bmp.compress(Bitmap.CompressFormat.WEBP, quality, out);
+        }
+        out.flush();
+        out.close();
+        return outFile;
+    }
+
     /**
      * Decide how much to reduce resolution based on megapixels.
      */
