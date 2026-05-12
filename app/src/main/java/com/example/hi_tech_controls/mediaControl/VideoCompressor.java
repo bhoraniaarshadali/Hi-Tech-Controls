@@ -4,79 +4,60 @@ import android.content.Context;
 import android.net.Uri;
 import android.util.Log;
 
-import com.abedelazizshe.lightcompressorlibrary.CompressionListener;
-import com.abedelazizshe.lightcompressorlibrary.VideoQuality;
-import com.abedelazizshe.lightcompressorlibrary.config.AppSpecificStorageConfiguration;
-import com.abedelazizshe.lightcompressorlibrary.config.Configuration;
+import com.otaliastudios.transcoder.Transcoder;
+import com.otaliastudios.transcoder.TranscoderListener;
+import com.otaliastudios.transcoder.strategy.DefaultVideoStrategy;
+import com.otaliastudios.transcoder.resize.AtMostResizer;
 
 import java.io.File;
-import java.util.Collections;
 
 public class VideoCompressor {
 
     private static final String TAG = "VideoCompressor";
-    private volatile boolean cancelled = false;
 
     public void cancel() {
-        cancelled = true;
+        // Implementation for cancellation can be added if needed
     }
 
     public void compress(Context ctx, Uri uri, File output, Callback cb) {
-        Log.d(TAG, "Starting fast compression (LightCompressor) for uri: " + uri);
+        Log.d(TAG, "Starting fast compression (Transcoder 0.11.2) for uri: " + uri);
 
-        AppSpecificStorageConfiguration storageConfig = new AppSpecificStorageConfiguration(
-                "temp_videos"
-        );
-
-        Configuration config = new Configuration(
-                VideoQuality.MEDIUM,
-                true,    // isMinBitrateCheckEnabled
-                null,    // videoBitrateInMbps
-                false,   // disableAudio
-                false,   // keepOriginalResolution
-                Collections.singletonList(output.getName()) // videoNames
-        );
-
-        // Using fully qualified name to avoid conflict with this class name
-        com.abedelazizshe.lightcompressorlibrary.VideoCompressor.start(
-                ctx,
-                Collections.singletonList(uri),
-                false,
-                storageConfig,
-                config,
-                new CompressionListener() {
+        Transcoder.into(output.getAbsolutePath())
+                .addDataSource(ctx, uri)
+                .setVideoTrackStrategy(new DefaultVideoStrategy.Builder()
+                        .addResizer(new AtMostResizer(720)) // Max 720p for speed
+                        .bitRate(2_000_000) // 2 Mbps
+                        .frameRate(24)
+                        .build())
+                .setListener(new TranscoderListener() {
                     @Override
-                    public void onStart(int index) {
-                        Log.d(TAG, "Compression started");
+                    public void onTranscodeProgress(double progress) {
                     }
 
                     @Override
-                    public void onProgress(int index, float percent) {
-                    }
-
-                    @Override
-                    public void onSuccess(int index, long size, String path) {
-                        Log.d(TAG, "Compression success: " + path);
-                        if (cancelled) {
-                            cb.onCancelled();
+                    public void onTranscodeCompleted(int successCode) {
+                        Log.d(TAG, "Compression success: " + output.getAbsolutePath() + " | size=" + output.length());
+                        if (output.exists() && output.length() > 500) {
+                            cb.onSuccess(output);
                         } else {
-                            cb.onSuccess(new File(path));
+                            Log.e(TAG, "Compressed file corrupted or too small! size=" + output.length());
+                            cb.onError(new Exception("Output file corrupted"));
                         }
                     }
 
                     @Override
-                    public void onFailure(int index, String failureMessage) {
-                        Log.e(TAG, "Compression failed: " + failureMessage);
-                        cb.onError(new Exception(failureMessage));
-                    }
-
-                    @Override
-                    public void onCancelled(int index) {
+                    public void onTranscodeCanceled() {
                         Log.d(TAG, "Compression cancelled");
                         cb.onCancelled();
                     }
-                }
-        );
+
+                    @Override
+                    public void onTranscodeFailed(Throwable exception) {
+                        Log.e(TAG, "Compression failed", exception);
+                        cb.onError(new Exception(exception));
+                    }
+                })
+                .transcode();
     }
 
     public interface Callback {
