@@ -25,8 +25,8 @@ public class VideoCompressor {
         Transcoder.into(output.getAbsolutePath())
                 .addDataSource(ctx, uri)
                 .setVideoTrackStrategy(new DefaultVideoStrategy.Builder()
-                        .addResizer(new AtMostResizer(720)) // Max 720p for speed
-                        .bitRate(2_000_000) // 2 Mbps
+                        .addResizer(new AtMostResizer(480)) // 480p for Ultra-Fast speed
+                        .bitRate(1_200_000) // 1.2 Mbps for maximum efficiency
                         .frameRate(24)
                         .build())
                 .setListener(new TranscoderListener() {
