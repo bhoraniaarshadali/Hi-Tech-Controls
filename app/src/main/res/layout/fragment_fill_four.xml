@@ -1,5 +1,6 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scrollView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginTop="120dp"
@@ -771,8 +772,10 @@
                 <!--                        android:textSize="18sp"-->
                 <!--                        tools:ignore="HardcodedText" />-->
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp" />
 
-                <!--                </LinearLayout>-->
             </LinearLayout>
             </LinearLayout>
             </LinearLayout>

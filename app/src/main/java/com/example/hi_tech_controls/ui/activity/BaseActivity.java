@@ -8,11 +8,17 @@ import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.graphics.Rect;
 import android.widget.TextView;
-
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -253,5 +259,81 @@ public abstract class BaseActivity extends AppCompatActivity {
     // -----------------------------------------------------------
     protected void onNetworkStateChanged(boolean isOnline) {
         Log.d(TAG, "onNetworkStateChanged callback: " + isOnline);
+    }
+
+    // -----------------------------------------------------------
+    // 🔵 GLOBAL KEYBOARD MANAGEMENT
+    // -----------------------------------------------------------
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            View v = getCurrentFocus();
+            if (v instanceof EditText) {
+                Rect outRect = new Rect();
+                v.getGlobalVisibleRect(outRect);
+                
+                // If touch is outside the current focused EditText
+                if (!outRect.contains((int)event.getRawX(), (int)event.getRawY())) {
+                    
+                    // Check if we are touching another EditText
+                    if (!isTouchOnAnyEditText(getWindow().getDecorView(), event)) {
+                        v.clearFocus();
+                        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                        if (imm != null) {
+                            imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                        }
+                    }
+                }
+            }
+        }
+        return super.dispatchTouchEvent(event);
+    }
+
+    /**
+     * Helper to check if the touch event is on any EditText in the hierarchy.
+     */
+    private boolean isTouchOnAnyEditText(View view, MotionEvent event) {
+        if (view instanceof EditText) {
+            Rect outRect = new Rect();
+            view.getGlobalVisibleRect(outRect);
+            return outRect.contains((int) event.getRawX(), (int) event.getRawY());
+        }
+        if (view instanceof ViewGroup) {
+            ViewGroup group = (ViewGroup) view;
+            for (int i = 0; i < group.getChildCount(); i++) {
+                if (isTouchOnAnyEditText(group.getChildAt(i), event)) return true;
+            }
+        }
+        return false;
+    }
+
+    // -----------------------------------------------------------
+    // 🔵 AUTO-SCROLL ON TYPE
+    // -----------------------------------------------------------
+    /**
+     * Recursively finds all EditTexts in a layout and adds a TextWatcher
+     * that ensures the field remains visible while typing.
+     */
+    public void setupAutoScrollOnType(View root) {
+        if (root instanceof ViewGroup) {
+            ViewGroup group = (ViewGroup) root;
+            for (int i = 0; i < group.getChildCount(); i++) {
+                setupAutoScrollOnType(group.getChildAt(i));
+            }
+        } else if (root instanceof EditText) {
+            EditText et = (EditText) root;
+            et.addTextChangedListener(new TextWatcher() {
+                @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+                @Override public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    if (et.hasFocus()) {
+                        et.post(() -> {
+                            Rect rect = new Rect(0, 0, et.getWidth(), et.getHeight());
+                            et.requestRectangleOnScreen(rect, false);
+                        });
+                    }
+                }
+                @Override public void afterTextChanged(Editable s) {}
+            });
+        }
     }
 }

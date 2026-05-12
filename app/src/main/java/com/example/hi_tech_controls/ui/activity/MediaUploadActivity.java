@@ -18,6 +18,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.core.app.ActivityCompat;
@@ -36,7 +37,6 @@ import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
-import com.google.firebase.firestore.WriteBatch;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -44,7 +44,6 @@ import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.Deque;
 import java.util.HashMap;
@@ -80,12 +79,12 @@ public class MediaUploadActivity extends BaseActivity {
     private final ActivityResultLauncher<Intent> captureLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             result -> {
-                if (result.getResultCode() == RESULT_OK && currentCaptureIndex != -1) {
-                    Intent data = result.getData();
-                    Uri uri = (data != null && data.getData() != null) ? data.getData() : mediaUris.get(currentCaptureIndex);
-                    if (uri != null) handleMedia(currentCaptureIndex, uri);
-                }
-                currentCaptureIndex = -1;
+        if (result.getResultCode() == RESULT_OK && currentCaptureIndex != -1) {
+            Intent data = result.getData();
+            Uri uri = (data != null && data.getData() != null) ? data.getData() : mediaUris.get(currentCaptureIndex);
+            if (uri != null) handleMedia(currentCaptureIndex, uri);
+        }
+        currentCaptureIndex = -1;
             }
     );
 
@@ -129,19 +128,29 @@ public class MediaUploadActivity extends BaseActivity {
         setup9Boxes();
         loadExistingMedia();
         flushPendingDeletesIfAny();
+
+        // Handle back press via dispatcher
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                if (activeTasks.get() > 0) {
+                    new androidx.appcompat.app.AlertDialog.Builder(MediaUploadActivity.this)
+                            .setTitle("Processing Media...")
+                            .setMessage("Your images/videos are being compressed or uploaded. Please wait.")
+                            .setPositiveButton("STAY", null)
+                            .setNegativeButton("LEAVE", (dialog, which) -> {
+                                setEnabled(false);
+                                getOnBackPressedDispatcher().onBackPressed();
+                            })
+                            .show();
+                } else {
+                    setEnabled(false);
+                    getOnBackPressedDispatcher().onBackPressed();
+                }
+            }
+        });
     }
 
-    @Override
-    public void onBackPressed() {
-        if (activeTasks.get() > 0) {
-            new androidx.appcompat.app.AlertDialog.Builder(this)
-                    .setTitle("Processing Media...")
-                    .setMessage("Your images/videos are being compressed or uploaded. Please wait.")
-                    .setPositiveButton("STAY", null)
-                    .setNegativeButton("LEAVE", (dialog, which) -> super.onBackPressed())
-                    .show();
-        } else super.onBackPressed();
-    }
 
     private void safeRunOnUiThread(Runnable r) {
         if (!isDestroyed && !isFinishing()) runOnUiThread(r);
@@ -300,9 +309,10 @@ public class MediaUploadActivity extends BaseActivity {
                     });
                 } else {
                     upload(WebPCompressor.compressToWebP(this, uri, 78), i, p);
-
                 }
-            } catch (Exception e) { handleUploadError(e.getMessage(), p); }
+            } catch (Exception e) {
+                handleUploadError(e.getMessage(), p);
+            }
         });
     }
 
@@ -341,8 +351,14 @@ public class MediaUploadActivity extends BaseActivity {
             }
         }
         supabase.uploadMedia(file, clientId, new SupabaseClient.UploadCallback() {
-            @Override public void onSuccess(String url) { handleUploadSuccess(url, i, p); }
-            @Override public void onError(String e) { handleUploadError(e, p); }
+            @Override public void onSuccess(String url) {
+                if (file.exists()) file.delete(); // ✅ Cleanup local file
+                handleUploadSuccess(url, i, p);
+            }
+            @Override public void onError(String e) {
+                if (file.exists()) file.delete(); // ✅ Cleanup even on failure
+                handleUploadError(e, p);
+            }
         });
     }
 
@@ -387,11 +403,11 @@ public class MediaUploadActivity extends BaseActivity {
             uploadedUrls.clear();
             for (int i = 0; i < MAX_BOXES; i++) {
                 if (i < raw.size() && raw.get(i) != null && !raw.get(i).isEmpty()) {
-                    fullMediaUrls.set(i, raw.get(i));  // ✅ set, not add
+                    fullMediaUrls.set(i, raw.get(i));
                     uploadedUrls.add(raw.get(i));
                     displayThumb(i, raw.get(i));
                 } else {
-                    fullMediaUrls.set(i, null);         // ✅ set, not add
+                    fullMediaUrls.set(i, null);
                     resetBox(i);
                 }
             }
@@ -474,13 +490,17 @@ public class MediaUploadActivity extends BaseActivity {
         String raw = prefs.getString("del_" + clientId, "");
         if (raw.isEmpty()) return;
 
-        List<String> list = new ArrayList<>(Arrays.asList(raw.split("\\|\\|")));
+        String[] parts = raw.split("\\|\\|");
         pendingDeletes.clear();
-        pendingDeletes.addAll(list);
+        for (String s : parts) {
+            if (s != null && !s.trim().isEmpty()) {
+                pendingDeletes.add(s);
+            }
+        }
 
-        Log.d(TAG, "Flushing " + list.size() + " pending deletes");
+        Log.d(TAG, "Flushing " + pendingDeletes.size() + " pending deletes");
 
-        for (String u : new ArrayList<>(list)) {
+        for (String u : new ArrayList<>(pendingDeletes)) {
             supabase.deleteMedia(u, clientId, ok -> {
                 if (ok) {
                     pendingDeletes.remove(u);

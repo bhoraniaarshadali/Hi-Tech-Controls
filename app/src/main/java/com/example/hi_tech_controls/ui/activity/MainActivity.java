@@ -13,6 +13,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.snackbar.Snackbar;
+
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -59,6 +62,7 @@ public class MainActivity extends BaseActivity {
     private DocumentSnapshot lastDoc = null;
     private boolean isLoadingMore = false;
     private Toast currentToast;
+    private boolean doubleBackToExitPressedOnce = false;
 
     // ---------------------------------------------------------------------
     // LIFECYCLE
@@ -84,6 +88,24 @@ public class MainActivity extends BaseActivity {
         initFirestore();
         loadInitialData();
         startRealtimeListener();
+
+        // Handle back press via dispatcher (Double tap to exit)
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                if (doubleBackToExitPressedOnce) {
+                    finishAffinity(); // Close the entire app
+                    return;
+                }
+
+                doubleBackToExitPressedOnce = true;
+                Snackbar.make(findViewById(android.R.id.content),
+                        "Press back again to exit", Snackbar.LENGTH_SHORT).show();
+
+                new Handler(android.os.Looper.getMainLooper()).postDelayed(() -> doubleBackToExitPressedOnce = false,
+                        2000);
+            }
+        });
     }
 
     @Override
@@ -436,15 +458,4 @@ public class MainActivity extends BaseActivity {
         currentToast.show();
     }
 
-    @Override
-    public void onBackPressed() {
-        boolean flag = getSharedPreferences("Login", MODE_PRIVATE).getBoolean("flag", false);
-        Log.d(TAG, "onBackPressed flag=" + flag);
-
-        if (flag) {
-            showExitConfirmationDialog();
-        } else {
-            super.onBackPressed();
-        }
-    }
 }

@@ -3,6 +3,8 @@
 // ============================================
 package com.example.hi_tech_controls.ui.fragments;
 
+import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,11 +19,13 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.example.hi_tech_controls.R;
 import com.example.hi_tech_controls.helper.LoadingDialog;
 import com.example.hi_tech_controls.ui.activity.AddDetailsActivity;
+import com.example.hi_tech_controls.ui.activity.BaseActivity;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -106,6 +110,11 @@ public class fill_three_fragment extends Fragment {
         setupStepperButtons();
 
         if (isRealClientId()) loadExistingData();
+
+        // Ensure focused field stays visible while typing
+        if (getActivity() instanceof BaseActivity) {
+            ((BaseActivity) getActivity()).setupAutoScrollOnType(root);
+        }
 
         return root;
     }
@@ -194,12 +203,34 @@ public class fill_three_fragment extends Fragment {
                 finalEmployees.add("Select Employee");
                 finalEmployees.addAll(employees);
 
+                if (getActivity() == null || !isAdded()) return;
+
                 requireActivity().runOnUiThread(() -> {
-                    ArrayAdapter<String> adapter = new ArrayAdapter<>(
-                            requireContext(),
+                    Context context = getContext();
+                    if (context == null) return;
+
+                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+                            context,
                             R.layout.spinner_item,
                             finalEmployees
-                    );
+                    ) {
+                        @Override
+                        public boolean isEnabled(int position) {
+                            return position != 0;
+                        }
+
+                        @Override
+                        public View getDropDownView(int position, View convertView, @NonNull ViewGroup parent) {
+                            View view = super.getDropDownView(position, convertView, parent);
+                            TextView tv = (TextView) view;
+                            if (position == 0) {
+                                tv.setTextColor(Color.parseColor("#AAAAAA"));
+                            } else {
+                                tv.setTextColor(Color.WHITE);
+                            }
+                            return view;
+                        }
+                    };
 
                     adapter.setDropDownViewResource(
                             androidx.appcompat.R.layout.support_simple_spinner_dropdown_item
@@ -332,8 +363,9 @@ public class fill_three_fragment extends Fragment {
             return;
         }
 
-        if (isAdded()) {
-            LoadingDialog.getInstance().show(requireContext());
+        Context context = getContext();
+        if (isAdded() && context != null) {
+            LoadingDialog.getInstance().show(context);
         }
 
         WriteBatch batch = db.batch();
@@ -468,11 +500,10 @@ public class fill_three_fragment extends Fragment {
     }
 
     private void showToastSafe(String message) {
-        if (!isAdded() || getContext() == null) return;
-
+        Context context = getContext();
+        if (!isAdded() || context == null) return;
         if (activeToast != null) activeToast.cancel();
-
-        activeToast = Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT);
+        activeToast = Toast.makeText(context, message, Toast.LENGTH_SHORT);
         activeToast.show();
     }
 }

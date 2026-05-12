@@ -1,6 +1,7 @@
 package com.example.hi_tech_controls.ui.fragments;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -104,8 +105,9 @@ public class View_data_fragment extends Fragment {
         if (viewMediaBtn != null) {
             viewMediaBtn.setOnClickListener(v -> {
                 if (currentClientId != null && !currentClientId.isEmpty()) {
-                    if (isAdded()) {
-                        Intent intent = new Intent(requireContext(), MediaUploadActivity.class);
+                    Context context = getContext();
+                    if (isAdded() && context != null) {
+                        Intent intent = new Intent(context, MediaUploadActivity.class);
                         intent.putExtra("clientId", currentClientId);
                         startActivity(intent);
                     }
@@ -165,9 +167,12 @@ public class View_data_fragment extends Fragment {
         }
 
         // Ensure Firebase initialized (defensive)
+        Context context = getContext();
+        if (context == null) return;
+
         try {
-            if (com.google.firebase.FirebaseApp.getApps(requireContext()).isEmpty()) {
-                com.google.firebase.FirebaseApp.initializeApp(requireContext());
+            if (com.google.firebase.FirebaseApp.getApps(context).isEmpty()) {
+                com.google.firebase.FirebaseApp.initializeApp(context);
                 Log.i("FirebaseInit", "Firebase initialized manually in fragment.");
             }
         } catch (Exception e) {
@@ -509,12 +514,14 @@ public class View_data_fragment extends Fragment {
 
     // ================================= PDF Generation =================================
     private void generatePDF(InwardClient c) {
-        if (!isAdded()) return;
-        LoadingDialog.getInstance().show(requireContext());
+        Context context = getContext();
+        if (!isAdded() || context == null) return;
+        LoadingDialog.getInstance().show(context);
         Executors.newSingleThreadExecutor().execute(() -> {
             try {
-                if (!isAdded()) return;
-                PdfGenerator pdfGenerator = new PdfGenerator(requireContext(), client, currentClientId);
+                Context innerContext = getContext();
+                if (!isAdded() || innerContext == null) return;
+                PdfGenerator pdfGenerator = new PdfGenerator(innerContext, client, currentClientId);
                 File pdfFile = pdfGenerator.generate(); // internally saves in app folder
 
                 if (isAdded()) {
@@ -542,9 +549,10 @@ public class View_data_fragment extends Fragment {
     }
 
     private void openPdfFile(File file) {
-        if (!isAdded() || requireContext() == null) return;
+        Context context = getContext();
+        if (!isAdded() || context == null) return;
         try {
-            Uri uri = FileProvider.getUriForFile(requireContext(), requireContext().getPackageName() + ".provider", file);
+            Uri uri = FileProvider.getUriForFile(context, context.getPackageName() + ".provider", file);
             Intent intent = new Intent(Intent.ACTION_VIEW);
             intent.setDataAndType(uri, "application/pdf");
             intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
@@ -611,15 +619,18 @@ public class View_data_fragment extends Fragment {
 
     @RequiresApi(api = Build.VERSION_CODES.TIRAMISU)
     private void showPermissionDialog() {
-        if (!isAdded() || requireContext() == null) return;
-        new SweetAlertDialog(requireContext(), SweetAlertDialog.WARNING_TYPE)
+        Context context = getContext();
+        if (!isAdded() || context == null) return;
+        new SweetAlertDialog(context, SweetAlertDialog.WARNING_TYPE)
                 .setTitleText("Permission Required")
                 .setContentText("Storage permission is needed to save PDF files.\nPlease allow it to continue.")
                 .setConfirmText("Allow")
                 .setCancelText("Cancel")
                 .setConfirmClickListener(dialog -> {
                     dialog.dismissWithAnimation();
-                    PermissionUtils.requestStoragePermissions(requireActivity(), 1002);
+                    if (getActivity() != null) {
+                        PermissionUtils.requestStoragePermissions(getActivity(), 1002);
+                    }
                 })
                 .setCancelClickListener(SweetAlertDialog::dismissWithAnimation)
                 .show();
@@ -643,9 +654,10 @@ public class View_data_fragment extends Fragment {
 
     // single active toast helper
     private void showToastSafe(String message) {
-        if (!isAdded() || getContext() == null) return;
+        Context context = getContext();
+        if (!isAdded() || context == null) return;
         if (activeToast != null) activeToast.cancel();
-        activeToast = Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT);
+        activeToast = Toast.makeText(context, message, Toast.LENGTH_SHORT);
         activeToast.show();
     }
 }

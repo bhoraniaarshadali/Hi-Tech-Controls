@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
+import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -52,10 +53,10 @@ public class AddDetailsActivity extends BaseActivity {
 
     // UI labels for the text switcher (keeps UX consistent)
     private final String[] switcherValues = {
-            "Inward Details",
-            "Initial Observation",
-            "Repairs Details",
-            "Final Trial Check"
+            "1. Inward Details",
+            "2. Initial Observation",
+            "3. Repairs Details",
+            "4. Final Trial Check"
     };
 
     // --- State & Firestore ---
@@ -103,9 +104,34 @@ public class AddDetailsActivity extends BaseActivity {
         attachBackPressedHandler(); // hardware back behaviour
 
         // Determine flow (existing or new client)
-        decideFlow();
+        if (savedInstanceState != null) {
+            clientId = savedInstanceState.getString("clientId");
+            tempClientId = savedInstanceState.getString("tempClientId");
+            currentProgress = savedInstanceState.getInt("progress");
+            currentFragmentIndex = savedInstanceState.getInt("index");
+            isIdCommitted = savedInstanceState.getBoolean("isIdCommitted");
+            isExistingClient = savedInstanceState.getBoolean("isExistingClient");
+            Log.d(TAG, "State restored: clientId=" + clientId + " progress=" + currentProgress);
+            updateUI();
+            loadCurrentFragment();
+            if (isIdCommitted) loadClientProgressAndResume();
+        } else {
+            decideFlow();
+        }
 
         Log.d(TAG, "onCreate() end");
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("clientId", clientId);
+        outState.putString("tempClientId", tempClientId);
+        outState.putInt("progress", currentProgress);
+        outState.putInt("index", currentFragmentIndex);
+        outState.putBoolean("isIdCommitted", isIdCommitted);
+        outState.putBoolean("isExistingClient", isExistingClient);
+        Log.d(TAG, "onSaveInstanceState() called");
     }
 
     // -------------------------------------------------------------------------
@@ -246,13 +272,14 @@ public class AddDetailsActivity extends BaseActivity {
                 // Switch to the predicted ID for real-time tracking
                 if (clientId == null || clientId.isEmpty()) {
                     clientId = tempClientId;
-                    // For NEW clients, we always start at Step 1 (0% progress).
-                    // We DO NOT checkInitialProgressAndLoad() here because that might
-                    // accidentally resume an existing client if there's an ID conflict.
-                    currentProgress = 0;
-                    currentFragmentIndex = 0;
                     updateUI();
                     loadCurrentFragment();
+                } else if (!isIdCommitted) {
+                    // Update current fragment's UI if it's already loaded
+                    Fragment current = getSupportFragmentManager().findFragmentById(R.id.frameLayout);
+                    if (current instanceof fill_one_fragment) {
+                        ((fill_one_fragment) current).updateClientId(tempClientId);
+                    }
                 }
             });
 
@@ -646,6 +673,10 @@ public class AddDetailsActivity extends BaseActivity {
         exitDialog.setCancelClickListener(SweetAlertDialog::dismissWithAnimation);
         exitDialog.show();
         Log.d(TAG, "Exit dialog shown");
+    }
+
+    public String getActiveClientId() {
+        return (clientId != null && !clientId.isEmpty()) ? clientId : tempClientId;
     }
 
     private void showCompletionPopup() {

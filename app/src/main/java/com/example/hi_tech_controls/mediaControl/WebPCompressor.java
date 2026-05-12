@@ -41,9 +41,18 @@ public class WebPCompressor {
         opts.inSampleSize = calcSampleSize(w, h, targetW, targetH);
         opts.inJustDecodeBounds = false;
 
-        Bitmap decoded;
+        Bitmap decoded = null;
         try (InputStream is2 = context.getContentResolver().openInputStream(inputUri)) {
-            decoded = BitmapFactory.decodeStream(is2, null, opts);
+            try {
+                decoded = BitmapFactory.decodeStream(is2, null, opts);
+            } catch (OutOfMemoryError e) {
+                Log.w(TAG, "OOM during decode, retrying with higher sampleSize");
+                opts.inSampleSize *= 2;
+                // Re-open stream for second attempt
+                try (InputStream is3 = context.getContentResolver().openInputStream(inputUri)) {
+                    decoded = BitmapFactory.decodeStream(is3, null, opts);
+                }
+            }
         }
 
         if (decoded == null) throw new Exception("Image decode failed");

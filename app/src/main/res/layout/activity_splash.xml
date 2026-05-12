@@ -9,16 +9,30 @@
     <ImageView
         android:id="@+id/logoImage"
         android:layout_width="wrap_content"
-        android:layout_height="150dp"
+        android:layout_height="155dp"
         android:adjustViewBounds="true"
         android:src="@drawable/logo"
-
         app:layout_constraintBottom_toTopOf="@+id/splashAnim"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.5" />
+
+    <!-- Tagline -->
+    <TextView
+        android:id="@+id/taglineText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:alpha="0.6"
+        android:fontFamily="@font/poppins_medium"
+        android:text="Your service in your hand"
+        android:textColor="#555555"
+        android:textSize="13sp"
+        app:layout_constraintTop_toBottomOf="@id/logoImage"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <!-- Lottie Loading Bar -->
     <com.airbnb.lottie.LottieAnimationView
@@ -53,8 +67,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="30dp"
+        android:alpha="0.4"
         android:fontFamily="@font/poppins_medium"
-        android:text="Developed by: Arshadali Bhorania"
+        android:text="Developed by: A. Bhorania"
         android:textColor="#666666"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"

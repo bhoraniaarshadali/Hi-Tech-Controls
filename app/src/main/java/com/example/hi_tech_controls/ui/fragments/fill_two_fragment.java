@@ -5,6 +5,7 @@ package com.example.hi_tech_controls.ui.fragments;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,14 +18,17 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.ScrollView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.example.hi_tech_controls.R;
 import com.example.hi_tech_controls.helper.LoadingDialog;
 import com.example.hi_tech_controls.helper.OfflineSyncManager;
 import com.example.hi_tech_controls.ui.activity.AddDetailsActivity;
+import com.example.hi_tech_controls.ui.activity.BaseActivity;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.WriteBatch;
@@ -112,6 +116,12 @@ public class fill_two_fragment extends Fragment {
         }
 
         if (scrollView != null) scrollView.scrollTo(0, 0);
+
+        // Ensure focused field stays visible while typing
+        if (getActivity() instanceof BaseActivity) {
+            ((BaseActivity) getActivity()).setupAutoScrollOnType(root);
+        }
+
         return root;
     }
 
@@ -253,12 +263,35 @@ public class fill_two_fragment extends Fragment {
                 finalEmployees.add("Select Employee");
                 finalEmployees.addAll(employees);
 
+                if (getActivity() == null || !isAdded()) return;
+
                 requireActivity().runOnUiThread(() -> {
-                    ArrayAdapter<String> adapter = new ArrayAdapter<>(
-                            requireContext(),
+                    Context context = getContext();
+                    if (context == null) return;
+
+                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+                            context,
                             R.layout.spinner_item,
                             finalEmployees
-                    );
+                    ) {
+                        @Override
+                        public boolean isEnabled(int position) {
+                            // Disable the first item (hint) so it's not selectable
+                            return position != 0;
+                        }
+
+                        @Override
+                        public View getDropDownView(int position, View convertView, @NonNull ViewGroup parent) {
+                            View view = super.getDropDownView(position, convertView, parent);
+                            TextView tv = (TextView) view;
+                            if (position == 0) {
+                                tv.setTextColor(Color.parseColor("#AAAAAA")); // Light gray for hint
+                            } else {
+                                tv.setTextColor(Color.WHITE); // White for better visibility on dark bg
+                            }
+                            return view;
+                        }
+                    };
 
                     adapter.setDropDownViewResource(
                             androidx.appcompat.R.layout.support_simple_spinner_dropdown_item
@@ -272,7 +305,7 @@ public class fill_two_fragment extends Fragment {
                         if (pos >= 0) selectEmply.setSelection(pos);
                     } else {
                         // 2. Fallback to SharedPreferences
-                        SharedPreferences prefs = requireContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+                        SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
                         String lastEmp = prefs.getString(KEY_LAST_EMP, "Select Employee");
                         int pos = adapter.getPosition(lastEmp);
                         if (pos >= 0) selectEmply.setSelection(pos);
@@ -294,8 +327,11 @@ public class fill_two_fragment extends Fragment {
                 if (i == 0) return; // ignore "Select Employee"
 
                 String selected = parent.getItemAtPosition(i).toString();
-                requireContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-                        .edit().putString(KEY_LAST_EMP, selected).apply();
+                Context context = getContext();
+                if (context != null) {
+                    context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+                            .edit().putString(KEY_LAST_EMP, selected).apply();
+                }
             }
 
             @Override
@@ -334,8 +370,9 @@ public class fill_two_fragment extends Fragment {
             return;
         }
 
-        if (isAdded()) {
-            LoadingDialog.getInstance().show(requireContext());
+        Context context = getContext();
+        if (isAdded() && context != null) {
+            LoadingDialog.getInstance().show(context);
         }
 
         DocumentReference pageRef = db.collection(COLLECTION_NAME)
@@ -446,9 +483,10 @@ public class fill_two_fragment extends Fragment {
     }
 
     private void showToastSafe(String msg) {
-        if (!isAdded()) return;
+        Context context = getContext();
+        if (!isAdded() || context == null) return;
         if (activeToast != null) activeToast.cancel();
-        activeToast = Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT);
+        activeToast = Toast.makeText(context, msg, Toast.LENGTH_SHORT);
         activeToast.show();
     }
 

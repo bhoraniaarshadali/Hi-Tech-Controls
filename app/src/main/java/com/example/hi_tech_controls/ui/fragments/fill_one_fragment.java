@@ -4,6 +4,7 @@
 package com.example.hi_tech_controls.ui.fragments;
 
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,6 +22,7 @@ import com.example.hi_tech_controls.helper.LoadingDialog;
 import com.example.hi_tech_controls.helper.OfflineSyncManager;
 import com.example.hi_tech_controls.helper.FirestoreUtils;
 import com.example.hi_tech_controls.ui.activity.AddDetailsActivity;
+import com.example.hi_tech_controls.ui.activity.BaseActivity;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
@@ -63,6 +65,11 @@ public class fill_one_fragment extends Fragment implements DatePickerDialog.OnDa
         populateClientId();
         loadExistingIfRequired();
 
+        // Ensure focused field stays visible while typing
+        if (getActivity() instanceof BaseActivity) {
+            ((BaseActivity) getActivity()).setupAutoScrollOnType(rootView);
+        }
+
         return rootView;
     }
 
@@ -97,12 +104,15 @@ public class fill_one_fragment extends Fragment implements DatePickerDialog.OnDa
     }
 
     private void populateClientId() {
-        if (clientId != null)
-            clientIdTv.setText(clientId.replace("temp", ""));
+        if (getActivity() instanceof AddDetailsActivity) {
+            String activeId = ((AddDetailsActivity) getActivity()).getActiveClientId();
+            if (activeId != null) {
+                clientIdTv.setText(activeId.replace("temp", ""));
+            }
+        }
     }
 
     public void updateClientId(String newId) {
-        this.clientId = newId;
         if (clientIdTv != null && isAdded()) {
             clientIdTv.setText(newId.replace("temp", ""));
         }
@@ -383,8 +393,9 @@ public class fill_one_fragment extends Fragment implements DatePickerDialog.OnDa
     }
 
     private void showLoading() {
-        if (isAdded())
-            LoadingDialog.getInstance().show(requireContext());
+        Context context = getContext();
+        if (isAdded() && context != null)
+            LoadingDialog.getInstance().show(context);
     }
 
     private void hideLoading() {
@@ -413,11 +424,12 @@ public class fill_one_fragment extends Fragment implements DatePickerDialog.OnDa
     }
 
     private void showToastSafe(String msg) {
-        if (!isAdded() || getContext() == null)
+        Context context = getContext();
+        if (!isAdded() || context == null)
             return;
         if (activeToast != null)
             activeToast.cancel();
-        activeToast = Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT);
+        activeToast = Toast.makeText(context, msg, Toast.LENGTH_SHORT);
         activeToast.show();
     }
 

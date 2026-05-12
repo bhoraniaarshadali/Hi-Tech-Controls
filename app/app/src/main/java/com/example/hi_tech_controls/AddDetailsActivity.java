@@ -32,10 +32,10 @@ public class AddDetailsActivity extends AppCompatActivity {
 
     public static final int[] progressValues = {0, 25, 50, 75, 100};
     private final String[] switcherValues = {
-            "Inward Details",
-            "Initial Observation",
-            "Repairs Details",
-            "Final Trial Check"
+            "1. Inward Details",
+            "2. Initial Observation",
+            "3. Repairs Details",
+            "4. Final Trial Check"
     };
     private Fragment fillOneFragment;
     private Fragment fillTwoFragment;

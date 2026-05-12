@@ -34,18 +34,21 @@ public class SupabaseClient {
     private static final String PROJECT_URL = com.example.hi_tech_controls.BuildConfig.SUPABASE_URL;
     private static final String ANON_KEY = com.example.hi_tech_controls.BuildConfig.SUPABASE_ANON_KEY;
 
+    private static OkHttpClient sharedClient;
     private final OkHttpClient client;
     private final Handler mainHandler = new Handler(Looper.getMainLooper());
 
     public SupabaseClient(Context context) {
-        this.client = new OkHttpClient.Builder()
-                .connectTimeout(20, TimeUnit.SECONDS)
-                .writeTimeout(120, TimeUnit.SECONDS) // large video ke liye
-                .readTimeout(60, TimeUnit.SECONDS)
-                .retryOnConnectionFailure(true)
-                // ✅ Connection pool tune kiya — concurrent uploads fast honge
-                .connectionPool(new ConnectionPool(5, 30, TimeUnit.SECONDS))
-                .build();
+        if (sharedClient == null) {
+            sharedClient = new OkHttpClient.Builder()
+                    .connectTimeout(20, TimeUnit.SECONDS)
+                    .writeTimeout(120, TimeUnit.SECONDS)
+                    .readTimeout(60, TimeUnit.SECONDS)
+                    .retryOnConnectionFailure(true)
+                    .connectionPool(new ConnectionPool(5, 30, TimeUnit.SECONDS))
+                    .build();
+        }
+        this.client = sharedClient;
     }
 
     // ── UPLOAD ────────────────────────────────────────────────────────────────
@@ -55,8 +58,10 @@ public class SupabaseClient {
             return;
         }
 
+        // ✅ Security: Sanitize clientId to prevent path traversal
+        String sanitizedId = clientId.replaceAll("[^a-zA-Z0-9]", "");
         String ext = getFileExtension(file.getName());
-        String objectPath = "clients/" + clientId + "/" + UUID.randomUUID() + "." + ext;
+        String objectPath = "clients/" + sanitizedId + "/" + UUID.randomUUID() + "." + ext;
         doUpload(file, objectPath, getMimeType(file), 0, callback);
     }
 
@@ -125,24 +130,23 @@ public class SupabaseClient {
         // Dono URLs delete karo agar video hai
         if (publicUrl.contains("|")) {
             String[] parts = publicUrl.split("\\|");
-            final boolean[] results = { false, false };
+            java.util.concurrent.atomic.AtomicInteger remaining = new java.util.concurrent.atomic.AtomicInteger(2);
+            java.util.concurrent.atomic.AtomicBoolean overallSuccess = new java.util.concurrent.atomic.AtomicBoolean(true);
 
-            deleteSingle(parts[0], () -> {
-                results[0] = true;
-                if (results[1])
-                    cb.onResult(true);
-            }, () -> {
-                if (results[1])
-                    cb.onResult(false);
+            Runnable checkDone = () -> {
+                if (remaining.decrementAndGet() == 0) {
+                    cb.onResult(overallSuccess.get());
+                }
+            };
+
+            deleteSingle(parts[0], checkDone, () -> {
+                overallSuccess.set(false);
+                checkDone.run();
             });
 
-            deleteSingle(parts[1], () -> {
-                results[1] = true;
-                if (results[0])
-                    cb.onResult(true);
-            }, () -> {
-                if (results[0])
-                    cb.onResult(false);
+            deleteSingle(parts[1], checkDone, () -> {
+                overallSuccess.set(false);
+                checkDone.run();
             });
 
             return;
