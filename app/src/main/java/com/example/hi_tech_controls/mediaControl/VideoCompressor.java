@@ -26,10 +26,10 @@ public class VideoCompressor {
 
                 // ── Video: fastest possible settings ──────────────
                 .setVideoTrackStrategy(new DefaultVideoStrategy.Builder()
-                        .addResizer(new AtMostResizer(480)) // max 480p
-                        .bitRate(800_000) // 0.8 Mbps — smaller + faster
-                        .frameRate(24) // 24fps sufficient
-                        .keyFrameInterval(3) // every 3s = faster encoding
+                        .addResizer(new AtMostResizer(360)) // 360p — extreme speed
+                        .bitRate(600_000) // 0.6 Mbps — very fast
+                        .frameRate(24)
+                        .keyFrameInterval(5) // larger interval = faster encoding
                         .build())
 
                 // ── Audio: passthrough = skip re-encoding ─────────

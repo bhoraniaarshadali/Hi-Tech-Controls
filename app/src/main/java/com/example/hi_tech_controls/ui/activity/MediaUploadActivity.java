@@ -261,6 +261,8 @@ public class MediaUploadActivity extends BaseActivity {
         mediaUris.set(i, u);
         cam.putExtra(MediaStore.EXTRA_OUTPUT, u);
         Intent vid = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+        vid.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 0); // 0 = Low quality (faster)
+        vid.putExtra(MediaStore.EXTRA_DURATION_LIMIT, 90); // 90 seconds limit
         Intent chooser = Intent.createChooser(cam, "Capture");
         chooser.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[] { vid });
         currentCaptureIndex = i;
