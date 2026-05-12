@@ -4,6 +4,13 @@ plugins {
     id 'com.google.firebase.crashlytics'
 }
 
+// ✅ local.properties se keys read karo
+def localProperties = new Properties()
+def localPropertiesFile = rootProject.file('local.properties')
+if (localPropertiesFile.exists()) {
+    localPropertiesFile.withReader('UTF-8') { reader -> localProperties.load(reader) }
+}
+
 android {
     namespace 'com.example.hi_tech_controls'
     compileSdk 36
@@ -11,28 +18,36 @@ android {
     defaultConfig {
         applicationId "com.example.hi_tech_controls"
         minSdk 25
-        targetSdk 33
+        targetSdk 36                                    // ✅ compileSdk se match karo
         versionCode 2
         versionName "1.2"
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        // ✅ Keys local.properties se lo — git mein expose nahi hoga
+        buildConfigField "String", "SUPABASE_URL",
+            "\"${localProperties['SUPABASE_URL'] ?: ''}\""
+        buildConfigField "String", "SUPABASE_ANON_KEY",
+            "\"${localProperties['SUPABASE_ANON_KEY'] ?: ''}\""
     }
 
     buildTypes {
         release {
+            minifyEnabled true                          // ✅ APK size kam hoga
+            shrinkResources true                        // ✅ unused resources bhi hato
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'),
+                          'proguard-rules.pro'
+        }
+        debug {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
 
-
-//    buildFeatures {
-//        viewBinding true
-//    }
+    buildFeatures {
+        buildConfig true                                // ✅ BuildConfig generate karo
+        // viewBinding true                            // zaroorat pe uncomment karo
+    }
 
     compileOptions {
-//        sourceCompatibility JavaVersion.VERSION_1_8
-//        targetCompatibility JavaVersion.VERSION_1_8
         coreLibraryDesugaringEnabled true
         sourceCompatibility JavaVersion.VERSION_11
         targetCompatibility JavaVersion.VERSION_11
@@ -41,57 +56,47 @@ android {
 
 dependencies {
 
-    // ✅ App Essentials & UI Components
+    // App Essentials & UI
     implementation 'androidx.appcompat:appcompat:1.7.1'
     implementation 'com.google.android.material:material:1.13.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.2.1'
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'androidx.activity:activity:1.13.0'
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.2.0'
-    
-    // ✅ Splash Screen & Animations
+
+    // Splash & Animations
     implementation 'androidx.core:core-splashscreen:1.2.0'
-    implementation "com.airbnb.android:lottie:6.7.1"
+    implementation 'com.airbnb.android:lottie:6.7.1'
     implementation 'com.daimajia.androidanimations:library:2.4@aar'
     implementation 'com.facebook.shimmer:shimmer:0.5.0'
 
-    // ✅ Firebase (Core, Firestore, Analytics, Crashlytics)
+    // Firebase — ✅ BOM use karo, explicit versions mat do
     implementation platform('com.google.firebase:firebase-bom:34.13.0')
     implementation 'com.google.firebase:firebase-analytics'
     implementation 'com.google.firebase:firebase-crashlytics'
-    implementation 'com.google.firebase:firebase-firestore:26.3.0'
+    implementation 'com.google.firebase:firebase-firestore'  // ✅ version hata diya
 
-    // ✅ Networking (OkHttp for Supabase)
-    implementation("com.squareup.okhttp3:okhttp:5.3.2")
-    implementation("com.squareup.okhttp3:logging-interceptor:5.3.2")
+    // Networking
+    implementation 'com.squareup.okhttp3:okhttp:5.3.2'
+    implementation 'com.squareup.okhttp3:logging-interceptor:5.3.2'
 
-    // ✅ Image Loading (Glide)
+    // Image Loading
     implementation 'com.github.bumptech.glide:glide:5.0.7'
     annotationProcessor 'com.github.bumptech.glide:compiler:5.0.7'
     implementation 'com.github.bumptech.glide:okhttp3-integration:5.0.7'
 
-    // ✅ QR Code Generation (ZXing)
+    // QR Code
     implementation 'com.google.zxing:core:3.5.4'
     implementation 'com.journeyapps:zxing-android-embedded:4.3.0'
 
-    // ✅ Dialogs (SweetAlert)
+    // Dialogs
     implementation 'com.github.f0ris.sweetalert:library:1.6.2'
 
-    // ✅ Java 8+ Support for older Android versions
+    // Java 8+ desugaring
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.5'
 
-    // ✅ Video Compression (Transcoder)
+    // Video Compression
     implementation 'io.deepmedia.community:transcoder-android:0.11.2'
-
-    // -------------------------------------------------------------------------
-    // 🔕 Unused / Potentially Unnecessary (Commented out)
-    // -------------------------------------------------------------------------
-    // implementation 'com.google.android.gms:play-services-base:18.10.0'
-    // implementation 'com.google.firebase:firebase-storage-ktx:21.0.2'
-    // implementation 'com.google.firebase:firebase-auth:24.0.1'
-    // implementation 'com.google.firebase:firebase-database:22.0.1'
-    // implementation 'com.google.firebase:firebase-database-ktx:21.0.0'
-    // implementation 'com.google.android.engage:engage-core:1.5.12'
 
     // Testing
     testImplementation 'junit:junit:4.13.2'

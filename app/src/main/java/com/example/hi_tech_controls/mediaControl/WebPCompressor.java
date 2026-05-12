@@ -15,110 +15,102 @@ public class WebPCompressor {
 
     private static final String TAG = "WebPCompressor";
 
-    /**
-     * Faster + memory-safe + adaptive scaling WebP encoder.
-     */
     public static File compressToWebP(Context context, Uri inputUri, int quality) throws Exception {
 
-        // -------- Step 1: Decode bounds only (no bitmap in memory yet)
+        // Step 1: Decode bounds only
         BitmapFactory.Options bounds = new BitmapFactory.Options();
         bounds.inJustDecodeBounds = true;
-
-        InputStream is1 = context.getContentResolver().openInputStream(inputUri);
-        BitmapFactory.decodeStream(is1, null, bounds);
-        if (is1 != null) is1.close();
+        try (InputStream is1 = context.getContentResolver().openInputStream(inputUri)) {
+            BitmapFactory.decodeStream(is1, null, bounds);
+        }
 
         int w = bounds.outWidth;
         int h = bounds.outHeight;
+        Log.d(TAG, "Input: " + w + "x" + h);
 
-        Log.d(TAG, "Input image size: " + w + "x" + h);
-
-        // -------- Step 2: Choose scaling ratio (adaptive)
+        // Step 2: Adaptive scale — repair photos ke liye max 1080p
         float scale = chooseScale(w, h);
-
         int targetW = Math.max(1, Math.round(w * scale));
         int targetH = Math.max(1, Math.round(h * scale));
+        Log.d(TAG, "Target: " + targetW + "x" + targetH);
 
-        Log.d(TAG, "Target scaled size: " + targetW + "x" + targetH);
-
-        // Decode bitmap with inSampleSize (fast, memory-safe)
+        // Step 3: Decode with inSampleSize
         BitmapFactory.Options opts = new BitmapFactory.Options();
-        opts.inPreferredConfig = Bitmap.Config.RGB_565;   // low memory
+        // ARGB_8888: WebP lossy ke saath better compression ratio
+        opts.inPreferredConfig = Bitmap.Config.ARGB_8888;
         opts.inSampleSize = calcSampleSize(w, h, targetW, targetH);
         opts.inJustDecodeBounds = false;
 
-        InputStream is2 = context.getContentResolver().openInputStream(inputUri);
-        Bitmap decoded = BitmapFactory.decodeStream(is2, null, opts);
-        if (is2 != null) is2.close();
+        Bitmap decoded;
+        try (InputStream is2 = context.getContentResolver().openInputStream(inputUri)) {
+            decoded = BitmapFactory.decodeStream(is2, null, opts);
+        }
 
-        if (decoded == null)
-            throw new Exception("Image decode failed");
+        if (decoded == null) throw new Exception("Image decode failed");
 
-        // -------- Step 3: Scale to exact target resolution
-        Bitmap finalBmp = Bitmap.createScaledBitmap(decoded, targetW, targetH, true);
-        if (!decoded.isRecycled()) decoded.recycle();
+        // Step 4: Scale — filter=false for speed (compress use case)
+        Bitmap finalBmp;
+        if (scale < 1.0f) {
+            finalBmp = Bitmap.createScaledBitmap(decoded, targetW, targetH, false);
+            if (finalBmp != decoded) decoded.recycle();
+        } else {
+            finalBmp = decoded; // no scaling needed
+        }
 
-        // -------- Step 4: Encode to WebP
+        // Step 5: Encode to WebP
         File outFile = new File(
                 context.getCacheDir(),
                 "IMG_WEBP_" + System.currentTimeMillis() + ".webp"
         );
 
-        FileOutputStream out = new FileOutputStream(outFile);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            finalBmp.compress(Bitmap.CompressFormat.WEBP_LOSSY, quality, out);
-        } else {
-            finalBmp.compress(Bitmap.CompressFormat.WEBP, quality, out);
+        try (FileOutputStream out = new FileOutputStream(outFile)) {
+            Bitmap.CompressFormat fmt = (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R)
+                    ? Bitmap.CompressFormat.WEBP_LOSSY
+                    : Bitmap.CompressFormat.WEBP;
+            finalBmp.compress(fmt, quality, out);
+            out.flush();
         }
 
-        out.flush();
-        out.close();
         finalBmp.recycle();
-
-        Log.d(TAG, "WEBP saved: " + outFile.getAbsolutePath());
+        Log.d(TAG, "WebP saved: " + outFile.length() / 1024 + " KB → " + outFile.getAbsolutePath());
 
         return outFile;
     }
 
-    public static File compressBitmapToWebP(Context context, Bitmap bmp, int quality, String prefix) throws Exception {
+    public static File compressBitmapToWebP(Context context, Bitmap bmp,
+                                            int quality, String prefix) throws Exception {
         File outFile = new File(
                 context.getCacheDir(),
                 prefix + "_" + System.currentTimeMillis() + ".webp"
         );
-        FileOutputStream out = new FileOutputStream(outFile);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            bmp.compress(Bitmap.CompressFormat.WEBP_LOSSY, quality, out);
-        } else {
-            bmp.compress(Bitmap.CompressFormat.WEBP, quality, out);
+        Bitmap.CompressFormat fmt = (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R)
+                ? Bitmap.CompressFormat.WEBP_LOSSY
+                : Bitmap.CompressFormat.WEBP;
+        try (FileOutputStream out = new FileOutputStream(outFile)) {
+            bmp.compress(fmt, quality, out);
+            out.flush();
         }
-        out.flush();
-        out.close();
         return outFile;
     }
 
     /**
-     * Decide how much to reduce resolution based on megapixels.
+     * Repair photos ke liye: max 1080p maintain karo, quality mat girao zyada
      */
     private static float chooseScale(int w, int h) {
-        int mp = (w * h);
+        long mp = (long) w * h;
 
-        if (mp > 12_000_000) return 0.3f;   // huge image
-        if (mp > 8_000_000) return 0.5f;   // large
-        if (mp > 4_000_000) return 0.7f;   // medium
-        return 1.0f;                         // small (no scaling)
+        if (mp > 15_000_000) return 0.4f;  // 15MP+ (flagship cameras)
+        if (mp > 10_000_000) return 0.55f; // 10-15MP
+        if (mp > 6_000_000)  return 0.70f; // 6-10MP
+        if (mp > 3_000_000)  return 0.85f; // 3-6MP
+        return 1.0f;                        // under 3MP — no scaling
     }
 
-    /**
-     * Compute inSampleSize for decoding (power-of-two reduction)
-     */
     private static int calcSampleSize(int srcW, int srcH, int tgtW, int tgtH) {
         int sample = 1;
-
         while ((srcW / sample) > tgtW * 2 || (srcH / sample) > tgtH * 2) {
             sample *= 2;
         }
-
         Log.d(TAG, "inSampleSize = " + sample);
         return sample;
     }

@@ -15,8 +15,8 @@ import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.ConnectionPool;
 import okhttp3.MediaType;
-import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -25,132 +25,145 @@ import okhttp3.Response;
 public class SupabaseClient {
 
     private static final String TAG = "SupabaseClient";
-
-    private static final String PROJECT_URL = "https://bwbopiabddpxhacfscvq.supabase.co";
-    private static final String ANON_KEY =
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ3Ym9waWFiZGRweGhhY2ZzY3ZxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE4MzI3MTcsImV4cCI6MjA3NzQwODcxN30.a7TLEki1NW0xpGp1iUYK45X0-WJlWhR3uE81Jbu3a6Q";
     private static final String BUCKET = "uploads";
+
+    // ✅ Keys ko BuildConfig se lo — hardcode mat karo
+    // app/build.gradle mein add karo:
+    // buildConfigField "String", "SUPABASE_URL", '"https://xxx.supabase.co"'
+    // buildConfigField "String", "SUPABASE_ANON_KEY", '"eyJ..."'
+    private static final String PROJECT_URL = com.example.hi_tech_controls.BuildConfig.SUPABASE_URL;
+    private static final String ANON_KEY = com.example.hi_tech_controls.BuildConfig.SUPABASE_ANON_KEY;
 
     private final OkHttpClient client;
     private final Handler mainHandler = new Handler(Looper.getMainLooper());
 
     public SupabaseClient(Context context) {
-        Log.d(TAG, "Initializing OkHttpClient…");
         this.client = new OkHttpClient.Builder()
                 .connectTimeout(20, TimeUnit.SECONDS)
-                .writeTimeout(90, TimeUnit.SECONDS)
+                .writeTimeout(120, TimeUnit.SECONDS) // large video ke liye
                 .readTimeout(60, TimeUnit.SECONDS)
                 .retryOnConnectionFailure(true)
+                // ✅ Connection pool tune kiya — concurrent uploads fast honge
+                .connectionPool(new ConnectionPool(5, 30, TimeUnit.SECONDS))
                 .build();
-        Log.d(TAG, "OkHttpClient ready.");
     }
 
-    // -------------------------------------------------------------------------
-    // UPLOAD
-    // -------------------------------------------------------------------------
+    // ── UPLOAD ────────────────────────────────────────────────────────────────
     public void uploadMedia(File file, String clientId, UploadCallback callback) {
-        Log.d(TAG, "uploadMedia() called → file=" + file + ", clientId=" + clientId);
-
         if (!file.exists() || file.length() == 0) {
-            Log.e(TAG, "uploadMedia() → File missing or ZERO size");
-            callback.onError("File missing");
+            callback.onError("File missing or empty");
             return;
         }
 
         String ext = getFileExtension(file.getName());
-        String fileName = UUID.randomUUID() + "." + ext;
-        String objectPath = "clients/" + clientId + "/" + fileName;
-
-        Log.d(TAG, "uploadMedia() → ext=" + ext + ", objectPath=" + objectPath);
-
+        String objectPath = "clients/" + clientId + "/" + UUID.randomUUID() + "." + ext;
         doUpload(file, objectPath, getMimeType(file), 0, callback);
     }
 
     private void doUpload(File file, String objectPath, String mime, int attempt, UploadCallback cb) {
         final int MAX_RETRY = 3;
-        final long[] backoff = {0, 2000, 4000, 8000};
-
-        Log.d(TAG, "doUpload() attempt=" + attempt +
-                ", file=" + file.getAbsolutePath() +
-                ", object=" + objectPath +
-                ", mime=" + mime);
+        final long[] backoff = { 0, 2000, 4000, 8000 };
 
         String url = PROJECT_URL + "/storage/v1/object/" + BUCKET + "/" + objectPath;
-        Log.d(TAG, "Upload URL → " + url);
 
-        RequestBody fileBody =
-                RequestBody.create(file, MediaType.parse(mime != null ? mime : "application/octet-stream"));
-
-        RequestBody requestBody = new MultipartBody.Builder()
-                .setType(MultipartBody.FORM)
-                .addFormDataPart("file", file.getName(), fileBody)
-                .build();
+        // ✅ PUT with raw body — Supabase Storage ka correct method
+        // Multipart nahi — wo server side pe corrupt file deta tha
+        RequestBody body = RequestBody.create(file, MediaType.parse(mime));
 
         Request req = new Request.Builder()
                 .url(url)
-                .post(requestBody)
+                .put(body) // ✅ POST → PUT
                 .header("Authorization", "Bearer " + ANON_KEY)
                 .header("apikey", ANON_KEY)
+                .header("Content-Type", mime)
+                .header("x-upsert", "true") // ✅ duplicate name pe overwrite
                 .build();
-
-        Log.d(TAG, "Executing upload request…");
 
         client.newCall(req).enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                Log.e(TAG, "Upload failure (attempt " + attempt + "): " + e.getMessage());
-
+                Log.e(TAG, "Upload failed attempt=" + attempt + ": " + e.getMessage());
                 if (attempt < MAX_RETRY) {
-                    long wait = backoff[attempt + 1];
-                    Log.w(TAG, "Retrying upload in " + wait + " ms");
-                    mainHandler.postDelayed(() ->
-                            doUpload(file, objectPath, mime, attempt + 1, cb), wait);
+                    mainHandler.postDelayed(
+                            () -> doUpload(file, objectPath, mime, attempt + 1, cb),
+                            backoff[attempt + 1]);
                 } else {
-                    Log.e(TAG, "Upload failed permanently after " + MAX_RETRY + " retries");
-                    mainHandler.post(() -> cb.onError("Upload failed"));
+                    mainHandler.post(() -> cb.onError("Upload failed after retries"));
                 }
             }
 
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                String body = (response.body() != null) ? response.body().string() : "";
-                Log.d(TAG, "Upload HTTP " + response.code() + " → response: " + body);
+                String body = response.body() != null ? response.body().string() : "";
+                Log.d(TAG, "Upload HTTP=" + response.code() + " body=" + body);
+                response.close();
 
                 if (response.isSuccessful()) {
-                    String publicUrl = PROJECT_URL + "/storage/v1/object/public/" + BUCKET + "/" + objectPath;
-                    Log.d(TAG, "Upload success → URL: " + publicUrl);
+                    String publicUrl = PROJECT_URL + "/storage/v1/object/public/"
+                            + BUCKET + "/" + objectPath;
                     mainHandler.post(() -> cb.onSuccess(publicUrl));
+
                 } else if (response.code() >= 500 && attempt < MAX_RETRY) {
-                    Log.w(TAG, "Server error (5xx). Retrying upload…");
-                    long wait = backoff[attempt + 1];
-                    mainHandler.postDelayed(() ->
-                            doUpload(file, objectPath, mime, attempt + 1, cb), wait);
+                    mainHandler.postDelayed(
+                            () -> doUpload(file, objectPath, mime, attempt + 1, cb),
+                            backoff[attempt + 1]);
                 } else {
-                    Log.e(TAG, "Upload error (no retry) → HTTP " + response.code());
                     mainHandler.post(() -> cb.onError("HTTP " + response.code() + ": " + body));
                 }
-
-                response.close();
             }
         });
     }
 
-    // -------------------------------------------------------------------------
-    // DELETE
-    // -------------------------------------------------------------------------
+    // ── DELETE ────────────────────────────────────────────────────────────────
     public void deleteMedia(String publicUrl, String clientId, DeleteCallback cb) {
-        Log.d(TAG, "deleteMedia() → url=" + publicUrl);
+        if (publicUrl == null || publicUrl.isEmpty()) {
+            cb.onResult(false);
+            return;
+        }
 
+        // ✅ Pipe-separated URL handle karo (video|thumb format)
+        // Dono URLs delete karo agar video hai
+        if (publicUrl.contains("|")) {
+            String[] parts = publicUrl.split("\\|");
+            final boolean[] results = { false, false };
+
+            deleteSingle(parts[0], () -> {
+                results[0] = true;
+                if (results[1])
+                    cb.onResult(true);
+            }, () -> {
+                if (results[1])
+                    cb.onResult(false);
+            });
+
+            deleteSingle(parts[1], () -> {
+                results[1] = true;
+                if (results[0])
+                    cb.onResult(true);
+            }, () -> {
+                if (results[0])
+                    cb.onResult(false);
+            });
+
+            return;
+        }
+
+        deleteSingle(publicUrl, () -> cb.onResult(true), () -> cb.onResult(false));
+    }
+
+    private void deleteSingle(String publicUrl, Runnable onOk, Runnable onFail) {
         String prefix = "/storage/v1/object/public/" + BUCKET + "/";
         int idx = publicUrl.indexOf(prefix);
         String objectPath = (idx >= 0)
                 ? publicUrl.substring(idx + prefix.length())
                 : publicUrl;
 
-        Log.d(TAG, "Computed objectPath → " + objectPath);
+        // Query params strip karo agar koi ho
+        if (objectPath.contains("?")) {
+            objectPath = objectPath.substring(0, objectPath.indexOf("?"));
+        }
 
         String url = PROJECT_URL + "/storage/v1/object/" + BUCKET + "/" + objectPath;
-        Log.d(TAG, "Delete URL → " + url);
 
         Request req = new Request.Builder()
                 .url(url)
@@ -163,57 +176,45 @@ public class SupabaseClient {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
                 Log.e(TAG, "Delete failed: " + e.getMessage());
-                mainHandler.post(() -> cb.onResult(false));
+                mainHandler.post(onFail);
             }
 
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) {
                 boolean ok = response.isSuccessful();
-                Log.d(TAG, "Delete response=" + ok + " HTTP=" + response.code());
+                Log.d(TAG, "Delete HTTP=" + response.code());
                 response.close();
-                mainHandler.post(() -> cb.onResult(ok));
+                mainHandler.post(ok ? onOk : onFail);
             }
         });
     }
 
-    // -------------------------------------------------------------------------
-    // HELPERS
-    // -------------------------------------------------------------------------
+    // ── HELPERS ───────────────────────────────────────────────────────────────
     private String getFileExtension(String fileName) {
         int dot = fileName.lastIndexOf('.');
-        String ext = (dot > 0) ? fileName.substring(dot + 1).toLowerCase() : "jpg";
-        Log.d(TAG, "getFileExtension(" + fileName + ") → " + ext);
-        return ext;
+        return (dot > 0) ? fileName.substring(dot + 1).toLowerCase() : "jpg";
     }
 
     private String getMimeType(File file) {
         String ext = getFileExtension(file.getName());
         String mime = MimeTypeMap.getSingleton().getMimeTypeFromExtension(ext);
-
-        if (mime != null) {
-            Log.d(TAG, "Detected MIME from extension → " + mime);
+        if (mime != null)
             return mime;
-        }
-
-        if (ext.equals("mp4")) {
-            Log.d(TAG, "MIME fallback → video/mp4");
+        if (ext.equals("mp4"))
             return "video/mp4";
-        }
-
-        Log.d(TAG, "MIME fallback → image/jpeg");
+        if (ext.equals("webp"))
+            return "image/webp";
         return "image/jpeg";
     }
 
-    // -------------------------------------------------------------------------
-    // CALLBACKS
-    // -------------------------------------------------------------------------
-    public interface DeleteCallback {
-        void onResult(boolean success);
-    }
-
+    // ── CALLBACKS ─────────────────────────────────────────────────────────────
     public interface UploadCallback {
         void onSuccess(String fileUrl);
 
         void onError(String error);
+    }
+
+    public interface DeleteCallback {
+        void onResult(boolean success);
     }
 }

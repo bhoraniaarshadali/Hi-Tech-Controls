@@ -297,7 +297,8 @@ public class MediaUploadActivity extends BaseActivity {
                         @Override public void onCancelled() { synchronized (activeCompressors) { activeCompressors.remove(compressor); } handleUploadError("Cancelled", p); }
                     });
                 } else {
-                    upload(WebPCompressor.compressToWebP(this, uri, 85), i, p);
+                    upload(WebPCompressor.compressToWebP(this, uri, 78), i, p);
+
                 }
             } catch (Exception e) { handleUploadError(e.getMessage(), p); }
         });
@@ -377,15 +378,20 @@ public class MediaUploadActivity extends BaseActivity {
     }
 
     private void processMediaResults(com.google.firebase.firestore.DocumentSnapshot d) {
+        // fullMediaUrls already has 9 nulls from setup9Boxes()
+        // NEVER call .add() here — only .set()
         if (d.exists() && d.get("urls") instanceof List) {
             List<String> raw = (List<String>) d.get("urls");
-            fullMediaUrls.clear(); uploadedUrls.clear();
+            uploadedUrls.clear();
             for (int i = 0; i < MAX_BOXES; i++) {
-                if (i < raw.size() && raw.get(i) != null) {
-                    fullMediaUrls.add(raw.get(i));
+                if (i < raw.size() && raw.get(i) != null && !raw.get(i).isEmpty()) {
+                    fullMediaUrls.set(i, raw.get(i));  // ✅ set, not add
                     uploadedUrls.add(raw.get(i));
                     displayThumb(i, raw.get(i));
-                } else { fullMediaUrls.add(null); resetBox(i); }
+                } else {
+                    fullMediaUrls.set(i, null);         // ✅ set, not add
+                    resetBox(i);
+                }
             }
             updateEditIconVisibility();
         } else { for (int i = 0; i < MAX_BOXES; i++) { fullMediaUrls.add(null); resetBox(i); } }
@@ -393,14 +399,34 @@ public class MediaUploadActivity extends BaseActivity {
 
     private void displayThumb(int i, String url) {
         if (url == null || url.isEmpty()) { resetBox(i); return; }
+
         ImageView iv = allImageViews.get(i);
         ImageView play = allPlayIcons.get(i);
-        boolean isVideo = url.toLowerCase().contains(".mp4");
+
+        // ✅ Check base URL only (before query params / pipe separator)
+        String baseUrl = url.contains("|") ? url.split("\\|")[0] : url;
+        String cleanBase = baseUrl.contains("?") ? baseUrl.substring(0, baseUrl.indexOf("?")) : baseUrl;
+        boolean isVideo = cleanBase.toLowerCase().endsWith(".mp4")
+                || cleanBase.toLowerCase().contains("/video/");
+
         play.setVisibility(isVideo ? View.VISIBLE : View.GONE);
+
         String display = url.contains("|") ? url.split("\\|")[1] : url;
-        RequestOptions o = new RequestOptions().diskCacheStrategy(DiskCacheStrategy.AUTOMATIC).placeholder(R.drawable.imageview).override(220, 220).centerCrop();
-        try { if (isVideo && !url.contains("|")) Glide.with(this).asBitmap().load(url).apply(o).frame(1000000).into(iv); else Glide.with(this).load(display).apply(o).into(iv); }
-        catch (Exception e) { resetBox(i); }
+
+        RequestOptions o = new RequestOptions()
+                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                .placeholder(R.drawable.imageview)
+                .override(220, 220)
+                .centerCrop();
+
+        try {
+            if (isVideo && !url.contains("|")) {
+                Glide.with(this).asBitmap().load(url).apply(o).frame(1_000_000).into(iv);
+            } else {
+                Glide.with(this).load(display).apply(o).into(iv);
+            }
+        } catch (Exception e) { resetBox(i); }
+
         allCheckViews.get(i).setVisibility(View.GONE);
     }
 
@@ -442,19 +468,28 @@ public class MediaUploadActivity extends BaseActivity {
     private void queueDelete(String x) { pendingDeletes.add(x); persistPendingDeletes(); }
     private void persistPendingDeletes() { getSharedPreferences("media_ops", MODE_PRIVATE).edit().putString("del_" + clientId, TextUtils.join("||", pendingDeletes)).apply(); }
     private void flushPendingDeletesIfAny() {
-        String raw = getSharedPreferences("media_ops", MODE_PRIVATE).getString("del_" + clientId, "");
+        SharedPreferences prefs = getSharedPreferences("media_ops", MODE_PRIVATE);
+        String raw = prefs.getString("del_" + clientId, "");
         if (raw.isEmpty()) return;
-        List<String> list = Arrays.asList(raw.split("\\|\\|"));
-        ioPool.execute(() -> {
-            Deque<String> still = new ArrayDeque<>();
-            for (String u : list) {
-                final boolean[] done = { false };
-                supabase.deleteMedia(u, clientId, ok -> { done[0] = true; if (!ok) still.add(u); });
-                long t = System.currentTimeMillis();
-                while (!done[0] && System.currentTimeMillis() - t < 8000) try { Thread.sleep(120); } catch (Exception ignored) {}
-            }
-            pendingDeletes.clear(); pendingDeletes.addAll(still); persistPendingDeletes();
-        });
+
+        List<String> list = new ArrayList<>(Arrays.asList(raw.split("\\|\\|")));
+        pendingDeletes.clear();
+        pendingDeletes.addAll(list);
+
+        Log.d(TAG, "Flushing " + list.size() + " pending deletes");
+
+        for (String u : new ArrayList<>(list)) {
+            supabase.deleteMedia(u, clientId, ok -> {
+                if (ok) {
+                    pendingDeletes.remove(u);
+                    Log.d(TAG, "Pending delete success: " + u);
+                } else {
+                    Log.w(TAG, "Pending delete failed again, will retry next launch: " + u);
+                }
+                // har callback ke baad persist karo — jo delete hua wo list se hata
+                persistPendingDeletes();
+            });
+        }
     }
 
     private File copyFile(Uri uri, String ext, int idx) throws Exception {
