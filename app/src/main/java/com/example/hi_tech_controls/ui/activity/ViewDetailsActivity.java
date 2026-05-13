@@ -160,9 +160,12 @@ public class ViewDetailsActivity extends BaseActivity {
 
         swipeRefreshLayout.setOnRefreshListener(() -> {
             Log.d(TAG, "Pull-to-refresh triggered");
-            resetPagination();
-            searchField.setText("");
-            loadRecentClients();
+            if (searchField.getText().toString().isEmpty()) {
+                resetPagination();
+                loadRecentClients();
+            } else {
+                searchField.setText(""); // This will trigger the listener to load recents
+            }
         });
     }
 
@@ -212,7 +215,7 @@ public class ViewDetailsActivity extends BaseActivity {
                 .limit(5);
 
         query.get()
-                .addOnSuccessListener(this::handleClientBatch)
+                .addOnSuccessListener(snapshot -> handleClientBatch(snapshot, true))
                 .addOnFailureListener(e -> {
                     Log.e(TAG, "loadRecentClients failed", e);
                     adapter.hideShimmer(new ArrayList<>());
@@ -243,7 +246,7 @@ public class ViewDetailsActivity extends BaseActivity {
                 .limit(10);
 
         query.get()
-                .addOnSuccessListener(this::handleClientBatch)
+                .addOnSuccessListener(snapshot -> handleClientBatch(snapshot, false))
                 .addOnFailureListener(e -> {
                     Log.e(TAG, "loadMoreClients failed", e);
                     footerProgress.setVisibility(View.GONE);
@@ -255,9 +258,6 @@ public class ViewDetailsActivity extends BaseActivity {
     // ---------------------------
     // Batch handler (common for initial and load more)
     // ---------------------------
-    private void handleClientBatch(QuerySnapshot querySnapshot) {
-        handleClientBatch(querySnapshot, lastVisible == null);
-    }
 
     private void handleClientBatch(QuerySnapshot querySnapshot, boolean clearOld) {
         Log.d(TAG, "handleClientBatch called. clearOld=" + clearOld + " snapshotEmpty=" + (querySnapshot == null || querySnapshot.isEmpty()));

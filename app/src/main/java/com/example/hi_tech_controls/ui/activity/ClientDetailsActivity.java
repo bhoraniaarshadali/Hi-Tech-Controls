@@ -970,6 +970,15 @@ public class ClientDetailsActivity extends BaseActivity {
 
         batch.set(fillFourRef, fillFourData, SetOptions.merge());
 
+        // Update root document for list summary
+        DocumentReference rootRef = db.collection("hi_tech_controls_dataset_JUNE").document(clientId);
+        Map<String, Object> rootData = new HashMap<>();
+        rootData.put("name", client.name);
+        rootData.put("gp_date", client.gp_date);
+        rootData.put("make_name", client.make_name);
+        rootData.put("lastUpdated", System.currentTimeMillis());
+        batch.set(rootRef, rootData, SetOptions.merge());
+
         // Commit the batch
         batch.commit().addOnSuccessListener(aVoid -> {
             long firestoreEndTime = System.currentTimeMillis();

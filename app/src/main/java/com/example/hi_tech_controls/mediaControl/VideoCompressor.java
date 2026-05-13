@@ -13,7 +13,7 @@ import com.otaliastudios.transcoder.resize.AtMostResizer;
 import java.io.File;
 import java.util.concurrent.Future;
 
-public class VideoCompressor {
+public class  VideoCompressor {
 
     private static final String TAG = "VideoCompressor";
     private Future<?> transcodeFuture;
