@@ -1,0 +1,198 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+
+    <!-- Spoke 1: 0 degrees -->
+    <group android:pivotX="24" android:pivotY="24" android:rotation="0">
+        <path
+            android:pathData="M24,5.5 L24,14.5"
+            android:strokeColor="#000000"
+            android:strokeWidth="5.5"
+            android:strokeLineCap="round"
+            android:strokeAlpha="1.0" />
+        <path
+            android:pathData="M24,6 L24,14"
+            android:strokeColor="#FFFFFF"
+            android:strokeWidth="3.5"
+            android:strokeLineCap="round"
+            android:strokeAlpha="1.0" />
+    </group>
+
+    <!-- Spoke 2: 30 degrees -->
+    <group android:pivotX="24" android:pivotY="24" android:rotation="30">
+        <path
+            android:pathData="M24,5.5 L24,14.5"
+            android:strokeColor="#000000"
+            android:strokeWidth="5.5"
+            android:strokeLineCap="round"
+            android:strokeAlpha="0.08" />
+        <path
+            android:pathData="M24,6 L24,14"
+            android:strokeColor="#FFFFFF"
+            android:strokeWidth="3.5"
+            android:strokeLineCap="round"
+            android:strokeAlpha="0.08" />
+    </group>
+
+    <!-- Spoke 3: 60 degrees -->
+    <group android:pivotX="24" android:pivotY="24" android:rotation="60">
+        <path
+            android:pathData="M24,5.5 L24,14.5"
+            android:strokeColor="#000000"
+            android:strokeWidth="5.5"
+            android:strokeLineCap="round"
+            android:strokeAlpha="0.17" />
+        <path
+            android:pathData="M24,6 L24,14"
+            android:strokeColor="#FFFFFF"
+            android:strokeWidth="3.5"
+            android:strokeLineCap="round"
+            android:strokeAlpha="0.17" />
+    </group>
+
+    <!-- Spoke 4: 90 degrees -->
+    <group android:pivotX="24" android:pivotY="24" android:rotation="90">
+        <path
+            android:pathData="M24,5.5 L24,14.5"
+            android:strokeColor="#000000"
+            android:strokeWidth="5.5"
+            android:strokeLineCap="round"
+            android:strokeAlpha="0.25" />
+        <path
+            android:pathData="M24,6 L24,14"
+            android:strokeColor="#FFFFFF"
+            android:strokeWidth="3.5"
+            android:strokeLineCap="round"
+            android:strokeAlpha="0.25" />
+    </group>
+
+    <!-- Spoke 5: 120 degrees -->
+    <group android:pivotX="24" android:pivotY="24" android:rotation="120">
+        <path
+            android:pathData="M24,5.5 L24,14.5"
+            android:strokeColor="#000000"
+            android:strokeWidth="5.5"
+            android:strokeLineCap="round"
+            android:strokeAlpha="0.33" />
+        <path
+            android:pathData="M24,6 L24,14"
+            android:strokeColor="#FFFFFF"
+            android:strokeWidth="3.5"
+            android:strokeLineCap="round"
+            android:strokeAlpha="0.33" />
+    </group>
+
+    <!-- Spoke 6: 150 degrees -->
+    <group android:pivotX="24" android:pivotY="24" android:rotation="150">
+        <path
+            android:pathData="M24,5.5 L24,14.5"
+            android:strokeColor="#000000"
+            android:strokeWidth="5.5"
+            android:strokeLineCap="round"
+            android:strokeAlpha="0.42" />
+        <path
+            android:pathData="M24,6 L24,14"
+            android:strokeColor="#FFFFFF"
+            android:strokeWidth="3.5"
+            android:strokeLineCap="round"
+            android:strokeAlpha="0.42" />
+    </group>
+
+    <!-- Spoke 7: 180 degrees -->
+    <group android:pivotX="24" android:pivotY="24" android:rotation="180">
+        <path
+            android:pathData="M24,5.5 L24,14.5"
+            android:strokeColor="#000000"
+            android:strokeWidth="5.5"
+            android:strokeLineCap="round"
+            android:strokeAlpha="0.50" />
+        <path
+            android:pathData="M24,6 L24,14"
+            android:strokeColor="#FFFFFF"
+            android:strokeWidth="3.5"
+            android:strokeLineCap="round"
+            android:strokeAlpha="0.50" />
+    </group>
+
+    <!-- Spoke 8: 210 degrees -->
+    <group android:pivotX="24" android:pivotY="24" android:rotation="210">
+        <path
+            android:pathData="M24,5.5 L24,14.5"
+            android:strokeColor="#000000"
+            android:strokeWidth="5.5"
+            android:strokeLineCap="round"
+            android:strokeAlpha="0.58" />
+        <path
+            android:pathData="M24,6 L24,14"
+            android:strokeColor="#FFFFFF"
+            android:strokeWidth="3.5"
+            android:strokeLineCap="round"
+            android:strokeAlpha="0.58" />
+    </group>
+
+    <!-- Spoke 9: 240 degrees -->
+    <group android:pivotX="24" android:pivotY="24" android:rotation="240">
+        <path
+            android:pathData="M24,5.5 L24,14.5"
+            android:strokeColor="#000000"
+            android:strokeWidth="5.5"
+            android:strokeLineCap="round"
+            android:strokeAlpha="0.67" />
+        <path
+            android:pathData="M24,6 L24,14"
+            android:strokeColor="#FFFFFF"
+            android:strokeWidth="3.5"
+            android:strokeLineCap="round"
+            android:strokeAlpha="0.67" />
+    </group>
+
+    <!-- Spoke 10: 270 degrees -->
+    <group android:pivotX="24" android:pivotY="24" android:rotation="270">
+        <path
+            android:pathData="M24,5.5 L24,14.5"
+            android:strokeColor="#000000"
+            android:strokeWidth="5.5"
+            android:strokeLineCap="round"
+            android:strokeAlpha="0.75" />
+        <path
+            android:pathData="M24,6 L24,14"
+            android:strokeColor="#FFFFFF"
+            android:strokeWidth="3.5"
+            android:strokeLineCap="round"
+            android:strokeAlpha="0.75" />
+    </group>
+
+    <!-- Spoke 11: 300 degrees -->
+    <group android:pivotX="24" android:pivotY="24" android:rotation="300">
+        <path
+            android:pathData="M24,5.5 L24,14.5"
+            android:strokeColor="#000000"
+            android:strokeWidth="5.5"
+            android:strokeLineCap="round"
+            android:strokeAlpha="0.83" />
+        <path
+            android:pathData="M24,6 L24,14"
+            android:strokeColor="#FFFFFF"
+            android:strokeWidth="3.5"
+            android:strokeLineCap="round"
+            android:strokeAlpha="0.83" />
+    </group>
+
+    <!-- Spoke 12: 330 degrees -->
+    <group android:pivotX="24" android:pivotY="24" android:rotation="330">
+        <path
+            android:pathData="M24,5.5 L24,14.5"
+            android:strokeColor="#000000"
+            android:strokeWidth="5.5"
+            android:strokeLineCap="round"
+            android:strokeAlpha="0.92" />
+        <path
+            android:pathData="M24,6 L24,14"
+            android:strokeColor="#FFFFFF"
+            android:strokeWidth="3.5"
+            android:strokeLineCap="round"
+            android:strokeAlpha="0.92" />
+    </group>
+</vector>

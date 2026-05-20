@@ -41,6 +41,7 @@ import java.util.Objects;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import com.example.hi_tech_controls.helper.FirestoreUtils;
+import com.example.hi_tech_controls.helper.LoadingDialog;
 
 public class ClientDetailsActivity extends BaseActivity {
 
@@ -78,7 +79,6 @@ public class ClientDetailsActivity extends BaseActivity {
     private EditText etDcDisp, etDcMet, etOutDisp, etOutMet;
     private EditText etRH, etReplay, etFan, etBody, etIO, etClean, etParam;
     // private android.app.ProgressDialog progressDialog;
-    private SweetAlertDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -1126,22 +1126,13 @@ public class ClientDetailsActivity extends BaseActivity {
 
     private void showProgressDialog(String title, String message) {
         runOnUiThread(() -> {
-            if (progressDialog != null && progressDialog.isShowing()) {
-                progressDialog.dismiss();
-            }
-            progressDialog = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
-            progressDialog.setTitleText(title);
-            progressDialog.setContentText(message);
-            progressDialog.setCancelable(false);
-            progressDialog.show();
+            LoadingDialog.getInstance().show(this);
         });
     }
 
     private void dismissProgressDialog() {
         runOnUiThread(() -> {
-            if (progressDialog != null && progressDialog.isShowing()) {
-                progressDialog.dismiss();
-            }
+            LoadingDialog.getInstance().dismiss();
         });
     }
 
@@ -1181,6 +1172,12 @@ public class ClientDetailsActivity extends BaseActivity {
                 Toast.makeText(this, "Storage permission required for PDF download", Toast.LENGTH_LONG).show();
             }
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        LoadingDialog.getInstance().dismiss();
+        super.onDestroy();
     }
 
     @Override

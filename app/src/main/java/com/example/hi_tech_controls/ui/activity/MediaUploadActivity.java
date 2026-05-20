@@ -9,6 +9,8 @@ import android.graphics.Bitmap;
 import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
@@ -17,6 +19,11 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.RelativeLayout;
+import android.widget.SeekBar;
+
+import android.app.Dialog;
+import android.widget.VideoView;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.activity.result.ActivityResultLauncher;
@@ -28,6 +35,7 @@ import androidx.core.content.FileProvider;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.example.hi_tech_controls.R;
 import com.example.hi_tech_controls.mediaControl.VideoCompressor;
 import com.example.hi_tech_controls.mediaControl.WebPCompressor;
@@ -62,11 +70,10 @@ public class MediaUploadActivity extends BaseActivity {
     private final List<ImageView> allImageViews = new ArrayList<>();
     private final List<ImageView> allCheckViews = new ArrayList<>();
     private final List<ImageView> allDeleteButtons = new ArrayList<>();
-    private final List<CircularProgressIndicator> allProgressCircles = new ArrayList<>();
+    private final List<ProgressBar> allProgressCircles = new ArrayList<>();
     private final List<Uri> mediaUris = new ArrayList<>();
     private final List<String> uploadedUrls = new ArrayList<>();
     private final List<String> fullMediaUrls = new ArrayList<>();
-    private final List<Boolean> mediaLoaded = new ArrayList<>();
     private final List<ImageView> allPlayIcons = new ArrayList<>();
 
     private final ExecutorService ioPool = Executors.newFixedThreadPool(4);
@@ -85,6 +92,16 @@ public class MediaUploadActivity extends BaseActivity {
             if (uri != null) handleMedia(currentCaptureIndex, uri);
         }
         currentCaptureIndex = -1;
+            }
+    );
+
+    private final ActivityResultLauncher<String> galleryLauncher = registerForActivityResult(
+            new ActivityResultContracts.GetContent(),
+            uri -> {
+                if (uri != null && currentCaptureIndex != -1) {
+                    handleMedia(currentCaptureIndex, uri);
+                }
+                currentCaptureIndex = -1;
             }
     );
 
@@ -182,7 +199,7 @@ public class MediaUploadActivity extends BaseActivity {
             View box = findViewById(ids[i]);
             ImageView iv = box.findViewById(R.id.boxImage);
             ImageView check = box.findViewById(R.id.checkMark);
-            CircularProgressIndicator p = box.findViewById(R.id.progressCircle);
+            ProgressBar p = box.findViewById(R.id.progressCircle);
             ImageView play = box.findViewById(R.id.playIcon);
 
             int idx = i;
@@ -195,7 +212,6 @@ public class MediaUploadActivity extends BaseActivity {
             allPlayIcons.add(play);
             fullMediaUrls.add(null);
             mediaUris.add(null);
-            mediaLoaded.add(false);
             allDeleteButtons.add(box.findViewById(R.id.deleteBtn));
         }
     }
@@ -236,11 +252,7 @@ public class MediaUploadActivity extends BaseActivity {
     private void handleClick(int i) {
         String url = fullMediaUrls.get(i);
         if (url == null) { openPicker(i); return; }
-        if (mediaLoaded.get(i)) { openMedia(url); return; }
-        CircularProgressIndicator p = allProgressCircles.get(i);
-        p.setVisibility(View.VISIBLE);
-        String actualUrl = url.contains("|") ? url.split("\\|")[0] : url;
-        safeRunOnUiThread(() -> { p.setVisibility(View.GONE); mediaLoaded.set(i, true); openMedia(actualUrl); });
+        openMedia(url);
     }
 
     private void deleteMedia(int index) {
@@ -250,7 +262,7 @@ public class MediaUploadActivity extends BaseActivity {
             fullMediaUrls.set(index, null);
             syncUploadedUrlsWithFullMediaUrls();
             resetBox(index);
-            CircularProgressIndicator p = allProgressCircles.get(index);
+            ProgressBar p = allProgressCircles.get(index);
             p.setVisibility(View.VISIBLE); p.setProgress(50);
             supabase.deleteMedia(url, clientId, ok -> {
                 if (!ok) queueDelete(url);
@@ -264,23 +276,56 @@ public class MediaUploadActivity extends BaseActivity {
 
     private void openPicker(int i) {
         if (!checkPerm()) return;
-        Intent cam = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+        BottomSheetDialog dialog = new BottomSheetDialog(this);
+        dialog.setContentView(R.layout.dialog_media_chooser);
+
+        dialog.findViewById(R.id.btnCameraPhoto).setOnClickListener(v -> {
+            dialog.dismiss();
+            launchCameraPhoto(i);
+        });
+
+        dialog.findViewById(R.id.btnCameraVideo).setOnClickListener(v -> {
+            dialog.dismiss();
+            launchCameraVideo(i);
+        });
+
+        dialog.findViewById(R.id.btnGalleryPhoto).setOnClickListener(v -> {
+            dialog.dismiss();
+            currentCaptureIndex = i;
+            galleryLauncher.launch("image/*");
+        });
+
+        dialog.findViewById(R.id.btnGalleryVideo).setOnClickListener(v -> {
+            dialog.dismiss();
+            currentCaptureIndex = i;
+            galleryLauncher.launch("video/*");
+        });
+
+        dialog.show();
+    }
+
+    private void launchCameraPhoto(int i) {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         File f = createFile(i);
         Uri u = FileProvider.getUriForFile(this, getPackageName() + ".provider", f);
         mediaUris.set(i, u);
-        cam.putExtra(MediaStore.EXTRA_OUTPUT, u);
-        Intent vid = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
-        vid.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 0); // 0 = Low quality (faster)
-        vid.putExtra(MediaStore.EXTRA_DURATION_LIMIT, 90); // 90 seconds limit
-        Intent chooser = Intent.createChooser(cam, "Capture");
-        chooser.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[] { vid });
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, u);
         currentCaptureIndex = i;
-        captureLauncher.launch(chooser);
+        captureLauncher.launch(intent);
+    }
+
+    private void launchCameraVideo(int i) {
+        Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+        intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 0); // 0 = Low quality (faster)
+        intent.putExtra(MediaStore.EXTRA_DURATION_LIMIT, 90); // 90 seconds limit
+        currentCaptureIndex = i;
+        captureLauncher.launch(intent);
     }
 
     private void handleMedia(int i, Uri uri) {
         ImageView iv = allImageViews.get(i);
-        CircularProgressIndicator p = allProgressCircles.get(i);
+        ProgressBar p = allProgressCircles.get(i);
         Glide.with(this).load(uri).thumbnail(0.2f).centerCrop().into(iv);
         p.setVisibility(View.VISIBLE); p.setProgress(5);
         if (wakeLock != null && !wakeLock.isHeld()) wakeLock.acquire(10 * 60 * 1000L);
@@ -288,8 +333,7 @@ public class MediaUploadActivity extends BaseActivity {
 
         ioPool.execute(() -> {
             try {
-                String type = getContentResolver().getType(uri);
-                boolean isVideo = (type != null && type.startsWith("video/")) || uri.toString().contains("video");
+                boolean isVideo = isVideoUri(uri);
                 if (isVideo) {
                     File outFile = new File(getExternalFilesDir(null), "vid_c_" + System.currentTimeMillis() + "_" + i + ".mp4");
                     safeRunOnUiThread(() -> { p.setIndeterminate(true); Toast.makeText(this, "Compressing...", Toast.LENGTH_SHORT).show(); });
@@ -325,7 +369,7 @@ public class MediaUploadActivity extends BaseActivity {
         finally { try { retriever.release(); } catch (Exception ignored) {} }
     }
 
-    private void upload(File file, int i, CircularProgressIndicator p) {
+    private void upload(File file, int i, ProgressBar p) {
         boolean isVideo = file.getName().toLowerCase().endsWith(".mp4");
         if (isVideo) {
             Bitmap thumbBmp = extractFrame(file);
@@ -334,15 +378,29 @@ public class MediaUploadActivity extends BaseActivity {
                     File thumbFile = WebPCompressor.compressBitmapToWebP(this, thumbBmp, 70, "THUMB");
                     supabase.uploadMedia(thumbFile, clientId, new SupabaseClient.UploadCallback() {
                         @Override public void onSuccess(String tUrl) {
+                            if (thumbFile.exists()) thumbFile.delete();
                             supabase.uploadMedia(file, clientId, new SupabaseClient.UploadCallback() {
-                                @Override public void onSuccess(String vUrl) { handleUploadSuccess(vUrl + "|" + tUrl, i, p); }
-                                @Override public void onError(String e) { handleUploadError(e, p); }
+                                @Override public void onSuccess(String vUrl) {
+                                    if (file.exists()) file.delete();
+                                    handleUploadSuccess(vUrl + "|" + tUrl, i, p);
+                                }
+                                @Override public void onError(String e) {
+                                    if (file.exists()) file.delete();
+                                    handleUploadError(e, p);
+                                }
                             });
                         }
                         @Override public void onError(String e) {
+                            if (thumbFile.exists()) thumbFile.delete();
                             supabase.uploadMedia(file, clientId, new SupabaseClient.UploadCallback() {
-                                @Override public void onSuccess(String vUrl) { handleUploadSuccess(vUrl, i, p); }
-                                @Override public void onError(String e) { handleUploadError(e, p); }
+                                @Override public void onSuccess(String vUrl) {
+                                    if (file.exists()) file.delete();
+                                    handleUploadSuccess(vUrl, i, p);
+                                }
+                                @Override public void onError(String e) {
+                                    if (file.exists()) file.delete();
+                                    handleUploadError(e, p);
+                                }
                             });
                         }
                     });
@@ -362,7 +420,7 @@ public class MediaUploadActivity extends BaseActivity {
         });
     }
 
-    private void handleUploadSuccess(String combined, int i, CircularProgressIndicator p) {
+    private void handleUploadSuccess(String combined, int i, ProgressBar p) {
         safeRunOnUiThread(() -> {
             p.setProgress(100); p.setVisibility(View.GONE);
             fullMediaUrls.set(i, combined);
@@ -373,13 +431,13 @@ public class MediaUploadActivity extends BaseActivity {
         });
     }
 
-    private void handleUploadError(String err, CircularProgressIndicator p) {
+    private void handleUploadError(String err, ProgressBar p) {
         safeRunOnUiThread(() -> { p.setVisibility(View.GONE); checkReleaseWakeLock(); activeTasks.decrementAndGet(); Toast.makeText(this, "Fail: " + err, Toast.LENGTH_SHORT).show(); });
     }
 
     private void checkReleaseWakeLock() {
         boolean any = false;
-        for (CircularProgressIndicator cp : allProgressCircles) if (cp.getVisibility() == View.VISIBLE) { any = true; break; }
+        for (ProgressBar cp : allProgressCircles) if (cp.getVisibility() == View.VISIBLE) { any = true; break; }
         if (!any && wakeLock != null && wakeLock.isHeld()) wakeLock.release();
     }
 
@@ -391,8 +449,17 @@ public class MediaUploadActivity extends BaseActivity {
     private void loadExistingMedia() {
         showPageProgress(true);
         db.collection("hi_tech_controls_dataset_JUNE").document(clientId).collection("pages").document("storage").get()
-            .addOnSuccessListener(d -> new android.os.Handler(android.os.Looper.getMainLooper()).postDelayed(() -> { showPageProgress(false); processMediaResults(d); }, 800))
-            .addOnFailureListener(e -> new android.os.Handler(android.os.Looper.getMainLooper()).postDelayed(() -> showPageProgress(false), 800));
+            .addOnSuccessListener(d -> {
+                if (!isDestroyed && !isFinishing()) {
+                    showPageProgress(false);
+                    processMediaResults(d);
+                }
+            })
+            .addOnFailureListener(e -> {
+                if (!isDestroyed && !isFinishing()) {
+                    showPageProgress(false);
+                }
+            });
     }
 
     private void processMediaResults(com.google.firebase.firestore.DocumentSnapshot d) {
@@ -412,7 +479,7 @@ public class MediaUploadActivity extends BaseActivity {
                 }
             }
             updateEditIconVisibility();
-        } else { for (int i = 0; i < MAX_BOXES; i++) { fullMediaUrls.add(null); resetBox(i); } }
+        } else { for (int i = 0; i < MAX_BOXES; i++) { fullMediaUrls.set(i, null); resetBox(i); } }
     }
 
     private void displayThumb(int i, String url) {
@@ -420,6 +487,18 @@ public class MediaUploadActivity extends BaseActivity {
 
         ImageView iv = allImageViews.get(i);
         ImageView play = allPlayIcons.get(i);
+        ProgressBar progress = allProgressCircles.get(i);
+
+        // Clear any previous glide loads and reset default state
+        try { Glide.with(this).clear(iv); } catch (Exception ignored) {}
+        iv.setImageDrawable(null);
+        play.setVisibility(View.GONE);
+        allCheckViews.get(i).setVisibility(View.GONE);
+        allDeleteButtons.get(i).setVisibility(View.GONE);
+
+        // Show the loader spinner
+        progress.setVisibility(View.VISIBLE);
+        progress.setIndeterminate(true);
 
         // ✅ Check base URL only (before query params / pipe separator)
         String baseUrl = url.contains("|") ? url.split("\\|")[0] : url;
@@ -427,25 +506,68 @@ public class MediaUploadActivity extends BaseActivity {
         boolean isVideo = cleanBase.toLowerCase().endsWith(".mp4")
                 || cleanBase.toLowerCase().contains("/video/");
 
-        play.setVisibility(isVideo ? View.VISIBLE : View.GONE);
-
         String display = url.contains("|") ? url.split("\\|")[1] : url;
 
         RequestOptions o = new RequestOptions()
                 .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
-                .placeholder(R.drawable.imageview)
                 .override(220, 220)
                 .centerCrop();
 
         try {
             if (isVideo && !url.contains("|")) {
-                Glide.with(this).asBitmap().load(url).apply(o).frame(1_000_000).into(iv);
+                Glide.with(this)
+                     .asBitmap()
+                     .load(url)
+                     .apply(o)
+                     .frame(1_000_000)
+                     .listener(new com.bumptech.glide.request.RequestListener<Bitmap>() {
+                         @Override
+                         public boolean onLoadFailed(com.bumptech.glide.load.engine.GlideException e, Object model, com.bumptech.glide.request.target.Target<Bitmap> target, boolean isFirstResource) {
+                             safeRunOnUiThread(() -> {
+                                 progress.setVisibility(View.GONE);
+                                 iv.setImageResource(R.drawable.imageview);
+                             });
+                             return false;
+                         }
+
+                         @Override
+                         public boolean onResourceReady(Bitmap resource, Object model, com.bumptech.glide.request.target.Target<Bitmap> target, com.bumptech.glide.load.DataSource dataSource, boolean isFirstResource) {
+                             safeRunOnUiThread(() -> {
+                                 progress.setVisibility(View.GONE);
+                                 play.setVisibility(View.VISIBLE);
+                             });
+                             return false;
+                         }
+                     })
+                     .into(iv);
             } else {
-                Glide.with(this).load(display).apply(o).into(iv);
+                Glide.with(this)
+                     .load(display)
+                     .apply(o)
+                     .listener(new com.bumptech.glide.request.RequestListener<android.graphics.drawable.Drawable>() {
+                         @Override
+                         public boolean onLoadFailed(com.bumptech.glide.load.engine.GlideException e, Object model, com.bumptech.glide.request.target.Target<android.graphics.drawable.Drawable> target, boolean isFirstResource) {
+                             safeRunOnUiThread(() -> {
+                                 progress.setVisibility(View.GONE);
+                                 iv.setImageResource(R.drawable.imageview);
+                             });
+                             return false;
+                         }
+
+                         @Override
+                         public boolean onResourceReady(android.graphics.drawable.Drawable resource, Object model, com.bumptech.glide.request.target.Target<android.graphics.drawable.Drawable> target, com.bumptech.glide.load.DataSource dataSource, boolean isFirstResource) {
+                             safeRunOnUiThread(() -> {
+                                 progress.setVisibility(View.GONE);
+                                 if (isVideo) {
+                                     play.setVisibility(View.VISIBLE);
+                                 }
+                             });
+                             return false;
+                         }
+                     })
+                     .into(iv);
             }
         } catch (Exception e) { resetBox(i); }
-
-        allCheckViews.get(i).setVisibility(View.GONE);
     }
 
     private void saveUrlsToFirestoreBatched(Runnable done) {
@@ -457,13 +579,240 @@ public class MediaUploadActivity extends BaseActivity {
     }
 
     private void openMedia(String url) {
-        if (url == null) return;
-        boolean isVideo = url.toLowerCase().contains(".mp4");
-        if (isVideo) Toast.makeText(this, "Opening Video...", Toast.LENGTH_SHORT).show();
+        if (url == null || url.isEmpty()) return;
+
+        // Clean the URL if it contains pipe separator
+        String actualUrl = url.contains("|") ? url.split("\\|")[0] : url;
+        
+        // Check if video
+        String cleanUrl = actualUrl.contains("?") ? actualUrl.substring(0, actualUrl.indexOf("?")) : actualUrl;
+        boolean isVideo = cleanUrl.toLowerCase().endsWith(".mp4") || cleanUrl.toLowerCase().contains("/video/");
+
+        // Show our beautiful custom dialog
+        Dialog dialog = new Dialog(this, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
+        dialog.setContentView(R.layout.dialog_media_viewer);
+
+        ImageView iv = dialog.findViewById(R.id.viewerImageView);
+        VideoView vv = dialog.findViewById(R.id.viewerVideoView);
+        ProgressBar pb = dialog.findViewById(R.id.viewerProgressBar);
+        ImageView close = dialog.findViewById(R.id.viewerClose);
+        TextView subtitle = dialog.findViewById(R.id.viewerSubtitle);
+        TextView share = dialog.findViewById(R.id.viewerShare);
+        TextView download = dialog.findViewById(R.id.viewerDownload);
+
+        subtitle.setText("Client ID: " + clientId);
+        subtitle.setPaintFlags(subtitle.getPaintFlags() | android.graphics.Paint.UNDERLINE_TEXT_FLAG);
+        close.setOnClickListener(v -> dialog.dismiss());
+
+        // Setup share click
+        share.setOnClickListener(v -> shareMedia(actualUrl, isVideo));
+
+        // Setup download click
+        String fileName = (isVideo ? "VID_" : "IMG_") + clientId + "_" + System.currentTimeMillis() + (isVideo ? ".mp4" : ".jpg");
+        download.setOnClickListener(v -> downloadFile(actualUrl, fileName));
+
+        pb.setVisibility(View.VISIBLE);
+
+        Handler handler = new Handler(Looper.getMainLooper());
+        RelativeLayout videoControlsContainer = dialog.findViewById(R.id.videoControlsContainer);
+        ImageView btnPlayPause = dialog.findViewById(R.id.btnPlayPause);
+        SeekBar videoSeekBar = dialog.findViewById(R.id.videoSeekBar);
+        TextView tvCurrentTime = dialog.findViewById(R.id.tvCurrentTime);
+        TextView tvTotalDuration = dialog.findViewById(R.id.tvTotalDuration);
+
+        Runnable updateSeekBar = new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    if (vv.isPlaying()) {
+                        int current = vv.getCurrentPosition();
+                        videoSeekBar.setProgress(current);
+                        tvCurrentTime.setText(formatTime(current));
+                        handler.postDelayed(this, 200);
+                    } else {
+                        handler.postDelayed(this, 500);
+                    }
+                } catch (Exception ignored) {}
+            }
+        };
+
+        if (isVideo) {
+            vv.setVisibility(View.VISIBLE);
+            iv.setVisibility(View.GONE);
+            
+            vv.setVideoPath(actualUrl);
+
+            vv.setOnPreparedListener(mp -> {
+                pb.setVisibility(View.GONE);
+                videoControlsContainer.setVisibility(View.VISIBLE);
+
+                int duration = vv.getDuration();
+                videoSeekBar.setMax(duration);
+                tvTotalDuration.setText(formatTime(duration));
+
+                vv.start();
+                btnPlayPause.setImageResource(R.drawable.ic_pause);
+                handler.post(updateSeekBar);
+            });
+
+            btnPlayPause.setOnClickListener(v -> {
+                if (vv.isPlaying()) {
+                    vv.pause();
+                    btnPlayPause.setImageResource(R.drawable.ic_play);
+                } else {
+                    vv.start();
+                    btnPlayPause.setImageResource(R.drawable.ic_pause);
+                    handler.post(updateSeekBar);
+                }
+            });
+
+            videoSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                @Override
+                public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                    if (fromUser) {
+                        vv.seekTo(progress);
+                        tvCurrentTime.setText(formatTime(progress));
+                    }
+                }
+                @Override public void onStartTrackingTouch(SeekBar seekBar) {}
+                @Override public void onStopTrackingTouch(SeekBar seekBar) {}
+            });
+
+            vv.setOnErrorListener((mp, what, extra) -> {
+                pb.setVisibility(View.GONE);
+                Toast.makeText(MediaUploadActivity.this, "Cannot play video in-app, launching external player...", Toast.LENGTH_SHORT).show();
+                // Fallback to external player
+                launchExternalViewer(actualUrl, true);
+                dialog.dismiss();
+                return true;
+            });
+        } else {
+            iv.setVisibility(View.VISIBLE);
+            vv.setVisibility(View.GONE);
+            videoControlsContainer.setVisibility(View.GONE);
+
+            Glide.with(this)
+                    .load(actualUrl)
+                    .listener(new com.bumptech.glide.request.RequestListener<android.graphics.drawable.Drawable>() {
+                        @Override
+                        public boolean onLoadFailed(com.bumptech.glide.load.engine.GlideException e, Object model, com.bumptech.glide.request.target.Target<android.graphics.drawable.Drawable> target, boolean isFirstResource) {
+                            pb.setVisibility(View.GONE);
+                            Toast.makeText(MediaUploadActivity.this, "Failed to load image in-app", Toast.LENGTH_SHORT).show();
+                            return false;
+                        }
+
+                        @Override
+                        public boolean onResourceReady(android.graphics.drawable.Drawable resource, Object model, com.bumptech.glide.request.target.Target<android.graphics.drawable.Drawable> target, com.bumptech.glide.load.DataSource dataSource, boolean isFirstResource) {
+                            pb.setVisibility(View.GONE);
+                            iv.post(() -> {
+                                iv.setOnTouchListener(new ZoomableTouchListener(iv));
+                            });
+                            return false;
+                        }
+                    })
+                    .into(iv);
+        }
+
+        dialog.setOnDismissListener(d -> {
+            handler.removeCallbacks(updateSeekBar);
+            try {
+                if (vv.isPlaying()) {
+                    vv.stopPlayback();
+                }
+            } catch (Exception ignored) {}
+        });
+
+        dialog.show();
+    }
+
+    private void shareMedia(String url, boolean isVideo) {
+        Toast.makeText(this, "Preparing share...", Toast.LENGTH_SHORT).show();
+        ioPool.execute(() -> {
+            try {
+                // Download file to temp cache directory
+                java.net.URL urlObj = new java.net.URL(url);
+                java.net.HttpURLConnection conn = (java.net.HttpURLConnection) urlObj.openConnection();
+                conn.connect();
+                File tempFile = new File(getCacheDir(), "SHARE_" + clientId + "_" + System.currentTimeMillis() + (isVideo ? ".mp4" : ".jpg"));
+                try (InputStream in = conn.getInputStream(); FileOutputStream out = new FileOutputStream(tempFile)) {
+                    byte[] buf = new byte[8192];
+                    int len;
+                    while ((len = in.read(buf)) != -1) {
+                        out.write(buf, 0, len);
+                    }
+                }
+                
+                // Get Uri from FileProvider
+                Uri fileUri = androidx.core.content.FileProvider.getUriForFile(
+                        this,
+                        getPackageName() + ".provider",
+                        tempFile
+                );
+                
+                safeRunOnUiThread(() -> {
+                    Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                    shareIntent.setType(isVideo ? "video/*" : "image/*");
+                    shareIntent.putExtra(Intent.EXTRA_STREAM, fileUri);
+                    shareIntent.putExtra(Intent.EXTRA_TEXT, "Client ID: " + clientId);
+                    shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                    startActivity(Intent.createChooser(shareIntent, "Share Client Media"));
+                });
+            } catch (Exception e) {
+                Log.e(TAG, "Share error", e);
+                safeRunOnUiThread(() -> Toast.makeText(this, "Failed to share: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+            }
+        });
+    }
+
+    private String formatTime(int ms) {
+        int seconds = (ms / 1000) % 60;
+        int minutes = (ms / (1000 * 60)) % 60;
+        return String.format(java.util.Locale.US, "%02d:%02d", minutes, seconds);
+    }
+
+    private void downloadFile(String url, String fileName) {
+        try {
+            android.app.DownloadManager.Request request = new android.app.DownloadManager.Request(Uri.parse(url));
+            request.setDescription("Downloading client media file...");
+            request.setTitle(fileName);
+            request.setNotificationVisibility(android.app.DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+            request.setDestinationInExternalPublicDir(android.os.Environment.DIRECTORY_DOWNLOADS, fileName);
+
+            android.app.DownloadManager manager = (android.app.DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
+            if (manager != null) {
+                manager.enqueue(request);
+                Toast.makeText(this, "Download started. Check notifications.", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Download manager not available", Toast.LENGTH_SHORT).show();
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "DownloadManager error", e);
+            Toast.makeText(this, "Failed to start download: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void launchExternalViewer(String url, boolean isVideo) {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setDataAndType(Uri.parse(url), isVideo ? "video/*" : "image/*");
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        try { startActivity(intent); } catch (Exception e) { Toast.makeText(this, "No viewer", Toast.LENGTH_SHORT).show(); }
+        try { startActivity(intent); } catch (Exception e) { Toast.makeText(this, "No viewer available", Toast.LENGTH_SHORT).show(); }
+    }
+
+    private boolean isVideoUri(Uri uri) {
+        if (uri == null) return false;
+        String type = getContentResolver().getType(uri);
+        if (type != null && type.startsWith("video/")) return true;
+        
+        String path = uri.getPath();
+        if (path != null) {
+            String lower = path.toLowerCase();
+            if (lower.endsWith(".mp4") || lower.endsWith(".mkv") || lower.endsWith(".3gp") || lower.endsWith(".mov")) {
+                return true;
+            }
+        }
+        
+        String uriStr = uri.toString().toLowerCase();
+        return uriStr.contains("video");
     }
 
     private void showPageProgress(boolean s) { pageProgress.setVisibility(s ? View.VISIBLE : View.GONE); if (s) showShimmer(); else hideShimmer(); }

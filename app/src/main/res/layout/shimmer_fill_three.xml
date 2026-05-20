@@ -1,65 +1,309 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.facebook.shimmer.ShimmerFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:shimmer_auto_start="true"
     app:shimmer_duration="1000">
 
-    <androidx.cardview.widget.CardView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        app:cardCornerRadius="10dp"
-        app:cardElevation="3dp">
+        android:orientation="vertical">
 
+        <!-- First line: Spinner loader -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5sp">
+
+            <View
+                android:layout_width="140dp"
+                android:layout_height="30dp"
+                android:layout_alignParentStart="true"
+                android:background="@drawable/shimmer_placeholder_bg" />
+
+            <View
+                android:layout_width="150dp"
+                android:layout_height="35dp"
+                android:layout_alignParentEnd="true"
+                android:background="@drawable/shimmer_placeholder_bg" />
+
+        </RelativeLayout>
+
+        <!-- Initial Check Details title -->
+        <View
+            android:layout_width="220dp"
+            android:layout_height="22dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/shimmer_placeholder_bg" />
+
+        <!-- 2x2 checklist block -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20sp">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="100sp"
+                android:background="@drawable/rectangle_check_box_big" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="10sp">
+
+                <!-- Column 1 -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <View
+                        android:layout_width="120dp"
+                        android:layout_height="30dp"
+                        android:layout_margin="5dp"
+                        android:background="@drawable/shimmer_placeholder_bg" />
+
+                    <View
+                        android:layout_width="120dp"
+                        android:layout_height="30dp"
+                        android:layout_margin="5dp"
+                        android:background="@drawable/shimmer_placeholder_bg" />
+
+                </LinearLayout>
+
+                <!-- Column 2 -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <View
+                        android:layout_width="120dp"
+                        android:layout_height="30dp"
+                        android:layout_margin="5dp"
+                        android:background="@drawable/shimmer_placeholder_bg" />
+
+                    <View
+                        android:layout_width="120dp"
+                        android:layout_height="30dp"
+                        android:layout_margin="5dp"
+                        android:background="@drawable/shimmer_placeholder_bg" />
+
+                </LinearLayout>
+            </LinearLayout>
+        </RelativeLayout>
+
+        <!-- Remarks row -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="15dp">
-
-            <!-- Title -->
-            <View
-                android:layout_width="200dp"
-                android:layout_height="20dp"
-                android:layout_gravity="center"
-                android:layout_marginBottom="16dp"
-                android:background="@drawable/shimmer_placeholder_bg" />
-
-            <include layout="@layout/shimmer_item_row" />
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
 
             <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginBottom="12dp"
-                android:background="#EEEEEE" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="20dp"
-                android:layout_marginBottom="10dp"
+                android:layout_width="100dp"
+                android:layout_height="24dp"
                 android:background="@drawable/shimmer_placeholder_bg" />
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_marginBottom="16dp"
-                android:background="@drawable/shimmer_placeholder_bg" />
-
-            <include layout="@layout/shimmer_item_row" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="20dp"
-                android:layout_marginBottom="10dp"
-                android:background="@drawable/shimmer_placeholder_bg" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="78sp"
+                android:layout_marginStart="10dp"
                 android:background="@drawable/shimmer_placeholder_bg" />
 
         </LinearLayout>
-    </androidx.cardview.widget.CardView>
+
+        <!-- Repairs Details title -->
+        <View
+            android:layout_width="180dp"
+            android:layout_height="22dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/shimmer_placeholder_bg" />
+
+        <!-- Repair: label -->
+        <View
+            android:layout_width="90dp"
+            android:layout_height="20dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/shimmer_placeholder_bg" />
+
+        <!-- Repair checklist block (3 columns x 2 rows) -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="100sp"
+                android:background="@drawable/rectangle_checkbox" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="8sp"
+                android:gravity="center">
+
+                <!-- Col 1 -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    <View android:layout_width="80dp" android:layout_height="30dp" android:layout_margin="5dp" android:background="@drawable/shimmer_placeholder_bg" />
+                    <View android:layout_width="80dp" android:layout_height="30dp" android:layout_margin="5dp" android:background="@drawable/shimmer_placeholder_bg" />
+                </LinearLayout>
+
+                <!-- Col 2 -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    <View android:layout_width="80dp" android:layout_height="30dp" android:layout_margin="5dp" android:background="@drawable/shimmer_placeholder_bg" />
+                    <View android:layout_width="80dp" android:layout_height="30dp" android:layout_margin="5dp" android:background="@drawable/shimmer_placeholder_bg" />
+                </LinearLayout>
+
+                <!-- Col 3 -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    <View android:layout_width="80dp" android:layout_height="30dp" android:layout_margin="5dp" android:background="@drawable/shimmer_placeholder_bg" />
+                    <View android:layout_width="80dp" android:layout_height="30dp" android:layout_margin="5dp" android:background="@drawable/shimmer_placeholder_bg" />
+                </LinearLayout>
+
+            </LinearLayout>
+        </RelativeLayout>
+
+        <!-- Replace: label -->
+        <View
+            android:layout_width="95dp"
+            android:layout_height="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/shimmer_placeholder_bg" />
+
+        <!-- Replace checklist block (3 columns x 3 rows) -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="160sp"
+                android:background="@drawable/rectangle_checkbox" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="8sp"
+                android:gravity="center">
+
+                <!-- Col 1 -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    <View android:layout_width="80dp" android:layout_height="30dp" android:layout_margin="5dp" android:background="@drawable/shimmer_placeholder_bg" />
+                    <View android:layout_width="80dp" android:layout_height="30dp" android:layout_margin="5dp" android:background="@drawable/shimmer_placeholder_bg" />
+                    <View android:layout_width="80dp" android:layout_height="30dp" android:layout_margin="5dp" android:background="@drawable/shimmer_placeholder_bg" />
+                </LinearLayout>
+
+                <!-- Col 2 -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    <View android:layout_width="80dp" android:layout_height="30dp" android:layout_margin="5dp" android:background="@drawable/shimmer_placeholder_bg" />
+                    <View android:layout_width="80dp" android:layout_height="30dp" android:layout_margin="5dp" android:background="@drawable/shimmer_placeholder_bg" />
+                    <View android:layout_width="80dp" android:layout_height="30dp" android:layout_margin="5dp" android:background="@drawable/shimmer_placeholder_bg" />
+                </LinearLayout>
+
+                <!-- Col 3 -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    <View android:layout_width="80dp" android:layout_height="30dp" android:layout_margin="5dp" android:background="@drawable/shimmer_placeholder_bg" />
+                    <View android:layout_width="80dp" android:layout_height="30dp" android:layout_margin="5dp" android:background="@drawable/shimmer_placeholder_bg" />
+                    <View android:layout_width="80dp" android:layout_height="30dp" android:layout_margin="5dp" android:background="@drawable/shimmer_placeholder_bg" />
+                </LinearLayout>
+
+            </LinearLayout>
+        </RelativeLayout>
+
+        <!-- Trial Check header -->
+        <View
+            android:layout_width="140dp"
+            android:layout_height="22dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/shimmer_placeholder_bg" />
+
+        <!-- Trial Checkboxes Row -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp">
+
+            <View
+                android:layout_width="100dp"
+                android:layout_height="36dp"
+                android:layout_alignParentStart="true"
+                android:background="@drawable/shimmer_placeholder_bg" />
+
+            <View
+                android:layout_width="100dp"
+                android:layout_height="36dp"
+                android:layout_alignParentEnd="true"
+                android:background="@drawable/shimmer_placeholder_bg" />
+
+        </RelativeLayout>
+
+        <!-- Days selector -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <View
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/shimmer_placeholder_bg" />
+
+            <View
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="10dp"
+                android:background="@drawable/shimmer_placeholder_bg" />
+
+            <View
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="10dp"
+                android:background="@drawable/shimmer_placeholder_bg" />
+
+        </LinearLayout>
+
+    </LinearLayout>
 </com.facebook.shimmer.ShimmerFrameLayout>

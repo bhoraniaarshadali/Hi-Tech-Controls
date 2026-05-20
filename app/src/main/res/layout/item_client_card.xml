@@ -119,16 +119,31 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <!-- Right Arrow Icon -->
-            <ImageView
-                android:id="@+id/arrowIcon"
+            <!-- Right Arrow Icon Container with Loader -->
+            <FrameLayout
                 android:layout_width="40dp"
                 android:layout_height="50dp"
-                android:layout_marginStart="8dp"
-                android:backgroundTint="@color/blue"
-                android:importantForAccessibility="no"
-                android:padding="10dp"
-                android:src="@drawable/ic_arrow_right" />
+                android:layout_marginStart="8dp">
+
+                <ImageView
+                    android:id="@+id/arrowIcon"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:backgroundTint="@color/blue"
+                    android:importantForAccessibility="no"
+                    android:padding="10dp"
+                    android:src="@drawable/ic_arrow_right" />
+
+                <ProgressBar
+                    android:id="@+id/cardProgress"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center"
+                    android:indeterminate="true"
+                    android:indeterminateDrawable="@drawable/ios_loading_progress"
+                    android:indeterminateTint="@color/blue"
+                    android:visibility="gone" />
+            </FrameLayout>
         </LinearLayout>
 
     </LinearLayout>

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="75dp"
-    android:layout_height="75dp"
+    android:layout_width="92dp"
+    android:layout_height="92dp"
     android:layout_margin="8dp">
 
     <ImageView
@@ -18,43 +18,53 @@
         android:id="@+id/checkMark"
         android:layout_width="24dp"
         android:layout_height="24dp"
-        android:background="@drawable/rounded_image_bg"
+        
+
+
+
+        
+        android:background="@drawable/play_circle_bg"
         android:clipToOutline="true"
         android:layout_gravity="top|end"
-        android:layout_margin="4dp"
+        android:layout_margin="6dp"
+        android:padding="2dp"
         android:src="@drawable/ic_check_circle"
         android:visibility="gone"
-        app:tint="@color/blue" />
+        app:tint="@color/sky_blue" />
 
     <ImageView
         android:id="@+id/deleteBtn"
         android:layout_width="24dp"
         android:layout_height="24dp"
-        android:background="@drawable/rounded_image_bg"
+        android:background="@drawable/play_circle_bg"
         android:clipToOutline="true"
         android:layout_gravity="top|start"
-        android:layout_margin="4dp"
+        android:layout_margin="6dp"
+        android:padding="4dp"
         android:src="@drawable/ic_delete"
-        android:visibility="gone" />
-
-    <com.google.android.material.progressindicator.CircularProgressIndicator
-        android:id="@+id/progressCircle"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_gravity="center"
-        android:indeterminate="false"
         android:visibility="gone"
-        app:indicatorColor="@color/sky_blue"
-        app:indicatorSize="40dp"
-        app:trackThickness="4dp" />
+        app:tint="@color/white" />
+
+    <ProgressBar
+        android:id="@+id/progressCircle"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_gravity="center"
+        android:background="@drawable/play_circle_bg"
+        android:padding="8dp"
+        android:indeterminate="true"
+        android:indeterminateDrawable="@drawable/ios_loading_progress"
+        android:visibility="gone" />
 
     <ImageView
         android:id="@+id/playIcon"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_gravity="center"
+        android:background="@drawable/play_circle_bg"
+        android:padding="10dp"
         android:src="@drawable/ic_play"
         android:visibility="gone"
-        android:alpha="0.8"/>
+        app:tint="@color/white" />
 
 </FrameLayout>

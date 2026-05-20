@@ -38,15 +38,19 @@ public class LoadingDialog {
         // Cancel any pending show request to avoid multiple triggers
         if (showRunnable != null) {
             handler.removeCallbacks(showRunnable);
+            showRunnable = null;
         }
 
         // Create a runnable to show the dialog after a small delay (300ms)
-        // If hide() is called before 300ms, the loader will never flicker on screen.
+        // If hide() or dismiss() is called before 300ms, the loader will never flicker on screen.
         showRunnable = () -> {
             ProgressBar progressBar = new ProgressBar(context);
             progressBar.setIndeterminate(true);
-            progressBar.getIndeterminateDrawable()
-                    .setColorFilter(ContextCompat.getColor(context, R.color.blue), android.graphics.PorterDuff.Mode.SRC_IN);
+            LoaderHelper.applyIOSLoader(progressBar);
+            if (progressBar.getIndeterminateDrawable() != null) {
+                progressBar.getIndeterminateDrawable()
+                        .setColorFilter(ContextCompat.getColor(context, R.color.blue), android.graphics.PorterDuff.Mode.SRC_IN);
+            }
 
             AlertDialog.Builder builder = new AlertDialog.Builder(context);
             builder.setView(progressBar);
@@ -61,36 +65,38 @@ public class LoadingDialog {
             try {
                 dialog.show();
             } catch (Exception e) {
-                // Activity might be finished
+                // Activity might be finished or destroyed
+                dialog = null;
             }
         };
 
         handler.postDelayed(showRunnable, 300);
     }
 
-    public void hide() {
+    public void dismiss() {
         if (showRunnable != null) {
             handler.removeCallbacks(showRunnable);
             showRunnable = null;
         }
 
-        if (dialog != null && dialog.isShowing()) {
+        if (dialog != null) {
             try {
-                dialog.dismiss();
+                if (dialog.isShowing()) {
+                    dialog.dismiss();
+                }
             } catch (Exception ignored) {
+            } finally {
+                dialog = null;
             }
         }
     }
 
-    public boolean isShowing() {
-        return dialog != null && dialog.isShowing();
+    public void hide() {
+        dismiss();
     }
 
-    public void dismiss() {
-        if (dialog != null) {
-            dialog.dismiss();
-            dialog = null;
-        }
+    public boolean isShowing() {
+        return dialog != null && dialog.isShowing();
     }
 
     private int dpToPx(Context context, int dp) {

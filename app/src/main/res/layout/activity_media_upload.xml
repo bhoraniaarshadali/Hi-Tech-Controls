@@ -178,6 +178,9 @@
                             android:layout_height="40dp"
                             android:layout_gravity="center"
                             android:layout_marginTop="20dp"
+                            android:indeterminate="true"
+                            android:indeterminateDrawable="@drawable/ios_loading_progress"
+                            android:indeterminateTint="@color/blue"
                             android:visibility="gone" />
 
                     </LinearLayout>

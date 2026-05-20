@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F8F9FA"
+    android:orientation="vertical">
+
+    <!-- HEADER AREA (Matching client design reference) -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="#181C5C"
+        android:paddingTop="20dp">
+
+        <ImageView
+            android:id="@+id/viewerClose"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="20dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/back_btn"
+            android:contentDescription="Close viewer" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_bold"
+                android:text="Images &amp; Videos"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/viewerSubtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_regular"
+                android:text="Client ID: ----"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <!-- MEDIA PREVIEW CONTAINER (CardView layout) -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="20dp">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="6dp"
+            app:cardBackgroundColor="#8E8E93">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <!-- IMAGE VIEW -->
+                <ImageView
+                    android:id="@+id/viewerImageView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="fitCenter"
+                    android:contentDescription="Image preview"
+                    android:visibility="gone" />
+
+                <!-- VIDEO VIEW -->
+                <VideoView
+                    android:id="@+id/viewerVideoView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:visibility="gone" />
+
+                <!-- LOADING SPINNER -->
+                <ProgressBar
+                    android:id="@+id/viewerProgressBar"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="center"
+                    android:indeterminate="true"
+                    android:indeterminateDrawable="@drawable/ios_loading_progress" />
+
+                <!-- VIDEO CONTROLLER OVERLAY (Custom UI) -->
+                <RelativeLayout
+                    android:id="@+id/videoControlsContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#1A000000"
+                    android:visibility="gone">
+
+                    <!-- Floating Play/Pause Button in the Center -->
+                    <ImageView
+                        android:id="@+id/btnPlayPause"
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:layout_centerInParent="true"
+                        android:background="@drawable/play_circle_bg"
+                        android:padding="16dp"
+                        android:src="@drawable/ic_play"
+                        app:tint="#FFFFFF"
+                        android:elevation="4dp" />
+
+                    <!-- Custom Bottom Seekbar and Time Display -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_margin="16dp"
+                        android:background="#B3FFFFFF"
+                        android:padding="12dp"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:elevation="2dp">
+
+                        <TextView
+                            android:id="@+id/tvCurrentTime"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/poppins_medium"
+                            android:text="00:00"
+                            android:textColor="#333333"
+                            android:textSize="12sp" />
+
+                        <SeekBar
+                            android:id="@+id/videoSeekBar"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:max="100"
+                            android:progress="0"
+                            android:thumbTint="#181C5C"
+                            android:progressTint="#181C5C"
+                            android:progressBackgroundTint="#CCCCCC" />
+
+                        <TextView
+                            android:id="@+id/tvTotalDuration"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/poppins_medium"
+                            android:text="00:00"
+                            android:textColor="#333333"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+                </RelativeLayout>
+
+            </FrameLayout>
+        </androidx.cardview.widget.CardView>
+    </RelativeLayout>
+
+    <!-- ACTION BUTTONS AREA (Matching client design) -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:orientation="horizontal"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:paddingBottom="24dp"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/viewerShare"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/btn_share_bg"
+            android:gravity="center"
+            android:fontFamily="@font/poppins_bold"
+            android:text="Share"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:clickable="true"
+            android:focusable="true" />
+
+        <TextView
+            android:id="@+id/viewerDownload"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginStart="10dp"
+            android:background="@drawable/btn_download_bg"
+            android:gravity="center"
+            android:fontFamily="@font/poppins_bold"
+            android:text="Download"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:clickable="true"
+            android:focusable="true" />
+
+    </LinearLayout>
+
+</LinearLayout>

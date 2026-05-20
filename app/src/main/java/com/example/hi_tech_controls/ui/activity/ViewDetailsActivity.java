@@ -53,6 +53,9 @@ public class ViewDetailsActivity extends BaseActivity {
     private boolean isLoadingMore = false;
     private boolean isLastPage = false;
 
+    private final android.os.Handler searchHandler = new android.os.Handler(android.os.Looper.getMainLooper());
+    private Runnable searchRunnable;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,12 +67,24 @@ public class ViewDetailsActivity extends BaseActivity {
         initFirestore();
         initRecycler();
         initListeners();
-        resetPagination();
-        loadRecentClients();
 
         com.example.hi_tech_controls.helper.AnalyticsManager.logEvent(this, "view_clients_list");
 
         Log.d(TAG, "onCreate - end");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d(TAG, "onResume - refreshing client list");
+        boolean showShimmer = (adapter == null || adapter.getItemCount() == 0);
+        if (searchField != null && searchField.getText().toString().isEmpty()) {
+            resetPagination(showShimmer);
+            loadRecentClients(showShimmer);
+        } else if (searchField != null) {
+            // Silently refresh search details if they already have text
+            searchClients(searchField.getText().toString().trim(), false);
+        }
     }
 
     // ---------------------------
@@ -133,7 +148,7 @@ public class ViewDetailsActivity extends BaseActivity {
             finish();
         });
 
-        // search watcher
+        // search watcher with debounce
         searchField.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -145,13 +160,20 @@ public class ViewDetailsActivity extends BaseActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
+                if (searchRunnable != null) {
+                    searchHandler.removeCallbacks(searchRunnable);
+                }
+
                 String text = s.toString().trim();
                 if (text.length() > 2) {
-                    Log.d(TAG, "Searching clients for: " + text);
-                    com.example.hi_tech_controls.helper.AnalyticsManager.logEvent(ViewDetailsActivity.this, "client_search");
-                    searchClients(text);
+                    searchRunnable = () -> {
+                        Log.d(TAG, "Searching clients for: " + text);
+                        com.example.hi_tech_controls.helper.AnalyticsManager.logEvent(ViewDetailsActivity.this, "client_search");
+                        searchClients(text);
+                    };
+                    searchHandler.postDelayed(searchRunnable, 400); // 400ms debounce delay
                 } else {
-                    Log.d(TAG, "Search cleared or too short, reloading recents");
+                    Log.d(TAG, "Search cleared or too short, reloading recents instantly");
                     resetPagination();
                     loadRecentClients();
                 }
@@ -184,11 +206,17 @@ public class ViewDetailsActivity extends BaseActivity {
     // Pagination state helpers
     // ---------------------------
     private void resetPagination() {
-        Log.d(TAG, "resetPagination");
+        resetPagination(true);
+    }
+
+    private void resetPagination(boolean showShimmer) {
+        Log.d(TAG, "resetPagination showShimmer=" + showShimmer);
         lastVisible = null;
         isLastPage = false;
         isLoadingMore = false;
-        adapter.showShimmer();
+        if (showShimmer) {
+            adapter.showShimmer();
+        }
         footerProgress.setVisibility(View.GONE);
     }
 
@@ -196,16 +224,26 @@ public class ViewDetailsActivity extends BaseActivity {
     // Load initial recents
     // ---------------------------
     private void loadRecentClients() {
-        Log.d(TAG, "loadRecentClients start");
+        loadRecentClients(true);
+    }
+
+    private void loadRecentClients(boolean showShimmer) {
+        Log.d(TAG, "loadRecentClients start showShimmer=" + showShimmer);
         if (db == null) {
-            adapter.hideShimmer(new ArrayList<>());
+            if (adapter.isLoading()) {
+                adapter.hideShimmer(new ArrayList<>());
+            } else {
+                adapter.update(new ArrayList<>());
+            }
             emptyStateText.setVisibility(View.VISIBLE);
             swipeRefreshLayout.setRefreshing(false);
             showToast("Firestore unavailable");
             return;
         }
 
-        adapter.showShimmer();
+        if (showShimmer) {
+            adapter.showShimmer();
+        }
         emptyStateText.setVisibility(View.GONE);
         isLoadingMore = false;
 
@@ -218,7 +256,11 @@ public class ViewDetailsActivity extends BaseActivity {
                 .addOnSuccessListener(snapshot -> handleClientBatch(snapshot, true))
                 .addOnFailureListener(e -> {
                     Log.e(TAG, "loadRecentClients failed", e);
-                    adapter.hideShimmer(new ArrayList<>());
+                    if (adapter.isLoading()) {
+                        adapter.hideShimmer(new ArrayList<>());
+                    } else {
+                        adapter.update(new ArrayList<>());
+                    }
                     emptyStateText.setVisibility(View.VISIBLE);
                     swipeRefreshLayout.setRefreshing(false);
                     footerProgress.setVisibility(View.GONE);
@@ -311,7 +353,11 @@ public class ViewDetailsActivity extends BaseActivity {
         runOnUiThread(() -> {
             batch.sort((a, b) -> b.gpDate.compareTo(a.gpDate));
             if (clearOld) {
-                adapter.hideShimmer(batch);
+                if (adapter.isLoading()) {
+                    adapter.hideShimmer(batch);
+                } else {
+                    adapter.update(batch);
+                }
             } else {
                 adapter.addMore(batch);
             }
@@ -328,9 +374,10 @@ public class ViewDetailsActivity extends BaseActivity {
     }
 
     private void fetchMissingDetails(List<DocumentSnapshot> missingDocs, List<ClientModel> alreadyFetched, boolean clearOld) {
-        int total = missingDocs.size();
-        AtomicInteger completedCount = new AtomicInteger(0);
         List<ClientModel> fetchedList = new ArrayList<>(alreadyFetched);
+
+        // Show immediate matches first to prevent screen from staying stuck on shimmer
+        updateAdapterWithBatch(new ArrayList<>(fetchedList), clearOld);
 
         for (DocumentSnapshot doc : missingDocs) {
             final String clientId = doc.getId();
@@ -339,17 +386,13 @@ public class ViewDetailsActivity extends BaseActivity {
                 public void onFetched(ClientModel model) {
                     synchronized (fetchedList) {
                         fetchedList.add(model);
-                        if (completedCount.incrementAndGet() == total) {
-                            updateAdapterWithBatch(fetchedList, clearOld);
-                        }
+                        updateAdapterWithBatch(new ArrayList<>(fetchedList), clearOld);
                     }
                 }
 
                 @Override
                 public void onFailed() {
-                    if (completedCount.incrementAndGet() == total) {
-                        updateAdapterWithBatch(fetchedList, clearOld);
-                    }
+                    // Do nothing, list already displays immediate data
                 }
             });
         }
@@ -418,13 +461,19 @@ public class ViewDetailsActivity extends BaseActivity {
     // Search implementation
     // ---------------------------
     private void searchClients(String query) {
-        Log.d(TAG, "searchClients: " + query);
+        searchClients(query, true);
+    }
+
+    private void searchClients(String query, boolean showShimmer) {
+        Log.d(TAG, "searchClients: " + query + " showShimmer=" + showShimmer);
         if (db == null) {
             showToast("Firestore unavailable");
             return;
         }
 
-        adapter.showShimmer();
+        if (showShimmer) {
+            adapter.showShimmer();
+        }
         emptyStateText.setVisibility(View.GONE);
         String q = query.toLowerCase().trim();
 
@@ -437,7 +486,11 @@ public class ViewDetailsActivity extends BaseActivity {
                     List<DocumentSnapshot> documents = querySnapshot.getDocuments();
 
                     if (documents.isEmpty()) {
-                        adapter.hideShimmer(new ArrayList<>());
+                        if (adapter.isLoading()) {
+                            adapter.hideShimmer(new ArrayList<>());
+                        } else {
+                            adapter.update(new ArrayList<>());
+                        }
                         emptyStateText.setVisibility(View.VISIBLE);
                         emptyStateText.setText("No match found");
                         return;
@@ -469,7 +522,11 @@ public class ViewDetailsActivity extends BaseActivity {
                 .addOnFailureListener(e -> {
                     Log.e(TAG, "searchClients failed", e);
                     runOnUiThread(() -> {
-                        adapter.hideShimmer(new ArrayList<>());
+                        if (adapter.isLoading()) {
+                            adapter.hideShimmer(new ArrayList<>());
+                        } else {
+                            adapter.update(new ArrayList<>());
+                        }
                         emptyStateText.setVisibility(View.VISIBLE);
                         swipeRefreshLayout.setRefreshing(false);
                         showToast("Search failed");
@@ -480,7 +537,11 @@ public class ViewDetailsActivity extends BaseActivity {
     private void updateSearchAdapter(List<ClientModel> results) {
         runOnUiThread(() -> {
             results.sort((a, b) -> b.gpDate.compareTo(a.gpDate));
-            adapter.hideShimmer(results);
+            if (adapter.isLoading()) {
+                adapter.hideShimmer(results);
+            } else {
+                adapter.update(results);
+            }
 
             if (results.isEmpty()) {
                 emptyStateText.setVisibility(View.VISIBLE);
@@ -492,9 +553,10 @@ public class ViewDetailsActivity extends BaseActivity {
     }
 
     private void fetchMissingSearchDetails(List<DocumentSnapshot> missingDocs, List<ClientModel> alreadyMatched) {
-        int total = missingDocs.size();
-        AtomicInteger completedCount = new AtomicInteger(0);
         List<ClientModel> finalResults = new ArrayList<>(alreadyMatched);
+
+        // Show immediate matches first
+        updateSearchAdapter(new ArrayList<>(finalResults));
 
         for (DocumentSnapshot doc : missingDocs) {
             fetchClientDetails(doc.getId(), new OnClientDetailsFetched() {
@@ -502,17 +564,13 @@ public class ViewDetailsActivity extends BaseActivity {
                 public void onFetched(ClientModel model) {
                     synchronized (finalResults) {
                         finalResults.add(model);
-                        if (completedCount.incrementAndGet() == total) {
-                            updateSearchAdapter(finalResults);
-                        }
+                        updateSearchAdapter(new ArrayList<>(finalResults));
                     }
                 }
 
                 @Override
                 public void onFailed() {
-                    if (completedCount.incrementAndGet() == total) {
-                        updateSearchAdapter(finalResults);
-                    }
+                    // Do nothing
                 }
             });
         }

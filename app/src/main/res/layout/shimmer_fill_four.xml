@@ -1,63 +1,402 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.facebook.shimmer.ShimmerFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:shimmer_auto_start="true"
     app:shimmer_duration="1000">
 
-    <androidx.cardview.widget.CardView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        app:cardCornerRadius="10dp"
-        app:cardElevation="3dp">
+        android:orientation="vertical">
 
-        <LinearLayout
+        <!-- First line: Spinner loader -->
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="15dp">
-
-            <!-- Title -->
-            <View
-                android:layout_width="200dp"
-                android:layout_height="20dp"
-                android:layout_gravity="center"
-                android:layout_marginBottom="16dp"
-                android:background="@drawable/shimmer_placeholder_bg" />
-
-            <include layout="@layout/shimmer_item_row" />
+            android:layout_marginBottom="5sp">
 
             <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginBottom="12dp"
-                android:background="#EEEEEE" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="20dp"
-                android:layout_marginBottom="10dp"
+                android:layout_width="150dp"
+                android:layout_height="30dp"
+                android:layout_alignParentStart="true"
                 android:background="@drawable/shimmer_placeholder_bg" />
 
             <View
-                android:layout_width="match_parent"
-                android:layout_height="120dp"
-                android:layout_marginBottom="16dp"
+                android:layout_width="150dp"
+                android:layout_height="35dp"
+                android:layout_alignParentEnd="true"
                 android:background="@drawable/shimmer_placeholder_bg" />
+
+        </RelativeLayout>
+
+        <!-- Final Trial Check List title -->
+        <View
+            android:layout_width="220dp"
+            android:layout_height="22dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/shimmer_placeholder_bg" />
+
+        <!-- Motor Details label -->
+        <View
+            android:layout_width="130dp"
+            android:layout_height="20dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/shimmer_placeholder_bg" />
+
+        <!-- Motor Details checklists block (1 HP, 10 HP, 30 HP) -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="20dp"
-                android:layout_marginBottom="10dp"
-                android:background="@drawable/shimmer_placeholder_bg" />
+                android:layout_height="60sp"
+                android:background="@drawable/rectangle_checkbox" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="60sp"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp">
+
+                <View
+                    android:layout_width="60dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/shimmer_placeholder_bg" />
+
+                <View
+                    android:layout_width="60dp"
+                    android:layout_height="30dp"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/shimmer_placeholder_bg" />
+
+                <View
+                    android:layout_width="60dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/shimmer_placeholder_bg" />
+
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <!-- AMP Details label -->
+        <View
+            android:layout_width="120dp"
+            android:layout_height="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/shimmer_placeholder_bg" />
+
+        <!-- AMP Details Block -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="220dp"
-                android:background="@drawable/shimmer_placeholder_bg" />
+                android:layout_height="160sp"
+                android:background="@drawable/rectangle_checkbox" />
 
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="8sp">
+
+                    <!-- Left labels -->
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <View
+                            android:layout_width="110dp"
+                            android:layout_height="20dp"
+                            android:layout_margin="10dp"
+                            android:background="@drawable/shimmer_placeholder_bg" />
+
+                        <View
+                            android:layout_width="110dp"
+                            android:layout_height="20dp"
+                            android:layout_margin="10dp"
+                            android:background="@drawable/shimmer_placeholder_bg" />
+
+                    </LinearLayout>
+
+                    <!-- Right inputs -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="32dp"
+                            android:layout_margin="4sp"
+                            android:background="@drawable/shimmer_placeholder_bg" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="32dp"
+                            android:layout_margin="4sp"
+                            android:background="@drawable/shimmer_placeholder_bg" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <!-- Checkboxes Row U, V, W -->
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    android:layout_marginTop="5dp">
+
+                    <View
+                        android:layout_width="50dp"
+                        android:layout_height="30dp"
+                        android:layout_alignParentStart="true"
+                        android:background="@drawable/shimmer_placeholder_bg" />
+
+                    <View
+                        android:layout_width="50dp"
+                        android:layout_height="30dp"
+                        android:layout_centerInParent="true"
+                        android:background="@drawable/shimmer_placeholder_bg" />
+
+                    <View
+                        android:layout_width="50dp"
+                        android:layout_height="30dp"
+                        android:layout_alignParentEnd="true"
+                        android:background="@drawable/shimmer_placeholder_bg" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
+        </RelativeLayout>
+
+        <!-- Voltage Details label -->
+        <View
+            android:layout_width="140dp"
+            android:layout_height="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/shimmer_placeholder_bg" />
+
+        <!-- Voltage Details Block (approx. 240dp tall) -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="240sp"
+                android:background="@drawable/rectangle_check_box_big" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="8sp">
+
+                <!-- DC Voltage header -->
+                <View
+                    android:layout_width="130dp"
+                    android:layout_height="22dp"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/shimmer_placeholder_bg" />
+
+                <!-- Row 1 (DISP, MET) -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+                        <View android:layout_width="60dp" android:layout_height="20dp" android:layout_margin="10dp" android:background="@drawable/shimmer_placeholder_bg" />
+                        <View android:layout_width="60dp" android:layout_height="20dp" android:layout_margin="10dp" android:background="@drawable/shimmer_placeholder_bg" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+                        <View android:layout_width="match_parent" android:layout_height="32dp" android:layout_margin="4sp" android:background="@drawable/shimmer_placeholder_bg" />
+                        <View android:layout_width="match_parent" android:layout_height="32dp" android:layout_margin="4sp" android:background="@drawable/shimmer_placeholder_bg" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <!-- Output Voltage header -->
+                <View
+                    android:layout_width="150dp"
+                    android:layout_height="22dp"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/shimmer_placeholder_bg" />
+
+                <!-- Row 2 (DISP, MET) -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+                        <View android:layout_width="60dp" android:layout_height="20dp" android:layout_margin="10dp" android:background="@drawable/shimmer_placeholder_bg" />
+                        <View android:layout_width="60dp" android:layout_height="20dp" android:layout_margin="10dp" android:background="@drawable/shimmer_placeholder_bg" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+                        <View android:layout_width="match_parent" android:layout_height="32dp" android:layout_margin="4sp" android:background="@drawable/shimmer_placeholder_bg" />
+                        <View android:layout_width="match_parent" android:layout_height="32dp" android:layout_margin="4sp" android:background="@drawable/shimmer_placeholder_bg" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </RelativeLayout>
+
+        <!-- Operating Parameter Block (approx. 360dp tall) -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20sp">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="360sp"
+                android:background="@drawable/rectangle_check_box_big" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="8sp">
+
+                <!-- Left Column: 7 labels -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <View
+                        android:layout_width="130dp"
+                        android:layout_height="20dp"
+                        android:layout_margin="10sp"
+                        android:background="@drawable/shimmer_placeholder_bg" />
+
+                    <View
+                        android:layout_width="130dp"
+                        android:layout_height="20dp"
+                        android:layout_margin="10sp"
+                        android:background="@drawable/shimmer_placeholder_bg" />
+
+                    <View
+                        android:layout_width="130dp"
+                        android:layout_height="20dp"
+                        android:layout_margin="10sp"
+                        android:background="@drawable/shimmer_placeholder_bg" />
+
+                    <View
+                        android:layout_width="130dp"
+                        android:layout_height="20dp"
+                        android:layout_margin="10sp"
+                        android:background="@drawable/shimmer_placeholder_bg" />
+
+                    <View
+                        android:layout_width="130dp"
+                        android:layout_height="20dp"
+                        android:layout_margin="10sp"
+                        android:background="@drawable/shimmer_placeholder_bg" />
+
+                    <View
+                        android:layout_width="130dp"
+                        android:layout_height="20dp"
+                        android:layout_margin="10sp"
+                        android:background="@drawable/shimmer_placeholder_bg" />
+
+                    <View
+                        android:layout_width="130dp"
+                        android:layout_height="20dp"
+                        android:layout_margin="10sp"
+                        android:background="@drawable/shimmer_placeholder_bg" />
+
+                </LinearLayout>
+
+                <!-- Right Column: 7 inputs -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="32dp"
+                        android:layout_margin="4sp"
+                        android:background="@drawable/shimmer_placeholder_bg" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="32dp"
+                        android:layout_margin="4sp"
+                        android:background="@drawable/shimmer_placeholder_bg" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="32dp"
+                        android:layout_margin="4sp"
+                        android:background="@drawable/shimmer_placeholder_bg" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="32dp"
+                        android:layout_margin="4sp"
+                        android:background="@drawable/shimmer_placeholder_bg" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="32dp"
+                        android:layout_margin="4sp"
+                        android:background="@drawable/shimmer_placeholder_bg" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="32dp"
+                        android:layout_margin="4sp"
+                        android:background="@drawable/shimmer_placeholder_bg" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="32dp"
+                        android:layout_margin="4sp"
+                        android:background="@drawable/shimmer_placeholder_bg" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </RelativeLayout>
+
+    </LinearLayout>
 </com.facebook.shimmer.ShimmerFrameLayout>

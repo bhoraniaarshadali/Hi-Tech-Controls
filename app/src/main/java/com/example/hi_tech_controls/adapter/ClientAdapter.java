@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -26,6 +27,10 @@ public class ClientAdapter extends RecyclerView.Adapter<ClientAdapter.VH> {
 
     private final List<ClientModel> list = new ArrayList<>();
     private boolean isLoading = false;
+
+    public boolean isLoading() {
+        return isLoading;
+    }
 
     // 🔸 Completely safe update methods
     public void showShimmer() {
@@ -123,18 +128,46 @@ public class ClientAdapter extends RecyclerView.Adapter<ClientAdapter.VH> {
             h.gpDate.setText(c.gpDate);
             h.makeName.setText(c.makeName);
 
-            // 🔹 OPTION 1: पूरे item पर click listener
+            // Reset standard states on bind
+            h.itemView.setEnabled(true);
+            h.btn.setEnabled(true);
+            h.btn.setVisibility(View.VISIBLE);
+            if (h.progress != null) {
+                h.progress.setVisibility(View.GONE);
+            }
+
+            // 🔹 OPTION 1: पूरे item पर click listener with loader & de-bounce
             h.itemView.setOnClickListener(v -> {
-                Intent intent = new Intent(v.getContext(), ClientDetailsActivity.class);
-                intent.putExtra("clientId", c.clientId);
-                v.getContext().startActivity(intent);
+                if (!v.isEnabled()) return;
+                v.setEnabled(false);
+                h.btn.setEnabled(false);
+                if (h.progress != null) {
+                    h.btn.setVisibility(View.GONE);
+                    h.progress.setVisibility(View.VISIBLE);
+                }
+
+                v.postDelayed(() -> {
+                    Intent intent = new Intent(v.getContext(), ClientDetailsActivity.class);
+                    intent.putExtra("clientId", c.clientId);
+                    v.getContext().startActivity(intent);
+                }, 150);
             });
 
-            // 🔹 OPTION 2: Arrow icon पर अलग से (यदि चाहें तो)
+            // 🔹 OPTION 2: Arrow icon पर click listener with loader & de-bounce
             h.btn.setOnClickListener(v -> {
-                Intent intent = new Intent(v.getContext(), ClientDetailsActivity.class);
-                intent.putExtra("clientId", c.clientId);
-                v.getContext().startActivity(intent);
+                if (!v.isEnabled()) return;
+                v.setEnabled(false);
+                h.itemView.setEnabled(false);
+                if (h.progress != null) {
+                    h.btn.setVisibility(View.GONE);
+                    h.progress.setVisibility(View.VISIBLE);
+                }
+
+                v.postDelayed(() -> {
+                    Intent intent = new Intent(v.getContext(), ClientDetailsActivity.class);
+                    intent.putExtra("clientId", c.clientId);
+                    v.getContext().startActivity(intent);
+                }, 150);
             });
         }
     }
@@ -147,6 +180,7 @@ public class ClientAdapter extends RecyclerView.Adapter<ClientAdapter.VH> {
     static class VH extends RecyclerView.ViewHolder {
         TextView name, id, gpDate, makeName;
         ImageView btn;
+        ProgressBar progress;
         boolean isShimmer;
 
         VH(View v, boolean isShimmer) {
@@ -159,6 +193,7 @@ public class ClientAdapter extends RecyclerView.Adapter<ClientAdapter.VH> {
                 gpDate = v.findViewById(R.id.gpDate);
                 makeName = v.findViewById(R.id.makeName);
                 btn = v.findViewById(R.id.arrowIcon);
+                progress = v.findViewById(R.id.cardProgress);
             }
         }
     }
