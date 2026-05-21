@@ -143,6 +143,15 @@ public class MediaUploadActivity extends BaseActivity {
         if (clientIdTv != null) clientIdTv.setText("Client ID: " + clientId);
 
         setup9Boxes();
+        if (savedInstanceState != null) {
+            currentCaptureIndex = savedInstanceState.getInt("currentCaptureIndex", -1);
+            ArrayList<Uri> restoredUris = savedInstanceState.getParcelableArrayList("mediaUris");
+            if (restoredUris != null) {
+                for (int i = 0; i < restoredUris.size() && i < mediaUris.size(); i++) {
+                    mediaUris.set(i, restoredUris.get(i));
+                }
+            }
+        }
         loadExistingMedia();
         flushPendingDeletesIfAny();
 
@@ -317,6 +326,10 @@ public class MediaUploadActivity extends BaseActivity {
 
     private void launchCameraVideo(int i) {
         Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+        File f = createVideoFile(i);
+        Uri u = FileProvider.getUriForFile(this, getPackageName() + ".provider", f);
+        mediaUris.set(i, u);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, u);
         intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 0); // 0 = Low quality (faster)
         intent.putExtra(MediaStore.EXTRA_DURATION_LIMIT, 90); // 90 seconds limit
         currentCaptureIndex = i;
@@ -335,21 +348,41 @@ public class MediaUploadActivity extends BaseActivity {
             try {
                 boolean isVideo = isVideoUri(uri);
                 if (isVideo) {
+                    // Copy to local file to ensure reliable permission-free access for transcoder library in background
+                    File localInputFile;
+                    if (uri.getScheme() != null && uri.getScheme().equals("file")) {
+                        localInputFile = new File(uri.getPath());
+                    } else {
+                        localInputFile = copyFile(uri, ".mp4", i);
+                    }
+
                     File outFile = new File(getExternalFilesDir(null), "vid_c_" + System.currentTimeMillis() + "_" + i + ".mp4");
                     safeRunOnUiThread(() -> { p.setIndeterminate(true); Toast.makeText(this, "Compressing...", Toast.LENGTH_SHORT).show(); });
                     VideoCompressor compressor = new VideoCompressor();
                     synchronized (activeCompressors) { activeCompressors.add(compressor); }
-                    compressor.compress(this, uri, outFile, new VideoCompressor.Callback() {
+                    compressor.compress(this, Uri.fromFile(localInputFile), outFile, new VideoCompressor.Callback() {
                         @Override public void onSuccess(File output) {
                             synchronized (activeCompressors) { activeCompressors.remove(compressor); }
+                            if (localInputFile.exists() && (uri.getPath() == null || !localInputFile.getAbsolutePath().equals(uri.getPath()))) {
+                                localInputFile.delete();
+                            }
                             safeRunOnUiThread(() -> { p.setIndeterminate(false); p.setProgress(50); });
                             upload(output, i, p);
                         }
                         @Override public void onError(Exception e) {
                             synchronized (activeCompressors) { activeCompressors.remove(compressor); }
+                            if (localInputFile.exists() && (uri.getPath() == null || !localInputFile.getAbsolutePath().equals(uri.getPath()))) {
+                                localInputFile.delete();
+                            }
                             try { upload(copyFile(uri, ".mp4", i), i, p); } catch (Exception ex) { handleUploadError(ex.getMessage(), p); }
                         }
-                        @Override public void onCancelled() { synchronized (activeCompressors) { activeCompressors.remove(compressor); } handleUploadError("Cancelled", p); }
+                        @Override public void onCancelled() {
+                            synchronized (activeCompressors) { activeCompressors.remove(compressor); }
+                            if (localInputFile.exists() && (uri.getPath() == null || !localInputFile.getAbsolutePath().equals(uri.getPath()))) {
+                                localInputFile.delete();
+                            }
+                            handleUploadError("Cancelled", p);
+                        }
                     });
                 } else {
                     upload(WebPCompressor.compressToWebP(this, uri, 78), i, p);
@@ -825,6 +858,15 @@ public class MediaUploadActivity extends BaseActivity {
     }
 
     private File createFile(int idx) { return new File(getExternalFilesDir(null), "IMG_" + new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date()) + "_" + idx + ".jpg"); }
+    private File createVideoFile(int idx) { return new File(getExternalFilesDir(null), "VID_" + new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date()) + "_" + idx + ".mp4"); }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("currentCaptureIndex", currentCaptureIndex);
+        outState.putParcelableArrayList("mediaUris", new ArrayList<>(mediaUris));
+    }
+
     private void resetBox(int idx) {
         ImageView iv = allImageViews.get(idx); try { Glide.with(this).clear(iv); } catch (Exception ignored) {}
         iv.setImageResource(R.drawable.imageview);
