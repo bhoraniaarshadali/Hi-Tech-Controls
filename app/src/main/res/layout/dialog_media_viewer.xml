@@ -93,8 +93,8 @@
                 <!-- LOADING SPINNER -->
                 <ProgressBar
                     android:id="@+id/viewerProgressBar"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
                     android:layout_gravity="center"
                     android:indeterminate="true"
                     android:indeterminateDrawable="@drawable/ios_loading_progress" />
