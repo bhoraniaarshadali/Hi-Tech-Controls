@@ -155,8 +155,10 @@ public class ClientDetailsActivity extends BaseActivity {
         }
 
         initViews();
-        loadData();
         setEditMode(false); // Start in view mode
+
+        // Defer heavy database loading to allow the screen transition to execute smoothly without freezing the UI thread
+        new android.os.Handler(android.os.Looper.getMainLooper()).postDelayed(this::loadData, 350);
 
         long endTime = System.currentTimeMillis();
         Log.d(TAG, "Activity onCreate completed in " + (endTime - startTime) + "ms");

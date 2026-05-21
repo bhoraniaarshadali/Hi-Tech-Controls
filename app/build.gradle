@@ -44,7 +44,7 @@ android {
 
     buildFeatures {
         buildConfig true                                // ✅ BuildConfig generate karo
-        // viewBinding true                            // zaroorat pe uncomment karo
+        // viewBinding true
     }
 
     compileOptions {
@@ -58,7 +58,7 @@ dependencies {
 
     // App Essentials & UI
     implementation 'androidx.appcompat:appcompat:1.7.1'
-    implementation 'com.google.android.material:material:1.13.0'
+    implementation 'com.google.android.material:material:1.14.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.2.1'
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'androidx.activity:activity:1.13.0'
@@ -70,11 +70,11 @@ dependencies {
     implementation 'com.daimajia.androidanimations:library:2.4@aar'
     implementation 'com.facebook.shimmer:shimmer:0.5.0'
 
-    // Firebase — ✅ BOM use karo, explicit versions mat do
+    // Firebase — BOM use karo, explicit versions mat do
     implementation platform('com.google.firebase:firebase-bom:34.13.0')
     implementation 'com.google.firebase:firebase-analytics'
     implementation 'com.google.firebase:firebase-crashlytics'
-    implementation 'com.google.firebase:firebase-firestore'  // ✅ version hata diya
+    implementation 'com.google.firebase:firebase-firestore'
 
     // Networking
     implementation 'com.squareup.okhttp3:okhttp:5.3.2'
