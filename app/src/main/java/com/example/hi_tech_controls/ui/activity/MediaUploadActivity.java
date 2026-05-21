@@ -90,6 +90,16 @@ public class MediaUploadActivity extends BaseActivity {
             Intent data = result.getData();
             Uri uri = (data != null && data.getData() != null) ? data.getData() : mediaUris.get(currentCaptureIndex);
             if (uri != null) handleMedia(currentCaptureIndex, uri);
+        } else if (currentCaptureIndex != -1) {
+            Uri uri = mediaUris.get(currentCaptureIndex);
+            if (uri != null && uri.toString().startsWith("content://media/")) {
+                try {
+                    getContentResolver().delete(uri, null, null);
+                } catch (Exception e) {
+                    Log.e(TAG, "Failed to delete cancelled MediaStore entry", e);
+                }
+            }
+            mediaUris.set(currentCaptureIndex, null);
         }
         currentCaptureIndex = -1;
             }
@@ -316,20 +326,66 @@ public class MediaUploadActivity extends BaseActivity {
 
     private void launchCameraPhoto(int i) {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        File f = createFile(i);
-        Uri u = FileProvider.getUriForFile(this, getPackageName() + ".provider", f);
-        mediaUris.set(i, u);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, u);
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
+            android.content.ContentValues values = new android.content.ContentValues();
+            values.put(MediaStore.Images.Media.TITLE, "IMG_" + System.currentTimeMillis());
+            values.put(MediaStore.Images.Media.DISPLAY_NAME, "IMG_" + System.currentTimeMillis() + "_" + i + ".jpg");
+            values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
+            values.put(MediaStore.Images.Media.RELATIVE_PATH, "Pictures/HiTechControls");
+            Uri u = null;
+            try {
+                u = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+            } catch (Exception e) {
+                Log.e(TAG, "Failed to insert image into MediaStore", e);
+            }
+            if (u != null) {
+                mediaUris.set(i, u);
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, u);
+            } else {
+                File f = createFile(i);
+                Uri fileUri = FileProvider.getUriForFile(this, getPackageName() + ".provider", f);
+                mediaUris.set(i, fileUri);
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
+            }
+        } else {
+            File f = createFile(i);
+            Uri u = FileProvider.getUriForFile(this, getPackageName() + ".provider", f);
+            mediaUris.set(i, u);
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, u);
+        }
         currentCaptureIndex = i;
         captureLauncher.launch(intent);
     }
 
     private void launchCameraVideo(int i) {
         Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
-        File f = createVideoFile(i);
-        Uri u = FileProvider.getUriForFile(this, getPackageName() + ".provider", f);
-        mediaUris.set(i, u);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, u);
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
+            android.content.ContentValues values = new android.content.ContentValues();
+            values.put(MediaStore.Video.Media.TITLE, "VID_" + System.currentTimeMillis());
+            values.put(MediaStore.Video.Media.DISPLAY_NAME, "VID_" + System.currentTimeMillis() + "_" + i + ".mp4");
+            values.put(MediaStore.Video.Media.MIME_TYPE, "video/mp4");
+            values.put(MediaStore.Video.Media.RELATIVE_PATH, "Movies/HiTechControls");
+            Uri u = null;
+            try {
+                u = getContentResolver().insert(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, values);
+            } catch (Exception e) {
+                Log.e(TAG, "Failed to insert video into MediaStore", e);
+            }
+            if (u != null) {
+                mediaUris.set(i, u);
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, u);
+            } else {
+                File f = createVideoFile(i);
+                Uri fileUri = FileProvider.getUriForFile(this, getPackageName() + ".provider", f);
+                mediaUris.set(i, fileUri);
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
+            }
+        } else {
+            File f = createVideoFile(i);
+            Uri u = FileProvider.getUriForFile(this, getPackageName() + ".provider", f);
+            mediaUris.set(i, u);
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, u);
+        }
         intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 0); // 0 = Low quality (faster)
         intent.putExtra(MediaStore.EXTRA_DURATION_LIMIT, 90); // 90 seconds limit
         currentCaptureIndex = i;
