@@ -150,6 +150,16 @@ public class ClientAdapter extends RecyclerView.Adapter<ClientAdapter.VH> {
                     Intent intent = new Intent(v.getContext(), ClientDetailsActivity.class);
                     intent.putExtra("clientId", c.clientId);
                     v.getContext().startActivity(intent);
+
+                    // Reset standard states on post delay to be ready when user returns
+                    v.postDelayed(() -> {
+                        v.setEnabled(true);
+                        h.btn.setEnabled(true);
+                        h.btn.setVisibility(View.VISIBLE);
+                        if (h.progress != null) {
+                            h.progress.setVisibility(View.GONE);
+                        }
+                    }, 500);
                 }, 150);
             });
 
@@ -167,6 +177,16 @@ public class ClientAdapter extends RecyclerView.Adapter<ClientAdapter.VH> {
                     Intent intent = new Intent(v.getContext(), ClientDetailsActivity.class);
                     intent.putExtra("clientId", c.clientId);
                     v.getContext().startActivity(intent);
+
+                    // Reset standard states on post delay to be ready when user returns
+                    v.postDelayed(() -> {
+                        v.setEnabled(true);
+                        h.itemView.setEnabled(true);
+                        h.btn.setVisibility(View.VISIBLE);
+                        if (h.progress != null) {
+                            h.progress.setVisibility(View.GONE);
+                        }
+                    }, 500);
                 }, 150);
             });
         }

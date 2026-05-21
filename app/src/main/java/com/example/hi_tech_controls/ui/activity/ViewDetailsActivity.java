@@ -77,6 +77,9 @@ public class ViewDetailsActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         Log.d(TAG, "onResume - refreshing client list");
+        if (adapter != null) {
+            adapter.notifyDataSetChanged(); // Instantly reset any item click loading states when returning
+        }
         boolean showShimmer = (adapter == null || adapter.getItemCount() == 0);
         if (searchField != null && searchField.getText().toString().isEmpty()) {
             resetPagination(showShimmer);
